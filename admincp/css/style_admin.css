@@ -1,0 +1,68 @@
+/* Tiêu đề của admin */
+.admin_title {
+  text-align: center;
+  font-size: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Khung chứa tổng thể */
+.wrapper {
+  border: 1px solid #000;
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 1200px; /* Đặt chiều rộng tối đa cho wrapper */
+}
+
+/* Menu bên trái: Áp dụng lớp của Bootstrap */
+ul.admin_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Sử dụng flexbox */
+  flex-wrap: wrap; /* Đảm bảo các mục được gói lại khi không đủ chiều rộng */
+  justify-content: space-around; /* Căn đều các mục */
+}
+
+/* Căn chỉnh các mục trong danh sách menu */
+ul.admin_list li {
+  margin: 5px;
+}
+
+/* Liên kết không có gạch chân, giữ màu mặc định */
+ul.admin_list li a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  transition: background-color 0.3s ease;
+}
+
+/* Hiệu ứng hover cho item trong menu */
+ul.admin_list li a:hover {
+  background-color: #e2e6ea;
+}
+
+/* Phần chính của trang */
+.container {
+  padding: 20px;
+}
+
+/* Ghi đè khoảng cách mặc định của Bootstrap */
+.wrapper .admin_title {
+  margin-bottom: 20px;
+}
+
+/* Clearfix để xử lý float nếu có */
+.clear {
+  clear: both;
+}
+
+/* Nếu vẫn muốn sử dụng các lớp clearfix truyền thống */
+ul.admin_list::after {
+  content: "";
+  display: table;
+  clear: both;
+}

@@ -1,0 +1,12 @@
+[18-Oct-2024 07:28:44 Europe/Berlin] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\WebBanHang5\pages\main\timkiem.php on line 14
+[18-Oct-2024 07:28:44 Europe/Berlin] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\WebBanHang5\pages\main\timkiem.php on line 15
+[18-Oct-2024 07:28:44 Europe/Berlin] PHP Warning:  Undefined variable $mysqli in C:\xampp\htdocs\WebBanHang5\pages\main\timkiem.php on line 38
+[18-Oct-2024 07:28:44 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: mysqli_real_escape_string(): Argument #1 ($mysql) must be of type mysqli, null given in C:\xampp\htdocs\WebBanHang5\pages\main\timkiem.php:38
+Stack trace:
+#0 C:\xampp\htdocs\WebBanHang5\pages\main\timkiem.php(38): mysqli_real_escape_string(NULL, 'thun')
+#1 {main}
+  thrown in C:\xampp\htdocs\WebBanHang5\pages\main\timkiem.php on line 38
+[18-Oct-2024 07:29:46 Europe/Berlin] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\WebBanHang5\pages\main\timkiem.php on line 14
+[18-Oct-2024 07:29:46 Europe/Berlin] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\WebBanHang5\pages\main\timkiem.php on line 15
+[18-Oct-2024 07:30:35 Europe/Berlin] PHP Warning:  Undefined variable $tinhtrang in C:\xampp\htdocs\WebBanHang5\pages\main\timkiem.php on line 33
+[18-Oct-2024 07:30:35 Europe/Berlin] PHP Warning:  Undefined variable $tinhtrang in C:\xampp\htdocs\WebBanHang5\pages\main\timkiem.php on line 33
