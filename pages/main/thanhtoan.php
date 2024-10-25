@@ -207,29 +207,58 @@ $url = 'https://api.brevo.com/v3/smtp/email';
 
 $tieude = "Đặt hàng website 7TCC thành công!";
 
-$noidung = "<p>Cảm ơn quý khách đã đặt hàng với mã đơn hàng: " . $ma_gh . ".</p>";
-$noidung .= "<h4>Đơn đặt hàng bao gồm:</h4>";
+$noidung = "
+<div style='font-family: Arial, sans-serif; color: #333;'>
+    <div style='background-color: #e60000; padding: 20px; text-align: center; color: #fff;'>
+        <h2>7TCC - Xác nhận đơn hàng</h2>
+    </div>
+    <p>Chào " . $_SESSION['ten_khachhang'] . ",</p>
+    <p>Cảm ơn bạn đã đặt hàng với mã đơn hàng: <strong>" . $ma_gh . "</strong>.</p>
+    <h4 style='color: #e60000;'>Chi tiết đơn hàng:</h4>
+    <table style='width: 100%; border-collapse: collapse; margin-top: 10px;'>
+        <thead>
+            <tr style='background-color: #f8f8f8;'>
+                <th style='border: 1px solid #ddd; padding: 8px;'>Tên sản phẩm</th>
+                <th style='border: 1px solid #ddd; padding: 8px;'>Mã sản phẩm</th>
+                <th style='border: 1px solid #ddd; padding: 8px;'>Giá</th>
+                <th style='border: 1px solid #ddd; padding: 8px;'>Số lượng</th>
+                <th style='border: 1px solid #ddd; padding: 8px;'>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>";
 
-foreach ($_SESSION['cart'] as $key => $value) {
-    $id_sp = $value['id'];
-    $ten_sp = $value['ten_sp'];
-    $ma_sp = $value['ma_sp'];
-    $gia_sp = number_format($value['gia_sp'], 0, ',', ',');
-    $so_luong = $value['so_luong'];
-    $thanhtien = $so_luong * $value['gia_sp']; // Calculate total for each item
-    $tong_tien += $thanhtien; // Add to the total
+// Thêm các sản phẩm vào email
+$tong_tien = 0;
+foreach ($_SESSION['cart'] as $item) {
+    $ten_sp = $item['ten_sp'];
+    $ma_sp = $item['ma_sp'];
+    $gia_sp = number_format($item['gia_sp'], 0, ',', ',') . " VND";
+    $so_luong = $item['so_luong'];
+    $thanhtien = number_format($so_luong * $item['gia_sp'], 0, ',', ',') . " VND";
+    $tong_tien += $so_luong * $item['gia_sp'];
 
-    // Create an HTML block for each item
-    $noidung .= "<ul style='border: 1px solid blue; margin: 10px; padding: 10px;'>
-                    <li><span>Tên sản phẩm: </span>" . $ten_sp . "</li>
-                    <li><span>Mã sản phẩm: </span>" . $ma_sp . "</li>
-                    <li><span>Giá: </span>" . $gia_sp . " VND</li>
-                    <li><span>Số lượng: </span>" . $so_luong . "</li>
-                 </ul>";
+    $noidung .= "
+        <tr>
+            <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>$ten_sp</td>
+            <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>$ma_sp</td>
+            <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>$gia_sp</td>
+            <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>$so_luong</td>
+            <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>$thanhtien</td>
+        </tr>";
 }
 
-// Add total amount to the email content
-$noidung .= "<h4>Tổng tiền đơn hàng: " . number_format($tong_tien, 0, ',', '.') . " VND</h4>";
+// Tổng tiền của đơn hàng
+$noidung .= "
+        </tbody>
+    </table>
+    <h4 style='text-align: right; color: #e60000; margin-top: 10px;'>Tổng tiền: " . number_format($tong_tien, 0, ',', '.') . " VND</h4>
+    <p>Chúng tôi sẽ liên hệ để xác nhận và giao hàng trong thời gian sớm nhất. Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email hoặc số điện thoại hỗ trợ.</p>
+    <p>Trân trọng,<br>Đội ngũ 7TCC</p>
+    <div style='background-color: #f8f8f8; padding: 10px; text-align: center; font-size: 12px; color: #555;'>
+        <p>7TCC - Địa chỉ liên hệ: 123 Đường ABC, TP. XYZ</p>
+        <p>Email: support@7tcc.vn | Hotline: 0123 456 789</p>
+    </div>
+</div>";
 
 // Chuẩn bị dữ liệu email
 $emailData = [
@@ -267,14 +296,13 @@ curl_close($ch);
 
 // Log curl errors
 if ($curlError) {
-  error_log('cURL Error: ' . $curlError, 3, $logFilePath); // Log cURL error
+  error_log('cURL Error: ' . $curlError, 3, $logFilePath);
 } else {
-  // Check the HTTP response code
   if ($httpCode != 201 && $httpCode != 200) {
       error_log('Failed to send email. HTTP Response Code: ' . $httpCode, 3, $logFilePath);
-      error_log('Response: ' . $response, 3, $logFilePath); // Log the response from Brevo
+      error_log('Response: ' . $response, 3, $logFilePath);
   } else {
-      error_log('Email sent successfully.', 3, $logFilePath); // Log success
+      error_log('Email sent successfully.', 3, $logFilePath);
   }
 }
 
