@@ -13,57 +13,47 @@ if (!isset($_SESSION['dangNhap'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <link rel="stylesheet" type="text/css" href="css/style_admin.css">
+        
     <title>Admin Dashboard</title>
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Admin Dashboard</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Welcome Admin</a>
-                </li>
-                <li class="nav-item">
-                    <!-- Nút đăng xuất -->
-                    <a class="nav-link btn btn-danger text-white" href="logout.php">Đăng xuất</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="container-fluid mt-3">
-        <div class="row">
-            <div class="col-md-3">
-                <?php include("modules/menu.php"); ?>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark align-items-center"> <!-- Thêm align-items-center -->
+            <a class="navbar-brand pl-3" href="#">Admin Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto mr-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Welcome Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- Nút đăng xuất -->
+                        <a class="nav-link btn btn-danger text-white" href="logout.php">Đăng xuất</a>
+                    </li>
+                </ul>
             </div>
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center">Dashboard Overview</h3>
-                    </div>
-                    <div class="card-body">
-                        <?php include("modules/main.php"); ?>
+        </nav>
+
+    <div class="container-fluid mt-3 pt-3 px-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <?php include("modules/menu.php"); ?>
+                </div>
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-center">Dashboard Overview</h3>
+                        </div>
+                        <div class="card-body">
+                            <?php include("modules/main.php"); ?>
+                        </div>
                     </div>
                 </div>
-
-                <!-- <div class="mt-4">
-                    <h5 id="text-date">365 ngày qua</h5>
-                    <select class="form-control select_date mb-3">
-                        <option value="7ngay">7 ngày qua</option>
-                        <option value="28ngay">28 ngày qua</option>
-                        <option value="90ngay">90 ngày qua</option>
-                        <option value="365ngay" selected>365 ngày qua</option>
-                    </select>
-                    <div id="chart"></div>
-                </div> -->
             </div>
         </div>
-    </div>
 
     <?php include("modules/footer.php"); ?>
 

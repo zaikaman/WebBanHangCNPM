@@ -11,7 +11,7 @@
 			$_SESSION['dangNhap'] = $taikhoan;
 			header("Location:index.php");
 		}else{
-			echo '<p>Tài khoản hoặc mật khẩu không đúng, vui lòng nhập lại</p>';
+			echo '<p class="text-danger text-center mt-3">Tài khoản hoặc mật khẩu không đúng, vui lòng nhập lại</p>';
 			header('Location:login.php');
 		}
 	}
@@ -21,41 +21,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DANG NHAP</title>
+    <title>Đăng Nhập Admin</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style type="text/css">
     	body{
     		background: #f2f2f2;
     	}
     	.wrapper_login {
     		margin: 0 auto;
-    		width: 20%;
-    	}
-    	.table_login tr td{
-    		padding: 5px;
+    		width: 100%;
+    		max-width: 400px;
+    		padding-top: 50px;
     	}
     </style>
 </head>
 <body>
 	<div class="wrapper_login">
-		<form action="" autocomplete="off" method="POST">
-		<table border="1" class="table_login" style="text-align: center; border-collapse: collapse;">
-			<tr>
-				<td colspan="2"><h3>ĐĂNG NHẬP ADMIN</h3></td>
-			</tr>
-			<tr>
-				<td>Tài Khoản</td>
-				<td><input type="text" name="username"></td>
-			</tr>
-			<tr>
-				<td>Mật Khẩu</td>	
-				<td><input type="password" name="password"></td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="Submit" name="dangNhap" value="ĐĂNG NHẬP"></td>
-			</tr>
-		</table>
-		</form>
-	</div>  
-		
+		<div class="card">
+			<div class="card-header text-center">
+				<h3>ĐĂNG NHẬP ADMIN</h3>
+			</div>
+			<div class="card-body">
+				<form action="" autocomplete="off" method="POST">
+					<div class="form-group">
+						<label for="username">Tài Khoản</label>
+						<input type="text" name="username" class="form-control" id="username" placeholder="Nhập tài khoản" required>
+					</div>
+					<div class="form-group">
+						<label for="password">Mật Khẩu</label>
+						<input type="password" name="password" class="form-control" id="password" placeholder="Nhập mật khẩu" required>
+					</div>
+					<button type="submit" name="dangNhap" class="btn btn-primary btn-block">ĐĂNG NHẬP</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS, Popper.js, and jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>	
 </html>
