@@ -1,6 +1,70 @@
 <?php
 session_start();
 
+$apiKey = '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';
+$url = 'https://api.brevo.com/v3/smtp/email';
+$siteURL = 'https://web7tcc-a9aaa5d624b4.herokuapp.com/'; // Replace with your actual website URL
+
+// Generate a unique token
+if (isset($_SESSION['email'])) {
+    $user_email = htmlspecialchars($_SESSION['email']); 
+    $user_name = $_SESSION['ten_khachhang'];
+    
+    $token = bin2hex(random_bytes(16)); // Create a unique token
+    $verificationLink = "$siteURL/verify.php?token=$token"; // Construct the verification link
+
+    // Store the token in the database
+    // Here you should use your own database connection and save the token with the user's email
+    // For example:
+    // $stmt = $pdo->prepare("INSERT INTO email_verification (email, token) VALUES (?, ?)");
+    // $stmt->execute([$user_email, $token]);
+
+    // Prepare email content
+    $tieude = "Xác nhận đăng ký của bạn";
+    $noidung = "<p>Bạn gần hoàn thành quá trình đăng ký. Vui lòng nhấn vào liên kết bên dưới để xác nhận email:</p>";
+    $noidung .= "<p><a href='$verificationLink'>Xác nhận email của bạn</a></p>";
+    
+    // Email data array for Brevo API
+    $emailData = [
+        'sender' => [
+            'name' => 'Your Company',
+            'email' => 'zaikaman123@gmail.com'
+        ],
+        'to' => [
+            [
+                'email' => $user_email,
+                'name' => $user_name
+            ]
+        ],
+        'subject' => $tieude,
+        'htmlContent' => $noidung
+    ];
+
+    // Send email using Brevo API
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+        'content-type: application/json'
+    ]);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($emailData));
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    // Feedback message
+    if ($httpCode == 201 || $httpCode == 200) {
+        $resend_message = "Email xác nhận đã được gửi lại tới " . $user_email;
+    } else {
+        $resend_message = "Có lỗi xảy ra khi gửi email xác nhận.";
+    }
+} else {
+    $resend_message = "Không tìm thấy email của bạn trong hệ thống.";
+}
+
 // Giả sử email của người dùng được lưu trong session sau khi đăng ký
 if (isset($_SESSION['email'])) {
     $user_email = htmlspecialchars($_SESSION['email']); // Xử lý dữ liệu để tránh XSS

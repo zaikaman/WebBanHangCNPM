@@ -202,7 +202,7 @@ foreach ($_SESSION['cart'] as $key => $value) {
 }
 
 // Gửi email xác nhận đơn hàng qua Brevo
-$apiKey = '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';
+$apiKey = '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';
 $url = 'https://api.brevo.com/v3/smtp/email';
 
 $tieude = "Đặt hàng website 7TCC thành công!";

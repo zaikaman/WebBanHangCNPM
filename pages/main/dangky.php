@@ -1,6 +1,7 @@
-
 <?php
+
 $registration_error = '';
+
 if (isset($_POST['dang_ky'])) {
     $ten_khachhang = $_POST['ten_khachhang'];
     $email = $_POST['email'];
@@ -8,7 +9,7 @@ if (isset($_POST['dang_ky'])) {
     $mat_khau = $_POST['mat_khau'];
     $dia_chi = $_POST['dia_chi'];
 
-    // Check if the email already exists in the database
+    // Database connection assumed as $mysqli
     $check_email_query = mysqli_query($mysqli, "SELECT * FROM tbl_dangky WHERE email = '$email'");
     if (mysqli_num_rows($check_email_query) > 0) {
         $registration_error = "Email đã tồn tại, vui lòng sử dụng email khác!";
@@ -23,14 +24,70 @@ if (isset($_POST['dang_ky'])) {
     } elseif (empty($dia_chi)) {
         $registration_error = "Địa chỉ không được để trống!";
     } else {
-        $hashed_password = md5($mat_khau);  // Hash password
-        $sql_dangky = mysqli_query($mysqli, "INSERT INTO tbl_dangky(ten_khachhang,email,dia_chi,mat_khau,dien_thoai) VALUE('$ten_khachhang','$email','$dia_chi','$hashed_password','$dien_thoai')");
-        if ($sql_dangky) {
-            $_SESSION['dang_ky'] = $ten_khachhang;
-            $_SESSION['email'] = $email;
-            $_SESSION['id_khachhang'] = mysqli_insert_id($mysqli);
-            echo "<script>window.location.href='index.php?quanly=xacnhanemail';</script>";
+        // Encrypt password and generate token for email verification
+        $hashed_password = md5($mat_khau);
+        $token = bin2hex(random_bytes(16));
+
+        // Save registration info in session
+        $_SESSION['user_info'] = [
+            'ten_khachhang' => $ten_khachhang,
+            'email' => $email,
+            'dien_thoai' => $dien_thoai,
+            'mat_khau' => $hashed_password,
+            'dia_chi' => $dia_chi,
+            'token' => $token // Store token in session as well
+        ];
+
+        // Construct verification link
+        $siteURL = 'https://web7tcc-a9aaa5d624b4.herokuapp.com/';
+        $verificationLink = "$siteURL/verify.php?token=$token";
+
+        // Prepare email content
+        $tieude = "Xác nhận đăng ký của bạn";
+        $noidung = "<p>Cảm ơn bạn đã đăng ký! Vui lòng nhấp vào liên kết bên dưới để xác nhận email:</p>";
+        $noidung .= "<p><a href='$verificationLink'>Xác nhận email của bạn</a></p>";
+
+        // Send email with Brevo
+        $apiKey = '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';
+        $url = 'https://api.brevo.com/v3/smtp/email';
+
+        $emailData = [
+            'sender' => [
+                'name' => 'Your Company',
+                'email' => 'zaikaman123@gmail.com'
+            ],
+            'to' => [
+                [
+                    'email' => $email,
+                    'name' => $ten_khachhang
+                ]
+            ],
+            'subject' => $tieude,
+            'htmlContent' => $noidung
+        ];
+
+        // Initialize cURL for Brevo API request
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'accept: application/json',
+            'api-key: ' . $apiKey,
+            'content-type: application/json'
+        ]);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($emailData));
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($httpCode == 201 || $httpCode == 200) {
+            echo "Email xác nhận đã được gửi. Vui lòng kiểm tra email để hoàn tất đăng ký!";
+        } else {
+            // Show email error response for debugging
+            echo "Lỗi gửi email: " . $response;
+            unset($_SESSION['user_info']); // Clear session if email sending fails
         }
+        curl_close($ch);
     }
 }
 ?>

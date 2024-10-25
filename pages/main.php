@@ -49,7 +49,9 @@
         include("pages/main/dangky.php");
     } elseif ($des == 'xacnhanemail'){
         include("pages/main/xacnhanemail.php");
-    } elseif ($des == 'timKiem') {
+    } elseif ($des == 'emaildaxacnhan'){
+        include("pages/main/emaildaxacnhan.php");
+    }  elseif ($des == 'timKiem') {
         include("main/timkiem.php");
     } elseif ($des == 'timKiemNangCao') {
         include("main/timKiemNangCao.php");
