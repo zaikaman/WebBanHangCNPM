@@ -42,13 +42,7 @@
     </div>
     <div class="form-group">
       <label for="phone">Số điện thoại:</label>
-      <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between;">
-        <!-- Phone input and Send OTP button are aligned on the same row -->
-        <input type="text" id="phone" name="phone" class="form-control" value="<?php echo $phone ?>" placeholder="...." style="flex: 1;">
-        <button type="button" id="sendOtpButton" class="btn btn-secondary" style="flex-shrink: 0;">Gửi OTP</button>
-        <!-- OTP input field is on the same row but hidden by default -->
-        <input type="text" id="otp" name="otp" class="form-control" placeholder="...." maxlength="6" style="display: none; margin-left: 10px;" />
-      </div>
+      <input type="text" id="phone" name="phone" class="form-control" value="<?php echo $phone ?>" placeholder="....">
       <span id="phoneError" style="color: red;"></span>
     </div>
     <div class="form-group">
@@ -122,11 +116,6 @@
       e.preventDefault();
     }
   });
-  document.getElementById('sendOtpButton').addEventListener('click', function () {
-    // Display the OTP field
-    document.getElementById('otpField').style.display = 'block';
-  });
 </script>
-
 
 
