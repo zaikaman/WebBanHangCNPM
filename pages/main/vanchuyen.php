@@ -54,7 +54,7 @@
       <div class="col-md-12"></div>
       <form id="shippingForm" action="" autocomplete="off" method="POST" style="margin-bottom: 20px; margin-top: 20px">
         <div class="form-group">
-          <label for="name">Họ và tên: </label>
+          <label for="name">Họ và tên em baby: </label>
           <input type="text" id="name" name="name" class="form-control" value="<?php echo $name ?>" placeholder="....">
           <span id="nameError" style="color: red;"></span>
         </div>
