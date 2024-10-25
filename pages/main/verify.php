@@ -27,8 +27,7 @@ if (isset($_GET['token'])) {
             $stmt->bind_param("s", $email);
             $stmt->execute();
 
-            echo "Email xác nhận thành công! Bạn có thể đăng nhập.";
-            echo "Đang tự động chuyển hướng...";
+            echo "Email xác nhận thành công! Đang tự động chuyển hướng...";
             echo "<script>
                     setTimeout(function() {
                         window.location.href='index.php?quanly=dangnhap';
