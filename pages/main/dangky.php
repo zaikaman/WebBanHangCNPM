@@ -48,7 +48,7 @@ if (isset($_POST['dang_ky'])) {
         $noidung .= "<p><a href='$verificationLink'>Xác nhận email của bạn</a></p>";
 
         // Send email with Brevo
-        $apiKey = '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';
+        $apiKey = getenv('API_KEY');
         $url = 'https://api.brevo.com/v3/smtp/email';
 
         $emailData = [
