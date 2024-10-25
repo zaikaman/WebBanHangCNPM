@@ -47,6 +47,8 @@
         include("main/Thongtinchung/CSBM.php");
     } elseif ($des == 'dangky') {
         include("pages/main/dangky.php");
+    } elseif ($des == 'xacnhanemail'){
+        include("pages/main/xacnhanemail.php");
     } elseif ($des == 'timKiem') {
         include("main/timkiem.php");
     } elseif ($des == 'timKiemNangCao') {
