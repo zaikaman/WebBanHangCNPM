@@ -1,39 +1,39 @@
-<div class="main_content">
-    <?php
-    $registration_error = '';
-    if (isset($_POST['dang_ky'])) {
-        $ten_khachhang = $_POST['ten_khachhang'];
-        $email = $_POST['email'];
-        $dien_thoai = $_POST['dien_thoai'];
-        $mat_khau = $_POST['mat_khau'];
-        $dia_chi = $_POST['dia_chi'];
 
-        // Check if the email already exists in the database
-        $check_email_query = mysqli_query($mysqli, "SELECT * FROM tbl_dangky WHERE email = '$email'");
-        if (mysqli_num_rows($check_email_query) > 0) {
-            $registration_error = "Email đã tồn tại, vui lòng sử dụng email khác!";
-        } elseif (!preg_match("/^[A-Za-zÀ-ỹ]+ [A-Za-zÀ-ỹ\s]+$/u", $ten_khachhang)) {
-            $registration_error = "Họ và tên sai định dạng!";
-        } elseif (strlen($mat_khau) < 6) {
-            $registration_error = "Độ dài mật khẩu quá ngắn!";
-        } elseif (preg_match("/\s/", $mat_khau)) {
-            $registration_error = "Mật khẩu không được có dấu cách!";
-        } elseif (!preg_match("/^0[0-9]{9,10}$/", $dien_thoai)) {
-            $registration_error = "Số điện thoại sai định dạng!";
-        } elseif (empty($dia_chi)) {
-            $registration_error = "Địa chỉ không được để trống!";
-        } else {
-            $hashed_password = md5($mat_khau);  // Hash password
-            $sql_dangky = mysqli_query($mysqli, "INSERT INTO tbl_dangky(ten_khachhang,email,dia_chi,mat_khau,dien_thoai) VALUE('$ten_khachhang','$email','$dia_chi','$hashed_password','$dien_thoai')");
-            if ($sql_dangky) {
-                $_SESSION['dang_ky'] = $ten_khachhang;
-                $_SESSION['email'] = $email;
-                $_SESSION['id_khachhang'] = mysqli_insert_id($mysqli);
-                echo "<script>window.location.href='index.php?registration=1';</script>";
-            }
+<?php
+$registration_error = '';
+if (isset($_POST['dang_ky'])) {
+    $ten_khachhang = $_POST['ten_khachhang'];
+    $email = $_POST['email'];
+    $dien_thoai = $_POST['dien_thoai'];
+    $mat_khau = $_POST['mat_khau'];
+    $dia_chi = $_POST['dia_chi'];
+
+    // Check if the email already exists in the database
+    $check_email_query = mysqli_query($mysqli, "SELECT * FROM tbl_dangky WHERE email = '$email'");
+    if (mysqli_num_rows($check_email_query) > 0) {
+        $registration_error = "Email đã tồn tại, vui lòng sử dụng email khác!";
+    } elseif (!preg_match("/^[A-Za-zÀ-ỹ]+ [A-Za-zÀ-ỹ\s]+$/u", $ten_khachhang)) {
+        $registration_error = "Họ và tên sai định dạng!";
+    } elseif (strlen($mat_khau) < 6) {
+        $registration_error = "Độ dài mật khẩu quá ngắn!";
+    } elseif (preg_match("/\s/", $mat_khau)) {
+        $registration_error = "Mật khẩu không được có dấu cách!";
+    } elseif (!preg_match("/^0[0-9]{9,10}$/", $dien_thoai)) {
+        $registration_error = "Số điện thoại sai định dạng!";
+    } elseif (empty($dia_chi)) {
+        $registration_error = "Địa chỉ không được để trống!";
+    } else {
+        $hashed_password = md5($mat_khau);  // Hash password
+        $sql_dangky = mysqli_query($mysqli, "INSERT INTO tbl_dangky(ten_khachhang,email,dia_chi,mat_khau,dien_thoai) VALUE('$ten_khachhang','$email','$dia_chi','$hashed_password','$dien_thoai')");
+        if ($sql_dangky) {
+            $_SESSION['dang_ky'] = $ten_khachhang;
+            $_SESSION['email'] = $email;
+            $_SESSION['id_khachhang'] = mysqli_insert_id($mysqli);
+            echo "<script>window.location.href='index.php?xacnhanemail';</script>";
         }
     }
-    ?>
+}
+?>
 
     <div class="login_container">
         <p style="font-weight: bold; font-size : 20px; margin : 20px 0 20px 0;">Đăng ký</p>

@@ -89,3 +89,29 @@ Product ID: 137, Quantity: 1, Subtotal: 300000Email sent successfully.Array
         )
 
 )
+Product ID: 137, Quantity: 1, Subtotal: 300000Email sent successfully.Array
+(
+    [0] => Array
+        (
+            [ten_sp] => Áo bóng rổ 5
+            [id] => 137
+            [so_luong] => 1
+            [gia_sp] => 300000
+            [hinh_anh] => aobr5.jpg
+            [ma_sp] => br5
+        )
+
+)
+Product ID: 137, Quantity: 1, Subtotal: 300000Email sent successfully.Array
+(
+    [0] => Array
+        (
+            [ten_sp] => Áo bóng rổ 5
+            [id] => 137
+            [so_luong] => 1
+            [gia_sp] => 300000
+            [hinh_anh] => aobr5.jpg
+            [ma_sp] => br5
+        )
+
+)
