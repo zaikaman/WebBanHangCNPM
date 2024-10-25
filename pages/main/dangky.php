@@ -29,7 +29,7 @@ if (isset($_POST['dang_ky'])) {
             $_SESSION['dang_ky'] = $ten_khachhang;
             $_SESSION['email'] = $email;
             $_SESSION['id_khachhang'] = mysqli_insert_id($mysqli);
-            echo "<script>window.location.href='index.php?xacnhanemail';</script>";
+            echo "<script>window.location.href='index.php?quanly=xacnhanemail';</script>";
         }
     }
 }
