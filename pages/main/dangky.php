@@ -1,5 +1,5 @@
 <?php
-
+$config = include 'brevo_config.php';
 $registration_error = '';
 
 if (isset($_POST['dang_ky'])) {
@@ -48,12 +48,11 @@ if (isset($_POST['dang_ky'])) {
         $noidung .= "<p><a href='$verificationLink'>Xác nhận email của bạn</a></p>";
 
         // Send email with Brevo
-        $apiKey = getenv('API_KEY');
         $url = 'https://api.brevo.com/v3/smtp/email';
 
         $emailData = [
             'sender' => [
-                'name' => 'Your Company',
+                'name' => '7TCC Team',
                 'email' => 'zaikaman123@gmail.com'
             ],
             'to' => [
@@ -73,7 +72,7 @@ if (isset($_POST['dang_ky'])) {
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'accept: application/json',
-            'api-key: ' . $apiKey,
+            'api-key: ' . $config['apiKey'],
             'content-type: application/json'
         ]);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($emailData));
