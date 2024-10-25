@@ -38,55 +38,62 @@ if (isset($_POST['dang_ky'])) {
             'token' => $token // Store token in session as well
         ];
 
-        // Construct verification link
-        $siteURL = 'https://web7tcc-a9aaa5d624b4.herokuapp.com';
-        $verificationLink = "{$siteURL}index.php?quanly=verify&token=$token";
+        // Insert email, token, created_at into tbl_xacnhanemail
+        $insert_token_query = "INSERT INTO tbl_xacnhanemail (email, token, created_at) VALUES ('$email', '$token', '$created_at')";
+        $insert_token_result = mysqli_query($mysqli, $insert_token_query);
 
-        // Prepare email content
-        $tieude = "Xác nhận đăng ký của bạn";
-        $noidung = "<p>Cảm ơn bạn đã đăng ký! Vui lòng nhấp vào liên kết bên dưới để xác nhận email:</p>";
-        $noidung .= "<p><a href='$verificationLink'>Xác nhận email của bạn</a></p>";
+        if ($insert_token_result) {
+            // Construct verification link
+            $siteURL = 'https://web7tcc-a9aaa5d624b4.herokuapp.com';
+            $verificationLink = "{$siteURL}/index.php?quanly=verify&token=$token";
 
-        // Send email with Brevo
-        $url = 'https://api.brevo.com/v3/smtp/email';
+            // Prepare email content
+            $tieude = "Xác nhận đăng ký của bạn";
+            $noidung = "<p>Cảm ơn bạn đã đăng ký! Vui lòng nhấp vào liên kết bên dưới để xác nhận email:</p>";
+            $noidung .= "<p><a href='$verificationLink'>Xác nhận email của bạn</a></p>";
 
-        $emailData = [
-            'sender' => [
-                'name' => '7TCC Team',
-                'email' => 'zaikaman123@gmail.com'
-            ],
-            'to' => [
-                [
-                    'email' => $email,
-                    'name' => $ten_khachhang
-                ]
-            ],
-            'subject' => $tieude,
-            'htmlContent' => $noidung
-        ];
+            // Send email with Brevo
+            $url = 'https://api.brevo.com/v3/smtp/email';
 
-        // Initialize cURL for Brevo API request
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'accept: application/json',
-            'api-key: ' . $config['apiKey'],
-            'content-type: application/json'
-        ]);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($emailData));
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $emailData = [
+                'sender' => [
+                    'name' => '7TCC Team',
+                    'email' => 'zaikaman123@gmail.com'
+                ],
+                'to' => [
+                    [
+                        'email' => $email,
+                        'name' => $ten_khachhang
+                    ]
+                ],
+                'subject' => $tieude,
+                'htmlContent' => $noidung
+            ];
 
-        if ($httpCode == 201 || $httpCode == 200) {
-            echo "Email xác nhận đã được gửi. Vui lòng kiểm tra email để hoàn tất đăng ký!";
+            // Initialize cURL for Brevo API request
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'accept: application/json',
+                'api-key: ' . $config['apiKey'],
+                'content-type: application/json'
+            ]);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($emailData));
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            if ($httpCode == 201 || $httpCode == 200) {
+                echo "Email xác nhận đã được gửi. Vui lòng kiểm tra email để hoàn tất đăng ký!";
+            } else {
+                echo "Lỗi gửi email: " . $response;
+                unset($_SESSION['user_info']); // Clear session if email sending fails
+            }
+            curl_close($ch);
         } else {
-            // Show email error response for debugging
-            echo "Lỗi gửi email: " . $response;
-            unset($_SESSION['user_info']); // Clear session if email sending fails
+            echo "Lỗi: Không thể lưu thông tin xác nhận email.";
         }
-        curl_close($ch);
     }
 }
 ?>
