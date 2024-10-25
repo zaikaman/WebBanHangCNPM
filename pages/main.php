@@ -51,6 +51,8 @@
         include("pages/main/xacnhanemail.php");
     } elseif ($des == 'emaildaxacnhan'){
         include("pages/main/emaildaxacnhan.php");
+    } elseif ($des == 'verify'){
+        include("pages/main/verify.php");
     }  elseif ($des == 'timKiem') {
         include("main/timkiem.php");
     } elseif ($des == 'timKiemNangCao') {
