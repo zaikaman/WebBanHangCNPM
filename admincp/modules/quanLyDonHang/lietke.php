@@ -1,6 +1,6 @@
 <?php
 include("config/config.php");
-$sql_lietke_dh = "SELECT * FROM tbl_giohang,tbl_dangky WHERE tbl_giohang.id_khachhang = tbl_dangky.id_dangky ORDER BY tbl_giohang.id_gh DESC ";
+$sql_lietke_dh = "SELECT * FROM tbl_hoadon,tbl_dangky WHERE tbl_hoadon.id_khachhang = tbl_dangky.id_dangky ORDER BY tbl_hoadon.id_gh DESC ";
 $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
 ?>
 
