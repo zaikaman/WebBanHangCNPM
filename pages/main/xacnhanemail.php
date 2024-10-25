@@ -3,7 +3,7 @@ session_start();
 
 // Assuming the user's email is stored in the session after registration
 if (isset($_SESSION['email'])) {
-    $user_email = $_SESSION['email'];
+    $user_email = htmlspecialchars($_SESSION['email']); // Xử lý dữ liệu để tránh XSS
 } else {
     // Fallback in case the email is not set
     $user_email = 'your-email@example.com';
@@ -104,9 +104,9 @@ if (isset($_POST['resend_email'])) {
 </head>
 <body>
     <div class="verification-container">
-        <img src="email_icon.png" alt="Email Icon"> <!-- Replace this with your actual image path -->
+        <img src="assets/images/email_icon.png" alt="Email Icon"> <!-- Replace this with your actual image path -->
         <h1>Verify your email address</h1>
-        <p>We have sent a verification link to <span class="highlight"><?php echo htmlspecialchars($user_email); ?></span>.</p>
+        <p>We have sent a verification link to <span class="highlight"><?php echo $user_email; ?></span>.</p>
         <p>Click on the link to complete the verification process. You might need to check your spam folder.</p>
         
         <div class="buttons">
