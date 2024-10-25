@@ -40,7 +40,7 @@ if (isset($_POST['dang_ky'])) {
 
         // Construct verification link
         $siteURL = 'https://web7tcc-a9aaa5d624b4.herokuapp.com/';
-        $verificationLink = "$siteURL/verify.php?token=$token";
+        $verificationLink = "{$siteURL}index.php?quanly=verify&token=$token";
 
         // Prepare email content
         $tieude = "Xác nhận đăng ký của bạn";
