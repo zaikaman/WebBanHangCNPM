@@ -34,7 +34,6 @@ if (isset($_GET['token'])) {
                         window.location.href='index.php?quanly=dangnhap';
                     }, 3000);
                 </script>";
-            echo "<script>window.location.href='index.php?quanly=dangnhap';</script>";
             unset($_SESSION['user_info']); // Clear session data
         } else {
             echo "Thông tin không hợp lệ.";
