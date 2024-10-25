@@ -1,30 +1,30 @@
 <?php
 session_start();
 
-// Assuming the user's email is stored in the session after registration
+// Giả sử email của người dùng được lưu trong session sau khi đăng ký
 if (isset($_SESSION['email'])) {
     $user_email = htmlspecialchars($_SESSION['email']); // Xử lý dữ liệu để tránh XSS
 } else {
-    // Fallback in case the email is not set
+    // Trường hợp email không được thiết lập
     $user_email = 'your-email@example.com';
 }
 
-// Logic to handle resend email functionality
+// Xử lý chức năng gửi lại email
 if (isset($_POST['resend_email'])) {
-    // You would add logic here to resend the email
-    // For example, you might send the verification email again using a mail function or email API
+    // Thêm logic để gửi lại email xác nhận tại đây
+    // Ví dụ, bạn có thể gửi lại email xác nhận bằng hàm mail hoặc API gửi email
 
-    // Example of feedback after resending the email
-    $resend_message = "A verification email has been resent to " . $user_email;
+    // Phản hồi sau khi gửi lại email
+    $resend_message = "Email xác nhận đã được gửi lại tới " . $user_email;
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Verification</title>
+    <title>Xác minh địa chỉ email</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,7 +69,7 @@ if (isset($_POST['resend_email'])) {
         }
         .verification-container .buttons input {
             text-decoration: none;
-            background-color: #a270f6;
+            background-color: #ff4d4d; /* Màu đỏ */
             color: white;
             padding: 10px 20px;
             border-radius: 5px;
@@ -79,7 +79,7 @@ if (isset($_POST['resend_email'])) {
         }
         .verification-container .buttons a {
             text-decoration: none;
-            background-color: #a270f6;
+            background-color: #ff4d4d; /* Màu đỏ */
             color: white;
             padding: 10px 20px;
             border-radius: 5px;
@@ -88,7 +88,7 @@ if (isset($_POST['resend_email'])) {
         }
         .verification-container .buttons input:hover,
         .verification-container .buttons a:hover {
-            background-color: #915ed6;
+            background-color: #e04343; /* Màu đỏ đậm hơn khi hover */
         }
         .footer {
             margin-top: 20px;
@@ -104,16 +104,16 @@ if (isset($_POST['resend_email'])) {
 </head>
 <body>
     <div class="verification-container">
-        <img src="assets/images/email_icon.png" alt="Email Icon"> <!-- Replace this with your actual image path -->
-        <h1>Verify your email address</h1>
-        <p>We have sent a verification link to <span class="highlight"><?php echo $user_email; ?></span>.</p>
-        <p>Click on the link to complete the verification process. You might need to check your spam folder.</p>
+        <img src="../../images/email.png" alt="Biểu tượng Email">
+        <h1>Xác minh địa chỉ email của bạn</h1>
+        <p>Chúng tôi đã gửi một liên kết xác minh tới <span class="highlight"><?php echo $user_email; ?></span>.</p>
+        <p>Nhấn vào liên kết để hoàn tất quá trình xác minh. Bạn có thể cần kiểm tra trong thư mục spam.</p>
         
         <div class="buttons">
             <form action="" method="POST">
-                <input type="submit" name="resend_email" value="Resend email">
+                <input type="submit" name="resend_email" value="Gửi lại email">
             </form>
-            <a href="index.php">Return to Site</a>
+            <a href="index.php">Quay về trang chủ</a>
         </div>
         
         <?php if (isset($resend_message)): ?>
@@ -123,7 +123,7 @@ if (isset($_POST['resend_email'])) {
         <?php endif; ?>
 
         <div class="footer">
-            You can reach us if you have any questions.
+            Vui lòng liên hệ với chúng tôi nếu bạn có bất kỳ câu hỏi nào.
         </div>
     </div>
 </body>
