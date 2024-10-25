@@ -6,6 +6,7 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
 }
 include('../../admincp/config/config.php');
 require('../../Carbon-3.8.0/autoload.php');
+$config = include 'brevo_config.php';
 require_once('config_vnpay.php');
 
 use Carbon\Carbon;
@@ -202,7 +203,7 @@ foreach ($_SESSION['cart'] as $key => $value) {
 }
 
 // Gửi email xác nhận đơn hàng qua Brevo
-$apiKey = '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';
+$apiKey = getenv('API_KEY');
 $url = 'https://api.brevo.com/v3/smtp/email';
 
 $tieude = "Đặt hàng website 7TCC thành công!";
@@ -254,7 +255,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'accept: application/json',
-    'api-key: ' . $apiKey,
+    'api-key: ' . $config['apiKey'],
     'content-type: application/json'
 ]);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($emailData));
