@@ -38,6 +38,8 @@ if (isset($_POST['dang_ky'])) {
             'token' => $token // Store token in session as well
         ];
 
+        $created_at = date("Y-m-d H:i:s");
+
         // Insert email, token, created_at into tbl_xacnhanemail
         $insert_token_query = "INSERT INTO tbl_xacnhanemail (email, token, created_at) VALUES ('$email', '$token', '$created_at')";
         $insert_token_result = mysqli_query($mysqli, $insert_token_query);
