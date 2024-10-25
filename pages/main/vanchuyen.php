@@ -42,8 +42,16 @@
     </div>
     <div class="form-group">
       <label for="phone">Số điện thoại:</label>
-      <input type="text" id="phone" name="phone" class="form-control" value="<?php echo $phone ?>" placeholder="....">
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <input type="text" id="phone" name="phone" class="form-control" value="<?php echo $phone ?>" placeholder="....">
+        <button type="button" id="sendOtpButton" class="btn btn-secondary">Gửi OTP</button>
+      </div>
       <span id="phoneError" style="color: red;"></span>
+      <div class="form-group" id="otpField" style="display: none;">
+        <label for="otp">Nhập OTP:</label>
+        <input type="text" id="otp" name="otp" class="form-control" placeholder="...." maxlength="6">
+        <span id="otpError" style="color: red;"></span>
+      </div>
     </div>
     <div class="form-group">
       <label for="address">Địa chỉ:</label>
@@ -115,6 +123,10 @@
     if (!validateForm()) {
       e.preventDefault();
     }
+  });
+  document.getElementById('sendOtpButton').addEventListener('click', function () {
+    // Display the OTP field
+    document.getElementById('otpField').style.display = 'block';
   });
 </script>
 
