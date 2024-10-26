@@ -2,6 +2,7 @@
 // Include database configuration to initialize $mysqli
 include(dirname(__FILE__) . "/../../admincp/config/config.php");
 
+
 // Handle form data and sanitize inputs
 $ten_sp_filter = isset($_GET['ten_sp']) ? $_GET['ten_sp'] : '';
 $danhmuc_filter = isset($_GET['danhmuc']) ? $_GET['danhmuc'] : '';
@@ -36,13 +37,15 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
 ?>
 
 <div class="main_with_sidebar">
-    <?php include("./pages/sidebar/sidebar.php"); ?>
-    <div class="main_content main_content_with_sidebar">
+    <?php
+    include("./pages/sidebar/sidebar.php");
+    ?>
+    <div class="main_content main_content_with_sidebar ">
         <div class="cate_title">
             <h3>Kết quả tìm kiếm :</h3>
         </div>
         <div class="container mt-3">
-            <div class="row">
+        <div class="row">
                 <?php
                 while ($row = mysqli_fetch_array($query_pro)) {
                 ?>
@@ -64,34 +67,3 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
         </div>
     </div>
 </div>
-
-<!-- Filter form section with input validation -->
-<div class="filter-section">
-    <label for="gia_min">Giá từ:</label>
-    <input type="number" id="gia_min" name="gia_min" min="0" placeholder="0" oninput="validatePriceInput()" onkeypress="return preventNegative(event)">
-    <label for="gia_max">đến:</label>
-    <input type="number" id="gia_max" name="gia_max" min="0" placeholder="0" oninput="validatePriceInput()" onkeypress="return preventNegative(event)">
-</div>
-
-<script>
-    // Ngăn không cho nhập số âm
-    function preventNegative(event) {
-        if (event.key === '-') {
-            event.preventDefault();
-        }
-    }
-
-    function validatePriceInput() {
-        const giaMin = document.getElementById('gia_min');
-        const giaMax = document.getElementById('gia_max');
-
-        // Giá trị hiện tại của các ô nhập
-        const minValue = parseInt(giaMin.value, 10);
-        const maxValue = parseInt(giaMax.value, 10);
-
-        // Kiểm tra điều kiện min <= max
-        if (minValue && maxValue && minValue > maxValue) {
-            giaMax.value = ''; // Xóa giá trị không hợp lệ của ô giá tối đa
-        }
-    }
-</script>
