@@ -271,8 +271,8 @@ input[type="text"]::-ms-clear {
   position: absolute;
   width: 120px;
   left: 0px;
-  height: 55px;
-  top: 60px;
+  height: auto;
+  top: 100%;
   display: none;
   font-size: 14px;
   align-items: self-start;
@@ -1038,7 +1038,7 @@ ul#tabs-nav li.active a {
 }
 .register_input_box {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -1470,8 +1470,8 @@ color: #999;
   position: absolute;
   width: 200px;
   left: 0px;
-  height: 50px;
-  top: 67px;
+  height: auto;
+  top: 100%;
   display: none;
   font-size: 14px;
   align-items: self-start;
@@ -1486,39 +1486,48 @@ color: #999;
   text-decoration: none;
   color: #000;
   display: block;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   border: 1px solid rgba(221, 221, 221, 1);
   width: 100%;
 }
 
 .news_content a:hover {
   background-color: #f2f2f2;
-  color: rgb(0, 0, 0);
+  color: rgb(0, 0, 0) ;
 }
-
 .news_content_burger {
   position: absolute;
-  left: 50%;
-  top: 28%;
+  top: 100%; /* Đặt ngay bên dưới phần tử cha */
+  left: 0;
   display: none;
   font-size: 14px;
   z-index: 3;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  white-space: nowrap;
-  padding: 10px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Đổ bóng mềm */
+  padding: 15px 20px;
+  min-width: 220px; /* Thiết lập chiều rộng tối thiểu */
 }
 
 .news_content_burger a {
-  padding: 8px;
+  padding: 10px 15px;
   text-decoration: none;
-  color: #000;
+  color: #333333 ;
   display: block;
-  background-color: white;
-  border: 1px solid black;
-  width: auto;
-  transition: background-color 0.2s;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  transition: all 0.3s ease; /* Thêm hiệu ứng chuyển động */
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.news_content_burger a:hover {
+  background-color: #eaeaea;
+  color: #0073e6 ; /* Đổi màu khi hover */
+  border-color: #b3b3b3;
+  transform: translateY(-2px); /* Hiệu ứng nổi khi hover */
 }
 
 .col-md-12 {
@@ -1753,7 +1762,7 @@ color: #999;
     width: 100%;
   }
   .login_content {
-    width: 80%;
+    width: 90%;
   }
 }
 
@@ -1782,7 +1791,7 @@ color: #999;
     padding: 0;
   }
   .logo img {
-    width: 155px;
+    width: 170px;
   }
   .shopping_cart {
     margin-right: 5px;
@@ -1793,9 +1802,6 @@ color: #999;
   .hotline {
     margin: 0 10px 0 0;
     width: auto;
-  }
-  .drawer {
-    width: 250px;
   }
   .product_content {
     padding: 0 0px 0 10px;
