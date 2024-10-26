@@ -16,7 +16,7 @@
             $query_danhmuc = mysqli_query($mysqli, $sql_danhmucsanpham);
             while ($row_danhmuc = mysqli_fetch_array($query_danhmuc)) {
             ?>
-                <a class="info"><?php echo $row_danhmuc['name_sp'] ?> </a>
+                 <a class="info" href="index.php?quanly=danhmucsanpham&id=<?php echo $row_danhmuc['id_dm'] ?>" ><?php echo $row_danhmuc['name_sp'] ?> </a>
             <?php
             }
             ?>
