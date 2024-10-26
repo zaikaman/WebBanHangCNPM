@@ -13,9 +13,9 @@ $tinh_trang_filter = isset($_GET['tinhtrang']) ? $_GET['tinhtrang'] : '';
 $error_message = '';
 
 // Validate gia_min and gia_max inputs
-if (($gia_min_filter && $gia_min_filter < 0) || ($gia_max_filter && $gia_max_filter < 0)) {
+if ((isset($_GET['gia_min']) && $gia_min_filter < 0) || (isset($_GET['gia_max']) && $gia_max_filter < 0)) {
     $error_message = "Vui lòng nhập giá trị dương";
-} elseif ($gia_min_filter && $gia_max_filter && $gia_min_filter > $gia_max_filter) {
+} elseif (isset($_GET['gia_min']) && isset($_GET['gia_max']) && $gia_min_filter > $gia_max_filter) {
     $error_message = "Vui lòng nhập giá đến lớn hơn hoặc bằng giá từ";
 }
 
@@ -32,11 +32,11 @@ if (empty($error_message)) {
         $sql_pro .= " AND id_dm = " . intval($danhmuc_filter);
     }
 
-    if ($gia_min_filter && $gia_max_filter) {
+    if (isset($_GET['gia_min']) && isset($_GET['gia_max'])) {
         $sql_pro .= " AND gia_sp BETWEEN " . intval($gia_min_filter) . " AND " . intval($gia_max_filter);
-    } elseif ($gia_min_filter) {
+    } elseif (isset($_GET['gia_min'])) {
         $sql_pro .= " AND gia_sp >= " . intval($gia_min_filter);
-    } elseif ($gia_max_filter) {
+    } elseif (isset($_GET['gia_max'])) {
         $sql_pro .= " AND gia_sp <= " . intval($gia_max_filter);
     }
 
