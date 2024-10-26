@@ -49,9 +49,15 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
                         </div>
                     </div>
                 </div>
-                <div style="width : 100%; display : flex; align-items : center; justify-content : center">
-                    <input class="mua_btn" type="submit" name="themgiohang" value="Thêm giỏ hàng">
-                </div>
+                <?php if (isset($_SESSION['id_khachhang']) && isset($_SESSION['dang_ky'])) { ?>
+                    <div style="width : 100%; display : flex; align-items : center; justify-content : center">
+                        <input class="mua_btn" type="submit" name="themgiohang" value="Thêm giỏ hàng">
+                    </div>
+                <?php } else { ?>
+                    <div style="width : 100%; display : flex; align-items : center; justify-content : center">
+                        <a style="align-items: center; color : white ;" class="mua_btn" href="index.php?quanly=dangnhap">Đăng nhập để mua hàng</a>
+                    </div>
+                <?php } ?>
             </div>
 
         </form>
