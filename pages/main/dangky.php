@@ -1,6 +1,6 @@
 <div class="main_content">
     <?php
-
+    $config = include 'brevo_config.php';
     $registration_error = '';
 
     if (isset($_POST['dang_ky'])) {
