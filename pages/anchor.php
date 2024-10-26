@@ -24,7 +24,7 @@
 
 
 <script>
-    <?php if (isset($_GET['registration']) && $_GET['registration'] == 1): ?>
+    <?php if ($_GET['registration'] == 1): ?>
         document.addEventListener("DOMContentLoaded", function() {
             var registration_success = document.getElementById("registration_success");
             setTimeout(function() {
@@ -37,7 +37,7 @@
     <?php endif; ?>
 </script>
 <script>
-    <?php if (isset($_GET['additem_success']) && $_GET['additem_success'] == 1): ?>
+    <?php if ($_GET['additem_success'] == 1): ?>
         document.addEventListener("DOMContentLoaded", function() {
             var registration_success = document.getElementById("registration_success2");
             setTimeout(function() {
@@ -50,7 +50,7 @@
     <?php endif; ?>
 </script>
 <script>
-    <?php if (isset($_GET['changepassword']) && $_GET['changepassword'] == 1): ?>
+    <?php if ($_GET['changepassword'] == 1): ?>
         document.addEventListener("DOMContentLoaded", function() {
             var registration_success = document.getElementById("registration_success3");
             setTimeout(function() {
@@ -63,7 +63,7 @@
     <?php endif; ?>
 </script>
 <script>
-    <?php if (isset($_GET['user_notfound']) && $_GET['user_notfound'] == 1): ?>
+    <?php if ($_GET['user_notfound'] == 1): ?>
         document.addEventListener("DOMContentLoaded", function() {
             var user_notfound = document.getElementById("user_notfound");
             setTimeout(function() {
