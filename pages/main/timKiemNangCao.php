@@ -67,13 +67,20 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
 
 <!-- Filter form section with input validation -->
 <div class="filter-section">
-    <label for="gia_min">Giá tối thiểu:</label>
-    <input type="number" id="gia_min" name="gia_min" min="0" oninput="validatePriceInput()" placeholder="0">
-    <label for="gia_max">Giá tối đa:</label>
-    <input type="number" id="gia_max" name="gia_max" min="0" oninput="validatePriceInput()" placeholder="0">
+    <label for="gia_min">Giá từ:</label>
+    <input type="number" id="gia_min" name="gia_min" min="0" placeholder="0" oninput="validatePriceInput()" onkeypress="return preventNegative(event)">
+    <label for="gia_max">đến:</label>
+    <input type="number" id="gia_max" name="gia_max" min="0" placeholder="0" oninput="validatePriceInput()" onkeypress="return preventNegative(event)">
 </div>
 
 <script>
+    // Ngăn không cho nhập số âm
+    function preventNegative(event) {
+        if (event.key === '-') {
+            event.preventDefault();
+        }
+    }
+
     function validatePriceInput() {
         const giaMin = document.getElementById('gia_min');
         const giaMax = document.getElementById('gia_max');
@@ -81,14 +88,6 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
         // Giá trị hiện tại của các ô nhập
         const minValue = parseInt(giaMin.value, 10);
         const maxValue = parseInt(giaMax.value, 10);
-
-        // Kiểm tra nhập số âm
-        if (minValue < 0) {
-            giaMin.value = '';
-        }
-        if (maxValue < 0) {
-            giaMax.value = '';
-        }
 
         // Kiểm tra điều kiện min <= max
         if (minValue && maxValue && minValue > maxValue) {
