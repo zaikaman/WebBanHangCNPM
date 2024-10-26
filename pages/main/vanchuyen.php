@@ -57,7 +57,7 @@
         <?php
         if ($name == '' && $phone == '') {
         ?>
-          <button type="submit" name="themvanchuyen" class="btn btn-primary">Thêm vận chuyển</button>
+          <button type="submit" name="themvanchuyen" class="dathang_button">Thêm vận chuyển</button>
         <?php
         } else if ($name != '' && $phone != '') {
         ?>
