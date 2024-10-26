@@ -35,7 +35,7 @@ if (isset($_GET['token'])) {
                 </script>";
             unset($_SESSION['user_info']); // Clear session data
         } else {
-            echo "Thông tin không hợp lệ.";
+            echo "Vui lòng đăng nhập trên cùng trình duyệt đã dùng để đăng ký.";
         }
     } else {
         echo "Token không hợp lệ hoặc đã hết hạn.";
