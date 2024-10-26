@@ -10,7 +10,8 @@ if (session_status() == PHP_SESSION_NONE) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <title>7TCC</title>
+    <title>Trang Chủ | Web7TCC</title>
+    <meta name="description" content="Khám phá nội dung đặc sắc trên Web7TCC." />
     <!-- LINK FONT STYLE -->
     <link
         rel="stylesheet"
