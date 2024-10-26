@@ -2,13 +2,20 @@
 // Include database configuration to initialize $mysqli
 include(dirname(__FILE__) . "/../../admincp/config/config.php");
 
-
 // Handle form data and sanitize inputs
 $ten_sp_filter = isset($_GET['ten_sp']) ? $_GET['ten_sp'] : '';
 $danhmuc_filter = isset($_GET['danhmuc']) ? $_GET['danhmuc'] : '';
-$gia_min_filter = isset($_GET['gia_min']) ? $_GET['gia_min'] : '';
-$gia_max_filter = isset($_GET['gia_max']) ? $_GET['gia_max'] : '';
+$gia_min_filter = isset($_GET['gia_min']) ? max(0, intval($_GET['gia_min'])) : '';
+$gia_max_filter = isset($_GET['gia_max']) ? max(0, intval($_GET['gia_max'])) : '';
 $tinh_trang_filter = isset($_GET['tinhtrang']) ? $_GET['tinhtrang'] : '';
+
+// Ensure gia_min <= gia_max if both are set
+if ($gia_min_filter !== '' && $gia_max_filter !== '' && $gia_min_filter > $gia_max_filter) {
+    // Swap values if minimum is greater than maximum
+    $temp = $gia_min_filter;
+    $gia_min_filter = $gia_max_filter;
+    $gia_max_filter = $temp;
+}
 
 // Construct query based on filters
 $sql_pro = "SELECT * FROM tbl_sanpham WHERE 1";
@@ -21,12 +28,12 @@ if ($danhmuc_filter) {
     $sql_pro .= " AND id_dm = " . intval($danhmuc_filter);
 }
 
-if ($gia_min_filter && $gia_max_filter) {
-    $sql_pro .= " AND gia_sp BETWEEN " . intval($gia_min_filter) . " AND " . intval($gia_max_filter);
-} elseif ($gia_min_filter) {
-    $sql_pro .= " AND gia_sp >= " . intval($gia_min_filter);
-} elseif ($gia_max_filter) {
-    $sql_pro .= " AND gia_sp <= " . intval($gia_max_filter);
+if ($gia_min_filter !== '' && $gia_max_filter !== '') {
+    $sql_pro .= " AND gia_sp BETWEEN " . $gia_min_filter . " AND " . $gia_max_filter;
+} elseif ($gia_min_filter !== '') {
+    $sql_pro .= " AND gia_sp >= " . $gia_min_filter;
+} elseif ($gia_max_filter !== '') {
+    $sql_pro .= " AND gia_sp <= " . $gia_max_filter;
 }
 
 if ($tinh_trang_filter !== '') {
@@ -67,4 +74,3 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
         </div>
     </div>
 </div>
-
