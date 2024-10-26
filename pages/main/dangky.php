@@ -1,3 +1,4 @@
+<div class="main_content">
 <?php
 $config = include 'brevo_config.php';
 $registration_error = '';
