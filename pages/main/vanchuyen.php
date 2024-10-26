@@ -32,43 +32,42 @@
       }
     }
     ?>
-    <div class="row">
-  <div class="col-md-12"></div>
-  <form id="shippingForm" action="" autocomplete="off" method="POST" style="margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <div class="form-group">
-      <label for="name">Họ và tên: </label>
-      <input type="text" id="name" name="name" class="form-control" value="<?php echo $name ?>" placeholder="....">
-      <span id="nameError" style="color: red;"></span>
-    </div>
-    <div class="form-group">
-      <label for="phone">Số điện thoại:</label>
-      <input type="text" id="phone" name="phone" class="form-control" value="<?php echo $phone ?>" placeholder="....">
-      <span id="phoneError" style="color: red;"></span>
-    </div>
-    <div class="form-group">
-      <label for="address">Địa chỉ:</label>
-      <input type="text" id="address" name="address" class="form-control" value="<?php echo $address ?>" placeholder="....">
-      <span id="addressError" style="color: red;"></span>
-    </div>
-    <div class="form-group">
-      <label for="note">Ghi chú:</label>
-      <input type="text" name="note" class="form-control" value="<?php echo $note ?>" placeholder="....">
-    </div>
-    <div style="display: flex; flex-direction: row; align-items: center; width: auto; gap: 20px;">
-      <?php
-      if ($name == '' && $phone == '') {
-      ?>
-        <button type="submit" name="themvanchuyen" class="btn btn-primary">Thêm vận chuyển</button>
-      <?php
-      } else if ($name != '' && $phone != '') {
-      ?>
-        <button type="submit" name="capnhatvanchuyen" class="dathang_button">Cập nhật vận chuyển</button>
-      <?php
-      }
-      ?>
-      <a href="index.php?quanly=thongTinThanhToan" id="checkoutButton" class="dathang_button">Thanh toán</a>
-    </div>
-  </form>
+    <div class="row vanchuyen-form">
+    <form id="shippingForm" action="" autocomplete="off" method="POST" style="margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <div class="form-group">
+        <label for="name">Họ và tên: </label>
+        <input type="text" id="name" name="name" class="form-control" value="<?php echo $name ?>" placeholder="....">
+        <span id="nameError" style="color: red;"></span>
+      </div>
+      <div class="form-group">
+        <label for="phone">Số điện thoại:</label>
+        <input type="text" id="phone" name="phone" class="form-control" value="<?php echo $phone ?>" placeholder="....">
+        <span id="phoneError" style="color: red;"></span>
+      </div>
+      <div class="form-group">
+        <label for="address">Địa chỉ:</label>
+        <input type="text" id="address" name="address" class="form-control" value="<?php echo $address ?>" placeholder="....">
+        <span id="addressError" style="color: red;"></span>
+      </div>
+      <div class="form-group">
+        <label for="note">Ghi chú:</label>
+        <input type="text" name="note" class="form-control" value="<?php echo $note ?>" placeholder="....">
+      </div>
+      <div style="display: flex; flex-direction: row; align-items: center; width: auto; gap: 20px;">
+        <?php
+        if ($name == '' && $phone == '') {
+        ?>
+          <button type="submit" name="themvanchuyen" class="btn btn-primary">Thêm vận chuyển</button>
+        <?php
+        } else if ($name != '' && $phone != '') {
+        ?>
+          <button type="submit" name="capnhatvanchuyen" class="dathang_button">Cập nhật vận chuyển</button>
+        <?php
+        }
+        ?>
+        <a href="index.php?quanly=thongTinThanhToan" id="checkoutButton" class="dathang_button">Thanh toán</a>
+      </div>
+    </form>
 </div>
 </div>
 </div>
