@@ -60,11 +60,11 @@ $thanhtien_str = implode(", ", $thanhtien_arr);
 //     die('Error inserting data into tbl_cartsessions: ' . mysqli_error($mysqli));
 // }
 
-foreach ($_SESSION['cart'] as $key => $value) {
-  $thanhtien = $value['so_luong'] * $value['gia_sp'];
-  $tong_tien += $thanhtien;
-  error_log('Product ID: ' . $value['id'] . ', Quantity: ' . $value['so_luong'] . ', Subtotal: ' . $thanhtien, 3, $logFilePath);
-}
+// foreach ($_SESSION['cart'] as $key => $value) {
+//   $thanhtien = $value['so_luong'] * $value['gia_sp'];
+//   $tong_tien += $thanhtien;
+//   error_log('Product ID: ' . $value['id'] . ', Quantity: ' . $value['so_luong'] . ', Subtotal: ' . $thanhtien, 3, $logFilePath);
+// }
 
 $now = Carbon::now('Asia/Ho_Chi_Minh');
 $id_khachhang = $_SESSION['id_khachhang'];
