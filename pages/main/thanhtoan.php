@@ -69,7 +69,7 @@ $thanhtien_str = implode(", ", $thanhtien_arr);
 $now = Carbon::now('Asia/Ho_Chi_Minh');
 $id_khachhang = $_SESSION['id_khachhang'];
 $cart_payment = $_POST['payment'];
-$expire = Carbon::now('Asia/Ho_Chi_Minh')->addHours(2)->format('YmdHis');
+//$expire = Carbon::now('Asia/Ho_Chi_Minh')->addHours(2)->format('YmdHis');
 
 // Fetch shipping info and log details
 $id_dangky = $_SESSION['id_khachhang'];
