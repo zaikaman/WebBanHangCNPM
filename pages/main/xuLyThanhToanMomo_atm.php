@@ -8,25 +8,32 @@ function execPostRequest($url, $data)
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($data))
-    );
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($data)
+    ));
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    // Execute post
     $result = curl_exec($ch);
-    // Close connection
     curl_close($ch);
     return $result;
 }
 
 $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
-
 $partnerCode = 'MOMOBKUN20180529';
 $accessKey = 'klm05TvNBzhg7h7j';
 $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
 $orderInfo = "Thanh toán qua MoMo ATM";
-$amount = "10000";
+
+// Calculate total amount from cart session
+session_start();
+$totalAmount = 0;
+if (isset($_SESSION['cart'])) {
+    foreach ($_SESSION['cart'] as $item) {
+        $totalAmount += $item['price'] * $item['quantity']; // Adjust based on your cart structure
+    }
+}
+$amount = strval($totalAmount);
+
 $orderId = time() . "";
 $redirectUrl = "http://7tcc.atwebpages.com/index.php?quanly=camon";
 $ipnUrl = "http://7tcc.atwebpages.com/index.php?quanly=camon";
@@ -54,15 +61,14 @@ $data = array(
 );
 
 $result = execPostRequest($endpoint, json_encode($data));
-$jsonResult = json_decode($result, true);  // decode JSON as associative array
+$jsonResult = json_decode($result, true);
 
 if (isset($jsonResult['payUrl'])) {
     echo "<script>window.location.href='" . $jsonResult['payUrl'] . "';</script>";
 } else {
-    // Display error or response from the API
     echo "Có lỗi xảy ra: ";
     echo "<pre>";
-    print_r($jsonResult);  // Show entire response for debugging
+    print_r($jsonResult);
     echo "</pre>";
 }
 ?>
