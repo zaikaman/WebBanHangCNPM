@@ -116,79 +116,89 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
 </div>
 
 <script>
-    // Drawer
-    document.addEventListener('DOMContentLoaded', function() {
-        const hamburger = document.getElementById('hamburger');
-        const drawer = document.getElementById('drawer');
-        const closeBtn = document.getElementById('close-btn');
-        const newsMenuItem = document.getElementById('newsMenuItem'); // Thêm ID cho mục tin tức
-        const newsContentBurger = document.getElementById('news_content_burger');
-        const newsMenuItem1 = document.getElementById('newsMenuItem1'); // Thêm ID cho mục tin tức
-        const newsContentBurger1 = document.getElementById('news_content_burger1');
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger');
+    const drawer = document.getElementById('drawer');
+    const closeBtn = document.getElementById('close-btn');
+    const newsMenuItem = document.getElementById('newsMenuItem'); // Thêm ID cho mục tin tức
+    const newsContentBurger = document.getElementById('news_content_burger');
+    const newsMenuItem1 = document.getElementById('newsMenuItem1'); // Thêm ID cho mục tin tức
+    const newsContentBurger1 = document.getElementById('news_content_burger1');
 
-        // Mở ngăn kéo
-        hamburger.addEventListener('click', function() {
-            drawer.style.width = '250px';
-        });
-
-        // Đóng ngăn kéo
-        closeBtn.addEventListener('click', function(e) {
-            e.preventDefault();
+    // Kiểm tra kích thước màn hình và cập nhật width của Drawer
+    function checkScreenWidth() {
+        if (window.innerWidth > 750) {
             drawer.style.width = '0';
-        });
+        }
+    }
 
-        // Đóng ngăn kéo khi nhấp ngoài
-        window.addEventListener('click', function(e) {
-            if (e.target == drawer) {
-                drawer.style.width = '0';
-            }
-        });
+    // Gọi hàm kiểm tra khi tải trang và khi thay đổi kích thước màn hình
+    checkScreenWidth();
+    window.addEventListener('resize', checkScreenWidth);
 
-        // Hiện danh mục khi di chuột vào mục "Tin tức"
-        newsMenuItem.addEventListener('mouseover', function() {
-            newsContentBurger.style.display = 'block'; // Hiện danh mục
-        });
-
-        // Ẩn danh mục khi di chuột ra ngoài "Tin tức" và danh mục
-        newsMenuItem.addEventListener('mouseleave', function() {
-            if (!newsContentBurger.matches(':hover')) {
-                newsContentBurger.style.display = 'none'; // Ẩn danh mục
-            }
-        });
-
-        // Giữ danh mục hiển thị khi di chuột vào danh mục
-        newsContentBurger.addEventListener('mouseenter', function() {
-            newsContentBurger.style.display = 'block'; // Giữ danh mục hiển thị
-        });
-
-        // Ẩn danh mục khi di chuột ra ngoài danh mục
-        newsContentBurger.addEventListener('mouseleave', function() {
-            newsContentBurger.style.display = 'none'; // Ẩn danh mục
-        });
-
-
-        // Hiện danh mục khi di chuột vào mục "Tin tức"
-        newsMenuItem1.addEventListener('mouseover', function() {
-            newsContentBurger1.style.display = 'block'; // Hiện danh mục
-        });
-
-        // Ẩn danh mục khi di chuột ra ngoài "Tin tức" và danh mục
-        newsMenuItem1.addEventListener('mouseleave', function() {
-            if (!newsContentBurger1.matches(':hover')) {
-                newsContentBurger1.style.display = 'none'; // Ẩn danh mục
-            }
-        });
-
-        // Giữ danh mục hiển thị khi di chuột vào danh mục
-        newsContentBurger1.addEventListener('mouseenter', function() {
-            newsContentBurger1.style.display = 'block'; // Giữ danh mục hiển thị
-        });
-
-        // Ẩn danh mục khi di chuột ra ngoài danh mục
-        newsContentBurger1.addEventListener('mouseleave', function() {
-            newsContentBurger1.style.display = 'none'; // Ẩn danh mục
-        });
+    // Mở ngăn kéo
+    hamburger.addEventListener('click', function() {
+        drawer.style.width = '250px';
     });
+
+    // Đóng ngăn kéo
+    closeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        drawer.style.width = '0';
+    });
+
+    // Đóng ngăn kéo khi nhấp ngoài
+    window.addEventListener('click', function(e) {
+        if (e.target == drawer) {
+            drawer.style.width = '0';
+        }
+    });
+
+    // Hiện danh mục khi di chuột vào mục "Tin tức"
+    newsMenuItem.addEventListener('mouseover', function() {
+        newsContentBurger.style.display = 'block';
+    });
+
+    // Ẩn danh mục khi di chuột ra ngoài "Tin tức" và danh mục
+    newsMenuItem.addEventListener('mouseleave', function() {
+        if (!newsContentBurger.matches(':hover')) {
+            newsContentBurger.style.display = 'none';
+        }
+    });
+
+    // Giữ danh mục hiển thị khi di chuột vào danh mục
+    newsContentBurger.addEventListener('mouseenter', function() {
+        newsContentBurger.style.display = 'block';
+    });
+
+    // Ẩn danh mục khi di chuột ra ngoài danh mục
+    newsContentBurger.addEventListener('mouseleave', function() {
+        newsContentBurger.style.display = 'none';
+    });
+
+    // Hiện danh mục khi di chuột vào mục "Tin tức"
+    newsMenuItem1.addEventListener('mouseover', function() {
+        newsContentBurger1.style.display = 'block';
+    });
+
+    // Ẩn danh mục khi di chuột ra ngoài "Tin tức" và danh mục
+    newsMenuItem1.addEventListener('mouseleave', function() {
+        if (!newsContentBurger1.matches(':hover')) {
+            newsContentBurger1.style.display = 'none';
+        }
+    });
+
+    // Giữ danh mục hiển thị khi di chuột vào danh mục
+    newsContentBurger1.addEventListener('mouseenter', function() {
+        newsContentBurger1.style.display = 'block';
+    });
+
+    // Ẩn danh mục khi di chuột ra ngoài danh mục
+    newsContentBurger1.addEventListener('mouseleave', function() {
+        newsContentBurger1.style.display = 'none';
+    });
+});
+
 </script>
 
 <style>
