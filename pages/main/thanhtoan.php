@@ -31,7 +31,7 @@ foreach ($_SESSION['cart'] as $key => $value) {
 }
 if ($cart_payment == 'tienmat' || $cart_payment == 'chuyenkhoan') {
   //insert vao don hang
-  $insert_cart = "INSERT INTO tbl_giohang(id_khachhang,ma_gh,trang_thai,cart_date,cart_payment,cart_shipping) VALUE('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "','" . $cart_payment . "','" . $id_shipping . "')";
+  $insert_cart = "INSERT INTO tbl_hoadon(id_khachhang,ma_gh,trang_thai,cart_date,cart_payment,cart_shipping) VALUE('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "','" . $cart_payment . "','" . $id_shipping . "')";
   $cart_query = mysqli_query($mysqli, $insert_cart);
   // add gio hang chi tiet
   foreach ($_SESSION['cart'] as $key => $value) {
