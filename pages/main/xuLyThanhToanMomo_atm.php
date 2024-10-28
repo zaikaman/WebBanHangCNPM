@@ -1,7 +1,6 @@
 <?php
 header('Content-type: text/html; charset=utf-8');
 
-
 function execPostRequest($url, $data)
 {
     $ch = curl_init($url);
@@ -14,61 +13,56 @@ function execPostRequest($url, $data)
     );
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    //execute post
+    // Execute post
     $result = curl_exec($ch);
-    //close connection
+    // Close connection
     curl_close($ch);
     return $result;
 }
 
-
 $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
-
 
 $partnerCode = 'MOMOBKUN20180529';
 $accessKey = 'klm05TvNBzhg7h7j';
 $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
 $orderInfo = "Thanh toán qua MoMo ATM";
 $amount = "10000";
-$orderId = time() ."";
+$orderId = time() . "";
 $redirectUrl = "http://7tcc.atwebpages.com/index.php?quanly=camon";
 $ipnUrl = "http://7tcc.atwebpages.com/index.php?quanly=camon";
 $extraData = "";
 
+$requestId = time() . "";
+$requestType = "payWithATM";
+$rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
+$signature = hash_hmac("sha256", $rawHash, $secretKey);
 
+$data = array(
+    'partnerCode' => $partnerCode,
+    'partnerName' => "Test",
+    "storeId" => "MomoTestStore",
+    'requestId' => $requestId,
+    'amount' => $amount,
+    'orderId' => $orderId,
+    'orderInfo' => $orderInfo,
+    'redirectUrl' => $redirectUrl,
+    'ipnUrl' => $ipnUrl,
+    'lang' => 'vi',
+    'extraData' => $extraData,
+    'requestType' => $requestType,
+    'signature' => $signature
+);
 
-    $requestId = time() . "";
-    $requestType = "payWithATM";
-    //$extraData = (!$_POST["extraData"] ? $_POST["extraData"] : "");
-    //before sign HMAC SHA256 signature
-    $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
-    $signature = hash_hmac("sha256", $rawHash, $secretKey);
-    $data = array('partnerCode' => $partnerCode,
-        'partnerName' => "Test",
-        "storeId" => "MomoTestStore",
-        'requestId' => $requestId,
-        'amount' => $amount,
-        'orderId' => $orderId,
-        'orderInfo' => $orderInfo,
-        'redirectUrl' => $redirectUrl,
-        'ipnUrl' => $ipnUrl,
-        'lang' => 'vi',
-        'extraData' => $extraData,
-        'requestType' => $requestType,
-        'signature' => $signature);
-    $result = execPostRequest($endpoint, json_encode($data));
-    $jsonResult = json_decode($result);  // decode json
+$result = execPostRequest($endpoint, json_encode($data));
+$jsonResult = json_decode($result, true);  // decode JSON as associative array
 
-    //Just a example, please check more in there
-
-    if (isset($jsonResult['payUrl'])) {
+if (isset($jsonResult['payUrl'])) {
     echo "<script>window.location.href='" . $jsonResult['payUrl'] . "';</script>";
-	} else {
-    // In ra lỗi hoặc phản hồi từ API để kiểm tra
+} else {
+    // Display error or response from the API
     echo "Có lỗi xảy ra: ";
     echo "<pre>";
-    print_r($jsonResult);  // Xem toàn bộ nội dung phản hồi
+    print_r($jsonResult);  // Show entire response for debugging
     echo "</pre>";
 }
-
 ?>
