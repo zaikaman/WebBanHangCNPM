@@ -1,3 +1,4 @@
+<?php
 session_start();
 $totalAmount = 0;
 
@@ -60,3 +61,4 @@ if (isset($jsonResult['payUrl'])) {
     print_r($jsonResult);
     echo "</pre>";
 }
+?>
