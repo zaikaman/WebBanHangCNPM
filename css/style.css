@@ -1424,13 +1424,16 @@ color: #999;
 }
 
 .form-group {
-  margin-bottom: 10px;
   display: flex;
-  flex-direction: row;
-  width: 40%;
+  flex-direction: column;
+  width:40%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 .form-group label {
   width: 45%;
+  margin: 0;
 }
 .col-md-4 .form-check {
   margin: 8px;
@@ -1536,6 +1539,8 @@ color: #999;
 
 .vanchuyen-form {
   width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 
