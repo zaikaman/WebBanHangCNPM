@@ -50,7 +50,7 @@
         $note = '';
       }
       ?>
-      <form id="shippingForm" action="" autocomplete="off" method="POST" class="login_content">
+      <form id="shippingForm" action="" autocomplete="off" method="POST" class="login_content" style="margin-top : 20px">
         <div class="form-group">
           <div style="width : 100%; display : flex; flex-direction : row;  justify-content: center;
               align-items: center;">
