@@ -15,8 +15,17 @@
         .card-header h2 {
             font-size: 1.75rem;
         }
-        .bg-danger {
-            background-color: #dc3545 !important; /* Màu đỏ Bootstrap */
+        .card-header {
+            background-color: #FF0000; /* Màu đỏ */
+            color: #FFFFFF; /* Màu trắng */
+        }
+        .btn-primary {
+            background-color: #FF0000; /* Màu đỏ */
+            border-color: #FF0000; /* Màu đỏ */
+        }
+        .btn-primary:hover {
+            background-color: #CC0000; /* Màu đỏ đậm hơn khi hover */
+            border-color: #CC0000; /* Màu đỏ đậm hơn khi hover */
         }
     </style>
 </head>
@@ -24,7 +33,7 @@
 
 <div class="container my-5">
     <div class="card shadow">
-        <div class="card-header text-center bg-primary text-white">
+        <div class="card-header text-center">
             <h2><strong>Thông Tin Liên Hệ</strong></h2>
         </div>
         <div class="card-body">
