@@ -4,7 +4,7 @@ $sql_lietke_dh = "SELECT * FROM tbl_hoadon,tbl_dangky WHERE tbl_hoadon.id_khachh
 $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
 ?>
 
-<!-- Link Bootstrap CSS -->
+<!-- Link Bootstrap CSS ss -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <div class="container mt-5">
