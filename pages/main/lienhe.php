@@ -15,6 +15,9 @@
         .card-header h2 {
             font-size: 1.75rem;
         }
+        .bg-danger {
+            background-color: #dc3545 !important; /* Màu đỏ Bootstrap */
+        }
     </style>
 </head>
 <body>
