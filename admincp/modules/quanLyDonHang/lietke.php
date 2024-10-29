@@ -52,7 +52,7 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                         <a href="index.php?action=donHang&query=xemDonHang&code=<?php echo $row['ma_gh'] ?>" class="btn btn-info btn-sm">Xem Đơn Hàng</a>
                     </td>
                     <td>
-                        <a href="modules/quanLyDonHang/indonhang.php?&code=<?php echo $row['ma_gh'] ?>" class="btn btn-primary btn-sm">In Đơn Hàng</a>
+                        <a href="modules/quanLyDonHang/indonhang.php?code=<?php echo $row['ma_gh'] ?>" class="btn btn-primary btn-sm">In Đơn Hàng</a>
                     </td>
                 </tr>
             <?php
