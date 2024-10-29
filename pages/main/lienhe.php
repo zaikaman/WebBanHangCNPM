@@ -26,14 +26,6 @@
         </div>
         <div class="card-body">
             <?php
-            // Kết nối đến cơ sở dữ liệu
-            $mysqli = new mysqli("localhost", "username", "password", "database_name");
-            
-            // Kiểm tra kết nối
-            if ($mysqli->connect_error) {
-                die("Kết nối thất bại: " . $mysqli->connect_error);
-            }
-
             // Truy vấn dữ liệu liên hệ
             $sql_lh = "SELECT * FROM tbl_lienhe WHERE id=1";
             $query_lh = mysqli_query($mysqli, $sql_lh);
@@ -41,9 +33,6 @@
             while ($row = mysqli_fetch_array($query_lh)) {
                 echo '<div class="contact-info">' . htmlspecialchars_decode($row['thongtinlienhe']) . '</div>';
             }
-
-            // Đóng kết nối
-            $mysqli->close();
             ?>
         </div>
         <div class="card-footer text-center">
