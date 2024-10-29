@@ -1,5 +1,5 @@
 <div class="main_content">
-    <h2><strong>Liên hệ</strong></h2>
+    <h2><strong>Thông Tin Liên hệ</strong></h2>
     <?php
     $sql_lh = "SELECT * FROM tbl_lienhe WHERE id=1";
     $query_lh = mysqli_query($mysqli, $sql_lh);
