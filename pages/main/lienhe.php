@@ -23,9 +23,10 @@
             background-color: #FF0000; /* Màu đỏ */
             border-color: #FF0000; /* Màu đỏ */
         }
-        .btn-primary:hover {
-            background-color: #CC0000; /* Màu đỏ đậm hơn khi hover */
-            border-color: #CC0000; /* Màu đỏ đậm hơn khi hover */
+        .btn-primary {
+            background-color: #FF0000 !important; /* Màu đỏ */
+            border-color: #FF0000 !important; /* Màu đỏ */
+            color: #FFFFFF !important; /* Màu chữ trắng */
         }
     </style>
 </head>
