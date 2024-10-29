@@ -6,7 +6,9 @@ $pdf = new tFPDF();
 $pdf->AddPage("0");
 
 // Set font to Arial, with size 14
-$pdf->SetFont('Arial', '', 14);
+
+	$pdf->AddFont('DejaVu','','DejaVuSerif.ttf',true);
+	$pdf->SetFont('DejaVu','',14);
 
 $pdf->SetFillColor(193,229,253);
 
