@@ -6,7 +6,7 @@ $pdf = new tFPDF();
 $pdf->AddPage("0");
 
 // Add font
-$pdf->AddFont('DejaVu','','DejaVuSans-Bold.ttf',true);
+$pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
 $pdf->SetFont('DejaVu','',14);
 
 // Header
@@ -45,6 +45,6 @@ while($row = mysqli_fetch_array($lietke_dh)){
 $pdf->Write(10,'Cảm ơn bạn đã đặt hàng tại website của chúng tôi.');
 $pdf->Ln(10);
 
-// Output PDF with download option
-$pdf->Output('D', 'don_hang.pdf');
-?>  
+// Output PDF
+$pdf->Output();
+?>
