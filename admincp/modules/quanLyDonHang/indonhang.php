@@ -6,8 +6,7 @@ $pdf = new tFPDF();
 $pdf->AddPage("0");
 
 // Add font
-$pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
-$pdf->SetFont('DejaVu','',14)
+$pdf->SetFont('Arial', '', 14);
 
 // Header
 $pdf->SetFillColor(193,229,253);
