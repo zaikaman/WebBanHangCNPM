@@ -180,7 +180,6 @@ if ($cart_payment == 'tienmat' || $cart_payment == 'chuyenkhoan') {
       $update_stock = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - $so_luong WHERE id_sp = $id_sp";
       mysqli_query($mysqli, $update_stock);
     }
-    unset($_SESSION['cart']);
     $_SESSION['code_cart'] = $ma_gh;
     echo '!!!';
     header('Location: ' . $vnp_Url);
