@@ -14,6 +14,41 @@ use Carbon\CarbonInterval;
 
 $logFilePath = __DIR__ . '/cart-error.log'; // Define log file path
 
+$ma_gh = uniqid();
+
+// Khai báo các chuỗi rỗng để chứa dữ liệu đã ghép lại
+$tong_tien = 0;
+$ten_sp_arr = [];
+$ma_sp_arr = [];
+$gia_sp_arr = [];
+$so_luong_arr = [];
+$thanhtien_arr = [];
+
+// Lặp qua giỏ hàng và ghép dữ liệu lại
+foreach ($_SESSION['cart'] as $key => $value) {
+    $email = $_SESSION['email']; // Email từ session của người dùng
+    $ten_sp = $value['ten_sp'];
+    $ma_sp = $value['ma_sp'];
+    $gia_sp = $value['gia_sp'];
+    $so_luong = $value['so_luong'];
+    $thanhtien = $so_luong * $gia_sp; // Tính tổng tiền cho từng sản phẩm
+    $tong_tien += $thanhtien; // Tổng tiền đơn hàng
+
+    // Thêm các giá trị vào mảng tương ứng
+    $ten_sp_arr[] = $ten_sp;
+    $ma_sp_arr[] = $ma_sp;
+    $gia_sp_arr[] = $gia_sp;
+    $so_luong_arr[] = $so_luong;
+    $thanhtien_arr[] = $thanhtien;
+}
+
+// Ghép các giá trị trong mảng thành chuỗi và ngăn cách bằng dấu phẩy
+$ten_sp_str = implode(", ", $ten_sp_arr);
+$ma_sp_str = implode(", ", $ma_sp_arr);
+$gia_sp_str = implode(", ", $gia_sp_arr);
+$so_luong_str = implode(", ", $so_luong_arr);
+$thanhtien_str = implode(", ", $thanhtien_arr);
+
 $now = Carbon::now('Asia/Ho_Chi_Minh');
 $id_khachhang = $_SESSION['id_khachhang'];
 $ma_gh = rand(0, 9999);
