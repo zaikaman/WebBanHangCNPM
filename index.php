@@ -21,7 +21,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYpPsrHbQ/qOUu4Tpvb9Kdh9jjp/aYY8bTjFNE1xQ+Kbh" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="/css/style-v1.css">
 </head>
