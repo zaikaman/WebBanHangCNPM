@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
@@ -11,53 +12,39 @@ require_once('config_vnpay.php');
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 
-$logFilePath = __DIR__ . '/cart-error.log'; // Đường dẫn ghi log lỗi
-
-// Tính tổng tiền một lần duy nhất
-$tong_tien = 0;
-foreach ($_SESSION['cart'] as $item) {
-    $tong_tien += $item['so_luong'] * $item['gia_sp'];
-}
+$logFilePath = __DIR__ . '/cart-error.log'; // Define log file path
 
 $now = Carbon::now('Asia/Ho_Chi_Minh');
 $id_khachhang = $_SESSION['id_khachhang'];
 $ma_gh = rand(0, 9999);
 $cart_payment = $_POST['payment'];
-
-// Lấy id thông tin vận chuyển
+//lay id thong tin van chuyen
 $id_dangky = $_SESSION['id_khachhang'];
 $sql_get_vanchuyen = mysqli_query($mysqli, "SELECT * FROM tbl_giaohang WHERE id_dangky='$id_dangky' LIMIT 1");
 $row_get_vanchuyen = mysqli_fetch_array($sql_get_vanchuyen);
 $id_shipping = $row_get_vanchuyen['id_shipping'];
+$tong_tien = 0;
 
+foreach ($_SESSION['cart'] as $key => $value) {
+  $thanhtien = $value['so_luong'] * $value['gia_sp'];
+  $tong_tien += $thanhtien;
+}
 if ($cart_payment == 'tienmat' || $cart_payment == 'chuyenkhoan') {
-    // Chèn đơn hàng vào bảng hoá đơn
-    $insert_cart = "INSERT INTO tbl_hoadon(id_khachhang,ma_gh,trang_thai,cart_date,cart_payment,cart_shipping) 
-                    VALUES('$id_khachhang','$ma_gh',1,'$now','$cart_payment','$id_shipping')";
-    $cart_query = mysqli_query($mysqli, $insert_cart);
-    
-    // Thêm chi tiết giỏ hàng
-    foreach ($_SESSION['cart'] as $value) {
-        $id_sp = $value['id'];
-        $so_luong = $value['so_luong'];
-        $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua) 
-                                 VALUES('$ma_gh','$id_sp','$so_luong')";
-        mysqli_query($mysqli, $insert_order_details);
-
-        // Cập nhật số lượng sản phẩm còn lại
-        $update_stock = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - $so_luong WHERE id_sp = $id_sp";
-        mysqli_query($mysqli, $update_stock);
-    }
-
-    // Thực hiện gửi email xác nhận đơn hàng
-    // require_once('send_email.php'); // Giả sử phần gửi email nằm trong file send_email.php
-    
-    // Sau khi gửi email thành công, xóa session giỏ hàng
-    unset($_SESSION['cart']);
-    
-    // Chuyển hướng đến trang cảm ơn
-    header('Location: ../../index.php?quanly=camon');
-    exit();
+  //insert vao don hang
+  $insert_cart = "INSERT INTO tbl_hoadon(id_khachhang,ma_gh,trang_thai,cart_date,cart_payment,cart_shipping) VALUE('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "','" . $cart_payment . "','" . $id_shipping . "')";
+  $cart_query = mysqli_query($mysqli, $insert_cart);
+  // add gio hang chi tiet
+  foreach ($_SESSION['cart'] as $key => $value) {
+    $id_sp = $value['id'];
+    $so_luong = $value['so_luong'];
+    $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua) VALUE('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "')";
+    mysqli_query($mysqli, $insert_order_details);
+    // cap nhat so luong san pham
+    $update_stock = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - $so_luong WHERE id_sp = $id_sp";
+    mysqli_query($mysqli, $update_stock);
+  }
+  unset($_SESSION['cart']);
+  header('Location:../../index.php?quanly=camon');
 } elseif ($cart_payment === 'vnpay') {
   //thanh toan vnpay
   $vnp_TxnRef = $ma_gh; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang vnpay
