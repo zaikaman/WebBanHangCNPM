@@ -68,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="password" class="form-control" id="new_password" name="new_password" required>
             </div>
             <button type="submit" name="suaTen" class="btn btn-primary">Sửa</button>
+            <a href="index.php?action=quanLyAdmin&query=them" class="btn btn-primary">Quay lại</a>
         </form>
     <?php } ?>
 </div>
