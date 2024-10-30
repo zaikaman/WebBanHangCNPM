@@ -1,34 +1,45 @@
+<!-- Include Bootstrap CSS in your header -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 <div class="main_content">
     <?php
-        $sql_bv= "SELECT * FROM tbl_baiviet WHERE tbl_baiviet.id='$_GET[id_baiviet]' ORDER BY id DESC";
-        $query_bv= mysqli_query($mysqli,$sql_bv);
-        $sql_name= "SELECT * FROM tbl_danhmuc_baiviet WHERE tbl_danhmuc_baiviet.id_baiviet='$_GET[id_baiviet]' LIMIT 1";
-        $query_name= mysqli_query($mysqli,$sql_name);
-        $row_title= mysqli_fetch_array($query_name);
+        // Get the category title
+        $sql_name = "SELECT * FROM tbl_danhmuc_baiviet WHERE tbl_danhmuc_baiviet.id_baiviet='$_GET[id_baiviet]' LIMIT 1";
+        $query_name = mysqli_query($mysqli, $sql_name);
+        $row_title = mysqli_fetch_array($query_name);
     ?>
-    <h3>Danh Mục Bài viết: <span style="text-align: center; text-transform: uppercase"> <?php echo $row_title['tendanhmuc_baiviet']?> </span>  </h3>
+    <h3 class="text-center text-uppercase my-4">Danh Mục Bài viết: <span><?php echo $row_title['tendanhmuc_baiviet'] ?></span></h3>
 
+    <div class="container mt-3">
+        <div class="row">
+            <?php
+            // Query to select posts in the specified category
+            $sql_bv = "SELECT * FROM tbl_baiviet WHERE id_danhmuc = '$_GET[id_baiviet]' ORDER BY id DESC";
+            $query_bv = mysqli_query($mysqli, $sql_bv);
 
-
-	<div class="container mt-3">
-            <div class="row">
-                <?php
-                while ($row = mysqli_fetch_array($query_name)) {
-                ?>
-                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                        <div class="product card h-100">
-                            <a href="index.php?quanly=baiviet&id=<?php echo $row['id']?>"  class="text-decoration-none text-dark">
-                                <img src="admincp/modules/quanLyBaiViet/uploads/<?php echo $row['hinhanh'] ?>" class="card-img-top img-fluid">
-                                <div class="card-body text-center">
-								<p class="product_name"><?php echo $row['tenbaiviet'] ?></p>
-								<p class="product_name"><?php echo $row['tomtat'] ?></p>
-                                </div>
-                            </a>
+            while ($row = mysqli_fetch_array($query_bv)) {
+            ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <a href="index.php?quanly=baiviet&id=<?php echo $row['id'] ?>" class="text-decoration-none text-dark">
+                            <img src="admincp/modules/quanLyBaiViet/uploads/<?php echo $row['hinhanh'] ?>" class="card-img-top img-fluid" alt="<?php echo $row['tenbaiviet'] ?>">
+                        </a>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">
+                                <a href="index.php?quanly=baiviet&id=<?php echo $row['id'] ?>" class="text-dark"><?php echo $row['tenbaiviet'] ?></a>
+                            </h5>
+                            <p class="card-text"><?php echo $row['tomtat'] ?></p>
                         </div>
                     </div>
-                <?php
-                }
-                ?>
-            </div>
+                </div>
+            <?php
+            }
+            ?>
         </div>
+    </div>
 </div>
+
+<!-- Include Bootstrap JS and dependencies in your footer -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

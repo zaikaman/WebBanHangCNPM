@@ -56,7 +56,7 @@ $lietke_dh= mysqli_query($mysqli,$sql_lietke_dh);
         </div>
         <div class="card-footer text-center">
             <a href="index.php?action=donHang&query=lietke" class="btn btn-secondary">Quay Lại</a>
-            <a href="modules/quanLyDonHang/indonhang.php?&code=<?php echo $code ?>" class="btn btn-primary">In Đơn Hàng</a>
+            <a href="modules/quanLyDonHang/indonhang.php?code=<?php echo $code ?>" class="btn btn-primary">In Đơn Hàng</a>
         </div>
     </div>
 </div>

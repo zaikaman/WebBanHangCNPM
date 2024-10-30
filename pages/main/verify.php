@@ -1,33 +1,46 @@
 <?php
 session_start();
-require 'db_connection.php'; // Replace with actual database connection
+include '../../admincp/config/config.php';
 
-// Check if token is provided
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
 
-    // Verify the token in the database
-    $stmt = $pdo->prepare("SELECT * FROM email_verification WHERE token = ?");
-    $stmt->execute([$token]);
-    $user = $stmt->fetch();
+    // Fetch email associated with the token
+    $stmt = $mysqli->prepare("SELECT email FROM tbl_xacnhanemail WHERE token = ?");
+    $stmt->bind_param("s", $token);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($user) {
-        // Token is valid, save registration info to users table
-        // Example query:
-        // $stmt = $pdo->prepare("INSERT INTO users (email, name, ...) VALUES (?, ?, ...)");
-        // $stmt->execute([$user['email'], $user['name'], ...]);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $email = $row['email'];
 
-        // Delete token after successful verification
-        $stmt = $pdo->prepare("DELETE FROM email_verification WHERE token = ?");
-        $stmt->execute([$token]);
+        // Get user info from session and insert into tbl_dangky
+        if (isset($_SESSION['user_info']) && $_SESSION['user_info']['email'] === $email) {
+            $user = $_SESSION['user_info'];
+            $stmt = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dia_chi, mat_khau, dien_thoai) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssss", $user['ten_khachhang'], $user['email'], $user['dia_chi'], $user['mat_khau'], $user['dien_thoai']);
+            $stmt->execute();
 
-        // Redirect to confirmation page
-        header("Location: index.php?quanly=emaildaxacnhan");
-        exit;
+            // Delete token entry from tbl_xacnhanemail
+            $stmt = $mysqli->prepare("DELETE FROM tbl_xacnhanemail WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+
+            echo "Email xác nhận thành công! Đang tự động chuyển hướng...";
+            echo "<script>
+                    setTimeout(function() {
+                        window.location.href='index.php?quanly=dangnhap';
+                    }, 3000);
+                </script>";
+            unset($_SESSION['user_info']); // Clear session data
+        } else {
+            echo "Vui lòng đăng nhập trên cùng trình duyệt đã dùng để đăng ký.";
+        }
     } else {
         echo "Token không hợp lệ hoặc đã hết hạn.";
     }
 } else {
-    echo "Không tìm thấy mã xác thực.";
+    echo "Yêu cầu không hợp lệ.";
 }
 ?>

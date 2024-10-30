@@ -36,16 +36,16 @@ if (isset($_GET['partnerCode'])) {
     $insert_momo = "INSERT INTO tbl_momo (partner_code,order_id,amount,order_info,order_type,trans_id,pay_type,code_cart) VALUES ('" . $partnerCode . "','" . $orderId . "','" . $amount . "','" . $orderInfo . "','" . $orderType . "','" . $transId . "','" . $payType . "','" . $code_order . "')";
     $cart_query = mysqli_query($mysqli, $insert_momo);
     if ($cart_query) {
-        // $insert_cart = "INSERT INTO tbl_giohang(id_khachhang,ma_gh,trang_thai,cart_date,cart_payment,cart_shipping) VALUES('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "','" . $cart_payment . "','" . $id_shipping . "')";
-        // $cart_query = mysqli_query($mysqli, $insert_cart);
-        // // add gio hang chi tiet
-        // //insert gio hang
-        // foreach ($_SESSION['cart'] as $key => $value) {
-        //     $id_sp = $value['id'];
-        //     $so_luong = $value['so_luong'];
-        //     $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua) VALUES('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "')";
-        //     mysqli_query($mysqli, $insert_order_details);
-        // }
+        $insert_cart = "INSERT INTO tbl_hoadon(id_khachhang,ma_gh,trang_thai,cart_date,cart_payment,cart_shipping) VALUES('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "','" . $cart_payment . "','" . $id_shipping . "')";
+        $cart_query = mysqli_query($mysqli, $insert_cart);
+        // add gio hang chi tiet
+        //insert gio hang
+        foreach ($_SESSION['cart'] as $key => $value) {
+            $id_sp = $value['id'];
+            $so_luong = $value['so_luong'];
+            $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua) VALUES('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "')";
+            mysqli_query($mysqli, $insert_order_details);
+        }
         echo '<h3>Giao dịch thanh toán bằng MOMO thành công!</h3>';
         echo '<p>Vui lòng vào trang <a target = "_blank" href = "http://localhost/DeAnCNPM-main/WebBanHang/index.php?quanly=donHangDaDat">Lịch sử đơn hàng</a> để xem chi tiết đơn hàng của bạn</p>';
     } else {
