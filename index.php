@@ -9,7 +9,8 @@ if (session_status() == PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Chủ | Web7TCC</title>
+    <link rel="canonical" href="https://web7tcc-a9aaa5d624b4.herokuapp.com/" />
+    <title>7TCC</title>
     <meta name="description" content="Khám phá nội dung đặc sắc trên Web7TCC." />
 
     <!-- Link Font Style -->
