@@ -47,8 +47,8 @@ $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
 
 $orderInfo = "Thanh toán qua mã QR MoMo";
 $orderId = time() . "";
-$redirectUrl = "http://7tcc.atwebpages.com/index.php?quanly=camon";
-$ipnUrl = "http://7tcc.atwebpages.com/index.php?quanly=camon";
+$redirectUrl = "https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php?quanly=camon";
+$ipnUrl = "https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php?quanly=camon";
 $extraData = "";
 
 $requestId = time() . "";
