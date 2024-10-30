@@ -11,7 +11,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://web7tcc-a9aaa5d624b4.herokuapp.com/" />
     <title>web7tcc</title>
-    <meta name="description" content="web7tcc" />
+    <meta name="description" content="khám phá những sản phẩm quần áo thể thao chất lượng tại web7tcc" />
 
     <!-- Link Font Style -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap">
