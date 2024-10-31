@@ -29,7 +29,7 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
                         <button id="giam" class="soluong_btn">
                             -
                         </button>
-                        <input class="soluong_input" id="soluong_input" name="so_luong" type="number" value="1">
+                        <input class="soluong_input" id="soluong_input" name="so_luong" type="number" value="1" min="1" max="<?php echo $info['so_luong_con_lai']; ?>">
                         <button id="tang" class="soluong_btn">
                             +
                         </button>
