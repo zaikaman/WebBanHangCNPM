@@ -67,8 +67,8 @@ if (isset($_GET['partnerCode'])) {
     $cart_query = mysqli_query($mysqli, $insert_vnpay);
     if ($cart_query) {
         $insert_cart = "INSERT INTO tbl_hoadon(id_khachhang,ma_gh,trang_thai,cart_date) VALUE('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "')";
-    $cart_query = mysqli_query($mysqli, $insert_cart);
-    // add gio hang chi tiet
+        $cart_query = mysqli_query($mysqli, $insert_cart);
+        // add gio hang chi tiet
         foreach ($_SESSION['cart'] as $key => $value) {
           $id_sp = $value['id'];
           $so_luong = $value['so_luong'];
