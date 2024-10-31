@@ -85,13 +85,13 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
             }
         });
 
-        input.addEventListener("input", function() {
-            if (input.value > maxQuantity) {
-                input.value = maxQuantity;
-            } else if (input.value < 1) {
-                input.value = 1;
-            }
-        });
+        // input.addEventListener("input", function() {
+        //     if (input.value > maxQuantity) {
+        //         input.value = maxQuantity;
+        //     } else if (input.value < 1) {
+        //         input.value = 1;
+        //     }
+        // });
     });
 </script>
 
