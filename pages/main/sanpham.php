@@ -64,7 +64,7 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
 
     <?php } ?>
 </div>
-<!-- <script>
+<script>
     document.addEventListener("DOMContentLoaded", function() {
         const input = document.getElementById("soluong_input");
         const btnDecrease = document.getElementById("giam");
@@ -93,5 +93,5 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
             }
         });
     });
-</script> -->
+</script>
 
