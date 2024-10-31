@@ -14,6 +14,34 @@
 //         quantityInput.value = currentValue - 1;
 //     }
 // });
+    document.addEventListener("DOMContentLoaded", function() {
+        const input = document.getElementById("soluong_input");
+        const btnDecrease = document.getElementById("giam");
+        const btnIncrease = document.getElementById("tang");
+        const maxQuantity = parseInt(input.max);
+
+        btnIncrease.addEventListener("click", function() {
+            let currentQuantity = parseInt(input.value);
+            if (currentQuantity < maxQuantity) {
+                input.value = currentQuantity + 1;
+            }
+        });
+
+        btnDecrease.addEventListener("click", function() {
+            let currentQuantity = parseInt(input.value);
+            if (currentQuantity > 1) {
+                input.value = currentQuantity - 1;
+            }
+        });
+
+        // input.addEventListener("input", function() {
+        //     if (input.value > maxQuantity) {
+        //         input.value = maxQuantity;
+        //     } else if (input.value < 1) {
+        //         input.value = 1;
+        //     }
+        // });
+    });
 
 // Show the first tab and hide the rest
 $('#tabs-nav li:first-child').addClass('active');
