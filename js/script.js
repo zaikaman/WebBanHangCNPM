@@ -21,6 +21,7 @@
         const maxQuantity = parseInt(input.max);
 
         btnIncrease.addEventListener("click", function() {
+            event.preventDefault();
             let currentQuantity = parseInt(input.value);
             if (currentQuantity < maxQuantity) {
                 input.value = currentQuantity + 1;
@@ -28,6 +29,7 @@
         });
 
         btnDecrease.addEventListener("click", function() {
+            event.preventDefault();
             let currentQuantity = parseInt(input.value);
             if (currentQuantity > 1) {
                 input.value = currentQuantity - 1;
