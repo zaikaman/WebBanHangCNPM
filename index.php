@@ -11,8 +11,8 @@ if (session_status() == PHP_SESSION_NONE) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://web7tcc-a9aaa5d624b4.herokuapp.com/" />
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io//favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io//favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <title>web7tcc</title>
     <meta name="description" content="Khám phá những sản phẩm quần áo thể thao chất lượng tại web7tcc" />
