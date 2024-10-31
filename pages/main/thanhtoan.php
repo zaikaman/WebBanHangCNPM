@@ -166,21 +166,21 @@ if ($cart_payment == 'tienmat' || $cart_payment == 'chuyenkhoan') {
     'data' => $vnp_Url
   );
   if (isset($_POST['thanhToan'])) {
-    $insert_cart = "INSERT INTO tbl_hoadon(id_khachhang,ma_gh,trang_thai,cart_date) VALUE('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "')";
-    $cart_query = mysqli_query($mysqli, $insert_cart);
-    // add gio hang chi tiet
-    foreach ($_SESSION['cart'] as $key => $value) {
-      $id_sp = $value['id'];
-      $so_luong = $value['so_luong'];
-      $thanhtien = $so_luong * $value['gia_sp'];
-      $tong_tien += $thanhtien;
-      $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua) VALUE('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "')";
-      mysqli_query($mysqli, $insert_order_details);
-      // cap nhat so luong san pham
-      $update_stock = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - $so_luong WHERE id_sp = $id_sp";
-      mysqli_query($mysqli, $update_stock);
-    }
-    unset($_SESSION['cart']);
+    // $insert_cart = "INSERT INTO tbl_hoadon(id_khachhang,ma_gh,trang_thai,cart_date) VALUE('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "')";
+    // $cart_query = mysqli_query($mysqli, $insert_cart);
+    // // add gio hang chi tiet
+    // foreach ($_SESSION['cart'] as $key => $value) {
+    //   $id_sp = $value['id'];
+    //   $so_luong = $value['so_luong'];
+    //   $thanhtien = $so_luong * $value['gia_sp'];
+    //   $tong_tien += $thanhtien;
+    //   $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua) VALUE('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "')";
+    //   mysqli_query($mysqli, $insert_order_details);
+    //   // cap nhat so luong san pham
+    //   $update_stock = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - $so_luong WHERE id_sp = $id_sp";
+    //   mysqli_query($mysqli, $update_stock);
+    // }
+    // unset($_SESSION['cart']);
     $_SESSION['code_cart'] = $ma_gh;
     echo '!!!';
     header('Location: ' . $vnp_Url);
