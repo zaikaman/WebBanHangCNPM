@@ -51,7 +51,7 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
                 </div>
                 <?php if (isset($_SESSION['id_khachhang']) && isset($_SESSION['dang_ky'])) { ?>
                     <div style="width : 100%; display : flex; align-items : center; justify-content : center">
-                        <input class="mua_btn" type="submit" name="themgiohang" value="Thêm giỏ hàng">
+                        <input class="mua_btn" type="submit" name="themgiohang" value="Thêm vào giỏ hàng">
                     </div>
                 <?php } else { ?>
                     <div style="width : 100%; display : flex; align-items : center; justify-content : center">
