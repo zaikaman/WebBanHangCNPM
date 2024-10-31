@@ -73,5 +73,6 @@ if (isset($_GET['partnerCode'])) {
         return;
     }
     unset($_SESSION['cart']);
+    unset($_GET['vnp_Amount']);
 }
 ?>
