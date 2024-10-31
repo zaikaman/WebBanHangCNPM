@@ -149,16 +149,7 @@ if (isset($_GET['tru'])) {
             );
             $_SESSION['cart'] = $product;
         } else {
-            if ($cart_item['so_luong'] >= -9) {
-                $tangso_luong = $cart_item['so_luong'] - 1;
-                $product[] = array(
-                    'ten_sp' => $cart_item['ten_sp'],
-                    'id' => $cart_item['id'],
-                    'so_luong' => $tangso_luong,
-                    'gia_sp' => $cart_item['gia_sp'],
-                    'hinh_anh' => $cart_item['hinh_anh'],
-                    'ma_sp' => $cart_item['ma_sp']
-                );
+            if ($cart_item['so_luong'] >= 0) {
             } else {
                 $product[] = array(
                     'ten_sp' => $cart_item['ten_sp'],
