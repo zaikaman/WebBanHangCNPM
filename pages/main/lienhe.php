@@ -32,24 +32,26 @@
 </head>
 <body>
 
-<div class="container my-5">
-    <div class="card shadow">
-        <div class="card-header text-center">
-            <h2><strong>Thông Tin Liên Hệ</strong></h2>
-        </div>
-        <div class="card-body">
-            <?php
-            // Truy vấn dữ liệu liên hệ
-            $sql_lh = "SELECT * FROM tbl_lienhe WHERE id=1";
-            $query_lh = mysqli_query($mysqli, $sql_lh);
-
-            while ($row = mysqli_fetch_array($query_lh)) {
-                echo '<div class="contact-info">' . htmlspecialchars_decode($row['thongtinlienhe']) . '</div>';
-            }
-            ?>
-        </div>
-        <div class="card-footer text-center">
-            <button class="btn btn-primary">Gửi yêu cầu hỗ trợ</button>
+<div class="main_content">
+    <div class="container my-3" style="width : 100%">
+        <div class="card shadow">
+            <div class="card-header text-center">
+                <h2><strong>Thông Tin Liên Hệ</strong></h2>
+            </div>
+            <div class="card-body">
+                <?php
+                // Truy vấn dữ liệu liên hệ
+                $sql_lh = "SELECT * FROM tbl_lienhe WHERE id=1";
+                $query_lh = mysqli_query($mysqli, $sql_lh);
+    
+                while ($row = mysqli_fetch_array($query_lh)) {
+                    echo '<div class="contact-info">' . htmlspecialchars_decode($row['thongtinlienhe']) . '</div>';
+                }
+                ?>
+            </div>
+            <div class="card-footer text-center">
+                <button class="btn btn-primary" style="width : auto; height : auto; padding : 10px">Gửi yêu cầu hỗ trợ</button>
+            </div>
         </div>
     </div>
 </div>
