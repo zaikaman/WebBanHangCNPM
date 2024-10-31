@@ -13,6 +13,8 @@ require('Carbon-3.8.0/autoload.php');
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 
+$id_khachhang = $_SESSION['id_khachhang'];
+$ma_gh = rand(0, 9999);
 $now = Carbon::now('Asia/Ho_Chi_Minh');
 if (isset($_GET['partnerCode'])) {
     $id_khachhang = $_SESSION['id_khachhang'];
