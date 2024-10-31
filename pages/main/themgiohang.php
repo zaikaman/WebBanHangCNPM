@@ -109,7 +109,7 @@ if (isset($_GET['cong'])) {
             );
             $_SESSION['cart'] = $product;
         } else {
-            if ($cart_item['so_luong'] <= $row['so_luong_con_lai']) {
+            if ($cart_item['so_luong'] < $row['so_luong_con_lai']) {
                 $tangso_luong = $cart_item['so_luong'] + 1;
                 $product[] = array(
                     'ten_sp' => $cart_item['ten_sp'],
