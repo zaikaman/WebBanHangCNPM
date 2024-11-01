@@ -1,20 +1,30 @@
 <?php
 	session_start();
-	include('config/config.php');
-	if(isset($_POST['dangNhap'])){
-		$taikhoan = $_POST['username'];
-		$matkhau = md5($_POST['password']);
-		$sql = "SELECT * FROM tbl_admin WHERE user_name = '".$taikhoan."' AND password = '".$matkhau."'";
-		$row = mysqli_query($mysqli,$sql);
-		$count = mysqli_num_rows($row);
-		if($count > 0){
-			$_SESSION['dangNhap'] = $taikhoan;
-			header("Location:index.php");
-		}else{
-			echo '<p class="text-danger text-center mt-3">Tài khoản hoặc mật khẩu không đúng, vui lòng nhập lại</p>';
-			header('Location:login.php');
-		}
-	}
+include('config/config.php');
+
+if (isset($_POST['dangNhap'])) {
+    $taikhoan = $_POST['username'];
+    $matkhau = md5($_POST['password']);
+
+    // Chuẩn bị câu lệnh SQL
+    $stmt = $mysqli->prepare("SELECT * FROM tbl_admin WHERE user_name = ? AND password = ?");
+    $stmt->bind_param("ss", $taikhoan, $matkhau); // "ss" nghĩa là hai tham số kiểu chuỗi
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $count = $result->num_rows;
+
+    if ($count > 0) {
+        $_SESSION['dangNhap'] = $taikhoan;
+        header("Location:index.php");
+    } else {
+        echo '<p class="text-danger text-center mt-3">Tài khoản hoặc mật khẩu không đúng, vui lòng nhập lại</p>';
+        header('Location:login.php');
+    }
+
+    $stmt->close();
+    $mysqli->close();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
