@@ -13,6 +13,8 @@ require('Carbon-3.8.0/autoload.php');
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 
+$id_khachhang = $_SESSION['id_khachhang'];
+$ma_gh = rand(0, 9999);
 $now = Carbon::now('Asia/Ho_Chi_Minh');
 if (isset($_GET['partnerCode'])) {
     $id_khachhang = $_SESSION['id_khachhang'];
@@ -66,6 +68,21 @@ if (isset($_GET['partnerCode'])) {
                     VALUE ('$vnp_Amount', '$vnp_BankCode', '$vnp_BankTranNo', '$vnp_CardType', '$vnp_OrderInfo', '$vnp_PayDate', '$vnp_TmnCode', '$vnp_TransactionNo','$code_cart')";
     $cart_query = mysqli_query($mysqli, $insert_vnpay);
     if ($cart_query) {
+        $insert_cart = "INSERT INTO tbl_hoadon(id_khachhang,ma_gh,trang_thai,cart_date) VALUE('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "')";
+        $cart_query = mysqli_query($mysqli, $insert_cart);
+        // add gio hang chi tiet
+        foreach ($_SESSION['cart'] as $key => $value) {
+          $id_sp = $value['id'];
+          $so_luong = $value['so_luong'];
+          $thanhtien = $so_luong * $value['gia_sp'];
+          $tong_tien += $thanhtien;
+          $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua) VALUE('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "')";
+          mysqli_query($mysqli, $insert_order_details);
+          // cap nhat so luong san pham
+          $update_stock = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - $so_luong WHERE id_sp = $id_sp";
+          mysqli_query($mysqli, $update_stock);
+        }
+        // unset($_SESSION['cart']);
         echo '<h3>Giao dịch thanh toán bằng VNPAY thành công</h3>';
         echo '<p>Vui lòng vào trang cá nhân <a target="_blank" href="#">lịch sử đơn hàng</a> để xem chi tiết đơn hàng của bạn</p>';
     } else {
@@ -73,5 +90,6 @@ if (isset($_GET['partnerCode'])) {
         return;
     }
     unset($_SESSION['cart']);
+    unset($_GET['vnp_Amount']);
 }
 ?>

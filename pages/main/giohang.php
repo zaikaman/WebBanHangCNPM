@@ -23,9 +23,11 @@
         <!-- GIO HANG -->
         <?php
         $items_number = 0;
+        $tongsoluong = 0;
         if (isset($_SESSION['cart'])) {
             foreach ($_SESSION['cart'] as $cart_item) {
                 $items_number++;
+                $tongsoluong += $cart_item['so_luong'];
             }
         } ?>
         <section class="h-100 w-100">
@@ -40,7 +42,7 @@
 
                                             <div class="d-flex justify-content-between align-items-center mb-5">
                                                 <h1 class="fw-bold mb-0">Giỏ hàng</h1>
-                                                <h6 class="mb-0 text-muted"><?php echo $items_number . ' sản phẩm'; ?></h6>
+                                                <h6 class="mb-0 text-muted"><?php echo $items_number . ' mặt hàng'; ?></h6>
                                             </div>
                                             <?php
                                             $count = 0;
@@ -101,7 +103,7 @@
                                             <h3 class="fw-bold mb-5 mt-2 pt-1">Thanh toán</h3>
                                             <hr class="my-4" style="border-width : 2px">
                                             <div class="d-flex justify-content-between mb-4">
-                                                <h5>Số lượng sản phẩm : <?php echo $count; ?></h5>
+                                                <h5>Số lượng sản phẩm : <?php echo $tongsoluong; ?></h5>
                                                 <!-- <h5><?php echo number_format($tongtien, 0, ',', ',') . 'đ'; ?></h5> -->
                                             </div>
 

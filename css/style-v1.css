@@ -711,7 +711,8 @@ td {
   color: white;
   border-radius: 5px;
   cursor: pointer;
-  width: calc(50% - 8px);
+  display: flex;
+  justify-content: center;
 }
 /* Tabs */
 .tabs {

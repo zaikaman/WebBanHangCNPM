@@ -3,7 +3,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Link Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-    
+
     <style>
         .nav-link {
             display: flex;
@@ -13,23 +13,28 @@
             padding: 10px 15px;
             transition: background-color 0.3s, color 0.3s;
         }
+
         .nav-link i {
             margin-right: 10px;
             font-size: 18px;
         }
+
         .nav-link:hover {
             background-color: #007bff;
             color: #fff;
             border-radius: 5px;
         }
+
         .nav-link.active {
             background-color: #007bff;
             color: #fff;
             border-radius: 5px;
         }
+
         .nav-item {
             margin-bottom: 10px;
         }
+
         .nav {
             background-color: #f8f9fa;
             padding: 20px;
@@ -38,13 +43,15 @@
         }
     </style>
 </head>
+
 <body>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="index.php">
-                <i class="fas fa-chart-bar"></i> Thống kê
+            <a class="nav-link" href="index.php?action=quanLyAdmin&query=them">
+                <i class="fas fa-user-shield"></i> Quản lý Admin
             </a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link" href="index.php?action=quanLyDanhMucSanPham&query=them">
                 <i class="fas fa-boxes"></i> Quản lý danh mục sản phẩm
@@ -73,6 +80,11 @@
         <li class="nav-item">
             <a class="nav-link" href="index.php?action=quanLyWeb&query=capnhat">
                 <i class="fas fa-cogs"></i> Quản lý website
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="index.php">
+                <i class="fas fa-chart-bar"></i> Thống kê
             </a>
         </li>
     </ul>
