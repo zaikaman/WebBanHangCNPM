@@ -42,8 +42,8 @@
                         ?>
                     </td>
                 <td>
-                    <a href="modules/quanLyTaiKhoanKhachHang/xuly.php?id=<?php echo $row['id_dangky']; ?>" class="btn btn-danger btn-sm">Xóa</a>
-                </td>
+    			<a href="index.php?action=quanLyTaiKhoanKhachHang&query=xuly&id=<?php echo $row['id_dangky']; ?>" class="btn btn-danger btn-sm">Xóa</a>
+		</td>
             </tr>
             <?php } ?>
         </tbody>
