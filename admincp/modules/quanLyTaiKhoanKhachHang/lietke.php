@@ -1,7 +1,7 @@
 <?php
 	include("config/config.php");
-    $sql_lietke_khachhang= "SELECT * FROM tbl_dangky ORDER BY id_dangky DESC ";
-    $lietke_khachhang= mysqli_query($mysqli,$sql_lietke_khachhang);
+    $sql_lietke_khachhang = "SELECT * FROM tbl_dangky ORDER BY id_dangky DESC";
+    $lietke_khachhang = mysqli_query($mysqli, $sql_lietke_khachhang);
 ?>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -11,9 +11,9 @@
     <table class="table table-bordered">
         <thead class="table-dark">
             <tr>
-                <td scope="col">ID Khách hàng</td>
-                <td scope="col">Tên khách hàng</td>
-                <td scope="col" style="width:300px">Địa chỉ</td>
+                <td scope="col" style="width:150px">ID Khách hàng</td>
+                <td scope="col" style="width:250px">Tên khách hàng</td>
+                <td scope="col" style="width:400px">Địa chỉ</td>
                 <td scope="col">Số điện thoại</td>
                 <td scope="col">Email</td>
                 <td scope="col">Trạng thái</td>             
@@ -27,14 +27,14 @@
                 $i++;
             ?>
             <tr>
-                <td><?php echo $row['id_dangky'] ?></td>
-                <td><?php echo $row['ten_khachhang'] ?></td>
-                <td><?php echo $row['dia_chi'] ?></td>
-                <td><?php echo $row['dien_thoai'] ?></td>
-                <td><?php echo $row['email'] ?></td>
-                <td><?php echo 1 ?></td>
+                <td><?php echo $row['id_dangky']; ?></td>
+                <td><?php echo $row['ten_khachhang']; ?></td>
+                <td><?php echo $row['dia_chi']; ?></td>
+                <td><?php echo $row['dien_thoai']; ?></td>
+                <td><?php echo $row['email']; ?></td>
+                <td><?php echo $row['trang_thai'] == 1 ? 'Đã kích hoạt' : 'Chưa kích hoạt'; ?></td>
                 <td>
-                    <a href="modules/quanLyTaiKhoanKhachHang/xuly.php?id=<?php echo $row['id_dangky'] ?>" class="btn btn-danger btn-sm">Xóa</a>
+                    <a href="modules/quanLyTaiKhoanKhachHang/xuly.php?id=<?php echo $row['id_dangky']; ?>" class="btn btn-danger btn-sm">Xóa</a>
                 </td>
             </tr>
             <?php } ?>
