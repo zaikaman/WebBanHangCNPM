@@ -18,7 +18,7 @@
             <tr>
                 <td >ID Khách hàng</td>
                 <td >Tên khách hàng</td>
-                <td >Địa chỉ</td>
+                <td style="width:400px;">Địa chỉ</td>
                 <td >Số điện thoại</td>
                 <td >Email</td>
                 <td >Trạng thái</td>             
