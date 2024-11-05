@@ -30,7 +30,17 @@
                 <td><?php echo $row['dia_chi']; ?></td>
                 <td><?php echo $row['dien_thoai']; ?></td>
                 <td><?php echo $row['email']; ?></td>
-                <td><?php echo $row['trang_thai'] == 1 ? 'Đã kích hoạt' : 'Chưa kích hoạt'; ?></td>
+                <td>
+                        <?php
+                        if ($row['trang_thai'] == 1) {
+                            echo "Đang kích hoạt";
+                        } elseif ($row['trang_thai'] == 0){
+                            echo "Chưa kích hoạt";
+                        }else{
+                            echo "Đã bị cấm!";
+                        }
+                        ?>
+                    </td>
                 <td>
                     <a href="modules/quanLyTaiKhoanKhachHang/xuly.php?id=<?php echo $row['id_dangky']; ?>" class="btn btn-danger btn-sm">Xóa</a>
                 </td>
