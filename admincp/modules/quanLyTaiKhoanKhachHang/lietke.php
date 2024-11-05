@@ -9,7 +9,7 @@
 <div class="container mt-5">
     <h3 class="text-center">Liệt kê khách hàng</h3>
     <table class="table table-bordered">
-        <thead class="table-dark">
+        <thead class="table-dark" style="text-align:center">
             <tr>
                 <td scope="col" style="width:150px">ID Khách hàng</td>
                 <td scope="col" style="width:250px">Tên khách hàng</td>
