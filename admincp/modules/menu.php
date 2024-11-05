@@ -85,7 +85,7 @@
 
         <li class="nav-item">
             <a class="nav-link" href="index.php?action=quanLyTaiKhoanKhachHang&query=lietke">
-                <i class="fas fa-customer"></i> Quản lý Tài khoản Khách hàng
+                <i class="fas fa-user"></i> Quản lý Tài khoản Khách hàng
             </a>
         </li>
 
