@@ -40,8 +40,8 @@
         include('modules/quanLyAdmin/sua.php');
     } elseif ($tam == 'quanLyAdmin' && $query == 'doimatkhau') {
         include('modules/quanLyAdmin/doimatkhau.php');
-    } elseif($tam =='quanLyTaiKhoanKhachHang' && $query =='xuly'){
-        include('modules/quanLyTaiKhoanKhachHang/xuly.php');
+    } elseif (isset($_GET['action']) && $_GET['action'] == 'quanLyTaiKhoanKhachHang' && isset($_GET['query']) && $_GET['query'] == 'xuly') {
+    include('modules/quanLyTaiKhoanKhachHang/xuly.php');
     } elseif($tam =='quanLyTaiKhoanKhachHang' && $query =='lietke'){
         include('modules/quanLyTaiKhoanKhachHang/lietke.php');
     }else {
