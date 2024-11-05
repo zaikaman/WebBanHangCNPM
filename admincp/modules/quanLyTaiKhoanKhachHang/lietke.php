@@ -11,14 +11,13 @@
     <table class="table table-bordered">
         <thead class="table-dark">
             <tr>
-                <th scope="col">ID Khách hàng</th>
-                <th scope="col">Tên khách hàng</th>
-                <th scope="col">Mật khẩu</th>
-                <th scope="col">Địa chỉ</th>
-                <th scope="col">Số điện thoại</th>
-                <th scope="col">Email</th>
-                <th scope="col">Trạng thái</th>             
-                <th scope="col">Quản Lý</th>
+                <td scope="col">ID Khách hàng</td>
+                <td scope="col">Tên khách hàng</td>
+                <td scope="col" style="width:300px">Địa chỉ</td>
+                <td scope="col">Số điện thoại</td>
+                <td scope="col">Email</td>
+                <td scope="col">Trạng thái</td>             
+                <td scope="col">Quản Lý</td>
             </tr>
         </thead>
         <tbody>
@@ -28,15 +27,14 @@
                 $i++;
             ?>
             <tr>
-                <td><?php echo $i ?></td>
+                <td><?php echo $row['id_dangky'] ?></td>
                 <td><?php echo $row['ten_khachhang'] ?></td>
-                <td><?php echo $row['mat_khau'] ?></td>
                 <td><?php echo $row['dia_chi'] ?></td>
                 <td><?php echo $row['dien_thoai'] ?></td>
                 <td><?php echo $row['email'] ?></td>
                 <td><?php echo 1 ?></td>
                 <td>
-                    <a href="modules/quanLyTaiKhoanKhachHang/sua.php?id=<?php echo $row['id_dangky'] ?>" class="btn btn-danger btn-sm">Xóa</a>
+                    <a href="modules/quanLyTaiKhoanKhachHang/xuly.php?id=<?php echo $row['id_dangky'] ?>" class="btn btn-danger btn-sm">Xóa</a>
                 </td>
             </tr>
             <?php } ?>
