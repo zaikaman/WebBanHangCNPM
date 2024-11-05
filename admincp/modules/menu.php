@@ -82,6 +82,13 @@
                 <i class="fas fa-cogs"></i> Quản lý website
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="index.php?action=quanLyTaiKhoanKhachHang&query=lietke">
+                <i class="fas fa-customer"></i> Quản lý Tài khoản Khách hàng
+            </a>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link active" href="index.php">
                 <i class="fas fa-chart-bar"></i> Thống kê
