@@ -5,24 +5,24 @@
 ?>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
+<!-- <style>
     .col-id { width: 150px; }
     .col-name { width: 250px; }
     .col-address { width: 400px; }
-</style>
+</style> -->
 
 <div class="container mt-5">
     <h3 class="text-center">Liệt kê khách hàng</h3>
     <table class="table table-bordered">
         <thead class="table-dark" style="text-align:center">
             <tr>
-                <td scope="col" class="col-id">ID Khách hàng</td>
-                <td scope="col" class="col-name">Tên khách hàng</td>
-                <td scope="col" class="col-address">Địa chỉ</td>
-                <td scope="col">Số điện thoại</td>
-                <td scope="col">Email</td>
-                <td scope="col">Trạng thái</td>             
-                <td scope="col">Quản Lý</td>
+                <td >ID Khách hàng</td>
+                <td >Tên khách hàng</td>
+                <td >Địa chỉ</td>
+                <td >Số điện thoại</td>
+                <td >Email</td>
+                <td >Trạng thái</td>             
+                <td >Quản Lý</td>
             </tr>
         </thead>
 
