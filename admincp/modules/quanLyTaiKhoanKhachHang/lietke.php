@@ -1,6 +1,6 @@
 <?php
 	include("config/config.php");
-    $sql_lietke_khachhang = "SELECT * FROM tbl_dangky ORDER BY id_dangky";
+    $sql_lietke_khachhang = "SELECT * FROM tbl_taikhoan ORDER BY id_dangky";
     $lietke_khachhang = mysqli_query($mysqli, $sql_lietke_khachhang);
 ?>
 <!-- Bootstrap CSS -->
