@@ -83,8 +83,6 @@ if (isset($_GET['partnerCode'])) {
           mysqli_query($mysqli, $update_stock);
         }
         // unset($_SESSION['cart']);
-        echo '<h3>Giao dịch thanh toán bằng VNPAY thành công</h3>';
-        echo '<p>Vui lòng vào trang cá nhân <a target="_blank" href="#">lịch sử đơn hàng</a> để xem chi tiết đơn hàng của bạn</p>';
     } else {
         echo 'Giao dịch thất bại';
         return;
