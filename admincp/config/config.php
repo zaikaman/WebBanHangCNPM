@@ -1,15 +1,9 @@
 <?php
-// Database connection variables
-$dsn = "mysql:host=o3iyl77734b9n3tg.cbetxkdyhwsb.us-east-1.rds.amazonaws.com;port=3306;dbname=vdgpk50m2yvb0v8o";
-$user = "qpd8l97yha3kmm0y";
-$password = "on8kor6fvgjukajv";
+$mysqli = new mysqli("ol5tz0yvwp930510.cbetxkdyhwsb.us-east-1.rds.amazonaws.com", "ot9yhdbg6jaf15t0", "u5loufopei3laxcr", "dj61lxep55zuk7bd", 3306);
 
-try {
-    // Set up a new PDO connection for MySQL
-    $pdo = new PDO($dsn, $user, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-} catch (PDOException $e) {
-    exit();
+// Check connection
+if ($mysqli -> connect_errno) {
+  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+  exit();
 }
 ?>
