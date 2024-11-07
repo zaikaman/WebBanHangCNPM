@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: my-php-app
+    env: php
+    plan: free
+    buildCommand: "composer install"
+    startCommand: "php index.php"
