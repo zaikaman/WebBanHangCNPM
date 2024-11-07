@@ -48,8 +48,7 @@ if (isset($_GET['partnerCode'])) {
             $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua) VALUES('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "')";
             mysqli_query($mysqli, $insert_order_details);
         }
-        echo '<h3>Giao dịch thanh toán bằng MOMO thành công!</h3>';
-        echo '<p>Vui lòng vào trang <a target = "_blank" href = "http://localhost/DeAnCNPM-main/WebBanHang/index.php?quanly=donHangDaDat">Lịch sử đơn hàng</a> để xem chi tiết đơn hàng của bạn</p>';
+      
     } else {
         echo 'Giao dịch MOMO thất bại';
     }
