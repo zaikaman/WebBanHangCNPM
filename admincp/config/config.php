@@ -1,9 +1,21 @@
 <?php
-$mysqli = new mysqli("ol5tz0yvwp930510.cbetxkdyhwsb.us-east-1.rds.amazonaws.com", "ot9yhdbg6jaf15t0", "u5loufopei3laxcr", "dj61lxep55zuk7bd", 3306);
+// Database connection variables
+$host = "ep-dry-tree-a4025s4m.us-east-1.aws.neon.tech";
+$dbname = "verceldb";
+$user = "default";
+$password = "BOqb3QaDuNC7";
+$port = "5432";
+$sslmode = "require";
 
-// Check connection
-if ($mysqli -> connect_errno) {
-  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
-  exit();
+try {
+    // Set up a new PDO connection for PostgreSQL
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;sslmode=$sslmode", $user, $password);
+
+    // Set error mode to exceptions for debugging
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected successfully"; 
+} catch (PDOException $e) {
+    echo "Failed to connect to PostgreSQL: " . $e->getMessage();
+    exit();
 }
 ?>
