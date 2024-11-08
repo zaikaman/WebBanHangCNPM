@@ -1,6 +1,6 @@
 <?php
 	include("config/config.php");
-    $sql_lietke_khachhang = "SELECT * FROM tbl_taikhoan ORDER BY id_dangky";
+    $sql_lietke_khachhang = "SELECT * FROM tbl_dangky ORDER BY id_dangky";
     $lietke_khachhang = mysqli_query($mysqli, $sql_lietke_khachhang);
 ?>
 <!-- Bootstrap CSS -->
@@ -16,7 +16,7 @@
                 <td >Địa chỉ</td>
                 <td >Số điện thoại</td>
                 <td >Email</td>
-                <td >Trạng thái</td>             
+                <!-- <td >Trạng thái</td>              -->
                 <td >Quản Lý</td>
             </tr>
         </thead>
@@ -30,17 +30,17 @@
                 <td><?php echo $row['dia_chi']; ?></td>
                 <td><?php echo $row['dien_thoai']; ?></td>
                 <td><?php echo $row['email']; ?></td>
-                <td>
+                <!-- <td>
                         <?php
-                        if ($row['trang_thai'] == 1) {
-                            echo "Đang kích hoạt";
-                        } elseif ($row['trang_thai'] == 0){
-                            echo "Chưa kích hoạt";
-                        }else{
-                            echo "Đã bị cấm!";
-                        }
+                        // if ($row['trang_thai'] == 1) {
+                        //     echo "Đang kích hoạt";
+                        // } elseif ($row['trang_thai'] == 0){
+                        //     echo "Chưa kích hoạt";
+                        // }else{
+                        //     echo "Đã bị cấm!";
+                        // }
                         ?>
-                    </td>
+                    </td> -->
                 <td>
     			<a href="?action=quanLyTaiKhoanKhachHang&query=xuly&id=<?php echo $row['id_dangky']; ?>" class="btn btn-danger btn-sm">Xóa</a>
 		</td>
