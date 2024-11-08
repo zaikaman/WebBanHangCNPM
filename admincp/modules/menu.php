@@ -24,6 +24,9 @@
             color: #fff;
             border-radius: 5px;
         }
+        .nav-link:hover  {
+            color: #fff !important;
+        }
 
         .nav-link.active {
             background-color: #007bff;
@@ -90,7 +93,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link active" href="index.php">
+            <a class="nav-link " href="index.php">
                 <i class="fas fa-chart-bar"></i> Thống kê
             </a>
         </li>
