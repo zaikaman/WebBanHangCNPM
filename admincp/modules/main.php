@@ -39,12 +39,10 @@
         include('modules/quanLyAdmin/sua.php');
     } elseif ($tam == 'quanLyAdmin' && $query == 'doimatkhau') {
         include('modules/quanLyAdmin/doimatkhau.php');
-     } 
-        elseif ($tam == 'quanLyTaiKhoanKhachHang' && $query == 'xuly') {
-     include('modules/quanLyTaiKhoanKhachHang/xuly.php');
-     }
-        elseif($tam =='quanLyTaiKhoanKhachHang' && $query =='lietke'){
-        include('modules/quanLyTaiKhoanKhachHang/lietke.php');
+    }elseif ($tam == 'quanLyTaiKhoanKhachHang' && $query == 'xuly') {
+        include('modules/quanLyTaiKhoanKhachHang/xuly.php');
+    } elseif ($tam == 'quanLyTaiKhoanKhachHang' && $query == 'lietke') {
+    include('modules/quanLyTaiKhoanKhachHang/lietke.php');
     }else {
         include("dashboard.php");
     }
