@@ -34,7 +34,6 @@
     } elseif ($tam == 'quanLyWeb') {
         include("modules/thongTinWeb/quanly.php");
     } elseif ($tam == 'quanLyAdmin' && $query == 'them') {
-        include('modules/quanLyAdmin/them.php');
         include('modules/quanLyAdmin/lietke.php');
     } elseif ($tam == 'quanLyAdmin' && $query == 'sua') {
         include('modules/quanLyAdmin/sua.php');
