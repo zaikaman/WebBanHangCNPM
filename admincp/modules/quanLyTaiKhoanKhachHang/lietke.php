@@ -42,7 +42,7 @@
                         ?>
                     </td>
                 <td>
-    			<a href="index.php?action=quanLyTaiKhoanKhachHang&query=xuly" class="btn btn-danger btn-sm">Xóa</a>
+    			<a href="index.php?action=quanLyTaiKhoanKhachHang&id=<?php echo $row['id_dangky']; ?>" class="btn btn-danger btn-sm">Xóa</a>
 		</td>
             </tr>
             <?php } ?>
