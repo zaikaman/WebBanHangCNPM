@@ -3,10 +3,11 @@ include('../../config/config.php');
 
 $id = $_GET['id'];
 
-if (isset($id) && is_numeric($id)) {
+// if (isset($id) && is_numeric($id)) {
     $sql_sua = "UPDATE tbl_taikhoan SET trang_thai = 2 WHERE id_dangky = '$id'";
 
     // if (mysqli_query($mysqli, $sql_sua)) {
+        mysqli_query($mysqli, $sql_sua);
         header('Location:../../index.php?action=quanLyTaiKhoanKhachHang&query=lietke');
 //         exit; 
 //     } else {
@@ -14,5 +15,5 @@ if (isset($id) && is_numeric($id)) {
 //     }
 // } else {
 //     echo "ID không hợp lệ!";
-}
+//}
 ?>
