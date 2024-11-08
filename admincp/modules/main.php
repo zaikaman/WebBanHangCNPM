@@ -39,7 +39,7 @@
         include('modules/quanLyAdmin/sua.php');
     } elseif ($tam == 'quanLyAdmin' && $query == 'doimatkhau') {
         include('modules/quanLyAdmin/doimatkhau.php');
-    } elseif ($tam == 'quanLyTaiKhoanKhachHang') {
+    } elseif ($tam == 'quanLyTaiKhoanKhachHang' && $query != 'lietke') {
     include('modules/quanLyTaiKhoanKhachHang/xuly.php');
     } elseif($tam =='quanLyTaiKhoanKhachHang' && $query =='lietke'){
         include('modules/quanLyTaiKhoanKhachHang/lietke.php');
