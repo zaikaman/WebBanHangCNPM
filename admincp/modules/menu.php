@@ -49,11 +49,11 @@
 
 <body>
     <ul class="nav flex-column">
-        <li class="nav-item">
+<!--         <li class="nav-item">
             <a class="nav-link" href="index.php?action=quanLyAdmin&query=them">
                 <i class="fas fa-user-shield"></i> Quản lý Admin
             </a>
-        </li>
+        </li> -->
 
         <li class="nav-item">
             <a class="nav-link" href="index.php?action=quanLyDanhMucSanPham&query=them">
