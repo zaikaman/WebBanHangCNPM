@@ -11,7 +11,10 @@ function getStoreContext($mysqli) {
     $context = [];
     
     // Lấy thông tin sản phẩm
-    $sql_sp = "SELECT * FROM tbl_sanpham WHERE id_sp > 0";
+    $sql_sp = "SELECT sp.*, dm.name_sp as danhmuc_ten 
+               FROM tbl_sanpham sp 
+               LEFT JOIN tbl_danhmucqa dm ON sp.id_danhmuc = dm.id_dm 
+               WHERE sp.id_sp > 0";
     $query_sp = mysqli_query($mysqli, $sql_sp);
     
     $products = [];
@@ -21,11 +24,25 @@ function getStoreContext($mysqli) {
             'ten' => $row['tensanpham'],
             'ma' => $row['masp'],
             'gia' => $row['giasp'],
-            'soluong' => $row['soluong'],
-            'mota' => $row['tomtat']
+            'soluong' => $row['so_luong_con_lai'],
+            'mota' => $row['tomtat'],
+            'danhmuc' => $row['id_danhmuc'],
+            'danhmuc_ten' => $row['danhmuc_ten']
         ];
     }
-    $context['products'] = $products;
+    
+    // Nhóm sản phẩm theo danh mục
+    $productsByCategory = [];
+    foreach($products as $product) {
+        if(!isset($productsByCategory[$product['danhmuc']])) {
+            $productsByCategory[$product['danhmuc']] = [
+                'ten_danhmuc' => $product['danhmuc_ten'],
+                'san_pham' => []
+            ];
+        }
+        $productsByCategory[$product['danhmuc']]['san_pham'][] = $product;
+    }
+    $context['products'] = $productsByCategory;
     
     // Lấy thông tin liên hệ
     $sql_lh = "SELECT * FROM tbl_lienhe WHERE id=1";
@@ -33,15 +50,6 @@ function getStoreContext($mysqli) {
     if($row = mysqli_fetch_array($query_lh)) {
         $context['contact'] = $row['thongtinlienhe'];
     }
-
-    // Lấy danh mục sản phẩm
-    $sql_dm = "SELECT * FROM tbl_danhmucqa";
-    $query_dm = mysqli_query($mysqli, $sql_dm);
-    $categories = [];
-    while($row = mysqli_fetch_array($query_dm)) {
-        $categories[] = $row['name_sp'];
-    }
-    $context['categories'] = $categories;
     
     return $context;
 }
@@ -98,13 +106,17 @@ Thông tin về cửa hàng:
 - Hotline: 0938688079
 - Email: support@7tcc.vn
 
-Danh mục sản phẩm: " . implode(", ", $context['categories']) . "
+Danh sách sản phẩm theo danh mục:\n";
 
-Danh sách sản phẩm hiện có:
-";
-
-    foreach($context['products'] as $product) {
-        $initialPrompt .= "- {$product['ten']}: {$product['mota']} - Giá: " . number_format($product['gia'], 0, ',', '.') . "đ\n";
+    foreach($context['products'] as $cat_id => $category) {
+        $initialPrompt .= "\n{$category['ten_danhmuc']}:\n";
+        foreach($category['san_pham'] as $product) {
+            $initialPrompt .= "- {$product['ten']}\n";
+            $initialPrompt .= "  + Mã SP: {$product['ma']}\n";
+            $initialPrompt .= "  + Giá: " . number_format($product['gia'], 0, ',', '.') . "đ\n";
+            $initialPrompt .= "  + Số lượng còn lại: {$product['soluong']}\n";
+            $initialPrompt .= "  + Mô tả: {$product['mota']}\n";
+        }
     }
 
     $initialPrompt .= "\nChính sách của cửa hàng:
@@ -121,7 +133,7 @@ Lịch sử trò chuyện gần đây:\n";
     }
 
     $initialPrompt .= "\nBạn có thể:
-- Tư vấn chi tiết về các sản phẩm trên
+- Tư vấn chi tiết về các sản phẩm trên (giá, số lượng, mô tả)
 - Hướng dẫn cách chọn size
 - Giải đáp thắc mắc về chính sách đổi trả, bảo hành
 - Tư vấn phương thức thanh toán và vận chuyển
