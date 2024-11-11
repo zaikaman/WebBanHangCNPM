@@ -13,7 +13,7 @@ function getStoreContext($mysqli) {
     // Lấy thông tin sản phẩm
     $sql_sp = "SELECT sp.*, dm.name_sp as danhmuc_ten 
                FROM tbl_sanpham sp 
-               LEFT JOIN tbl_danhmucqa dm ON sp.id_danhmuc = dm.id_dm 
+               LEFT JOIN tbl_danhmucqa dm ON sp.id_dm = dm.id_dm 
                WHERE sp.id_sp > 0";
     $query_sp = mysqli_query($mysqli, $sql_sp);
     
@@ -21,12 +21,12 @@ function getStoreContext($mysqli) {
     while($row = mysqli_fetch_array($query_sp)) {
         $products[] = [
             'id' => $row['id_sp'],
-            'ten' => $row['tensanpham'],
-            'ma' => $row['masp'],
-            'gia' => $row['giasp'],
+            'ten' => $row['ten_sp'],
+            'ma' => $row['ma_sp'],
+            'gia' => $row['gia_sp'],
             'soluong' => $row['so_luong_con_lai'],
-            'mota' => $row['tomtat'],
-            'danhmuc' => $row['id_danhmuc'],
+            'mota' => $row['tom_tat'],
+            'danhmuc' => $row['id_dm'],
             'danhmuc_ten' => $row['danhmuc_ten']
         ];
     }
@@ -43,13 +43,6 @@ function getStoreContext($mysqli) {
         $productsByCategory[$product['danhmuc']]['san_pham'][] = $product;
     }
     $context['products'] = $productsByCategory;
-    
-    // Lấy thông tin liên hệ
-    $sql_lh = "SELECT * FROM tbl_lienhe WHERE id=1";
-    $query_lh = mysqli_query($mysqli, $sql_lh);
-    if($row = mysqli_fetch_array($query_lh)) {
-        $context['contact'] = $row['thongtinlienhe'];
-    }
     
     return $context;
 }
