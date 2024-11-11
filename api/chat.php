@@ -9,7 +9,7 @@ require_once('../admincp/config/config.php');
 function getStoreContext($mysqli) {
     $context = [];
     
-    // Lấy thông tin sản phẩm từ tbl_sanpham
+    // Lấy thông tin sản phẩm
     $sql_sp = "SELECT * FROM tbl_sanpham WHERE id_sp > 0";
     $query_sp = mysqli_query($mysqli, $sql_sp);
     
@@ -26,14 +26,14 @@ function getStoreContext($mysqli) {
     }
     $context['products'] = $products;
     
-    // Lấy thông tin liên hệ từ tbl_lienhe
+    // Lấy thông tin liên hệ
     $sql_lh = "SELECT * FROM tbl_lienhe WHERE id=1";
     $query_lh = mysqli_query($mysqli, $sql_lh);
     if($row = mysqli_fetch_array($query_lh)) {
         $context['contact'] = $row['thongtinlienhe'];
     }
 
-    // Lấy danh mục sản phẩm từ tbl_danhmucqa
+    // Lấy danh mục sản phẩm
     $sql_dm = "SELECT * FROM tbl_danhmucqa";
     $query_dm = mysqli_query($mysqli, $sql_dm);
     $categories = [];
@@ -43,6 +43,27 @@ function getStoreContext($mysqli) {
     $context['categories'] = $categories;
     
     return $context;
+}
+
+function saveChat($mysqli, $message, $response) {
+    $message = mysqli_real_escape_string($mysqli, $message);
+    $response = mysqli_real_escape_string($mysqli, $response);
+    $sql = "INSERT INTO tbl_chat_history (message, response) VALUES ('$message', '$response')";
+    mysqli_query($mysqli, $sql);
+}
+
+function getRecentChat($mysqli, $limit = 5) {
+    $sql = "SELECT message, response FROM tbl_chat_history 
+            ORDER BY created_at DESC LIMIT $limit";
+    $result = mysqli_query($mysqli, $sql);
+    $history = [];
+    while($row = mysqli_fetch_array($result)) {
+        $history[] = [
+            'user' => $row['message'],
+            'ai' => $row['response']
+        ];
+    }
+    return array_reverse($history);
 }
 
 $API_KEY = 'AIzaSyCsrBVCvzZcw99BwCTF3mkEAuCGyfewmCc';
@@ -58,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $context = getStoreContext($mysqli);
+    $history = getRecentChat($mysqli);
     
     $initialPrompt = "Bạn là trợ lý AI của 7TCC - Thương hiệu thời trang thể thao được phát triển bởi nhóm 8 sinh viên Đại học Sài Gòn.
 
@@ -66,6 +88,8 @@ Thông tin về cửa hàng:
 - Hotline: 0938688079
 - Email: support@7tcc.vn
 
+Danh mục sản phẩm: " . implode(", ", $context['categories']) . "
+
 Danh sách sản phẩm hiện có:
 ";
 
@@ -73,15 +97,20 @@ Danh sách sản phẩm hiện có:
         $initialPrompt .= "- {$product['ten']}: {$product['mota']} - Giá: " . number_format($product['gia'], 0, ',', '.') . "đ\n";
     }
 
-    $initialPrompt .= "
-
-Chính sách của cửa hàng:
+    $initialPrompt .= "\nChính sách của cửa hàng:
 - Đổi trả trong vòng 30 ngày nếu sản phẩm còn nguyên tem mác
 - Miễn phí vận chuyển cho đơn hàng từ 500.000đ
 - Thanh toán: COD, chuyển khoản, Momo
 - Bảo hành sản phẩm 6 tháng với lỗi từ nhà sản xuất
 
-Bạn có thể:
+Lịch sử trò chuyện gần đây:\n";
+
+    foreach($history as $chat) {
+        $initialPrompt .= "Khách hàng: {$chat['user']}\n";
+        $initialPrompt .= "7TCC: {$chat['ai']}\n\n";
+    }
+
+    $initialPrompt .= "\nBạn có thể:
 - Tư vấn chi tiết về các sản phẩm trên
 - Hướng dẫn cách chọn size
 - Giải đáp thắc mắc về chính sách đổi trả, bảo hành
@@ -115,6 +144,9 @@ Khách hàng: " . $message;
     curl_close($ch);
 
     if ($httpCode === 200) {
+        $responseData = json_decode($response, true);
+        $aiResponse = $responseData['candidates'][0]['content']['parts'][0]['text'];
+        saveChat($mysqli, $message, $aiResponse);
         echo $response;
     } else {
         http_response_code(500);
