@@ -4,6 +4,38 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
+require_once('../admincp/config/config.php');
+
+function getStoreContext($mysqli) {
+    $context = [];
+    
+    // Lấy thông tin sản phẩm
+    $sql_sp = "SELECT * FROM tbl_sanpham WHERE tinhtrang=1";
+    $query_sp = mysqli_query($mysqli, $sql_sp);
+    
+    $products = [];
+    while($row = mysqli_fetch_array($query_sp)) {
+        $products[] = [
+            'id' => $row['id_sanpham'],
+            'ten' => $row['tensanpham'],
+            'ma' => $row['masanpham'],
+            'gia' => $row['giasp'],
+            'soluong' => $row['soluong'],
+            'mota' => $row['tomtat']
+        ];
+    }
+    $context['products'] = $products;
+    
+    // Lấy thông tin liên hệ
+    $sql_lh = "SELECT * FROM tbl_lienhe WHERE id=1";
+    $query_lh = mysqli_query($mysqli, $sql_lh);
+    if($row = mysqli_fetch_array($query_lh)) {
+        $context['contact'] = $row['thongtinlienhe'];
+    }
+    
+    return $context;
+}
+
 $API_KEY = 'AIzaSyCsrBVCvzZcw99BwCTF3mkEAuCGyfewmCc';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -16,15 +48,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" . $API_KEY;
+    $context = getStoreContext($mysqli);
     
-    $initialPrompt = "You are an AI assistant for 7TCC, a sportswear e-commerce website created by a team of 8 students from Sai Gon University. Your role is to help customers with product information, sizing guidance, order status, and general inquiries about our sportswear collection. You should be friendly, professional, and knowledgeable about sports apparel. Please provide accurate information and assistance while maintaining a helpful attitude. If you're unsure about specific details, please acknowledge that and offer to connect the customer with a human representative. Trả lời bằng Tiếng Việt.";
+    $initialPrompt = "Bạn là trợ lý AI của 7TCC - Thương hiệu thời trang thể thao được phát triển bởi nhóm 8 sinh viên Đại học Sài Gòn.
+
+Thông tin về cửa hàng:
+- Địa chỉ: 273 An Dương Vương – Phường 3 – Quận 5
+- Hotline: 0938688079
+- Email: support@7tcc.vn
+
+Danh sách sản phẩm hiện có:
+";
+
+    foreach($context['products'] as $product) {
+        $initialPrompt .= "- {$product['ten']}: {$product['mota']} - Giá: " . number_format($product['gia'], 0, ',', '.') . "đ\n";
+    }
+
+    $initialPrompt .= "
+
+Chính sách của cửa hàng:
+- Đổi trả trong vòng 30 ngày nếu sản phẩm còn nguyên tem mác
+- Miễn phí vận chuyển cho đơn hàng từ 500.000đ
+- Thanh toán: COD, chuyển khoản, Momo
+- Bảo hành sản phẩm 6 tháng với lỗi từ nhà sản xuất
+
+Bạn có thể:
+- Tư vấn chi tiết về các sản phẩm trên
+- Hướng dẫn cách chọn size
+- Giải đáp thắc mắc về chính sách đổi trả, bảo hành
+- Tư vấn phương thức thanh toán và vận chuyển
+- Hỗ trợ các vấn đề về đơn hàng
+
+Hãy trả lời bằng Tiếng Việt một cách thân thiện và chuyên nghiệp. Nếu không chắc chắn về thông tin nào, hãy đề xuất khách hàng liên hệ trực tiếp qua hotline.
+
+Khách hàng: " . $message;
+
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" . $API_KEY;
     
     $postData = [
         'contents' => [
             [
                 'parts' => [
-                    ['text' => $initialPrompt . "\n\nCustomer: " . $message]
+                    ['text' => $initialPrompt]
                 ]
             ]
         ]
@@ -47,3 +112,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['error' => 'Failed to get response from Gemini API']);
     }
 }
+?>
