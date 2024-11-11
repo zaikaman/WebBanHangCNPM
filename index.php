@@ -29,6 +29,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYpPsrHbQ/qOUu4Tpvb9Kdh9jjp/aYY8bTjFNE1xQ+Kbh" crossorigin="anonymous">
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="/css/style-v1.css">
+    <link rel="stylesheet" href="css/chat.css">
 </head>
 
 <body>
@@ -39,7 +40,7 @@ if (session_status() == PHP_SESSION_NONE) {
         include("pages/menu.php");
         include("pages/main.php");
         include("pages/footer.php");
-        include("pages/anchor.php");
+        // include("pages/anchor.php");
         ?>
     </div>
 
@@ -54,6 +55,24 @@ if (session_status() == PHP_SESSION_NONE) {
 
     <!-- Custom Script -->
     <script src="js/script.js"></script>
+    <script src="js/chat.js"></script>
+
+    <div class="chat-toggle">
+        <ion-icon name="chatbubbles-outline" style="font-size: 24px;"></ion-icon>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <span>Chat với AI</span>
+            <ion-icon name="close-outline" style="cursor: pointer;" id="close-chat"></ion-icon>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Nhập tin nhắn...">
+            <button id="send-message">Gửi</button>
+        </div>
+    </div>
 </body>
 
 </html>
