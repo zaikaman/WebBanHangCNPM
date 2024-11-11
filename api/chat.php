@@ -9,16 +9,16 @@ require_once('../admincp/config/config.php');
 function getStoreContext($mysqli) {
     $context = [];
     
-    // Lấy thông tin sản phẩm
-    $sql_sp = "SELECT * FROM tbl_sanpham WHERE tinhtrang=1";
+    // Lấy thông tin sản phẩm từ tbl_sanpham
+    $sql_sp = "SELECT * FROM tbl_sanpham WHERE id_sp > 0";
     $query_sp = mysqli_query($mysqli, $sql_sp);
     
     $products = [];
     while($row = mysqli_fetch_array($query_sp)) {
         $products[] = [
-            'id' => $row['id_sanpham'],
+            'id' => $row['id_sp'],
             'ten' => $row['tensanpham'],
-            'ma' => $row['masanpham'],
+            'ma' => $row['masp'],
             'gia' => $row['giasp'],
             'soluong' => $row['soluong'],
             'mota' => $row['tomtat']
@@ -26,12 +26,21 @@ function getStoreContext($mysqli) {
     }
     $context['products'] = $products;
     
-    // Lấy thông tin liên hệ
+    // Lấy thông tin liên hệ từ tbl_lienhe
     $sql_lh = "SELECT * FROM tbl_lienhe WHERE id=1";
     $query_lh = mysqli_query($mysqli, $sql_lh);
     if($row = mysqli_fetch_array($query_lh)) {
         $context['contact'] = $row['thongtinlienhe'];
     }
+
+    // Lấy danh mục sản phẩm từ tbl_danhmucqa
+    $sql_dm = "SELECT * FROM tbl_danhmucqa";
+    $query_dm = mysqli_query($mysqli, $sql_dm);
+    $categories = [];
+    while($row = mysqli_fetch_array($query_dm)) {
+        $categories[] = $row['name_sp'];
+    }
+    $context['categories'] = $categories;
     
     return $context;
 }
