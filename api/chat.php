@@ -1,4 +1,5 @@
 <?php
+session_start();
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
@@ -48,13 +49,22 @@ function getStoreContext($mysqli) {
 function saveChat($mysqli, $message, $response) {
     $message = mysqli_real_escape_string($mysqli, $message);
     $response = mysqli_real_escape_string($mysqli, $response);
-    $sql = "INSERT INTO tbl_chat_history (message, response) VALUES ('$message', '$response')";
+    $email = isset($_SESSION['email']) ? mysqli_real_escape_string($mysqli, $_SESSION['email']) : NULL;
+    
+    $sql = "INSERT INTO tbl_chat_history (email, message, response) 
+            VALUES (" . ($email ? "'$email'" : "NULL") . ", '$message', '$response')";
     mysqli_query($mysqli, $sql);
 }
 
 function getRecentChat($mysqli, $limit = 5) {
-    $sql = "SELECT message, response FROM tbl_chat_history 
-            ORDER BY created_at DESC LIMIT $limit";
+    $email = isset($_SESSION['email']) ? mysqli_real_escape_string($mysqli, $_SESSION['email']) : NULL;
+    
+    $sql = "SELECT message, response FROM tbl_chat_history ";
+    if($email) {
+        $sql .= "WHERE email = '$email' ";
+    }
+    $sql .= "ORDER BY created_at DESC LIMIT $limit";
+    
     $result = mysqli_query($mysqli, $sql);
     $history = [];
     while($row = mysqli_fetch_array($result)) {
