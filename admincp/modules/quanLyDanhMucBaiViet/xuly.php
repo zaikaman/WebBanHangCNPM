@@ -2,7 +2,7 @@
 include('..//..//config/config.php');
 
 $tendanhmucbv = $_POST['tendanhmucbaiviet'];
-$thuTu = $_POST['thu_tu'];
+$thuTu = "";
 
 if (isset($_POST['themDanhMucBaiViet'])) {
 	$sql_them = "INSERT INTO tbl_danhmuc_baiviet(tendanhmuc_baiviet,thutu) VALUE('" . $tendanhmucbv . "','" . $thuTu . "')";
