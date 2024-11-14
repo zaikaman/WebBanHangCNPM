@@ -1,7 +1,7 @@
 <?php
 include('..//..//config/config.php');
 $tenLoaisp = $_POST['name_sp'];
-$thuTu = $_POST['thu_tu'];
+$thuTu = "";
 if(isset($_POST['themDanhMuc'])){
 	$sql_them= "INSERT INTO tbl_danhmucqa(name_sp,thu_tu) VALUE('".$tenLoaisp."','".$thuTu."')";
 	mysqli_query($mysqli,$sql_them);
