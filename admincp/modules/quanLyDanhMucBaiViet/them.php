@@ -8,10 +8,10 @@
             <label for="tendanhmuc" class="form-label">Tên Danh Mục Bài Viết</label>
             <input type="text" class="form-control" id="tendanhmuc" name="tendanhmucbaiviet">
         </div>
-        <div class="mb-3">
+<!--         <div class="mb-3">
             <label for="thutu" class="form-label">Thứ Tự</label>
             <input type="text" class="form-control" id="thutu" name="thu_tu">
-        </div>
+        </div> -->
         <button type="submit" name="themDanhMucBaiViet" class="btn btn-success">Thêm Danh Mục Bài Viết</button>
     </form>
 </div>
