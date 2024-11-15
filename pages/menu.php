@@ -4,22 +4,22 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
 <div class="menu">
     <div class="menu_content">
         <div class="menu_items">
-            <a class="item" href="index.php">Trang chủ<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+            <a class="item" href="index.php" data-ajax="true">Trang chủ<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
         </div>
         <?php
         while ($row_danhmuc = mysqli_fetch_array($lietke)) {
         ?>
             <div class="menu_items">
-                <a class="item" href="index.php?quanly=danhmucsanpham&id=<?php echo $row_danhmuc['id_dm'] ?>"><?php echo $row_danhmuc['name_sp'] ?><span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+                <a class="item" href="index.php?quanly=danhmucsanpham&id=<?php echo $row_danhmuc['id_dm'] ?>" data-ajax="true"><?php echo $row_danhmuc['name_sp'] ?><span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
             </div>
         <?php } ?>
 
         <div class="menu_items">
-            <a class="item" href="index.php?quanly=giohang">Giỏ hàng<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+            <a class="item" href="index.php?quanly=giohang" data-ajax="true">Giỏ hàng<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
         </div>
 
         <div class="menu_items">
-            <a class="item" href="index.php?quanly=tintuc">Tin tức<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+            <a class="item" href="index.php?quanly=tintuc" data-ajax="true">Tin tức<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
             <div class="news_content" id="news_content">
                 <?php
                 // Lấy danh mục bài viết
@@ -27,11 +27,9 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 $query_danhmuc = mysqli_query($mysqli, $sql_danhmuc);
                 while ($row_danhmuc = mysqli_fetch_array($query_danhmuc)) {
                 ?>
-                    <!-- <li style="text-decoration:none"> -->
-                    <a href="index.php?quanly=danhmucbaiviet&id_baiviet=<?php echo $row_danhmuc['id_baiviet']; ?>">
+                    <a href="index.php?quanly=danhmucbaiviet&id_baiviet=<?php echo $row_danhmuc['id_baiviet']; ?>" data-ajax="true">
                         <span style="text-transform: uppercase;"><?php echo $row_danhmuc['tendanhmuc_baiviet']; ?></span>
                     </a>
-                    <!-- </li> -->
                 <?php
                 }
                 ?>
@@ -40,7 +38,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
 
 
         <div class="menu_items">
-            <a class="item" href="index.php?quanly=lienhe">Liên hệ<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+            <a class="item" href="index.php?quanly=lienhe" data-ajax="true">Liên hệ<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
         </div>
 
         <div class="hamburger" id="hamburger">
@@ -52,7 +50,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
             <ul style="margin-top : 20px; padding-left : 10px">
                 <li>
                     <div class="search_container_menubar">
-                        <form class="search_form" action="index.php?quanly=timKiem" method="POST">
+                        <form class="search_form" action="index.php?quanly=timKiem" method="POST" data-ajax="true">
                             <input class="search_input" type="text" name="tuKhoa" id="search-box" placeholder="...">
                             <button class="search_btn" type="submit" name="timKiem" class="icon_container">
                                 <img src="../images/search-icon.svg" alt="arrow">
@@ -60,21 +58,21 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                         </form>
                     </div>
                 </li>
-                <li> <a class="item" href="index.php">Trang chủ<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+                <li> <a class="item" href="index.php" data-ajax="true">Trang chủ<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
                 </li>
                 <?php
                 while ($row_danhmuc = mysqli_fetch_array($lietke)) {
                 ?>
 
                     <li>
-                        <a class="item" href="index.php?quanly=danhmucsanpham&id=<?php echo $row_danhmuc['id_dm'] ?>"><?php echo $row_danhmuc['name_sp'] ?><span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+                        <a class="item" href="index.php?quanly=danhmucsanpham&id=<?php echo $row_danhmuc['id_dm'] ?>" data-ajax="true"><?php echo $row_danhmuc['name_sp'] ?><span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
                     </li>
                 <?php } ?>
-                <li> <a class="item" href="index.php?quanly=giohang">Giỏ hàng<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+                <li> <a class="item" href="index.php?quanly=giohang" data-ajax="true">Giỏ hàng<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
                 </li>
 
                 <li style="position : relative">
-                    <a class="item" href="index.php?quanly=tintuc" id="newsMenuItem">Shop<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+                    <a class="item" href="index.php?quanly=tintuc" id="newsMenuItem" data-ajax="true">Shop<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
                     <div class="news_content_burger" id="news_content_burger" style="display: none;">
                         <?php
                         // Lấy danh mục bài viết
@@ -82,7 +80,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                         $query_danhmuc = mysqli_query($mysqli, $sql_danhmucsanpham);
                         while ($row_danhmuc = mysqli_fetch_array($query_danhmuc)) {
                         ?>
-                            <a href="index.php?quanly=danhmucsanpham&id=<?php echo $row_danhmuc['id_dm']; ?>">
+                            <a href="index.php?quanly=danhmucsanpham&id=<?php echo $row_danhmuc['id_dm']; ?>" data-ajax="true">
                                 <span style="text-transform: uppercase;"><?php echo $row_danhmuc['name_sp']; ?></span>
                             </a><br>
                         <?php
@@ -92,7 +90,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 </li>
 
                 <li style="position : relative">
-                    <a class="item" href="index.php?quanly=tintuc" id="newsMenuItem1">Tin tức<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+                    <a class="item" href="index.php?quanly=tintuc" id="newsMenuItem1" data-ajax="true">Tin tức<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
                     <div class="news_content_burger" id="news_content_burger1" style="display: none;">
                         <?php
                         // Lấy danh mục bài viết
@@ -100,7 +98,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                         $query_danhmuc = mysqli_query($mysqli, $sql_danhmuc);
                         while ($row_danhmuc = mysqli_fetch_array($query_danhmuc)) {
                         ?>
-                            <a href="index.php?quanly=danhmucbaiviet&id_baiviet=<?php echo $row_danhmuc['id_baiviet']; ?>">
+                            <a href="index.php?quanly=danhmucbaiviet&id_baiviet=<?php echo $row_danhmuc['id_baiviet']; ?>" data-ajax="true">
                                 <span style="text-transform: uppercase;"><?php echo $row_danhmuc['tendanhmuc_baiviet']; ?></span>
                             </a><br>
                         <?php
@@ -109,7 +107,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                     </div>
                 </li>
                 
-                <li><a class="item" href="index.php?quanly=lienhe">Liên hệ<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a></li>
+                <li><a class="item" href="index.php?quanly=lienhe" data-ajax="true">Liên hệ<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a></li>
             </ul>
         </div>
     </div>

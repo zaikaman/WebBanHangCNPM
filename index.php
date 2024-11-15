@@ -56,6 +56,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <!-- Custom Script -->
     <script src="js/script.js"></script>
     <script src="js/chat.js"></script>
+    <script src="js/ajax-handler.js"></script>
 
     <div class="chat-toggle">
         <ion-icon name="chatbubbles-outline" style="font-size: 24px;"></ion-icon>

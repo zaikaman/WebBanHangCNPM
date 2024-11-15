@@ -10,16 +10,15 @@ $tinh_trang_filter = filter_input(INPUT_GET, 'tinhtrang', FILTER_SANITIZE_SPECIA
 $ten_sp_filter = filter_input(INPUT_GET, 'ten_sp', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 ?>
 
-
 <div class="sidebar">
     <div class="filter_content">
         <div class="filter_title">
             <p class="title">Bộ lọc sản phẩm</p>
             <p style="margin: 4px 0px;">Lọc nhanh sản phẩm tìm kiếm</p>
         </div>
-        <!-- Form submission via GET method -->
-        <form method="GET" action="index.php" id="filterForm">
-            <input type="hidden" name="quanly" value="timKiemNangCao"> <!-- Hidden field to ensure 'quanly=timKiemNangCao' is passed -->
+        <!-- Form submission via AJAX -->
+        <form method="GET" action="index.php" id="filterForm" data-ajax="true">
+            <input type="hidden" name="quanly" value="timKiemNangCao">
 
             <div>
                 <label for="danhmuc">Danh mục:</label>
@@ -62,32 +61,40 @@ $ten_sp_filter = filter_input(INPUT_GET, 'ten_sp', FILTER_SANITIZE_FULL_SPECIAL_
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.querySelector('#filterForm');
+$(document).ready(function() {
+    $('#filterForm').on('submit', function(e) {
+        e.preventDefault();
         
-        form.addEventListener('submit', function (event) {
-            // Ngăn gửi form mặc định
-            event.preventDefault();
+        // Lấy dữ liệu form
+        const formData = $(this).serialize();
+        
+        // Loại bỏ các tham số rỗng
+        const cleanFormData = formData.split('&')
+            .filter(param => {
+                const [key, value] = param.split('=');
+                return value !== '';
+            })
+            .join('&');
 
-            // Tạo một URLSearchParams để chứa các tham số gửi đi
-            const params = new URLSearchParams(new FormData(form));
-
-            // Loại bỏ các tham số có giá trị rỗng
-            for (let [key, value] of params.entries()) {
-                if (!value.trim()) {
-                    params.delete(key);
-                }
+        // Tạo URL mới
+        const newUrl = `index.php?${cleanFormData}`;
+        
+        // Gọi AJAX để load nội dung
+        $.ajax({
+            url: newUrl,
+            method: 'GET',
+            success: function(response) {
+                $('.main_content').html(response);
+                // Cập nhật URL mà không reload trang
+                history.pushState(null, '', newUrl);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
             }
-
-            // Tạo URL mới
-            const newURL = `${form.action}?${params.toString()}`;
-
-            // Điều hướng tới URL mới
-            window.location.href = newURL;
         });
     });
+});
 </script>
 
 </body>
-
 </html>

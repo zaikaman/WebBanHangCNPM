@@ -22,7 +22,7 @@
                     ?>
                         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
                             <div class="product card h-100">
-                                <a href="index.php?quanly=sanpham&id=<?php echo $row['id_sp'] ?>" class="text-decoration-none text-dark">
+                                <a href="index.php?quanly=sanpham&id=<?php echo $row['id_sp'] ?>" class="text-decoration-none text-dark" data-ajax="true">
                                     <img src="admincp/modules/quanLySanPham/uploads/<?php echo $row['hinh_anh'] ?>" class="card-img-top img-fluid" alt="<?php echo $row['ten_sp'] ?>">
                                     <div class="card-body text-center">
                                         <p class="title_product card-title"><?php echo $row['ten_sp'] ?></p>
