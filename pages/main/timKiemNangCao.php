@@ -30,7 +30,7 @@ if (empty($error_message)) {
     $sql_pro = "SELECT * FROM tbl_sanpham WHERE 1";
 
     if ($ten_sp_filter) {
-        $search_term = mysqli_real_escape_string($mysqli, html_entity_decode($ten_sp_filter, ENT_QUOTES, 'UTF-8'));
+        $search_term = mysqli_real_escape_string($mysqli, trim($ten_sp_filter));
         $sql_pro .= " AND ten_sp LIKE '%" . $search_term . "%'";
     }
 

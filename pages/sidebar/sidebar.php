@@ -7,7 +7,7 @@ $danhmuc_filter = filter_input(INPUT_GET, 'danhmuc', FILTER_SANITIZE_NUMBER_INT)
 $gia_min_filter = filter_input(INPUT_GET, 'gia_min', FILTER_SANITIZE_NUMBER_INT);
 $gia_max_filter = filter_input(INPUT_GET, 'gia_max', FILTER_SANITIZE_NUMBER_INT);
 $tinh_trang_filter = filter_input(INPUT_GET, 'tinhtrang', FILTER_SANITIZE_SPECIAL_CHARS);
-$ten_sp_filter = filter_input(INPUT_GET, 'ten_sp', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$ten_sp_filter = isset($_GET['ten_sp']) ? trim(urldecode($_GET['ten_sp'])) : '';
 ?>
 
 
@@ -53,7 +53,7 @@ $ten_sp_filter = filter_input(INPUT_GET, 'ten_sp', FILTER_SANITIZE_FULL_SPECIAL_
 
             <div>
                 <label for="ten_sp">Tên sản phẩm:</label>
-                <input type="text" name="ten_sp" placeholder="Tìm kiếm sản phẩm" value="<?php echo htmlspecialchars(urldecode($ten_sp_filter), ENT_QUOTES, 'UTF-8'); ?>">
+                <input type="text" name="ten_sp" placeholder="Tìm kiếm sản phẩm" value="<?php echo htmlspecialchars(trim($ten_sp_filter), ENT_QUOTES, 'UTF-8'); ?>">
             </div>
 
             <button type="submit">Lọc</button>
