@@ -6,9 +6,10 @@ header('Cache-Control: private, max-age=3600');
 ob_start("ob_gzhandler");
 
 if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-    // Chỉ trả về nội dung, không trả về layout
+    // Chỉ trả về nội dung chính
     if(isset($_GET['quanly'])) {
         $des = $_GET['quanly'];
+        ob_start();
         switch($des) {
             case 'danhmucsanpham':
                 include("main/danhmuc.php");
@@ -95,8 +96,10 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUE
                 include("pages/main/camon.php");
                 break;
         }
+        $content = ob_get_clean();
+        echo $content;
+        exit;
     }
-    exit; // Quan trọng: dừng việc render layout
 } else {
     // Nếu không phải AJAX request, load toàn bộ layout
     echo '<div id="main">';

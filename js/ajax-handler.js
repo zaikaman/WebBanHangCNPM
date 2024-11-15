@@ -47,12 +47,9 @@ const pageCache = new Map();
 
 // Sửa lại hàm loadContent
 function loadContent(url, targetElement) {
-    // Ngăn browser reload
     window.stop();
-    
     showLoading();
     
-    // Thêm header để server biết đây là AJAX request
     handleAjaxRequest({
         url: url,
         headers: {
@@ -60,19 +57,13 @@ function loadContent(url, targetElement) {
         },
         success: function(response) {
             // Chỉ cập nhật phần nội dung chính
-            $(targetElement).html(response);
+            $('.main_content_ajax').html(response);
             
-            // Cập nhật URL không reload
             updateHistory(url);
-            
-            // Trigger event sau khi load content
             $(document).trigger('contentLoaded');
-            
-            // Cache lại nội dung
             pageCache.set(url, response);
-            
-            // Preload các trang liên quan
             preloadLinkedPages(response);
+            hideLoading();
         }
     });
 }
