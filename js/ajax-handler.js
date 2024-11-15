@@ -46,33 +46,30 @@ function handleFormSubmit(formElement, successCallback) {
 const pageCache = new Map();
 
 function loadContent(url, targetElement) {
-    // Kiểm tra cache trước
+    // Kiểm tra cache
     if (pageCache.has(url)) {
-        $(targetElement).html(pageCache.get(url));
+        $('.main_content').html(pageCache.get(url));
         history.pushState({path: url}, '', url);
         return;
     }
 
-    // Hiển thị loading nếu cần
-    showLoading();
-
     $.ajax({
         url: url,
         method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
         success: function(response) {
-            // Lưu response vào cache
+            // Chỉ cập nhật phần main_content
+            $('.main_content').html(response);
+            
+            // Cache lại response
             pageCache.set(url, response);
             
-            // Cập nhật nội dung
-            $(targetElement).html(response);
             history.pushState({path: url}, '', url);
-            
-            // Ẩn loading
-            hideLoading();
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
-            hideLoading();
         }
     });
 }
