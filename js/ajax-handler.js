@@ -99,55 +99,36 @@ window.onpopstate = function(event) {
 };
 
 $(document).ready(function() {
-    // Xử lý tất cả các form AJAX
+    // Xử lý click cho tất cả các link có data-ajax="true"
+    $(document).on('click', 'a[data-ajax="true"]', function(e) {
+        e.preventDefault();
+        const url = $(this).attr('href');
+        loadContent(url, '.main_content');
+    });
+
+    // Xử lý form submit
     $(document).on('submit', 'form[data-ajax="true"]', function(e) {
         e.preventDefault();
         const form = $(this);
         
-        // Kiểm tra validation nếu form yêu cầu
-        if (form.data('validate')) {
-            if (typeof window.validateForm === 'function') {
-                if (!window.validateForm(form)) {
-                    return false;
-                }
-            }
-        }
-
         handleAjaxRequest({
             url: form.attr('action'),
             method: form.attr('method'),
             data: form.serialize(),
             success: function(response) {
-                if (form.attr('id') === 'shippingForm') {
-                    if (response.success) {
-                        showNotification('Cập nhật thành công');
-                        // Redirect sau khi cập nhật thành công
-                        setTimeout(() => {
-                            loadContent('index.php?quanly=thongTinThanhToan', '.main_content');
-                        }, 1000);
-                    } else {
-                        showNotification('Có lỗi xảy ra', 'error');
-                    }
-                } else {
-                    $('.main_content').html(response);
-                    if (form.attr('id') !== 'filterForm') {
-                        const newUrl = form.attr('action') + '?' + form.serialize();
-                        window.history.pushState({path: newUrl}, '', newUrl);
-                    }
-                }
+                $('.main_content').html(response);
+                const newUrl = form.attr('action') + '?' + form.serialize();
+                history.pushState(null, '', newUrl);
             }
         });
     });
 
-    // Xử lý nút thanh toán
-    $(document).on('click', '#checkoutButton', function(e) {
-        if ($('#shippingForm').data('validate')) {
-            if (!window.validateForm($('#shippingForm'))) {
-                e.preventDefault();
-                return false;
-            }
+    // Xử lý nút back/forward của trình duyệt
+    window.onpopstate = function(event) {
+        if (event.state && event.state.path) {
+            loadContent(event.state.path, '.main_content');
         }
-    });
+    };
 });
 
 function showNotification(message, type = 'success') {
