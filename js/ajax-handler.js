@@ -45,7 +45,6 @@ function handleFormSubmit(formElement, successCallback) {
 // Thêm cache cho AJAX requests
 const pageCache = new Map();
 
-// Sửa lại hàm loadContent
 function loadContent(url, targetElement) {
     showLoading();
     
