@@ -32,10 +32,6 @@ $sua_sp= mysqli_query($mysqli,$sql_sua_sp);
             <input type="text" class="form-control" value="<?php echo $row['so_luong_con_lai'] ?>" name="so_luong_con_lai">
         </div>
         <div class="mb-3">
-            <label for="so_luong" class="form-label">Số Lượng còn lại</label>
-            <input type="text" class="form-control" value="<?php echo $row['so_luong_con_lai'] ?>" name="so_luong_con_lai">
-        </div>
-        <div class="mb-3">
             <label for="hinh_anh" class="form-label">Hình Ảnh</label>
             <input type="file" class="form-control" name="hinh_anh">
             <img src="modules/quanLySanPham/uploads/<?php echo $row['hinh_anh'] ?>" width='150px'>

@@ -18,7 +18,6 @@
                 <th>Giá</th>
                 <th>Số Lượng</th>
                 <th>Còn lại</th>
-                <th>Còn lại</th>
                 <th>Danh Mục</th>
                 <th>Mã SP</th>
                 <th>Nội Dung</th>
@@ -39,7 +38,6 @@
                     <td><img src="modules/quanLySanPham/uploads/<?php echo $row['hinh_anh'] ?>" width="100px"></td>
                     <td><?php echo number_format($row['gia_sp'], 0, ',', '.').' VND' ?></td>
                     <td><?php echo $row['so_luong'] ?></td>
-                    <td><?php echo $row['so_luong_con_lai'] ?></td>
                     <td><?php echo $row['so_luong_con_lai'] ?></td>
                     <td><?php echo $row['name_sp'] ?></td>
                     <td><?php echo $row['ma_sp'] ?></td>

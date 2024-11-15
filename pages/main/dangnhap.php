@@ -56,7 +56,7 @@ if (isset($_POST['dangNhap'])) {
 <div class="main_content">
     <div class="login_container">
         <p style="font-weight: bold; font-size : 20px; margin : 20px 0 10px 0;">Đăng nhập</p>
-        <form method="POST" action="" class="login_form" data-ajax="true">
+        <form method="POST" class="login_content" id="loginForm">
             <div class="input-box">
                 <label>Email :</label>
                 <span class="icon"><ion-icon name="mail"></ion-icon></span>

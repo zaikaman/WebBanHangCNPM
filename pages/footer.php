@@ -20,7 +20,6 @@
             <?php
             }
             ?>
-            
         </div>
         <div class="footer_info">
             <p class="title">Thông tin chi tiết</p>
@@ -82,4 +81,3 @@
     </div>
     <div class="footer_copyright">Copy right by 7TCC| For True Fans Since 2024.</div>
 </div>
-
