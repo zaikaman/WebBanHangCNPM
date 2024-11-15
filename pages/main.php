@@ -34,17 +34,77 @@
     } elseif ($des == 'dangnhap') {
         include("main/dangnhap.php");
     } elseif ($des == 'CSBH') {
-        include("main/Thongtinchung/CSBH.php");
+        echo '<div id="content"></div>';
+        echo '<script>
+            $(document).ready(function(){
+                $.ajax({
+                    url: "main/Thongtinchung/CSBH.php",
+                    success: function(result){
+                        $("#content").html(result);
+                    }
+                });
+            });
+        </script>';
     } elseif ($des == 'CSVC') {
-        include("main/Thongtinchung/CSVC.php");
+        echo '<div id="content"></div>';
+        echo '<script>
+            $(document).ready(function(){
+                $.ajax({
+                    url: "main/Thongtinchung/CSVC.php", 
+                    success: function(result){
+                        $("#content").html(result);
+                    }
+                });
+            });
+        </script>';
     } elseif ($des == 'CSQDC') {
-        include("main/Thongtinchung/CSQDC.php");
+        echo '<div id="content"></div>';
+        echo '<script>
+            $(document).ready(function(){
+                $.ajax({
+                    url: "main/Thongtinchung/CSQDC.php",
+                    success: function(result){
+                        $("#content").html(result);
+                    }
+                });
+            });
+        </script>';
     } elseif ($des == 'QDHTTT') {
-        include("main/Thongtinchung/QDHTTT.php");
+        echo '<div id="content"></div>';
+        echo '<script>
+            $(document).ready(function(){
+                $.ajax({
+                    url: "main/Thongtinchung/QDHTTT.php",
+                    success: function(result){
+                        $("#content").html(result);
+                    }
+                });
+            });
+        </script>';
     } elseif ($des == 'CSDT') {
-        include("main/Thongtinchung/CSDT.php");
+        echo '<div id="content"></div>';
+        echo '<script>
+            $(document).ready(function(){
+                $.ajax({
+                    url: "main/Thongtinchung/CSDT.php",
+                    success: function(result){
+                        $("#content").html(result);
+                    }
+                });
+            });
+        </script>';
     } elseif ($des == 'CSBM') {
-        include("main/Thongtinchung/CSBM.php");
+        echo '<div id="content"></div>';
+        echo '<script>
+            $(document).ready(function(){
+                $.ajax({
+                    url: "main/Thongtinchung/CSBM.php",
+                    success: function(result){
+                        $("#content").html(result);
+                    }
+                });
+            });
+        </script>';
     } elseif ($des == 'dangky') {
         include("pages/main/dangky.php");
     } elseif ($des == 'xacnhanemail'){
