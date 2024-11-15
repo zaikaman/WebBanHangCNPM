@@ -2,7 +2,6 @@
 header('Content-Encoding: gzip');
 header('Cache-Control: private, max-age=3600');
 
-// Nén output
 ob_start("ob_gzhandler");
 
 if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
