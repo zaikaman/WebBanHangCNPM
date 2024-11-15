@@ -1612,7 +1612,7 @@ color: #999;
   }
 
   th {
-    background-color: #f2f2f2; /* Đ���i màu nền cho header */
+    background-color: #f2f2f2; /* Đi màu nền cho header */
     border-bottom: 2px solid #ddd; /* Đường viền dưới */
   }
 
@@ -1822,3 +1822,31 @@ color: #999;
     - 970px : good
 
     */
+
+/* Loading Indicator */
+.ajax-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #dc0021; /* Màu đỏ cho spinner */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

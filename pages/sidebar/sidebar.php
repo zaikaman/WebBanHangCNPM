@@ -17,7 +17,7 @@ $ten_sp_filter = filter_input(INPUT_GET, 'ten_sp', FILTER_SANITIZE_FULL_SPECIAL_
             <p style="margin: 4px 0px;">Lọc nhanh sản phẩm tìm kiếm</p>
         </div>
         <!-- Form submission via AJAX -->
-        <form method="GET" action="index.php" id="filterForm" data-ajax="true">
+        <form id="filterForm" data-ajax="true">
             <input type="hidden" name="quanly" value="timKiemNangCao">
 
             <div>

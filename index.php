@@ -33,6 +33,9 @@ if (session_status() == PHP_SESSION_NONE) {
 </head>
 
 <body>
+    <div class="ajax-loading" style="display: none;">
+        <div class="spinner"></div>
+    </div>
     <div class="wrapper">
         <?php
         include("admincp/config/config.php");

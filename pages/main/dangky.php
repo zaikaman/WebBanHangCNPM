@@ -123,7 +123,7 @@
 
     <div class="login_container">
         <p style="font-weight: bold; font-size : 20px; margin : 20px 0 20px 0;">Đăng ký</p>
-        <form action="" method="POST" class="login_content" id="registerForm">
+        <form id="registerForm" method="POST" action="" data-ajax="true" class="login_content" id="registerForm">
             <div class="register_input_box">
                 <div style="width : 100%; display : flex; flex-direction : row">
                     <label for="ten_khachhang">Họ và tên :</label>
@@ -241,7 +241,7 @@
             dien_thoai_error.style.display = 'flex';
             isValid = false;
         } else if (!phonePattern.test(dien_thoai)) {
-            dien_thoai_error.textContent = 'Số điện thoại sai định dạng, vui lòng nhập số di động hợp lệ';
+            dien_thoai_error.textContent = 'Số đi���n thoại sai định dạng, vui lòng nhập số di động hợp lệ';
             dien_thoai_error.style.display = 'flex';
             isValid = false;
         } else {

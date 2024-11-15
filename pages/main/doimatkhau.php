@@ -17,7 +17,7 @@ if (isset($_POST['doiMatKhau'])) {
 <div class="main_content">
     <div class="login_container">
         <p style="font-weight: bold; font-size : 20px; margin : 20px 0 20px 0;">Đổi mật khẩu</p>
-        <form action="" method="POST" class="login_content" id="registerForm">
+        <form action="" method="POST" class="login_content" id="registerForm" data-ajax="true">
             <div class="register_input_box">
                 <div style="width : 100%; display : flex; flex-direction : row">
                     <label for="mat_khau">Mật khẩu cũ:</label>

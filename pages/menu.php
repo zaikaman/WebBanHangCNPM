@@ -10,7 +10,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
         while ($row_danhmuc = mysqli_fetch_array($lietke)) {
         ?>
             <div class="menu_items">
-                <a class="item" href="index.php?quanly=danhmucsanpham&id=<?php echo $row_danhmuc['id_dm'] ?>" data-ajax="true"><?php echo $row_danhmuc['name_sp'] ?><span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+                <a class="item" href="index.php?quanly=sanpham&id=<?php echo $row_danhmuc['id_dm'] ?>" data-ajax="true"><?php echo $row_danhmuc['name_sp'] ?><span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
             </div>
         <?php } ?>
 
@@ -65,7 +65,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 ?>
 
                     <li>
-                        <a class="item" href="index.php?quanly=danhmucsanpham&id=<?php echo $row_danhmuc['id_dm'] ?>" data-ajax="true"><?php echo $row_danhmuc['name_sp'] ?><span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
+                        <a class="item" href="index.php?quanly=sanpham&id=<?php echo $row_danhmuc['id_dm'] ?>" data-ajax="true"><?php echo $row_danhmuc['name_sp'] ?><span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
                     </li>
                 <?php } ?>
                 <li> <a class="item" href="index.php?quanly=giohang" data-ajax="true">Giỏ hàng<span class="arrow_menu"><img src="../images/arrow-icon.svg" alt="arrow"></span></a>
