@@ -42,17 +42,18 @@ function handleFormSubmit(formElement, successCallback) {
     });
 }
 
-// Cache cho AJAX requests
+// Cache for storing loaded pages
 const pageCache = new Map();
 
 function loadContent(url, targetElement) {
-    // Kiểm tra cache
+    // Check cache first
     if (pageCache.has(url)) {
-        $('.main_content').html(pageCache.get(url));
+        $(targetElement).html(pageCache.get(url));
         history.pushState({path: url}, '', url);
         return;
     }
 
+    // If not in cache, load via AJAX
     $.ajax({
         url: url,
         method: 'GET',
@@ -60,13 +61,10 @@ function loadContent(url, targetElement) {
             'X-Requested-With': 'XMLHttpRequest'
         },
         success: function(response) {
-            // Chỉ cập nhật phần main_content
-            $('.main_content').html(response);
-            
-            // Cache lại response
-            pageCache.set(url, response);
-            
+            $(targetElement).html(response);
+            pageCache.set(url, response); // Cache the response
             history.pushState({path: url}, '', url);
+            $(document).trigger('contentLoaded'); // Trigger event for other components
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
@@ -74,7 +72,7 @@ function loadContent(url, targetElement) {
     });
 }
 
-// Xử lý click cho các link có data-ajax="true" 
+// Handle clicks on links with data-ajax="true"
 $(document).on('click', 'a[data-ajax="true"]', function(e) {
     e.preventDefault();
     const url = $(this).attr('href');
