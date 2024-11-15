@@ -764,23 +764,13 @@ ul#tabs-nav li:focus::after {
 
 ul#tabs-nav li.active {
   position: relative;
+  background-color: #ffffff;
 }
 
-ul#tabs-nav li:not(.active)::after {
-  transform: scale(0);
+ul#tabs-nav li:not(.active) {
+  background-color: transparent;
 }
 
-ul#tabs-nav li.active::after {
-  transform-origin: left;
-}
-/* ul#tabs-nav li:hover,
-ul#tabs-nav li.active {
-  background-color: rgb(255, 255, 255);
-} */
-/* ul#tabs-nav li:hover,
-ul#tabs-nav li.active a {
-  color: black;
-} */
 #tabs-nav li a {
   text-decoration: none;
   color: #000000;
