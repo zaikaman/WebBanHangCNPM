@@ -42,54 +42,55 @@ function handleFormSubmit(formElement, successCallback) {
     });
 }
 
-// Thêm cache cho AJAX requests
+// Cache cho AJAX requests
 const pageCache = new Map();
 
 function loadContent(url, targetElement) {
-    showLoading();
-    
     // Kiểm tra cache
     if (pageCache.has(url)) {
         $(targetElement).html(pageCache.get(url));
         history.pushState({path: url}, '', url);
-        hideLoading();
         return;
     }
 
-    handleAjaxRequest({
+    $.ajax({
         url: url,
+        method: 'GET',
         success: function(response) {
             // Lưu vào cache
             pageCache.set(url, response);
             $(targetElement).html(response);
             history.pushState({path: url}, '', url);
-            
-            // Preload các trang liên quan
-            preloadLinkedPages(response);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
         }
     });
 }
 
-// Hàm preload các trang liên quan
-function preloadLinkedPages(content) {
-    const $content = $(content);
-    $content.find('a[data-ajax="true"]').each(function() {
-        const url = $(this).attr('href');
-        if (!pageCache.has(url)) {
-            $.get(url, function(response) {
-                pageCache.set(url, response);
-            });
+// Xử lý click cho tất cả các link có data-ajax="true"
+$(document).on('click', 'a[data-ajax="true"]', function(e) {
+    e.preventDefault();
+    const url = $(this).attr('href');
+    loadContent(url, '.main_content');
+});
+
+// Xử lý form submit
+$(document).on('submit', 'form[data-ajax="true"]', function(e) {
+    e.preventDefault();
+    const form = $(this);
+    
+    $.ajax({
+        url: form.attr('action'),
+        method: form.attr('method'),
+        data: form.serialize(),
+        success: function(response) {
+            $('.main_content').html(response);
+            const newUrl = form.attr('action') + '?' + form.serialize();
+            history.pushState(null, '', newUrl);
         }
     });
-}
-
-// Giới hạn kích thước cache
-function limitCacheSize(maxSize = 20) {
-    if (pageCache.size > maxSize) {
-        const firstKey = pageCache.keys().next().value;
-        pageCache.delete(firstKey);
-    }
-}
+});
 
 // Xử lý nút back/forward của trình duyệt
 window.onpopstate = function(event) {
@@ -97,39 +98,6 @@ window.onpopstate = function(event) {
         loadContent(event.state.path, '.main_content');
     }
 };
-
-$(document).ready(function() {
-    // Xử lý click cho tất cả các link có data-ajax="true"
-    $(document).on('click', 'a[data-ajax="true"]', function(e) {
-        e.preventDefault();
-        const url = $(this).attr('href');
-        loadContent(url, '.main_content');
-    });
-
-    // Xử lý form submit
-    $(document).on('submit', 'form[data-ajax="true"]', function(e) {
-        e.preventDefault();
-        const form = $(this);
-        
-        handleAjaxRequest({
-            url: form.attr('action'),
-            method: form.attr('method'),
-            data: form.serialize(),
-            success: function(response) {
-                $('.main_content').html(response);
-                const newUrl = form.attr('action') + '?' + form.serialize();
-                history.pushState(null, '', newUrl);
-            }
-        });
-    });
-
-    // Xử lý nút back/forward của trình duyệt
-    window.onpopstate = function(event) {
-        if (event.state && event.state.path) {
-            loadContent(event.state.path, '.main_content');
-        }
-    };
-});
 
 function showNotification(message, type = 'success') {
     const notification = $('<div>')
