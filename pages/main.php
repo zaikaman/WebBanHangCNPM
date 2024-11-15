@@ -6,7 +6,7 @@ header('Cache-Control: private, max-age=3600');
 ob_start("ob_gzhandler");
 
 if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-    // Nếu là AJAX request, chỉ trả về nội dung chính
+    // Chỉ trả về nội dung, không trả về layout
     if(isset($_GET['quanly'])) {
         $des = $_GET['quanly'];
         switch($des) {
@@ -95,10 +95,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUE
                 include("pages/main/camon.php");
                 break;
         }
-    } else {
-        include("slideimg.php");
-        include("main/index.php");
     }
+    exit; // Quan trọng: dừng việc render layout
 } else {
     // Nếu không phải AJAX request, load toàn bộ layout
     echo '<div id="main">';

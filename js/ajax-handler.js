@@ -47,28 +47,32 @@ const pageCache = new Map();
 
 // Sửa lại hàm loadContent
 function loadContent(url, targetElement) {
-    // Không hiển thị loading icon của trình duyệt
+    // Ngăn browser reload
     window.stop();
     
     showLoading();
     
-    // Kiểm tra cache
-    if (pageCache.has(url)) {
-        $(targetElement).html(pageCache.get(url));
-        updateHistory(url);
-        hideLoading();
-        return;
-    }
-
+    // Thêm header để server biết đây là AJAX request
     handleAjaxRequest({
         url: url,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
         success: function(response) {
-            pageCache.set(url, response);
+            // Chỉ cập nhật phần nội dung chính
             $(targetElement).html(response);
+            
+            // Cập nhật URL không reload
             updateHistory(url);
-            preloadLinkedPages(response);
+            
             // Trigger event sau khi load content
             $(document).trigger('contentLoaded');
+            
+            // Cache lại nội dung
+            pageCache.set(url, response);
+            
+            // Preload các trang liên quan
+            preloadLinkedPages(response);
         }
     });
 }
