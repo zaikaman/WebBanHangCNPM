@@ -3,7 +3,8 @@
 include(dirname(__FILE__) . "/../../admincp/config/config.php");
 
 // Handle form data and sanitize inputs
-$ten_sp_filter = isset($_GET['ten_sp']) ? html_entity_decode($_GET['ten_sp'], ENT_QUOTES, 'UTF-8') : '';
+$ten_sp_filter = isset($_GET['ten_sp']) ? urldecode($_GET['ten_sp']) : '';
+
 $danhmuc_filter = isset($_GET['danhmuc']) ? $_GET['danhmuc'] : '';
 $gia_min_filter = isset($_GET['gia_min']) ? $_GET['gia_min'] : '';
 $gia_max_filter = isset($_GET['gia_max']) ? $_GET['gia_max'] : '';
@@ -29,7 +30,8 @@ if (empty($error_message)) {
     $sql_pro = "SELECT * FROM tbl_sanpham WHERE 1";
 
     if ($ten_sp_filter) {
-        $sql_pro .= " AND ten_sp LIKE '%" . mysqli_real_escape_string($mysqli, $ten_sp_filter) . "%'";
+        $search_term = mysqli_real_escape_string($mysqli, html_entity_decode($ten_sp_filter, ENT_QUOTES, 'UTF-8'));
+        $sql_pro .= " AND ten_sp LIKE '%" . $search_term . "%'";
     }
 
     if ($danhmuc_filter) {
