@@ -14,10 +14,10 @@
             <label for="tendanhmuc" class="form-label">Tên Danh Mục Bài Viết</label>
             <input type="text" class="form-control" id="tendanhmuc" value="<?php echo $dong['tendanhmuc_baiviet'] ?>" name="tendanhmucbaiviet">
         </div>
-        <div class="mb-3">
+<!--         <div class="mb-3">
             <label for="thutu" class="form-label">Thứ Tự</label>
             <input type="text" class="form-control" id="thutu" value="<?php echo $dong['thutu'] ?>" name="thu_tu">
-        </div>
+        </div> -->
         <button type="submit" name="suaDanhMucBaiViet" class="btn btn-primary">Sửa Danh Mục Bài Viết</button>
     </form>
     <?php } ?>

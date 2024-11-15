@@ -1,7 +1,7 @@
 <?php
 $code = $_GET['code'];
-$sql_lietke_dh= "SELECT * FROM tbl_chitiet_gh,tbl_sanpham WHERE tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp AND tbl_chitiet_gh.ma_gh='".$code."' ORDER BY tbl_chitiet_gh.id_ctgh DESC ";
-$lietke_dh= mysqli_query($mysqli,$sql_lietke_dh);
+$sql_lietke_dh = "SELECT * FROM tbl_chitiet_gh,tbl_sanpham WHERE tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp AND tbl_chitiet_gh.ma_gh='" . $code . "' ORDER BY tbl_chitiet_gh.id_ctgh DESC ";
+$lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
 ?>
 
 <!-- Link Bootstrap CSS -->
@@ -41,7 +41,10 @@ $lietke_dh= mysqli_query($mysqli,$sql_lietke_dh);
                                 <td> <?php echo number_format($row['gia_sp'], 0, ',', '.') . ' VND' ?></td>
                                 <td> <?php echo number_format($thanhtien, 0, ',', '.') . ' VND' ?></td>
                             </tr>
-                        
+
+                        <?php
+                        }
+                        ?>
                     </tbody>
                     <tfoot>
                         <tr class="table-warning">
@@ -53,11 +56,8 @@ $lietke_dh= mysqli_query($mysqli,$sql_lietke_dh);
             </div>
             <div class="card-footer text-center">
                 <a href="index.php?quanly=lichSuDonHang" class="btn btn-secondary">Quay Lại</a>
-                <a href="pages/main/indonhang.php?&code=<?php echo $row['ma_gh'] ?>" class="btn btn-primary" style="margin : 0" >In Đơn Hàng</a>
+                <a href="pages/main/indonhang.php?&code=<?php echo $row['ma_gh'] ?>" class="btn btn-primary" style="margin : 0">In Đơn Hàng</a>
             </div>
-                <?php
-                        }
-                        ?>
         </div>
     </div>
 </div>

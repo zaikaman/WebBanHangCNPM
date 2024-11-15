@@ -33,7 +33,15 @@
         include("modules/quanLyBaiViet/sua.php");
     } elseif ($tam == 'quanLyWeb') {
         include("modules/thongTinWeb/quanly.php");
-    } else {
+    } elseif ($tam == 'quanLyAdmin' && $query == 'them') {
+        include('modules/quanLyAdmin/lietke.php');
+    } elseif ($tam == 'quanLyAdmin' && $query == 'sua') {
+        include('modules/quanLyAdmin/sua.php');
+    } elseif ($tam == 'quanLyAdmin' && $query == 'doimatkhau') {
+        include('modules/quanLyAdmin/doimatkhau.php');
+    } elseif ($tam == 'quanLyTaiKhoanKhachHang' && $query == 'lietke') {
+    include('modules/quanLyTaiKhoanKhachHang/lietke.php');
+    }else {
         include("dashboard.php");
     }
     ?>

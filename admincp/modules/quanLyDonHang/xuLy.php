@@ -9,7 +9,7 @@ include('..//..//config/config.php');
 $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
 if (isset($_GET['code'])) {
 	$code_cart = $_GET['code'];
-	$sql_update = "UPDATE tbl_giohang SET trang_thai = '0' WHERE ma_gh = '$code_cart'";
+	$sql_update = "UPDATE tbl_hoadon SET trang_thai = '0' WHERE ma_gh = '$code_cart'";
 	$query = mysqli_query($mysqli, $sql_update);
 }
 

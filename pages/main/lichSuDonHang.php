@@ -20,12 +20,9 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
         <table class="table table-bordered table-hover text-center" style="margin-top : 20px">
             <thead class="table-dark">
                 <tr>
-                    <th>Tên Khách Hàng</th>
-                    <th>Địa Chỉ</th>
-                    <th>Email</th>
-                    <th>SDT</th>
-                    <th>Trạng Thái</th>
                     <th>Ngày Đặt</th>
+                    <th>Địa Chỉ</th>
+                    <th>Trạng Thái</th>
                     <th>Chi tiết</th>
                     <th>In Đơn Hàng</th>
                 </tr>
@@ -37,20 +34,17 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                     $i++;
                 ?>
                     <tr>
-                        <td> <?php echo $row['ten_khachhang'] ?></td>
+                        <td><?php echo $row['cart_date'] ?></td>
                         <td> <?php echo $row['dia_chi'] ?></td>
-                        <td> <?php echo $row['email'] ?></td>
-                        <td> <?php echo $row['dien_thoai'] ?></td>
                         <td>
                             <?php
                             if ($row['trang_thai'] == 1) {
-                                echo '<span class="btn btn-warning btn-sm">Đơn hàng mới</span>';
+                                echo '<span class="btn btn-warning btn-sm">Đang xử lý</span>';
                             } else {
-                                echo '<span class="badge bg-success">Đã Xử Lý</span>';
+                                echo '<span class="badge bg-success">Đã giao hàng</span>';
                             }
                             ?>
                         </td>
-                        <td><?php echo $row['cart_date'] ?></td>
                         <td>
                             <a href="index.php?quanly=xemDonHang&code=<?php echo $row['ma_gh'] ?>" class="btn btn-info btn-sm">Xem Đơn Hàng</a>
                         </td>

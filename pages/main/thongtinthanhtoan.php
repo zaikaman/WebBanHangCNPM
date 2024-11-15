@@ -2,13 +2,13 @@
     <div class="cart_content">
         <div class="wrapper-2">
             <div class="arrow-steps clearfix">
-                <div class="step done"> <span> <a href="index.php?quanly=giohang"> Giỏ hàng</a></span> </div>
-                <div class="step done"> <span><a href="index.php?quanly=vanChuyen"> Vận chuyển</a></span> </div>
-                <div class="step current"> <span><a href="index.php?quanly=thongTinThanhToan">Thanh toán</a></span> </div>
-                <div class="step "> <span><a href="index.php?quanly=lichSuDonHang">Lịch sử</a></span> </div>
+                <div class="step done"> <span> <a href="index.php?quanly=giohang" data-ajax="true"> Giỏ hàng</a></span> </div>
+                <div class="step done"> <span><a href="index.php?quanly=vanChuyen" data-ajax="true"> Vận chuyển</a></span> </div>
+                <div class="step current"> <span><a href="index.php?quanly=thongTinThanhToan" data-ajax="true">Thanh toán</a></span> </div>
+                <div class="step "> <span><a href="index.php?quanly=lichSuDonHang" data-ajax="true">Lịch sử</a></span> </div>
             </div>
         </div>
-        <form action="pages/main/thanhtoan.php" method="POST" enctype="application/x-www-form-urlencoded" style="width: 100%;">
+        <form action="pages/main/thanhtoan.php" method="POST" enctype="application/x-www-form-urlencoded" style="margin-top : 0px; width: 100%;">
             <div class="row">
                 <?php
                 $id_dangky = $_SESSION['id_khachhang'];
@@ -127,11 +127,20 @@
                                                                     VNPay
                                                                 </label>
                                                             </div>
-                                                             <?php
+                                                            <?php
                                                             if ($count != 0) {
-                                                            ?>
-                                                                <button type="submit" value="Đặt hàng" name="thanhToan" style="width : 100%; padding : 20px 0 20px 0" class="purchase_button">Đặt hàng</button>
 
+                                                            ?>
+                                                                <form></form>
+                                                                <button type="submit" value="Đặt hàng" name="thanhToan" style="width : 100%; padding : 20px 0 20px 0" class="purchase_button">Đặt hàng</button>
+                                                                <div style="width : 100%; display : flex; justify-content : center; align-items : center"><h4>Hoặc</h4></div>
+                                                                <form method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="pages/main/xuLyThanhToanMomo.php" style="margin-bottom:5px;width: 100%">
+                                                                    <button type="submit" name="momo" value="Thanh toán MOMO QRCode"style="width : 100%; padding : 20px 0 20px 0" class="purchase_button momo"> MoMo QRCode</button>
+                                                                </form>
+                                                                <form class="" method="POST" target="_blank" enctype="application/x-www-form-urlencoded"
+                                                                    action="pages/main/xuLyThanhToanMomo_atm.php" style="width: 100%">
+                                                                    <button type="submit" name="momo" value="Thanh toán MOMO ATM"style="width : 100%; padding : 20px 0 20px 0" class="purchase_button momo"> MoMo ATM</button>
+                                                                </form>
                                                             <?php
                                                             }
                                                             ?>

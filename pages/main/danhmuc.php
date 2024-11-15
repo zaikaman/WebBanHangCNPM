@@ -24,7 +24,7 @@ if ($query_cate) {
                     <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
                         <div class="product card h-100">
                             <a href="index.php?quanly=sanpham&id=<?php echo $row_pro['id_sp'] ?>" class="text-decoration-none text-dark">
-                                <img src="admincp/modules/quanLySanPham/uploads/<?php echo $row_pro['hinh_anh']  ?>"class="card-img-top img-fluid" alt="<?php echo $row['ten_sp'] ?>">
+                                <img loading="lazy" src="admincp/modules/quanLySanPham/uploads/<?php echo $row_pro['hinh_anh']  ?>"class="card-img-top img-fluid" alt="<?php echo $row['ten_sp'] ?>">
                                 <div class="card-body text-center">
                                     <p class="title_product card-title"><?php echo $row_pro['ten_sp'] ?></p>
                                     <p class="price_product card-text text-danger"><?php echo number_format($row_pro['gia_sp'], 0, ',', ',') . 'vnđ' ?></p>

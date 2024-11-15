@@ -1,10 +1,10 @@
 <?php
 include("config/config.php");
-$sql_lietke_dh = "SELECT * FROM tbl_giohang,tbl_dangky WHERE tbl_giohang.id_khachhang = tbl_dangky.id_dangky ORDER BY tbl_giohang.id_gh DESC ";
+$sql_lietke_dh = "SELECT * FROM tbl_hoadon,tbl_dangky WHERE tbl_hoadon.id_khachhang = tbl_dangky.id_dangky ORDER BY tbl_hoadon.id_gh DESC ";
 $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
 ?>
 
-<!-- Link Bootstrap CSS -->
+<!-- Link Bootstrap CSS ss -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <div class="container mt-5">
@@ -52,7 +52,7 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                         <a href="index.php?action=donHang&query=xemDonHang&code=<?php echo $row['ma_gh'] ?>" class="btn btn-info btn-sm">Xem Đơn Hàng</a>
                     </td>
                     <td>
-                        <a href="modules/quanLyDonHang/indonhang.php?&code=<?php echo $row['ma_gh'] ?>" class="btn btn-primary btn-sm">In Đơn Hàng</a>
+                        <a href="modules/quanLyDonHang/indonhang.php?code=<?php echo $row['ma_gh'] ?>" class="btn btn-primary btn-sm">In Đơn Hàng</a>
                     </td>
                 </tr>
             <?php
