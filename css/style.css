@@ -37,14 +37,15 @@ input[type="text"]::-ms-clear {
 /* Loại bỏ mũi tên tăng giảm trong trình duyệt Webkit (Chrome, Safari, Opera) */
 .soluong_input::-webkit-outer-spin-button,
 .soluong_input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
   appearance: none;
+  -webkit-appearance: none;
   margin: 0;
 }
 
 /* Loại bỏ mũi tên tăng giảm trong Firefox */
 .soluong_input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 .wrapper {
   width: 100%;
@@ -1611,7 +1612,7 @@ color: #999;
   }
 
   th {
-    background-color: #f2f2f2; /* Đổi màu nền cho header */
+    background-color: #f2f2f2; /* Đ���i màu nền cho header */
     border-bottom: 2px solid #ddd; /* Đường viền dưới */
   }
 
@@ -1821,75 +1822,3 @@ color: #999;
     - 970px : good
 
     */
-
-/* Thêm vào cuối file style.css */
-
-/* Giữ nguyên layout cho nội dung chính */
-.main_content > * {
-    width: 100%;
-    max-width: 1200px; /* hoặc độ rộng phù hợp với design của bạn */
-    margin: 0 auto;
-}
-
-/* Ẩn các phần tử trùng lặp trong AJAX response */
-.main_content .logo,
-.main_content .top-header,
-.main_content .navigation,
-.main_content .footer {
-    display: none !important;
-}
-
-/* AJAX Loading Styles */
-.main_content_ajax {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #fff;
-}
-
-/* Ẩn các phần tử trùng lặp trong AJAX response */
-.main_content_ajax .header,
-.main_content_ajax .menu,
-.main_content_ajax .sidebar,
-.main_content_ajax .footer,
-.main_content_ajax .wrapper > header,
-.main_content_ajax .wrapper > nav,
-.main_content_ajax .filter_content {
-    display: none !important;
-}
-
-/* Loading indicator */
-.ajax-loading {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(to right, #a90019 50%, transparent 50%);
-    background-size: 200% 100%;
-    animation: loading 1s linear infinite;
-    z-index: 9999;
-}
-
-@keyframes loading {
-    from {
-        background-position: right bottom;
-    }
-    to {
-        background-position: left bottom;
-    }
-}
-
-/* Responsive cho AJAX content */
-@media only screen and (max-width: 1170px) {
-    .main_content_ajax {
-        width: 90%;
-    }
-}
-
-@media only screen and (max-width: 765px) {
-    .main_content_ajax {
-        padding: 10px;
-    }
-}

@@ -47,33 +47,28 @@ const pageCache = new Map();
 
 // Sửa lại hàm loadContent
 function loadContent(url, targetElement) {
-    window.stop();
     showLoading();
     
+    // Kiểm tra cache
+    if (pageCache.has(url)) {
+        $(targetElement).html(pageCache.get(url));
+        history.pushState({path: url}, '', url);
+        hideLoading();
+        return;
+    }
+
     handleAjaxRequest({
         url: url,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-        },
         success: function(response) {
-            // Chỉ cập nhật phần nội dung chính
-            $('.main_content_ajax').html(response);
-            
-            updateHistory(url);
-            $(document).trigger('contentLoaded');
+            // Lưu vào cache
             pageCache.set(url, response);
+            $(targetElement).html(response);
+            history.pushState({path: url}, '', url);
+            
+            // Preload các trang liên quan
             preloadLinkedPages(response);
-            hideLoading();
         }
     });
-}
-
-// Hàm cập nhật history mà không reload
-function updateHistory(url) {
-    const state = { path: url };
-    if (window.location.href !== url) {
-        history.pushState(state, '', url);
-    }
 }
 
 // Hàm preload các trang liên quan
@@ -153,13 +148,6 @@ $(document).ready(function() {
                 return false;
             }
         }
-    });
-
-    // Chặn mọi click trên thẻ a có href bắt đầu bằng index.php
-    $(document).on('click', 'a[href^="index.php"]', function(e) {
-        e.preventDefault();
-        const url = $(this).attr('href');
-        loadContent(url, '.main_content');
     });
 });
 

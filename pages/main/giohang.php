@@ -4,19 +4,19 @@
         if (isset($_SESSION['dang_ky']) && isset($_SESSION['id_khachhang'])) { ?>
             <div class="wrapper-2">
                 <div class="arrow-steps clearfix">
-                    <div class="step current"> <span> <a href="index.php?quanly=giohang" data-ajax="true"> Giỏ hàng</a></span> </div>
-                    <div class="step"> <span><a href="index.php?quanly=vanChuyen" data-ajax="true"> Vận chuyển</a></span> </div>
-                    <div class="step"> <span><a href="index.php?quanly=thongTinThanhToan" data-ajax="true">Thanh toán</a></span> </div>
-                    <div class="step"> <span><a href="index.php?quanly=lichSuDonHang" data-ajax="true">Lịch sử</a></span> </div>
+                    <div class="step current"> <span> <a href="index.php?quanly=giohang"> Giỏ hàng</a></span> </div>
+                    <div class="step"> <span><a href="index.php?quanly=vanChuyen"> Vận chuyển</a></span> </div>
+                    <div class="step"> <span><a href="index.php?quanly=thongTinThanhToan">Thanh toán</a></span> </div>
+                    <div class="step"> <span><a href="index.php?quanly=lichSuDonHang">Lịch sử</a></span> </div>
                 </div>
             </div>
         <?php } else { ?>
             <div class="wrapper-2">
                 <div class="arrow-steps clearfix">
-                    <div class="step current"> <span> <a href="index.php?quanly=giohang&user_notfound=1" data-ajax="true"> Giỏ hàng</a></span> </div>
-                    <div class="step"> <span><a href="index.php?quanly=giohang&user_notfound=1" data-ajax="true"> Vận chuyển</a></span> </div>
-                    <div class="step"> <span><a href="index.php?quanly=giohang&user_notfound=1" data-ajax="true">Thanh toán</a></span> </div>
-                    <div class="step"> <span><a href="index.php?quanly=giohang&user_notfound=1" data-ajax="true">Lịch sử</a></span> </div>
+                    <div class="step current"> <span> <a href="index.php?quanly=giohang&user_notfound=1"> Giỏ hàng</a></span> </div>
+                    <div class="step"> <span><a href="index.php?quanly=giohang&user_notfound=1"> Vận chuyển</a></span> </div>
+                    <div class="step"> <span><a href="index.php?quanly=giohang&user_notfound=1">Thanh toán</a></span> </div>
+                    <div class="step"> <span><a href="index.php?quanly=giohang&user_notfound=1">Lịch sử</a></span> </div>
                 </div>
             </div>
         <?php } ?>
@@ -131,7 +131,7 @@
                                             if ($count != 0) {
                                                 if (isset($_SESSION['dang_ky']) && isset($_SESSION['id_khachhang'])) {
                                             ?>
-                                                    <a href="index.php?quanly=vanChuyen" class="dathang_button" data-ajax="true">
+                                                    <a href="index.php?quanly=vanChuyen" class="dathang_button" style="font-size: 16px;">
                                                         Tiếp theo
                                                     </a>
                                                 <?php

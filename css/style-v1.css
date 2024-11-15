@@ -1868,18 +1868,25 @@ color: #999;
     top: 0;
     left: 0;
     width: 100%;
-    height: 3px;
-    background: linear-gradient(to right, #a90019 50%, transparent 50%);
-    background-size: 200% 100%;
-    animation: loading 1s linear infinite;
+    height: 100%;
+    background: rgba(255,255,255,0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
     z-index: 9999;
 }
 
-@keyframes loading {
-    from {
-        background-position: right bottom;
-    }
-    to {
-        background-position: left bottom;
-    }
+.ajax-loading::after {
+    content: '';
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #a90019;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
