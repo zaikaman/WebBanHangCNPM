@@ -47,12 +47,15 @@ const pageCache = new Map();
 
 // Sửa lại hàm loadContent
 function loadContent(url, targetElement) {
+    // Không hiển thị loading icon của trình duyệt
+    window.stop();
+    
     showLoading();
     
     // Kiểm tra cache
     if (pageCache.has(url)) {
         $(targetElement).html(pageCache.get(url));
-        history.pushState({path: url}, '', url);
+        updateHistory(url);
         hideLoading();
         return;
     }
@@ -60,15 +63,22 @@ function loadContent(url, targetElement) {
     handleAjaxRequest({
         url: url,
         success: function(response) {
-            // Lưu vào cache
             pageCache.set(url, response);
             $(targetElement).html(response);
-            history.pushState({path: url}, '', url);
-            
-            // Preload các trang liên quan
+            updateHistory(url);
             preloadLinkedPages(response);
+            // Trigger event sau khi load content
+            $(document).trigger('contentLoaded');
         }
     });
+}
+
+// Hàm cập nhật history mà không reload
+function updateHistory(url) {
+    const state = { path: url };
+    if (window.location.href !== url) {
+        history.pushState(state, '', url);
+    }
 }
 
 // Hàm preload các trang liên quan
@@ -148,6 +158,13 @@ $(document).ready(function() {
                 return false;
             }
         }
+    });
+
+    // Chặn mọi click trên thẻ a có href bắt đầu bằng index.php
+    $(document).on('click', 'a[href^="index.php"]', function(e) {
+        e.preventDefault();
+        const url = $(this).attr('href');
+        loadContent(url, '.main_content');
     });
 });
 
