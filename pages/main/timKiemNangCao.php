@@ -3,7 +3,7 @@
 include(dirname(__FILE__) . "/../../admincp/config/config.php");
 
 // Handle form data and sanitize inputs
-$ten_sp_filter = isset($_GET['ten_sp']) ? $_GET['ten_sp'] : '';
+$ten_sp_filter = isset($_GET['ten_sp']) ? html_entity_decode($_GET['ten_sp'], ENT_QUOTES, 'UTF-8') : '';
 $danhmuc_filter = isset($_GET['danhmuc']) ? $_GET['danhmuc'] : '';
 $gia_min_filter = isset($_GET['gia_min']) ? $_GET['gia_min'] : '';
 $gia_max_filter = isset($_GET['gia_max']) ? $_GET['gia_max'] : '';
