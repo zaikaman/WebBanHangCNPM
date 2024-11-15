@@ -46,29 +46,38 @@ function handleFormSubmit(formElement, successCallback) {
 const pageCache = new Map();
 
 function loadContent(url, targetElement) {
-    // Kiểm tra cache
+    // Kiểm tra cache trước
     if (pageCache.has(url)) {
         $(targetElement).html(pageCache.get(url));
         history.pushState({path: url}, '', url);
         return;
     }
 
+    // Hiển thị loading nếu cần
+    showLoading();
+
     $.ajax({
         url: url,
         method: 'GET',
         success: function(response) {
-            // Lưu vào cache
+            // Lưu response vào cache
             pageCache.set(url, response);
+            
+            // Cập nhật nội dung
             $(targetElement).html(response);
             history.pushState({path: url}, '', url);
+            
+            // Ẩn loading
+            hideLoading();
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
+            hideLoading();
         }
     });
 }
 
-// Xử lý click cho tất cả các link có data-ajax="true"
+// Xử lý click cho các link có data-ajax="true" 
 $(document).on('click', 'a[data-ajax="true"]', function(e) {
     e.preventDefault();
     const url = $(this).attr('href');
