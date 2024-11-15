@@ -21,6 +21,7 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
             <thead class="table-dark">
                 <tr>
                     <th>Ngày Đặt</th>
+                    <th>Ngày Đặt</th>
                     <th>Địa Chỉ</th>
                     <th>Trạng Thái</th>
                     <th>Chi tiết</th>
@@ -35,12 +36,15 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                 ?>
                     <tr>
                         <td><?php echo $row['cart_date'] ?></td>
+                        <td><?php echo $row['cart_date'] ?></td>
                         <td> <?php echo $row['dia_chi'] ?></td>
                         <td>
                             <?php
                             if ($row['trang_thai'] == 1) {
                                 echo '<span class="btn btn-warning btn-sm">Đang xử lý</span>';
+                                echo '<span class="btn btn-warning btn-sm">Đang xử lý</span>';
                             } else {
+                                echo '<span class="badge bg-success">Đã giao hàng</span>';
                                 echo '<span class="badge bg-success">Đã giao hàng</span>';
                             }
                             ?>

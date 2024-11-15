@@ -94,6 +94,39 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function() {
+    $('#filterForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Lấy dữ liệu form
+        const formData = $(this).serialize();
+        
+        // Loại bỏ các tham số rỗng
+        const cleanFormData = formData.split('&')
+            .filter(param => {
+                const [key, value] = param.split('=');
+                return value !== '';
+            })
+            .join('&');
+
+        // Tạo URL mới
+        const newUrl = `index.php?${cleanFormData}`;
+        
+        // Gọi AJAX để load nội dung
+        $.ajax({
+            url: newUrl,
+            method: 'GET',
+            success: function(response) {
+                $('.main_content').html(response);
+                // Cập nhật URL mà không reload trang
+                history.pushState(null, '', newUrl);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+});
 </script>
 
 </body>

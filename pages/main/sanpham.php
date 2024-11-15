@@ -6,7 +6,7 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
     <?php
     while ($info = mysqli_fetch_array($pro_info)) {
     ?>
-        <form class="product_content" method="POST" action="/pages/main/themgiohang.php?idsanpham=<?php echo $info['id_sp'] ?>">
+        <form class="product_content" method="POST" action="/pages/main/themgiohang.php?idsanpham=<?php echo $info['id_sp'] ?>" data-ajax="true">
             <div class="product_img">
                 <img class="img" src="admincp/modules/quanLySanPham/uploads/<?php echo $info['hinh_anh'] ?>" alt="">
             </div>
@@ -29,6 +29,7 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
                         <button id="giam" class="soluong_btn">
                             -
                         </button>
+                        <input class="soluong_input" id="soluong_input" name="so_luong" type="number" value="1" min="1" max="<?php echo $info['so_luong_con_lai']; ?>">
                         <input class="soluong_input" id="soluong_input" name="so_luong" type="number" value="1" min="1" max="<?php echo $info['so_luong_con_lai']; ?>">
                         <button id="tang" class="soluong_btn">
                             +
@@ -58,12 +59,53 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
                         <a style="align-items: center; color : white ;" class="mua_btn" href="index.php?quanly=dangnhap">Đăng nhập để mua hàng</a>
                     </div>
                 <?php } ?>
+                <?php if (isset($_SESSION['id_khachhang']) && isset($_SESSION['dang_ky'])) { ?>
+                    <div style="width : 100%; display : flex; align-items : center; justify-content : center">
+                        <input class="mua_btn" type="submit" name="themgiohang" value="Thêm vào giỏ hàng">
+                    </div>
+                <?php } else { ?>
+                    <div style="width : 100%; display : flex; align-items : center; justify-content : center">
+                        <a style="align-items: center; color : white ;" class="mua_btn" href="index.php?quanly=dangnhap">Đăng nhập để mua hàng</a>
+                    </div>
+                <?php } ?>
             </div>
 
         </form>
 
     <?php } ?>
 </div>
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const input = document.getElementById("soluong_input");
+        const btnDecrease = document.getElementById("giam");
+        const btnIncrease = document.getElementById("tang");
+        const maxQuantity = parseInt(input.max);
+
+        btnIncrease.addEventListener("click", function() {
+            let currentQuantity = parseInt(input.value);
+            if (currentQuantity < maxQuantity) {
+                input.value = currentQuantity + 1;
+            }
+        });
+
+        btnDecrease.addEventListener("click", function() {
+            let currentQuantity = parseInt(input.value);
+            if (currentQuantity > 1) {
+                input.value = currentQuantity - 1;
+            }
+        });
+
+        // input.addEventListener("input", function() {
+        //     if (input.value > maxQuantity) {
+        //         input.value = maxQuantity;
+        //     } else if (input.value < 1) {
+        //         input.value = 1;
+        //     }
+        // });
+    });
+</script> -->
+
+
 <!-- <script>
     document.addEventListener("DOMContentLoaded", function() {
         const input = document.getElementById("soluong_input");

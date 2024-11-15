@@ -6,9 +6,23 @@
             <a class="info" href="index.php?">Trang chủ</a>
             <a class="info" href="index?quanly=lienhe">Liên hệ</a>
             <a class="info" href="index?quanly=tintuc">Tin tức</a>
+            <a class="info" href="index.php?">Trang chủ</a>
+            <a class="info" href="index?quanly=lienhe">Liên hệ</a>
+            <a class="info" href="index?quanly=tintuc">Tin tức</a>
         </div>
         <div class="footer_info">
             <p class="title">Danh mục</p>
+            
+            <?php
+            // Lấy danh mục bài viết
+            $sql_danhmucsanpham = "SELECT * FROM tbl_danhmucqa ORDER BY id_dm DESC";
+            $query_danhmuc = mysqli_query($mysqli, $sql_danhmucsanpham);
+            while ($row_danhmuc = mysqli_fetch_array($query_danhmuc)) {
+            ?>
+                 <a class="info" href="index.php?quanly=danhmucsanpham&id=<?php echo $row_danhmuc['id_dm'] ?>" ><?php echo $row_danhmuc['name_sp'] ?> </a>
+            <?php
+            }
+            ?>
             
             <?php
             // Lấy danh mục bài viết
@@ -81,3 +95,4 @@
     </div>
     <div class="footer_copyright">Copy right by 7TCC| For True Fans Since 2024.</div>
 </div>
+
