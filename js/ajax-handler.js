@@ -42,15 +42,54 @@ function handleFormSubmit(formElement, successCallback) {
     });
 }
 
-// Xử lý load content
+// Thêm cache cho AJAX requests
+const pageCache = new Map();
+
+// Sửa lại hàm loadContent
 function loadContent(url, targetElement) {
+    showLoading();
+    
+    // Kiểm tra cache
+    if (pageCache.has(url)) {
+        $(targetElement).html(pageCache.get(url));
+        history.pushState({path: url}, '', url);
+        hideLoading();
+        return;
+    }
+
     handleAjaxRequest({
         url: url,
         success: function(response) {
+            // Lưu vào cache
+            pageCache.set(url, response);
             $(targetElement).html(response);
             history.pushState({path: url}, '', url);
+            
+            // Preload các trang liên quan
+            preloadLinkedPages(response);
         }
     });
+}
+
+// Hàm preload các trang liên quan
+function preloadLinkedPages(content) {
+    const $content = $(content);
+    $content.find('a[data-ajax="true"]').each(function() {
+        const url = $(this).attr('href');
+        if (!pageCache.has(url)) {
+            $.get(url, function(response) {
+                pageCache.set(url, response);
+            });
+        }
+    });
+}
+
+// Giới hạn kích thước cache
+function limitCacheSize(maxSize = 20) {
+    if (pageCache.size > maxSize) {
+        const firstKey = pageCache.keys().next().value;
+        pageCache.delete(firstKey);
+    }
 }
 
 // Xử lý nút back/forward của trình duyệt
@@ -120,4 +159,27 @@ function showNotification(message, type = 'success') {
     
     setTimeout(() => notification.remove(), 3000);
 }
+
+function lazyLoadImages() {
+    $('img[data-src]').each(function() {
+        if (isElementInViewport(this)) {
+            $(this).attr('src', $(this).data('src'));
+            $(this).removeAttr('data-src');
+        }
+    });
+}
+
+// Kiểm tra element có trong viewport
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+// Gọi khi load content mới
+$(document).on('contentLoaded', lazyLoadImages);
 
