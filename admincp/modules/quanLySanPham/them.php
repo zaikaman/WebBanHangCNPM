@@ -9,7 +9,7 @@
 
 <div class="container mt-5">
     <h3 class="text-center">Thêm Sản Phẩm</h3>
-    <form method="POST" action="modules/quanLySanPham/xuly.php" enctype="multipart/form-data">
+    <form method="POST" action="modules/quanLySanPham/xuly.php" enctype="multipart/form-data" id="productForm">
         <div class="mb-3">
             <label for="ten_sp" class="form-label">Tên Sản Phẩm</label>
             <input type="text" class="form-control" name="ten_sp">
@@ -41,10 +41,11 @@
         <div class="mb-3">
             <label for="id_dm" class="form-label">Danh Mục</label>
             <select name="id_dm" class="form-select">
+                <option value="">Chọn danh mục</option>
                 <?php
-                $sql_danhmuc= "SELECT * FROM tbl_danhmucqa ORDER BY id_dm DESC";
-                $sql_query= mysqli_query($mysqli,$sql_danhmuc);
-                while($row_danhmuc= mysqli_fetch_array($sql_query)){
+                $sql_danhmuc = "SELECT * FROM tbl_danhmucqa ORDER BY id_dm DESC";
+                $sql_query = mysqli_query($mysqli,$sql_danhmuc);
+                while($row_danhmuc = mysqli_fetch_array($sql_query)){
                     echo '<option value="'.$row_danhmuc['id_dm'].'">'.$row_danhmuc['name_sp'].'</option>';
                 }
                 ?>
@@ -53,6 +54,7 @@
         <div class="mb-3">
             <label for="tinh_trang" class="form-label">Tình Trạng</label>
             <select name="tinh_trang" class="form-select">
+                <option value="">Chọn tình trạng</option>
                 <option value="1">Kích Hoạt</option>
                 <option value="0">Ẩn</option>
             </select>
@@ -60,3 +62,11 @@
         <button type="submit" class="btn btn-primary" name="themSanPham">Thêm Sản Phẩm</button>
     </form>
 </div>
+
+<script>
+document.getElementById('productForm').addEventListener('submit', function(e) {
+    if (!validateAdminForm('productForm', validationRules.productForm)) {
+        e.preventDefault();
+    }
+});
+</script>
