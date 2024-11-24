@@ -1,6 +1,10 @@
 <?php
 include('..//..//config/config.php');
 
+function validateCategoryName($name) {
+    // Tên danh mục 2-100 ký tự, chỉ chứa chữ cái, số và khoảng trắng
+    return preg_match('/^[a-zA-Z0-9\s\p{L}]{2,100}$/u', trim($name));
+}
 function isDuplicateCategory($mysqli, $name, $excludeId = null) {
     $sql = "SELECT COUNT(*) as count FROM tbl_danhmucqa WHERE name_sp = '$name'";
     if ($excludeId) {
