@@ -55,20 +55,39 @@ if(isset($_POST['themDanhMuc'])) {
     header('Location:../../index.php?action=quanLyDanhMucSanPham&query=them');
 
 } else {
+    // Delete category
     $id = $_GET['idsp'];
     
-    // Update products to "no category" before deleting the category
-    $sql_update_products = "UPDATE tbl_sanpham SET id_dm = 0 WHERE id_dm = ?";
-    $stmt = mysqli_prepare($mysqli, $sql_update_products);
+    // Kiểm tra xem có sản phẩm nào trong danh mục không
+    $sql_check = "SELECT COUNT(*) as count FROM tbl_sanpham WHERE id_dm = ?";
+    $stmt = mysqli_prepare($mysqli, $sql_check);
     mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
     
-    // Delete the category
-    $sql_xoa = "DELETE FROM tbl_danhmucqa WHERE id_dm = ?";
-    $stmt = mysqli_prepare($mysqli, $sql_xoa);
-    mysqli_stmt_bind_param($stmt, "i", $id);
-    mysqli_stmt_execute($stmt);
-    
-    header('Location:../../index.php?action=quanLyDanhMucSanPham&query=them');
+    if ($row['count'] > 0) {
+        echo "<script>
+            alert('Không thể xóa danh mục này vì đang có " . $row['count'] . " sản phẩm thuộc danh mục!');
+            window.location.href='../../index.php?action=quanLyDanhMucSanPham&query=them';
+        </script>";
+    } else {
+        // Thực hiện xóa danh mục khi không có sản phẩm
+        $sql_xoa = "DELETE FROM tbl_danhmucqa WHERE id_dm = ?";
+        $stmt = mysqli_prepare($mysqli, $sql_xoa);
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        
+        if(mysqli_stmt_execute($stmt)) {
+            echo "<script>
+                alert('Xóa danh mục thành công!');
+                window.location.href='../../index.php?action=quanLyDanhMucSanPham&query=them';
+            </script>";
+        } else {
+            echo "<script>
+                alert('Có lỗi xảy ra: " . mysqli_error($mysqli) . "');
+                window.location.href='../../index.php?action=quanLyDanhMucSanPham&query=them';
+            </script>";
+        }
+    }
 }
 ?>
