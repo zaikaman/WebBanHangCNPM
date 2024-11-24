@@ -23,7 +23,13 @@ if(isset($_POST['themDanhMuc'])) {
         echo "<script>alert('Tên danh mục không được để trống!'); window.location.href='../../index.php?action=quanLyDanhMucSanPham&query=them';</script>";
         exit;
     }
-    
+    if(!validateCategoryName($tenLoaisp)) {
+        echo "<script>
+            alert('Tên danh mục không hợp lệ (2-100 ký tự, chỉ chứa chữ cái, số và khoảng trắng)');
+            window.location.href='../../index.php?action=quanLyDanhMucSanPham&query=them';
+        </script>";
+        exit;
+    }
     // Validate duplicate
     if(isDuplicateCategory($mysqli, $tenLoaisp)) {
         echo "<script>alert('Tên danh mục đã tồn tại!'); window.location.href='../../index.php?action=quanLyDanhMucSanPham&query=them';</script>";
@@ -45,7 +51,13 @@ if(isset($_POST['themDanhMuc'])) {
         echo "<script>alert('Tên danh mục không được để trống!'); window.location.href='../../index.php?action=quanLyDanhMucSanPham&query=sua&idsp=$id';</script>";
         exit;
     }
-    
+    if(!validateCategoryName($tenLoaisp)) {
+        echo "<script>
+            alert('Tên danh mục không hợp lệ (2-100 ký tự, chỉ chứa chữ cái, số và khoảng trắng)');
+            window.location.href='../../index.php?action=quanLyDanhMucSanPham&query=them';
+        </script>";
+        exit;
+    }
     // Validate duplicate
     if(isDuplicateCategory($mysqli, $tenLoaisp, $id)) {
         echo "<script>alert('Tên danh mục đã tồn tại!'); window.location.href='../../index.php?action=quanLyDanhMucSanPham&query=sua&idsp=$id';</script>";
