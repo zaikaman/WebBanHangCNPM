@@ -26,7 +26,7 @@
                         </a>
                         <div class="card-body text-center">
                             <h5 class="card-title">
-                                <a href="index.php?quanly=baiviet&id=<?php echo $row['id'] ?>" class="text-dark"><?php echo $row['tenbaiviet'] ?></a>
+                                <a href="<?php echo $row['link'] ?>" class="text-dark"><?php echo $row['tenbaiviet'] ?></a>
                             </h5>
                             <p class="card-text"><?php echo $row['tomtat'] ?></p>
                         </div>
