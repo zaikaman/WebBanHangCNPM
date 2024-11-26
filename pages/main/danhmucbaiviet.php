@@ -21,7 +21,7 @@
             ?>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <a href="index.php?quanly=baiviet&id=<?php echo $row['id'] ?>" class="text-decoration-none text-dark">
+                        <a href="<?php echo $row['link'] ?>" class="text-decoration-none text-dark">
                             <img src="admincp/modules/quanLyBaiViet/uploads/<?php echo $row['hinhanh'] ?>" class="card-img-top img-fluid" alt="<?php echo $row['tenbaiviet'] ?>">
                         </a>
                         <div class="card-body text-center">
