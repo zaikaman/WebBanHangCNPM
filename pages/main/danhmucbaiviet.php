@@ -17,22 +17,34 @@
             $sql_bv = "SELECT * FROM tbl_baiviet WHERE id_danhmuc = '$_GET[id_baiviet]' ORDER BY id DESC";
             $query_bv = mysqli_query($mysqli, $sql_bv);
 
-            while ($row = mysqli_fetch_array($query_bv)) {
-            ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <a href="<?php echo $row['link'] ?>" class="text-decoration-none text-dark">
-                            <img src="admincp/modules/quanLyBaiViet/uploads/<?php echo $row['hinhanh'] ?>" class="card-img-top img-fluid" alt="<?php echo $row['tenbaiviet'] ?>">
-                        </a>
-                        <div class="card-body text-center">
-                            <h5 class="card-title">
-                                <a href="<?php echo $row['link'] ?>" class="text-dark"><?php echo $row['tenbaiviet'] ?></a>
-                            </h5>
-                            <p class="card-text"><?php echo $row['tomtat'] ?></p>
+            // Check if there are any posts
+            if(mysqli_num_rows($query_bv) > 0) {
+                while ($row = mysqli_fetch_array($query_bv)) {
+                ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <a href="<?php echo $row['link'] ?>" class="text-decoration-none text-dark">
+                                <img src="admincp/modules/quanLyBaiViet/uploads/<?php echo $row['hinhanh'] ?>" class="card-img-top img-fluid" alt="<?php echo $row['tenbaiviet'] ?>">
+                            </a>
+                            <div class="card-body text-center">
+                                <h5 class="card-title">
+                                    <a href="<?php echo $row['link'] ?>" class="text-dark"><?php echo $row['tenbaiviet'] ?></a>
+                                </h5>
+                                <p class="card-text"><?php echo $row['tomtat'] ?></p>
+                            </div>
                         </div>
                     </div>
+                <?php
+                }
+            } else {
+                // Display message when no posts are found
+                ?>
+                <div class="col-12 text-center">
+                    <div class="alert alert-info" role="alert">
+                        Hiện chưa có bài viết nào trong danh mục này.
+                    </div>
                 </div>
-            <?php
+                <?php
             }
             ?>
         </div>
