@@ -41,13 +41,13 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
                         <li><a href="#noidung">Nội dung</a></li>
                     </ul>
                     <div id="tabs-content">
-                        <div id="chitiet" class="tab-content">
-                            <?php echo str_replace('\n', "\n", $info['noi_dung']) ?>
-                        </div>
-                        <div id="noidung" class="tab-content">
-                           <?php echo str_replace('\n', "\n", $info['tom_tat']) ?>
-                        </div>
-                    </div>
+    <div id="chitiet" class="tab-content">
+        <?php echo nl2br(str_replace(['\r\n', '\n'], "\n", $info['noi_dung'])) ?>
+    </div>
+    <div id="noidung" class="tab-content">
+        <?php echo nl2br(str_replace(['\r\n', '\n'], "\n", $info['tom_tat'])) ?>
+    </div>
+</div>
                 </div>
                 <?php if (isset($_SESSION['id_khachhang']) && isset($_SESSION['dang_ky'])) { ?>
                     <div style="width : 100%; display : flex; align-items : center; justify-content : center">
