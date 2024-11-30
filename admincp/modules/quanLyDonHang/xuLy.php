@@ -10,7 +10,7 @@ if(isset($_GET['code'])) {
             // Update order status to processed
             $sql = "UPDATE tbl_hoadon SET trang_thai = 0 WHERE ma_gh = ?";
             $stmt = mysqli_prepare($mysqli, $sql);
-            mysqli_stmt_bind_param($stmt, "s", $code_cart);
+            mysqli_stmt_bind_param($stmt, $code_cart);
             
             if(mysqli_stmt_execute($stmt)) {
                 echo "<script>
