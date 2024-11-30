@@ -42,10 +42,10 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
                     </ul>
                     <div id="tabs-content">
     <div id="chitiet" class="tab-content">
-        <?php echo nl2br(str_replace(['\r\n', '\n'], "\n", $info['noi_dung'])) ?>
+        <?php echo nl2br(str_replace(['\r\n', '\n'], "\n", $info['tom_tat'])) ?>
     </div>
     <div id="noidung" class="tab-content">
-        <?php echo nl2br(str_replace(['\r\n', '\n'], "\n", $info['tom_tat'])) ?>
+        <?php echo nl2br(str_replace(['\r\n', '\n'], "\n", $info['noi_dung'])) ?>
     </div>
 </div>
                 </div>
