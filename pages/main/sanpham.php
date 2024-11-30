@@ -42,10 +42,10 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
                     </ul>
                     <div id="tabs-content">
                         <div id="chitiet" class="tab-content">
-                            <?php echo str_replace('\n', "\n", $row['noi_dung']) ?>
+                            <?php echo str_replace('\n', "\n", $info['noi_dung']) ?>
                         </div>
                         <div id="noidung" class="tab-content">
-                           <?php echo str_replace('\n', "\n", $row['tom_tat']) ?>
+                           <?php echo str_replace('\n', "\n", $info['tom_tat']) ?>
                         </div>
                     </div>
                 </div>
