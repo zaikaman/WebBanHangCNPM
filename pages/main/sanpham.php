@@ -42,10 +42,10 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
                     </ul>
                     <div id="tabs-content">
                         <div id="chitiet" class="tab-content">
-                            <?php echo $info['tom_tat'] ?>
+                            <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['noi_dung']) ?></textarea>
                         </div>
                         <div id="noidung" class="tab-content">
-                            <?php echo $info['noi_dung'] ?>
+                            <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['tom_tat']) ?></textarea>
                         </div>
                     </div>
                 </div>
