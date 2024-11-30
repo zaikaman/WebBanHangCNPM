@@ -1,7 +1,7 @@
 <?php
 include("config/config.php");
 $code = $_GET['code'];
-$sql_lietke_dh= "SELECT * FROM tbl_chitiet_gh,tbl_sanpham WHERE tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp AND tbl_chitiet_gh.ma_gh='".$code."' ORDER BY tbl_chitiet_gh.id_ctgh DESC ";
+$sql_lietke_dh= "SELECT * FROM tbl_chitiet_gh,tbl_hoadon WHERE tbl_chitiet_gh.ma_gh = tbl_hoadon.ma_gh AND tbl_chitiet_gh.ma_gh='".$code."' ORDER BY tbl_chitiet_gh.id_ctgh DESC ";
 $lietke_dh= mysqli_query($mysqli,$sql_lietke_dh);
 ?>
 
