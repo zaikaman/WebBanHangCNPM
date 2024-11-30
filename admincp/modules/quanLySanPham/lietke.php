@@ -41,8 +41,12 @@
                     <td><?php echo $row['so_luong_con_lai'] ?></td>
                     <td><?php echo $row['name_sp'] ?></td>
                     <td><?php echo $row['ma_sp'] ?></td>
-                    <td><?php echo nl2br($row['tom_tat']) ?></td>
-                    <td><?php echo nl2br($row['noi_dung']) ?></td>
+                    <td>
+                        <textarea class="form-control" rows="3" readonly><?php echo $row['tom_tat'] ?></textarea>
+                    </td>
+                    <td>
+                        <textarea class="form-control" rows="3" readonly><?php echo $row['noi_dung'] ?></textarea>
+                    </td>
                     <td><?php echo ($row['tinh_trang'] == 1) ? 'Kích hoạt' : 'Ẩn' ?></td>
                     <td>
                         <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo $row['ma_sp'] ?>" class="btn btn-danger btn-sm">Xóa</a>
