@@ -38,11 +38,11 @@ $sua_sp= mysqli_query($mysqli,$sql_sua_sp);
         </div>
         <div class="mb-3">
             <label for="tom_tat" class="form-label">Tóm Tắt</label>
-            <textarea rows="4" class="form-control" name="tom_tat"><?php echo $row['tom_tat'] ?></textarea>
+            <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['tom_tat']) ?></textarea>
         </div>
         <div class="mb-3">
             <label for="noi_dung" class="form-label">Nội Dung</label>
-            <textarea rows="4" class="form-control" name="noi_dung"><?php echo $row['noi_dung'] ?></textarea>
+            <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['noi_dung']) ?></textarea>
         </div>
         <div class="mb-3">
             <label for="id_dm" class="form-label">Danh Mục</label>
