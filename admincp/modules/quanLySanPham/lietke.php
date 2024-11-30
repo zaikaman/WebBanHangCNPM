@@ -42,7 +42,7 @@
                     <td><?php echo $row['name_sp'] ?></td>
                     <td><?php echo $row['ma_sp'] ?></td>
                     <td>
-                         <?php echo nl2br(str_replace(['\r\n', '\n'], "\n", $row['noi_dung'])) ?>
+                         <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['noi_dung']) ?></textarea>
                     </td>
                     <td>
                         <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['tom_tat']) ?></textarea>
