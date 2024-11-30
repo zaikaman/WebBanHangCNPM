@@ -42,10 +42,10 @@
                     <td><?php echo $row['name_sp'] ?></td>
                     <td><?php echo $row['ma_sp'] ?></td>
                     <td>
-                        <textarea class="form-control" rows="3" readonly><?php echo $row['noi_dung'] ?></textarea>
+                        <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['noi_dung']) ?></textarea>
                     </td>
                     <td>
-                        <textarea class="form-control" rows="3" readonly><?php echo $row['tom_tat'] ?></textarea>
+                        <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['tom_tat']) ?></textarea>
                     </td>
                     <td><?php echo ($row['tinh_trang'] == 1) ? 'Kích hoạt' : 'Ẩn' ?></td>
                     <td>
