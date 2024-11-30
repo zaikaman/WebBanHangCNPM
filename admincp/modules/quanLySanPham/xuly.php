@@ -125,8 +125,9 @@ if(isset($_POST['themSanPham'])) {
     $soluong = mysqli_real_escape_string($mysqli, trim($_POST['so_luong']));
     $hinhanh = $_FILES['hinh_anh']['name'];
     $hinhanh_tmp = $_FILES['hinh_anh']['tmp_name'];
-    $tomtat = mysqli_real_escape_string($mysqli, trim($_POST['tom_tat']));
-    $noidung = mysqli_real_escape_string($mysqli, trim($_POST['noi_dung']));
+    // Thay thế các ký tự xuống dòng Windows thành Unix style trước khi escape
+    $tomtat = mysqli_real_escape_string($mysqli, str_replace("\r\n", "\n", trim($_POST['tom_tat'])));
+    $noidung = mysqli_real_escape_string($mysqli, str_replace("\r\n", "\n", trim($_POST['noi_dung'])));
     $tinhtrang = $_POST['tinh_trang'];
     $iddm = $_POST['id_dm'];
 
