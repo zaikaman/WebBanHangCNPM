@@ -21,7 +21,7 @@ if (isset($_GET['partnerCode'])) {
     $code_order = rand(0, 9999);
 
     //lay id thong tin van chuyen
-    $sql_get_vanchuyen = mysqli_query($mysqli, "SELECT * FROM tbl_giaohang WHERE id_dangky='$id_dangky' LIMIT 1");
+    $sql_get_vanchuyen = mysqli_query($mysqli, "SELECT * FROM tbl_giaohang WHERE id_dangky='$id_khachhang' LIMIT 1");
     $row_get_vanchuyen = mysqli_fetch_array($sql_get_vanchuyen);
     $id_shipping = $row_get_vanchuyen['id_shipping'];
 
