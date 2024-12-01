@@ -21,6 +21,7 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                 <th>SDT</th>
                 <th>Trạng Thái</th>
                 <th>Ngày Đặt</th>
+                <th>Phương Thức Thanh Toán</th>
                 <th>Quản Lý</th>
                 <th>In Đơn Hàng</th>
             </tr>
@@ -41,13 +42,14 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                     <td>
                         <?php
                         if ($row['trang_thai'] == 1) {
-                             echo '<a href="modules/quanLyDonHang/xuLy.php?code=' . $row['ma_gh'] . '&action=process" class="btn btn-warning btn-sm">Đơn Hàng Mới</a>';
+                            echo '<a href="modules/quanLyDonHang/xuLy.php?code=' . $row['ma_gh'] . '&action=process" class="btn btn-warning btn-sm">Đơn Hàng Mới</a>';
                         } else {
                             echo '<span class="badge bg-success">Đã Xử Lý</span>';
                         }
                         ?>
                     </td>
                     <td><?php echo $row['cart_date'] ?></td>
+                    <td><?php echo $row['cart_payment'] ?></td>
                     <td>
                         <a href="index.php?action=donHang&query=xemDonHang&code=<?php echo $row['ma_gh'] ?>" class="btn btn-info btn-sm">Xem Đơn Hàng</a>
                     </td>
