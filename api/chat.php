@@ -77,7 +77,7 @@ function getRecentChat($mysqli, $limit = 5) {
     return array_reverse($history);
 }
 
-$API_KEY = 'AIzaSyCsrBVCvzZcw99BwCTF3mkEAuCGyfewmCc';
+$API_KEY = 'AIzaSyA6u7EwDRkWuJSvT3n4bdUHBb9at6xQspM';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);

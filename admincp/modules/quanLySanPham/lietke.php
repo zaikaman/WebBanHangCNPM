@@ -1,7 +1,51 @@
 <?php
 	include("config/config.php");
-	$sql_lietke= "SELECT * FROM tbl_sanpham, tbl_danhmucqa WHERE tbl_sanpham.id_dm = tbl_danhmucqa.id_dm ORDER BY id_sp DESC";
-	$lietke= mysqli_query($mysqli, $sql_lietke);
+    
+    // Search functionality
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+    $search_field = isset($_GET['search_field']) ? $_GET['search_field'] : 'all';
+    $price_min = isset($_GET['price_min']) ? floatval($_GET['price_min']) : '';
+    $price_max = isset($_GET['price_max']) ? floatval($_GET['price_max']) : '';
+    
+    $where_clause = "";
+    if (!empty($search) || !empty($price_min) || !empty($price_max)) {
+        $where_clause = "AND (1=1";
+        
+        if (!empty($search)) {
+            switch ($search_field) {
+                case 'ten_sp':
+                    $where_clause .= " AND tbl_sanpham.ten_sp LIKE '%$search%'";
+                    break;
+                case 'ma_sp':
+                    $where_clause .= " AND tbl_sanpham.ma_sp LIKE '%$search%'";
+                    break;
+                case 'tinh_trang':
+                    $status = ($search == 'kích hoạt' || $search == '1') ? 1 : 0;
+                    $where_clause .= " AND tbl_sanpham.tinh_trang = $status";
+                    break;
+                default:
+                    $where_clause .= " AND (tbl_sanpham.ten_sp LIKE '%$search%' 
+                                    OR tbl_sanpham.ma_sp LIKE '%$search%' 
+                                    OR tbl_sanpham.noi_dung LIKE '%$search%'
+                                    OR tbl_sanpham.tom_tat LIKE '%$search%')";
+            }
+        }
+        
+        if (!empty($price_min)) {
+            $where_clause .= " AND tbl_sanpham.gia_sp >= $price_min";
+        }
+        if (!empty($price_max)) {
+            $where_clause .= " AND tbl_sanpham.gia_sp <= $price_max";
+        }
+        
+        $where_clause .= ")";
+    }
+    
+	$sql_lietke = "SELECT * FROM tbl_sanpham, tbl_danhmucqa 
+                   WHERE tbl_sanpham.id_dm = tbl_danhmucqa.id_dm 
+                   $where_clause 
+                   ORDER BY id_sp DESC";
+	$lietke = mysqli_query($mysqli, $sql_lietke);
 ?>
 
 <!-- Link Bootstrap CSS -->
@@ -9,6 +53,48 @@
 
 <div class="container mt-5">
     <h3 class="text-center">Liệt Kê Sản Phẩm</h3>
+    
+    <!-- Search Form -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <form class="row g-3" method="GET" action="">
+                <input type="hidden" name="action" value="quanLySanPham">
+                <input type="hidden" name="query" value="lietke">
+                
+                <div class="col-md-4">
+                    <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="<?php echo htmlspecialchars($search); ?>">
+                </div>
+                
+                <div class="col-md-2">
+                    <select name="search_field" class="form-select">
+                        <option value="all" <?php echo $search_field == 'all' ? 'selected' : ''; ?>>Tất cả</option>
+                        <option value="ten_sp" <?php echo $search_field == 'ten_sp' ? 'selected' : ''; ?>>Tên sản phẩm</option>
+                        <option value="ma_sp" <?php echo $search_field == 'ma_sp' ? 'selected' : ''; ?>>Mã sản phẩm</option>
+                        <option value="tinh_trang" <?php echo $search_field == 'tinh_trang' ? 'selected' : ''; ?>>Trạng thái</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-2">
+                    <input type="number" name="price_min" class="form-control" placeholder="Giá tối thiểu" value="<?php echo $price_min; ?>">
+                </div>
+                
+                <div class="col-md-2">
+                    <input type="number" name="price_max" class="form-control" placeholder="Giá tối đa" value="<?php echo $price_max; ?>">
+                </div>
+                
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+                </div>
+                
+                <?php if (!empty($search) || !empty($price_min) || !empty($price_max)): ?>
+                    <div class="col-md-12 mt-2">
+                        <a href="?action=quanLySanPham&query=lietke" class="btn btn-secondary">Xóa tìm kiếm</a>
+                    </div>
+                <?php endif; ?>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-striped table-hover text-center align-middle">
         <thead class="table-dark">
             <tr>

@@ -1,6 +1,34 @@
 <?php
 	include("config/config.php");
-    $sql_lietke = "SELECT * FROM tbl_baiviet,tbl_danhmuc_baiviet WHERE tbl_baiviet.id_danhmuc=tbl_danhmuc_baiviet.id_baiviet ORDER BY id DESC";
+    
+    // Search functionality
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+    $search_field = isset($_GET['search_field']) ? $_GET['search_field'] : 'all';
+    
+    $where_clause = "";
+    if (!empty($search)) {
+        switch ($search_field) {
+            case 'tenbaiviet':
+                $where_clause = "AND tbl_baiviet.tenbaiviet LIKE '%$search%'";
+                break;
+            case 'noidung':
+                $where_clause = "AND tbl_baiviet.noidung LIKE '%$search%'";
+                break;
+            case 'tinhtrang':
+                $status = ($search == 'kích hoạt' || $search == '1') ? 1 : 0;
+                $where_clause = "AND tbl_baiviet.tinhtrang = $status";
+                break;
+            default:
+                $where_clause = "AND (tbl_baiviet.tenbaiviet LIKE '%$search%' 
+                                OR tbl_baiviet.noidung LIKE '%$search%' 
+                                OR tbl_baiviet.tomtat LIKE '%$search%')";
+        }
+    }
+    
+    $sql_lietke = "SELECT * FROM tbl_baiviet,tbl_danhmuc_baiviet 
+                   WHERE tbl_baiviet.id_danhmuc=tbl_danhmuc_baiviet.id_baiviet 
+                   $where_clause 
+                   ORDER BY id DESC";
     $lietke = mysqli_query($mysqli, $sql_lietke);
 ?>
 <!-- Bootstrap CSS -->
@@ -8,6 +36,32 @@
 
 <div class="container mt-5">
     <h3 class="text-center">Liệt Kê Bài Viết</h3>
+    
+    <!-- Search Form -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <form class="d-flex gap-2" method="GET" action="">
+                <input type="hidden" name="action" value="quanLyBaiViet">
+                <input type="hidden" name="query" value="lietke">
+                <div class="flex-grow-1">
+                    <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="<?php echo htmlspecialchars($search); ?>">
+                </div>
+                <div>
+                    <select name="search_field" class="form-select">
+                        <option value="all" <?php echo $search_field == 'all' ? 'selected' : ''; ?>>Tất cả</option>
+                        <option value="tenbaiviet" <?php echo $search_field == 'tenbaiviet' ? 'selected' : ''; ?>>Tên bài viết</option>
+                        <option value="noidung" <?php echo $search_field == 'noidung' ? 'selected' : ''; ?>>Nội dung</option>
+                        <option value="tinhtrang" <?php echo $search_field == 'tinhtrang' ? 'selected' : ''; ?>>Trạng thái</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                <?php if (!empty($search)): ?>
+                    <a href="?action=quanLyBaiViet&query=lietke" class="btn btn-secondary">Xóa tìm kiếm</a>
+                <?php endif; ?>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-bordered">
         <thead class="table-dark">
             <tr>
