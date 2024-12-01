@@ -123,26 +123,35 @@
     <!-- Search Form -->
     <div class="row mb-4">
         <div class="col-md-12">
-            <form class="row g-3" id="searchForm">
+            <form class="row g-3" method="GET" action="index.php">
+                <input type="hidden" name="action" value="quanLySanPham">
+                <input type="hidden" name="query" value="timkiem">
+                
                 <div class="col-md-4">
-                    <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="<?php echo htmlspecialchars($search); ?>">
+                    <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm...">
                 </div>
                 
                 <div class="col-md-2">
                     <select name="search_field" class="form-select">
-                        <option value="all" <?php echo $search_field == 'all' ? 'selected' : ''; ?>>Tất cả</option>
-                        <option value="ten_sp" <?php echo $search_field == 'ten_sp' ? 'selected' : ''; ?>>Tên sản phẩm</option>
-                        <option value="ma_sp" <?php echo $search_field == 'ma_sp' ? 'selected' : ''; ?>>Mã sản phẩm</option>
-                        <option value="tinh_trang" <?php echo $search_field == 'tinh_trang' ? 'selected' : ''; ?>>Trạng thái</option>
+                        <option value="all">Tất cả</option>
+                        <option value="ten_sp">Tên sản phẩm</option>
+                        <option value="ma_sp">Mã sản phẩm</option>
+                        <option value="tinh_trang">Trạng thái</option>
                     </select>
                 </div>
                 
-                <div class="col-md-3">
-                    <input type="number" name="price_min" class="form-control" placeholder="Giá tối thiểu" value="<?php echo $price_min; ?>">
+                <div class="col-md-2">
+                    <input type="number" name="price_min" class="form-control" placeholder="Giá tối thiểu">
                 </div>
                 
-                <div class="col-md-3">
-                    <input type="number" name="price_max" class="form-control" placeholder="Giá tối đa" value="<?php echo $price_max; ?>">
+                <div class="col-md-2">
+                    <input type="number" name="price_max" class="form-control" placeholder="Giá tối đa">
+                </div>
+                
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i> Tìm kiếm
+                    </button>
                 </div>
             </form>
         </div>

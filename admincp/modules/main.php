@@ -17,6 +17,8 @@
         include("modules/quanLySanPham/lietke.php");
     } elseif ($tam == 'quanLySanPham' && $query == 'sua') {
         include("modules/quanLySanPham/sua.php");
+    } elseif ($tam == 'quanLySanPham' && $query == 'timkiem') {
+        include("modules/quanLySanPham/timkiem.php");
     } elseif ($tam == 'quanLyDonHang' && $query == 'lietke') {
         include("modules/quanLyDonHang/lietke.php");
     } elseif ($tam == 'donHang' && $query == 'xemDonHang') {
