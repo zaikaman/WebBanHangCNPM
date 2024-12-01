@@ -1,5 +1,4 @@
 <?php
-$sql_pro = "SELECT * FROM tbl_sanpham,tbl_danhmucqa WHERE tbl_sanpham.id_dm=tbl_danhmucqa.id_dm ORDER BY tbl_sanpham.id_sp DESC LIMIT 30";
 if (isset($_GET['trang'])) {
     $page = $_GET['trang'];
 } else {
@@ -47,22 +46,22 @@ $new_pro = mysqli_query($mysqli, $sql_pro);
         <?php
         $sql_page = mysqli_query($mysqli, "SELECT * FROM tbl_sanpham");
         $row_count = mysqli_num_rows($sql_page);
-        // tong san pham /     (so o duoi)   = so trang
-        $trang = ceil($row_count / 6);
+        $trang = ceil($row_count / 12);
         ?>
         <ul style="display: flex; flex-direction : row; width : 100%; justify-content : center">
             <?php
-            for ($i = 1; $i < $trang; $i++) {
+            for ($i = 1; $i <= $trang; $i++) {
             ?>
                 <div class="phantrang">
                     <div <?php if ($i == $page) {
-                                echo 'style="background: #FFFFFF;"';
-                            } else {
-                                echo '';
-                            } ?>><a href="index.php?trang=<?php echo $i ?>"><?php echo $i ?></a></div>
+                            echo 'style="background: #FFFFFF;"';
+                        } else {
+                            echo '';
+                        } ?>><a href="index.php?trang=<?php echo $i ?>"><?php echo $i ?></a></div>
                 </div>
             <?php
             }
             ?>
+        </ul>
     </div>
 </div>
