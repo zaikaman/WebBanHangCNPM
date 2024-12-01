@@ -19,7 +19,7 @@ if (!isset($_SESSION['dangNhap'])) {
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark align-items-center"> <!-- Thêm align-items-center -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark align-items-center">
             <a class="navbar-brand pl-3" href="#">Admin Dashboard</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -30,30 +30,29 @@ if (!isset($_SESSION['dangNhap'])) {
                         <a class="nav-link" href="#">Welcome Admin</a>
                     </li>
                     <li class="nav-item">
-                        <!-- Nút đăng xuất -->
                         <a class="nav-link btn btn-danger text-white" href="logout.php">Đăng xuất</a>
                     </li>
                 </ul>
             </div>
         </nav>
 
-    <div class="container-fluid mt-3 pt-3 px-3">
-            <div class="column">
-                <div class="row-md-3">
-                    <?php include("modules/menu.php"); ?>
-                </div>
-                <div class="col-md-9">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="text-center">Dashboard Overview</h3>
-                        </div>
-                        <div class="card-body">
-                            <?php include("modules/main.php"); ?>
-                        </div>
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-md-3">
+                <?php include("modules/menu.php"); ?>
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Dashboard Overview</h3>
+                    </div>
+                    <div class="card-body">
+                        <?php include("modules/main.php"); ?>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
     <?php include("modules/footer.php"); ?>
 
