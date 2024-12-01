@@ -47,7 +47,7 @@ if ($query_cate) {
                 <?php }
                 if ($count == 0) {
                 ?>
-                    <div class="kosanpham">Không có sản phẩm</div>
+                    <div class="kosanpham">Chưa có sản phẩm</div>
                 <?php  }
                 ?>
             </div>
