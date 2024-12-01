@@ -41,7 +41,7 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                     <td>
                         <?php
                         if ($row['trang_thai'] == 1) {
-                            echo '<a href="modules/quanLyDonHang/xuLy.php?code=' . $row['ma_gh'] . '" class="btn btn-warning btn-sm">Đơn Hàng Mới</a>';
+                             echo '<a href="modules/quanLyDonHang/xuLy.php?code=' . $row['ma_gh'] . '&action=process" class="btn btn-warning btn-sm">Đơn Hàng Mới</a>';
                         } else {
                             echo '<span class="badge bg-success">Đã Xử Lý</span>';
                         }
