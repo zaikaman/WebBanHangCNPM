@@ -54,6 +54,11 @@ if (isset($_GET['partnerCode'])) {
     }
     unset($_SESSION['cart']);
 } else if (isset($_GET['vnp_Amount'])) {
+        //lay id thong tin van chuyen
+    $sql_get_vanchuyen = mysqli_query($mysqli, "SELECT * FROM tbl_giaohang WHERE id_dangky='$id_khachhang' LIMIT 1");
+    $row_get_vanchuyen = mysqli_fetch_array($sql_get_vanchuyen);
+    $id_shipping = $row_get_vanchuyen['id_shipping'];
+    
     $vnp_Amount = $_GET['vnp_Amount'];
     $vnp_BankCode = $_GET['vnp_BankCode'];
     $vnp_BankTranNo = $_GET['vnp_BankTranNo'];
