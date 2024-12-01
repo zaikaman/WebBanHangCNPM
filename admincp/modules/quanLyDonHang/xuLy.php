@@ -8,9 +8,8 @@ if(isset($_GET['code'])) {
     switch($action) {
         case 'process':
             // Update order status to processed
-            $sql = "UPDATE tbl_hoadon SET trang_thai = 0 WHERE ma_gh = ?";
-            $stmt = mysqli_prepare($mysqli, $sql);
-            mysqli_stmt_bind_param($stmt, $code_cart);
+            $sql = "UPDATE tbl_hoadon SET trang_thai = 0 WHERE ma_gh = '$code_cart'";
+            $query = mysqli_query($mysqli, $sql);
             
             if(mysqli_stmt_execute($stmt)) {
                 echo "<script>
