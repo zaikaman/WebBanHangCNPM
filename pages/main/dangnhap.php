@@ -69,7 +69,7 @@ if (isset($_POST['dangNhap'])) {
                 <input type="password" id="mat_khau" name="mat_khau" class="password" required>
             </div>
             <div class="remember-forgot">
-                <label><input type="checkbox">Lưu đăng nhập</label>
+<!--                 <label><input type="checkbox">Lưu đăng nhập</label> -->
                 <!-- <a href="#">Quên mật khẩu?</a> -->
             </div>
             <button class="login_form_btn" type="submit" name="dangNhap">Đăng nhập</button>
