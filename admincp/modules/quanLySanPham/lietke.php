@@ -41,6 +41,7 @@
         $sql_lietke = "SELECT * FROM tbl_sanpham, tbl_danhmucqa $where_clause ORDER BY id_sp DESC";
         $lietke = mysqli_query($mysqli, $sql_lietke);
 
+        ob_start();
         $i = 0;
         while ($row = mysqli_fetch_array($lietke)) {
             $i++;
@@ -68,6 +69,7 @@
             </tr>
             <?php
         }
+        echo ob_get_clean();
         exit;
     }
     
@@ -206,12 +208,12 @@
 <script>
 $(document).ready(function() {
     function performSearch() {
-        var formData = $('#searchForm').serialize() + '&ajax_search=1&action=quanLySanPham&query=them';
+        var formData = $('#searchForm').serialize();
         
         $.ajax({
-            url: 'index.php',
+            url: 'modules/quanLySanPham/lietke.php',
             type: 'GET',
-            data: formData,
+            data: formData + '&ajax_search=1',
             success: function(response) {
                 $('#productTableBody').html(response);
             },
@@ -220,11 +222,6 @@ $(document).ready(function() {
             }
         });
     }
-
-    // Prevent form submission
-    $('#searchForm').on('submit', function(e) {
-        e.preventDefault();
-    });
 
     // Real-time search on any input change
     $('#searchForm input, #searchForm select').on('input change', function() {
