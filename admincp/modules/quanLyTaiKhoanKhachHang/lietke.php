@@ -1,6 +1,6 @@
 <?php
 include("config/config.php");
-$sql_lietke = "SELECT * FROM tbl_khachhang ORDER BY id_kh DESC";
+$sql_lietke = "SELECT * FROM tbl_dangky ORDER BY id_dangky DESC";
 $lietke = mysqli_query($mysqli, $sql_lietke);
 ?>
 
@@ -24,9 +24,9 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 <div class="col-md-4">
                     <select name="search_field" class="form-select">
                         <option value="all">Tất cả</option>
-                        <option value="ten_kh">Tên khách hàng</option>
+                        <option value="ten_khachhang">Tên khách hàng</option>
                         <option value="email">Email</option>
-                        <option value="so_dien_thoai">Số điện thoại</option>
+                        <option value="dien_thoai">Số điện thoại</option>
                         <option value="dia_chi">Địa chỉ</option>
                     </select>
                 </div>
@@ -60,12 +60,12 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 ?>
                     <tr>
                         <td><?php echo $i ?></td>
-                        <td><?php echo $row['ten_kh'] ?></td>
+                        <td><?php echo $row['ten_khachhang'] ?></td>
                         <td><?php echo $row['email'] ?></td>
-                        <td><?php echo $row['so_dien_thoai'] ?></td>
+                        <td><?php echo $row['dien_thoai'] ?></td>
                         <td><?php echo $row['dia_chi'] ?></td>
                         <td>
-                            <a href="modules/quanLyTaiKhoanKhachHang/xuly.php?idkh=<?php echo $row['id_kh'] ?>" class="btn btn-danger btn-sm">Xóa</a>
+                            <a href="modules/quanLyTaiKhoanKhachHang/xuly.php?id=<?php echo $row['id_dangky'] ?>" class="btn btn-danger btn-sm">Xóa</a>
                         </td>
                     </tr>
                 <?php

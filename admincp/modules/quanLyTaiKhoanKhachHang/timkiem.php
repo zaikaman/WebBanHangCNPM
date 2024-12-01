@@ -8,27 +8,27 @@ $where_clause = "WHERE 1=1";
 
 if (!empty($search)) {
     switch ($search_field) {
-        case 'ten_kh':
-            $where_clause .= " AND ten_kh LIKE '%$search%'";
+        case 'ten_khachhang':
+            $where_clause .= " AND ten_khachhang LIKE '%$search%'";
             break;
         case 'email':
             $where_clause .= " AND email LIKE '%$search%'";
             break;
-        case 'so_dien_thoai':
-            $where_clause .= " AND so_dien_thoai LIKE '%$search%'";
+        case 'dien_thoai':
+            $where_clause .= " AND dien_thoai LIKE '%$search%'";
             break;
         case 'dia_chi':
             $where_clause .= " AND dia_chi LIKE '%$search%'";
             break;
         default:
-            $where_clause .= " AND (ten_kh LIKE '%$search%' 
+            $where_clause .= " AND (ten_khachhang LIKE '%$search%' 
                             OR email LIKE '%$search%' 
-                            OR so_dien_thoai LIKE '%$search%'
+                            OR dien_thoai LIKE '%$search%'
                             OR dia_chi LIKE '%$search%')";
     }
 }
 
-$sql_lietke = "SELECT * FROM tbl_khachhang $where_clause ORDER BY id_kh DESC";
+$sql_lietke = "SELECT * FROM tbl_dangky $where_clause ORDER BY id_dangky DESC";
 $lietke = mysqli_query($mysqli, $sql_lietke);
 ?>
 
@@ -52,9 +52,9 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 <div class="col-md-4">
                     <select name="search_field" class="form-select">
                         <option value="all" <?php echo $search_field == 'all' ? 'selected' : ''; ?>>Tất cả</option>
-                        <option value="ten_kh" <?php echo $search_field == 'ten_kh' ? 'selected' : ''; ?>>Tên khách hàng</option>
+                        <option value="ten_khachhang" <?php echo $search_field == 'ten_khachhang' ? 'selected' : ''; ?>>Tên khách hàng</option>
                         <option value="email" <?php echo $search_field == 'email' ? 'selected' : ''; ?>>Email</option>
-                        <option value="so_dien_thoai" <?php echo $search_field == 'so_dien_thoai' ? 'selected' : ''; ?>>Số điện thoại</option>
+                        <option value="dien_thoai" <?php echo $search_field == 'dien_thoai' ? 'selected' : ''; ?>>Số điện thoại</option>
                         <option value="dia_chi" <?php echo $search_field == 'dia_chi' ? 'selected' : ''; ?>>Địa chỉ</option>
                     </select>
                 </div>
@@ -94,12 +94,12 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 ?>
                     <tr>
                         <td><?php echo $i ?></td>
-                        <td><?php echo $row['ten_kh'] ?></td>
+                        <td><?php echo $row['ten_khachhang'] ?></td>
                         <td><?php echo $row['email'] ?></td>
-                        <td><?php echo $row['so_dien_thoai'] ?></td>
+                        <td><?php echo $row['dien_thoai'] ?></td>
                         <td><?php echo $row['dia_chi'] ?></td>
                         <td>
-                            <a href="modules/quanLyTaiKhoanKhachHang/xuly.php?idkh=<?php echo $row['id_kh'] ?>" class="btn btn-danger btn-sm">Xóa</a>
+                            <a href="modules/quanLyTaiKhoanKhachHang/xuly.php?id=<?php echo $row['id_dangky'] ?>" class="btn btn-danger btn-sm">Xóa</a>
                         </td>
                     </tr>
                 <?php
