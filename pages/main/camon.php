@@ -67,7 +67,7 @@ if (isset($_GET['partnerCode'])) {
                     VALUE ('$vnp_Amount', '$vnp_BankCode', '$vnp_BankTranNo', '$vnp_CardType', '$vnp_OrderInfo', '$vnp_PayDate', '$vnp_TmnCode', '$vnp_TransactionNo','$code_cart')";
     $cart_query = mysqli_query($mysqli, $insert_vnpay);
     if ($cart_query) {
-        $insert_cart = "INSERT INTO tbl_hoadon(id_khachhang,ma_gh,trang_thai,cart_date) VALUE('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "')";
+         $insert_cart = "INSERT INTO tbl_hoadon(id_khachhang,ma_gh,trang_thai,cart_date,cart_payment, cart_shipping) VALUE('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "','vnpay','" . $id_shipping . "   ')";
         $cart_query = mysqli_query($mysqli, $insert_cart);
         // add gio hang chi tiet
         foreach ($_SESSION['cart'] as $key => $value) {
