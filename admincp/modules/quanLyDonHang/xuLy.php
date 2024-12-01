@@ -11,11 +11,10 @@ if(isset($_GET['code'])) {
             $sql = "UPDATE tbl_hoadon SET trang_thai = 0 WHERE ma_gh = '$code_cart'";
             $query = mysqli_query($mysqli, $sql);
             
-            if(mysqli_stmt_execute($stmt)) {
-                echo "<script>
-                    alert('Cập nhật trạng thái đơn hàng thành công!');
-                    window.location.href='../../index.php?action=quanLyDonHang&query=lietke';
-                </script>";
+            if($query) {
+                header('Location: ../../index.php?action=quanLyDonHang&query=lietke');
+            } else {
+                echo "Lỗi cập nhật";
             }
             break;
 
