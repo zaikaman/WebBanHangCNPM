@@ -35,6 +35,8 @@
         include("modules/quanLyBaiViet/lietke.php");
     } elseif ($tam == 'quanLyBaiViet' && $query == 'sua') {
         include("modules/quanLyBaiViet/sua.php");
+    } elseif ($tam == 'quanLyBaiViet' && $query == 'timkiem') {
+        include("modules/quanLyBaiViet/timkiem.php");
     } elseif ($tam == 'quanLyWeb') {
         include("modules/thongTinWeb/quanly.php");
     } elseif ($tam == 'quanLyAdmin' && $query == 'them') {
