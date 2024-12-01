@@ -1,6 +1,10 @@
 <?php
 include('..//..//config/config.php');
+require('../../../Carbon-3.8.0/autoload.php');
 
+use Carbon\Carbon;
+
+$now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
 if(isset($_GET['code'])) {
     $code_cart = $_GET['code'];
     $action = $_GET['action'];
@@ -10,41 +14,62 @@ if(isset($_GET['code'])) {
             // Update order status to processed
             $sql = "UPDATE tbl_hoadon SET trang_thai = 0 WHERE ma_gh = '$code_cart'";
             $query = mysqli_query($mysqli, $sql);
+            
             // Thống kê doanh thu
-            $sql_lietke_dh = "SELECT * FROM tbl_chitiet_gh, tbl_sanpham WHERE tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp AND tbl_chitiet_gh.ma_gh = '$code_cart' ORDER BY tbl_chitiet_gh.id_ctgh DESC";
+            $sql_lietke_dh = "SELECT tbl_chitiet_gh.so_luong_mua, tbl_sanpham.gia_sp 
+                             FROM tbl_chitiet_gh 
+                             INNER JOIN tbl_sanpham ON tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp 
+                             WHERE tbl_chitiet_gh.ma_gh = '$code_cart'";
             $query_lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
-            $sql_thongke = "SELECT * FROM tbl_thongke WHERE ngaydat = '$now'";
-            $query_thongke = mysqli_query($mysqli, $sql_thongke);
+
+            if(!$query_lietke_dh) {
+                die("Query failed: " . mysqli_error($mysqli));
+            }
+
             $soluongmua = 0;
             $doanhthu = 0;
-            $donhang = 0;
-            while ($row = mysqli_fetch_array($query_lietke_dh)) {
-            	$soluongmua += (int)$row['so_luong_mua'];
-            	$doanhthu += (int)$row['gia_sp'];
+            
+            while($row = mysqli_fetch_array($query_lietke_dh)) {
+                $soluongmua += $row['so_luong_mua'];
+                $doanhthu += $row['so_luong_mua'] * $row['gia_sp'];
             }
-            if ($query_thongke->num_rows == 0) {
-            	$donhang = 1;
-            	$stmt = $mysqli->prepare("INSERT INTO tbl_thongke (ngaydat, soluongdaban, doanhthu, donhang) VALUES (?, ?, ?, ?)");
-            	$stmt->bind_param("siii", $now, $soluongmua, $doanhthu, $donhang);
-            	if (!$stmt->execute()) {
-            		echo "Error on INSERT: " . $stmt->error; // Kiểm tra lỗi
-            	}
+
+            // Kiểm tra thống kê trong ngày
+            $sql_thongke = "SELECT * FROM tbl_thongke WHERE ngaydat = ?";
+            $stmt_check = $mysqli->prepare($sql_thongke);
+            $stmt_check->bind_param("s", $now);
+            $stmt_check->execute();
+            $result = $stmt_check->get_result();
+
+            if($result->num_rows == 0) {
+                // Chưa có thống kê trong ngày - thêm mới
+                $sql_insert = "INSERT INTO tbl_thongke (ngaydat, soluongdaban, doanhthu, donhang) VALUES (?, ?, ?, 1)";
+                $stmt_insert = $mysqli->prepare($sql_insert);
+                $stmt_insert->bind_param("sii", $now, $soluongmua, $doanhthu);
+                
+                if(!$stmt_insert->execute()) {
+                    die("Insert failed: " . $stmt_insert->error);
+                }
+                $stmt_insert->close();
             } else {
-            	$row_tk = $query_thongke->fetch_assoc();
-            	$soluongban = $row_tk['soluongdaban'] + $soluongmua;
-            	$doanhthu = $row_tk['doanhthu'] + $doanhthu;
-            	$donhang = $row_tk['donhang'] + 1;
-            	$stmt = $mysqli->prepare("UPDATE tbl_thongke SET soluongdaban = ?, doanhthu = ?, donhang = ? WHERE ngaydat = ?");
-            	$stmt->bind_param("iiis", $soluongban, $doanhthu, $donhang, $now);
-            	if (!$stmt->execute()) {
-            		echo "Error on UPDATE: " . $stmt->error; // Kiểm tra lỗi
-            	}
+                // Đã có thống kê - cập nhật
+                $row_tk = $result->fetch_assoc();
+                $soluongban = $row_tk['soluongdaban'] + $soluongmua;
+                $doanhthu_moi = $row_tk['doanhthu'] + $doanhthu;
+                $donhang = $row_tk['donhang'] + 1;
+
+                $sql_update = "UPDATE tbl_thongke SET soluongdaban = ?, doanhthu = ?, donhang = ? WHERE ngaydat = ?";
+                $stmt_update = $mysqli->prepare($sql_update);
+                $stmt_update->bind_param("iiis", $soluongban, $doanhthu_moi, $donhang, $now);
+                
+                if(!$stmt_update->execute()) {
+                    die("Update failed: " . $stmt_update->error);
+                }
+                $stmt_update->close();
             }
-            if($query) {
-                header('Location: ../../index.php?action=quanLyDonHang&query=lietke');
-            } else {
-                echo "Lỗi cập nhật";
-            }
+            $stmt_check->close();
+
+            header('Location: ../../index.php?action=quanLyDonHang&query=lietke');
             break;
 
         case 'view':
