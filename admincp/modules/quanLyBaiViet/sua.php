@@ -21,11 +21,11 @@
         </div>
         <div class="mb-3">
             <label for="tomtat" class="form-label">Tóm Tắt</label>
-            <textarea rows="5" class="form-control" id="tomtat" name="tomtat"><?php echo $row['tomtat'] ?></textarea>
+            <textarea rows="5" class="form-control" id="tomtat" name="tomtat"><?php echo str_replace('\n', "\n", $row['tomtat']) ?></textarea>
         </div>
         <div class="mb-3">
             <label for="noidung" class="form-label">Nội Dung</label>
-            <textarea rows="5" class="form-control" id="noidung" name="noidung"><?php echo $row['noidung'] ?></textarea>
+            <textarea rows="5" class="form-control" id="noidung" name="noidung"><?php echo str_replace('\n', "\n", $row['noidung']) ?></textarea>
         </div>
         <div class="mb-3">
             <label for="link" class="form-label">Link</label>

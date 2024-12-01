@@ -32,8 +32,12 @@
                 <td><?php echo $row['tenbaiviet'] ?></td>
                 <td><img src="modules/quanLybaiviet/uploads/<?php echo $row['hinhanh'] ?>" width="150px"></td>
                 <td><?php echo $row['id_danhmuc'] ?></td>
-                <td><?php echo $row['tomtat'] ?></td>
-                <td><?php echo $row['noidung'] ?></td>
+                <td>
+                         <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['noidung']) ?></textarea>
+                    </td>
+                    <td>
+                        <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['tomtat']) ?></textarea>
+                    </td>
                 <td><?php echo ($row['tinhtrang'] == 1) ? 'Kích hoạt' : 'Ẩn'; ?></td>
                 <td>
                     <a href="modules/quanLyBaiViet/xuly.php?idbv=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm">Xóa</a>

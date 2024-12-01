@@ -80,8 +80,8 @@ if(isset($_POST['thembaiviet'])) {
 
     // Process data and insert
     $tenBaiViet = mysqli_real_escape_string($mysqli, trim($_POST['tenbaiviet']));
-    $tomtat = mysqli_real_escape_string($mysqli, trim($_POST['tomtat']));
-    $noidung = mysqli_real_escape_string($mysqli, trim($_POST['noidung']));
+    $tomtat = mysqli_real_escape_string($mysqli, str_replace("\r\n", "\n", trim($_POST['tomtat'])));
+    $noidung = mysqli_real_escape_string($mysqli, str_replace("\r\n", "\n", trim($_POST['noidung']) ));
     $link = mysqli_real_escape_string($mysqli, trim($_POST['link']));
     $tinhtrang = $_POST['tinhtrang'];
     $iddm = $_POST['id_danhmuc'];
