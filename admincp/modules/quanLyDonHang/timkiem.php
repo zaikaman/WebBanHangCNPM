@@ -32,11 +32,11 @@ if (!empty($search)) {
     }
 }
 
-$sql_lietke = "SELECT tbl_hoadon.*, tbl_dangky.ten_khachhang, tbl_dangky.dien_thoai, tbl_dangky.dia_chi 
+$sql_lietke = "SELECT tbl_hoadon.*, tbl_dangky.ten_khachhang, tbl_dangky.dien_thoai, tbl_dangky.dia_chi, tbl_dangky.email 
                FROM tbl_hoadon 
                INNER JOIN tbl_dangky ON tbl_hoadon.id_khachhang = tbl_dangky.id_dangky 
                $where_clause 
-               ORDER BY tbl_hoadon.id_hoadon DESC";
+               ORDER BY tbl_hoadon.id_gh DESC";
 $lietke = mysqli_query($mysqli, $sql_lietke);
 ?>
 
@@ -91,10 +91,12 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                     <th>Mã đơn hàng</th>
                     <th>Tên khách hàng</th>
                     <th>Địa chỉ</th>
+                    <th>Email</th>
                     <th>Số điện thoại</th>
                     <th>Trạng thái</th>
                     <th>Ngày đặt</th>
-                    <th>Quản lý</th>
+                    <th>Thanh toán</th>
+                    <th colspan="2">Quản lý</th>
                 </tr>
             </thead>
             <tbody>
@@ -108,22 +110,22 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                         <td><?php echo $row['ma_gh'] ?></td>
                         <td><?php echo $row['ten_khachhang'] ?></td>
                         <td><?php echo $row['dia_chi'] ?></td>
+                        <td><?php echo $row['email'] ?></td>
                         <td><?php echo $row['dien_thoai'] ?></td>
                         <td>
                             <?php if($row['trang_thai'] == 1) { ?>
                                 <span class="badge bg-success">Đã xử lý</span>
                             <?php } else { ?>
-                                <span class="badge bg-warning">Chưa xử lý</span>
+                                <a href="modules/quanLyDonHang/xuLy.php?code=<?php echo $row['ma_gh'] ?>&action=process" class="btn btn-warning btn-sm">Đơn hàng mới</a>
                             <?php } ?>
                         </td>
-                        <td><?php echo $row['ngaymua'] ?></td>
+                        <td><?php echo $row['cart_date'] ?></td>
+                        <td><?php echo $row['cart_payment'] ?></td>
                         <td>
-                            <div class="btn-group" role="group">
-                                <a href="index.php?action=donHang&query=xemDonHang&code=<?php echo $row['ma_gh'] ?>" class="btn btn-info btn-sm">Xem</a>
-                                <?php if($row['trang_thai'] == 0) { ?>
-                                    <a href="modules/quanLyDonHang/xuLy.php?code=<?php echo $row['ma_gh'] ?>&action=process" class="btn btn-success btn-sm">Xử lý</a>
-                                <?php } ?>
-                            </div>
+                            <a href="index.php?action=donHang&query=xemDonHang&code=<?php echo $row['ma_gh'] ?>" class="btn btn-info btn-sm">Xem đơn hàng</a>
+                        </td>
+                        <td>
+                            <a href="modules/quanLyDonHang/indonhang.php?code=<?php echo $row['ma_gh'] ?>" class="btn btn-primary btn-sm">In đơn hàng</a>
                         </td>
                     </tr>
                 <?php
