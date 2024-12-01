@@ -21,6 +21,8 @@
         include("modules/quanLySanPham/timkiem.php");
     } elseif ($tam == 'quanLyDonHang' && $query == 'lietke') {
         include("modules/quanLyDonHang/lietke.php");
+    } elseif ($tam == 'quanLyDonHang' && $query == 'timkiem') {
+        include("modules/quanLyDonHang/timkiem.php");
     } elseif ($tam == 'donHang' && $query == 'xemDonHang') {
         include("modules/quanLyDonHang/xemDonHang.php");
     } elseif ($tam == 'quanLyDanhMucBaiViet' && $query == 'them') {
