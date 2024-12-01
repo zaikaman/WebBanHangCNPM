@@ -38,8 +38,8 @@ if (!isset($_SESSION['dangNhap'])) {
         </nav>
 
     <div class="container-fluid mt-3 pt-3 px-3">
-            <div class="row">
-                <div class="col-md-3">
+            <div class="column">
+                <div class="row-md-3">
                     <?php include("modules/menu.php"); ?>
                 </div>
                 <div class="col-md-9">
