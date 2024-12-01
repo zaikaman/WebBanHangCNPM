@@ -42,8 +42,10 @@
     } elseif ($tam == 'quanLyAdmin' && $query == 'doimatkhau') {
         include('modules/quanLyAdmin/doimatkhau.php');
     } elseif ($tam == 'quanLyTaiKhoanKhachHang' && $query == 'lietke') {
-    include('modules/quanLyTaiKhoanKhachHang/lietke.php');
-    }else {
+        include('modules/quanLyTaiKhoanKhachHang/lietke.php');
+    } elseif ($tam == 'quanLyTaiKhoanKhachHang' && $query == 'timkiem') {
+        include('modules/quanLyTaiKhoanKhachHang/timkiem.php');
+    } else {
         include("dashboard.php");
     }
     ?>

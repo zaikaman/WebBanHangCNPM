@@ -1,6 +1,34 @@
 <?php
 include("config/config.php");
-$sql_lietke = "SELECT * FROM tbl_khachhang ORDER BY id_kh DESC";
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$search_field = isset($_GET['search_field']) ? $_GET['search_field'] : 'all';
+
+$where_clause = "WHERE 1=1";
+
+if (!empty($search)) {
+    switch ($search_field) {
+        case 'ten_kh':
+            $where_clause .= " AND ten_kh LIKE '%$search%'";
+            break;
+        case 'email':
+            $where_clause .= " AND email LIKE '%$search%'";
+            break;
+        case 'so_dien_thoai':
+            $where_clause .= " AND so_dien_thoai LIKE '%$search%'";
+            break;
+        case 'dia_chi':
+            $where_clause .= " AND dia_chi LIKE '%$search%'";
+            break;
+        default:
+            $where_clause .= " AND (ten_kh LIKE '%$search%' 
+                            OR email LIKE '%$search%' 
+                            OR so_dien_thoai LIKE '%$search%'
+                            OR dia_chi LIKE '%$search%')";
+    }
+}
+
+$sql_lietke = "SELECT * FROM tbl_khachhang $where_clause ORDER BY id_kh DESC";
 $lietke = mysqli_query($mysqli, $sql_lietke);
 ?>
 
@@ -8,7 +36,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <div class="container mt-5">
-    <h3 class="text-center">Danh Sách Tài Khoản Khách Hàng</h3>
+    <h3 class="text-center">Kết Quả Tìm Kiếm Tài Khoản Khách Hàng</h3>
     
     <!-- Search Form -->
     <div class="row mb-4">
@@ -18,16 +46,16 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 <input type="hidden" name="query" value="timkiem">
                 
                 <div class="col-md-6">
-                    <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm...">
+                    <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="<?php echo htmlspecialchars($search); ?>">
                 </div>
                 
                 <div class="col-md-4">
                     <select name="search_field" class="form-select">
-                        <option value="all">Tất cả</option>
-                        <option value="ten_kh">Tên khách hàng</option>
-                        <option value="email">Email</option>
-                        <option value="so_dien_thoai">Số điện thoại</option>
-                        <option value="dia_chi">Địa chỉ</option>
+                        <option value="all" <?php echo $search_field == 'all' ? 'selected' : ''; ?>>Tất cả</option>
+                        <option value="ten_kh" <?php echo $search_field == 'ten_kh' ? 'selected' : ''; ?>>Tên khách hàng</option>
+                        <option value="email" <?php echo $search_field == 'email' ? 'selected' : ''; ?>>Email</option>
+                        <option value="so_dien_thoai" <?php echo $search_field == 'so_dien_thoai' ? 'selected' : ''; ?>>Số điện thoại</option>
+                        <option value="dia_chi" <?php echo $search_field == 'dia_chi' ? 'selected' : ''; ?>>Địa chỉ</option>
                     </select>
                 </div>
                 
@@ -36,6 +64,12 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                         <i class="fas fa-search"></i> Tìm kiếm
                     </button>
                 </div>
+                
+                <?php if (!empty($search)): ?>
+                    <div class="col-md-12 mt-2">
+                        <a href="index.php?action=quanLyTaiKhoanKhachHang&query=lietke" class="btn btn-secondary">Quay lại</a>
+                    </div>
+                <?php endif; ?>
             </form>
         </div>
     </div>
@@ -77,4 +111,4 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
 </div>
 
 <!-- Link Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> 
