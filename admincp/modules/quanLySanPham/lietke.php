@@ -82,12 +82,6 @@
                     <input type="number" name="price_max" class="form-control" placeholder="Giá tối đa" value="<?php echo $price_max; ?>">
                 </div>
                 
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                
                 <?php if (!empty($search) || !empty($price_min) || !empty($price_max)): ?>
                     <div class="col-md-12 mt-2">
                         <a href="?action=quanLySanPham&query=lietke" class="btn btn-secondary">Xóa tìm kiếm</a>
@@ -151,15 +145,16 @@
 </div>
 
 <!-- Link Bootstrap JS and Popper -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 $(document).ready(function() {
     function performSearch() {
-        var formData = $('#searchForm').serialize();
+        var formData = $('#searchForm').serialize() + '&ajax_search=1';
         
         $.ajax({
-            url: 'admincp/modules/quanLySanPham/lietke.php?ajax_search=1',
+            url: 'modules/quanLySanPham/lietke.php',
             type: 'GET',
             data: formData,
             success: function(response) {
@@ -171,24 +166,23 @@ $(document).ready(function() {
         });
     }
 
-    // Xử lý submit form
+    // Prevent form submission
     $('#searchForm').on('submit', function(e) {
         e.preventDefault();
-        performSearch();
     });
 
-    // Tự động tìm kiếm khi thay đổi select
+    // Real-time search on select change
     $('#searchForm select').on('change', function() {
         performSearch();
     });
 
-    // Tự động tìm kiếm khi gõ
+    // Real-time search on input
     var searchTimeout;
-    $('#searchForm input').on('keyup', function() {
+    $('#searchForm input').on('input', function() {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(function() {
             performSearch();
-        }, 300); // Đợi 300ms sau khi người dùng ngừng gõ
+        }, 300);
     });
 });
 </script>
