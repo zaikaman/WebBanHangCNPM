@@ -1,6 +1,8 @@
 <?php
 include('..//..//config/config.php');
+require('../../../Carbon-3.8.0/autoload.php');
 
+$now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
 if(isset($_GET['code'])) {
     $code_cart = $_GET['code'];
     $action = $_GET['action'];
