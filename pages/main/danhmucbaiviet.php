@@ -30,7 +30,7 @@
                                 <h5 class="card-title">
                                     <a href="<?php echo $row['link'] ?>" class="text-dark"><?php echo $row['tenbaiviet'] ?></a>
                                 </h5>
-                                <p class="card-text"><?php echo $row['tomtat'] ?></p>
+
                             </div>
                         </div>
                     </div>
