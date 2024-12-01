@@ -113,13 +113,13 @@
                                                                     Tiền mặt
                                                                 </label>
                                                             </div>
-                                                            <div class="form-check">
+<!--                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="payment" value="chuyenkhoan" id="radios2">
                                                                 <img style="width: 32px; height:32px" src="images/banking.png">
                                                                 <label class="form-check-label" for="radios2">
                                                                     Chuyển khoản
                                                                 </label>
-                                                            </div>
+                                                            </div> -->
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="payment" value="vnpay" id="radios4">
                                                                 <img style="width: 32px; height:32px" src="images/vnpay.png">
