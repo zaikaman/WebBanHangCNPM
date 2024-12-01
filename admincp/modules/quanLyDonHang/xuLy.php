@@ -12,7 +12,7 @@ if(isset($_GET['code'])) {
     switch($action) {
         case 'process':
             // Update order status to processed
-            $sql = "UPDATE tbl_hoadon SET trang_thai = 1 WHERE ma_gh = '$code_cart'";
+            $sql = "UPDATE tbl_hoadon SET trang_thai = 0 WHERE ma_gh = '$code_cart'";
             $query = mysqli_query($mysqli, $sql);
             
             // Thống kê doanh thu
