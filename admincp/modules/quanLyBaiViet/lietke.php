@@ -67,7 +67,7 @@
                     <tr>
                         <td><?php echo $i ?></td>
                         <td><?php echo $row['tenbaiviet'] ?></td>
-                        <td><img src="modules/quanLybaiviet/uploads/<?php echo $row['hinhanh'] ?>" width="150px"></td>
+                        <td><img src="modules/quanLyBaiViet/uploads/<?php echo $row['hinhanh'] ?>" width="150px"></td>
                         <td><?php echo $row['id_danhmuc'] ?></td>
                         <td>
                             <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['tomtat']) ?></textarea>
