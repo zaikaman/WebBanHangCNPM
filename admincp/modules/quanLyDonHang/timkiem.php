@@ -113,7 +113,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                         <td><?php echo $row['email'] ?></td>
                         <td><?php echo $row['dien_thoai'] ?></td>
                         <td>
-                            <?php if($row['trang_thai'] == 1) { ?>
+                            <?php if($row['trang_thai'] == 0) { ?>
                                 <span class="badge bg-success">Đã xử lý</span>
                             <?php } else { ?>
                                 <a href="modules/quanLyDonHang/xuLy.php?code=<?php echo $row['ma_gh'] ?>&action=process" class="btn btn-warning btn-sm">Đơn hàng mới</a>

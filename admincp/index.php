@@ -36,12 +36,12 @@ if (!isset($_SESSION['dangNhap'])) {
             </div>
         </nav>
 
-    <div class="container-fluid mt-3">
-        <div class="column">
-            <div class="row-md-3">
+    <div class="container-fluid mt-3 pt-3 px-3">
+        <div class="row">
+            <div class="col-md-3">
                 <?php include("modules/menu.php"); ?>
             </div>
-            <div class="col-12">
+            <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="text-center">Dashboard Overview</h3>
