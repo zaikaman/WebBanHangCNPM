@@ -49,9 +49,6 @@
                 }
                 ?>
             </div>
-            <div class="card-footer text-center">
-                <button class="btn btn-primary" style="width : auto; height : auto; padding : 10px">Gửi yêu cầu hỗ trợ</button>
-            </div>
         </div>
     </div>
 </div>
