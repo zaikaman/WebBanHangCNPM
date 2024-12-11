@@ -1,7 +1,7 @@
 .chat-container {
     position: fixed;
     bottom: 20px;
-    right: 55px;
+    right: 20px;
     width: 350px;
     height: 500px;
     background: white;
@@ -101,7 +101,7 @@
 .chat-toggle {
     position: fixed;
     bottom: 20px;
-    right: 55px;
+    right: 20px;
     background: #FF0000;
     color: white;
     width: 60px;
