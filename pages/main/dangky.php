@@ -44,18 +44,15 @@
 
             $created_at = date("Y-m-d H:i:s");
 
-            // Insert email, token, created_at into tbl_xacnhanemail
-            $insert_token_query = "INSERT INTO tbl_xacnhanemail (email, token, created_at) VALUES ('$email', '$token', '$created_at')";
-            $insert_token_result = mysqli_query($mysqli, $insert_token_query);
+            // Insert email, token, created_at into tbl_xacnhanemail with verified = 0
+            $insert_token_stmt = $mysqli->prepare("INSERT INTO tbl_xacnhanemail (email, token, created_at, verified) VALUES (?, ?, NOW(), 0) ON DUPLICATE KEY UPDATE token = VALUES(token), created_at = NOW(), verified = 0");
+            $insert_token_stmt->bind_param("ss", $email, $token);
+            $insert_token_result = $insert_token_stmt->execute();
 
             if ($insert_token_result) {
-                // Construct verification link
-                $siteURL = 'https://web7tcc-a9aaa5d624b4.herokuapp.com';
-                $verificationLink = "{$siteURL}/index.php?quanly=verify&token=$token";
-
                 // Send email using PHPMailer
                 $mailer = new Mailer();
-                $emailSent = $mailer->sendVerificationEmail($email, $ten_khachhang, $verificationLink);
+                $emailSent = $mailer->sendVerificationEmail($email, $ten_khachhang, $token);
 
                 if ($emailSent) {
                     echo "Email xác nhận đã được gửi. Vui lòng kiểm tra email để hoàn tất đăng ký!";

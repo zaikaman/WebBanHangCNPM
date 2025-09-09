@@ -3,24 +3,95 @@ session_start();
 require_once __DIR__ . '/../../admincp/config/config.php';
 require_once __DIR__ . '/../../mail/sendmail.php';
 
-$siteURL = app_url(); // Sử dụng helper function từ .env
+// Khởi tạo biến
+$resend_message = '';
+$verification_message = '';
+$is_verification_success = false;
 
-// Generate a unique token
-if (isset($_SESSION['email'])) {
+// Xử lý token xác nhận từ email
+if (isset($_GET['token']) && !empty($_GET['token'])) {
+    $token = $_GET['token'];
+    
+    // Kiểm tra token trong database
+    $stmt = $mysqli->prepare("SELECT email, created_at, verified FROM tbl_xacnhanemail WHERE token = ?");
+    $stmt->bind_param("s", $token);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $email = $row['email'];
+        $created_at = $row['created_at'];
+        $already_verified = $row['verified'];
+        
+        if ($already_verified == 1) {
+            $verification_message = "Email này đã được xác nhận trước đó.";
+            $is_verification_success = true;
+        } else {
+            // Kiểm tra token có hết hạn không (24 giờ)
+            $created_time = strtotime($created_at);
+            $current_time = time();
+            $time_diff = $current_time - $created_time;
+            
+            if ($time_diff <= 86400) { // 24 giờ = 86400 giây
+                // Token hợp lệ, cập nhật trạng thái
+                $update_stmt = $mysqli->prepare("UPDATE tbl_xacnhanemail SET verified = 1, verified_at = NOW() WHERE token = ?");
+                $update_stmt->bind_param("s", $token);
+                
+                if ($update_stmt->execute()) {
+                    // Lấy thông tin user từ session (nếu có) để insert vào tbl_dangky
+                    if (isset($_SESSION['user_info']) && $_SESSION['user_info']['email'] == $email) {
+                        $user_info = $_SESSION['user_info'];
+                        
+                        // Insert user vào bảng tbl_dangky
+                        $insert_user = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dien_thoai, mat_khau, dia_chi) VALUES (?, ?, ?, ?, ?)");
+                        $insert_user->bind_param("sssss", 
+                            $user_info['ten_khachhang'], 
+                            $user_info['email'], 
+                            $user_info['dien_thoai'], 
+                            $user_info['mat_khau'], 
+                            $user_info['dia_chi']
+                        );
+                        
+                        if ($insert_user->execute()) {
+                            // Xóa thông tin user khỏi session sau khi đăng ký thành công
+                            unset($_SESSION['user_info']);
+                            $verification_message = "Xác nhận email thành công! Tài khoản của bạn đã được tạo.";
+                        } else {
+                            $verification_message = "Xác nhận email thành công nhưng có lỗi khi tạo tài khoản.";
+                        }
+                    } else {
+                        $verification_message = "Xác nhận email thành công!";
+                    }
+                    
+                    $is_verification_success = true;
+                } else {
+                    $verification_message = "Có lỗi xảy ra khi xác nhận email. Vui lòng thử lại.";
+                }
+            } else {
+                $verification_message = "Token đã hết hạn. Vui lòng yêu cầu gửi lại email xác nhận.";
+            }
+        }
+    } else {
+        $verification_message = "Token không hợp lệ hoặc đã được sử dụng.";
+    }
+}
+
+// Xử lý gửi email xác nhận (cho trang hiển thị form)
+if (isset($_SESSION['email']) && !isset($_GET['token'])) {
     $user_email = htmlspecialchars($_SESSION['email']); 
     $user_name = $_SESSION['ten_khachhang'];
     
     $token = bin2hex(random_bytes(16)); // Create a unique token
-    $verificationLink = "$siteURL/index.php?quanly=verify&token=$token"; // Construct the verification link
 
     // Store the token in the database
-    $stmt = $mysqli->prepare("INSERT INTO tbl_xacnhanemail (email, token, created_at) VALUES (?, ?, NOW())");
+    $stmt = $mysqli->prepare("INSERT INTO tbl_xacnhanemail (email, token, created_at, verified) VALUES (?, ?, NOW(), 0) ON DUPLICATE KEY UPDATE token = VALUES(token), created_at = VALUES(created_at), verified = 0");
     $stmt->bind_param("ss", $user_email, $token);
     $stmt->execute();
 
     // Send email using PHPMailer
     $mailer = new Mailer();
-    $emailSent = $mailer->sendVerificationEmail($user_email, $user_name, $verificationLink);
+    $emailSent = $mailer->sendVerificationEmail($user_email, $user_name, $token);
 
     // Feedback message
     if ($emailSent) {
@@ -28,7 +99,7 @@ if (isset($_SESSION['email'])) {
     } else {
         $resend_message = "Có lỗi xảy ra khi gửi email xác nhận. Vui lòng thử lại.";
     }
-} else {
+} elseif (!isset($_GET['token'])) {
     $resend_message = "Không tìm thấy email của bạn trong hệ thống.";
 }
 
@@ -48,8 +119,6 @@ if (isset($_POST['resend_email'])) {
         
         // Tạo token mới
         $new_token = bin2hex(random_bytes(16));
-        $new_verificationLink = "$siteURL/index.php?quanly=verify&token=$new_token";
-        
         // Cập nhật token mới trong database
         $stmt = $mysqli->prepare("UPDATE tbl_xacnhanemail SET token = ?, created_at = NOW() WHERE email = ?");
         $stmt->bind_param("ss", $new_token, $user_email);
@@ -57,7 +126,7 @@ if (isset($_POST['resend_email'])) {
         
         // Gửi email mới
         $mailer = new Mailer();
-        $emailSent = $mailer->sendVerificationEmail($user_email, $user_name, $new_verificationLink);
+        $emailSent = $mailer->sendVerificationEmail($user_email, $user_name, $new_token);
         
         if ($emailSent) {
             $resend_message = "Email xác nhận đã được gửi lại tới " . $user_email;
@@ -68,7 +137,6 @@ if (isset($_POST['resend_email'])) {
         $resend_message = "Không tìm thấy thông tin phiên đăng ký.";
     }
 }
-?>
 ?>
 
 <!DOCTYPE html>
@@ -156,22 +224,43 @@ if (isset($_POST['resend_email'])) {
 </head>
 <body>
     <div class="verification-container">
-        <img src="../../images/email.png" alt="Biểu tượng Email">
-        <h1>Xác minh địa chỉ email của bạn</h1>
-        <p>Chúng tôi đã gửi một liên kết xác minh tới <span class="highlight"><?php echo $user_email; ?></span>.</p>
-        <p>Nhấn vào liên kết để hoàn tất quá trình xác minh. Bạn có thể cần kiểm tra trong thư mục spam.</p>
-        
-        <div class="buttons">
-            <form action="" method="POST">
-                <input type="submit" name="resend_email" value="Gửi lại email">
-            </form>
-            <a href="index.php">Quay về trang chủ</a>
-        </div>
-        
-        <?php if (isset($resend_message)): ?>
-            <div class="resend-message">
-                <?php echo $resend_message; ?>
+        <?php if (isset($_GET['token'])): ?>
+            <!-- Trang xác nhận token -->
+            <?php if ($is_verification_success): ?>
+                <img src="../../images/anchor.svg" alt="Biểu tượng thành công" style="width: 60px; height: 60px; filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);">
+                <h1>Xác nhận thành công!</h1>
+                <p><?php echo $verification_message; ?></p>
+                <div class="buttons">
+                    <a href="../../index.php?quanly=dangnhap">Đăng nhập ngay</a>
+                    <a href="../../index.php">Về trang chủ</a>
+                </div>
+            <?php else: ?>
+                <img src="../../images/email.png" alt="Biểu tượng lỗi">
+                <h1>Xác nhận thất bại</h1>
+                <p style="color: red;"><?php echo $verification_message; ?></p>
+                <div class="buttons">
+                    <a href="../../index.php">Về trang chủ</a>
+                </div>
+            <?php endif; ?>
+        <?php else: ?>
+            <!-- Trang gửi email xác nhận -->
+            <img src="../../images/email.png" alt="Biểu tượng Email">
+            <h1>Xác minh địa chỉ email của bạn</h1>
+            <p>Chúng tôi đã gửi một liên kết xác minh tới <span class="highlight"><?php echo $user_email; ?></span>.</p>
+            <p>Nhấn vào liên kết để hoàn tất quá trình xác minh. Bạn có thể cần kiểm tra trong thư mục spam.</p>
+            
+            <div class="buttons">
+                <form action="" method="POST">
+                    <input type="submit" name="resend_email" value="Gửi lại email">
+                </form>
+                <a href="../../index.php">Quay về trang chủ</a>
             </div>
+            
+            <?php if (!empty($resend_message)): ?>
+                <div class="resend-message">
+                    <?php echo $resend_message; ?>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
 
         <div class="footer">

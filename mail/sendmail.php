@@ -1,4 +1,8 @@
 <?php
+    // Include env helper if available
+    if (file_exists(__DIR__ . '/../admincp/config/env_helper.php')) {
+        require_once __DIR__ . '/../admincp/config/env_helper.php';
+    }
 
     include "PHPMailer/src/PHPMailer.php";
     include "PHPMailer/src/Exception.php";
@@ -83,7 +87,7 @@ class Mailer {
         }
     }
 
-    public function sendVerificationEmail($email, $name, $verificationLink) {
+    public function sendVerificationEmail($email, $name, $token) {
         $mail = new PHPMailer(true);
         $config = $this->getMailConfig();
         
@@ -93,6 +97,14 @@ class Mailer {
             // Recipients
             $mail->setFrom($config['from_address'], $config['from_name']);
             $mail->addAddress($email, $name);
+            
+            // Create dynamic verification link based on APP_URL
+            if (function_exists('app_url')) {
+                $baseUrl = app_url();
+            } else {
+                $baseUrl = rtrim(getenv('APP_URL') ?: 'http://localhost/WebBanHangCNPM', '/');
+            }
+            $verificationLink = $baseUrl . '/pages/main/xacnhanemail.php?token=' . $token;
             
             // Content
             $mail->isHTML(true);

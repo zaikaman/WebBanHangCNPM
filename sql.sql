@@ -879,21 +879,14 @@ CREATE TABLE `tbl_xacnhanemail` (
   `id` int NOT NULL,
   `email` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `verified` tinyint(1) DEFAULT '0' COMMENT 'Trạng thái xác nhận email (0: chưa xác nhận, 1: đã xác nhận)',
+  `verified_at` timestamp NULL DEFAULT NULL COMMENT 'Thời gian xác nhận email'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_xacnhanemail`
 --
-
-INSERT INTO `tbl_xacnhanemail` (`id`, `email`, `token`, `created_at`) VALUES
-(1, 'zaikaman123@gmail.com', '82cb92674c72ef3f45a9f31bf423af4f', '2024-11-07 07:09:13'),
-(2, 'zaikaman123@gmail.com', 'b09d779a31201452522534bf60fbe1bb', '2024-11-07 07:10:34'),
-(3, 'zaikaman123@gmail.com', 'e7e5d86ba3c36c021ef07b3e5f611dec', '2024-11-07 07:12:26'),
-(13, 'phuquy1872007@gmail.com', '105af214812cc3292ce5306ea033b94f', '2024-12-01 14:02:50'),
-(14, 'phuquy1872007@gmail.com', '679490525be17c5d8253d2e0281cfd70', '2024-12-01 14:05:57'),
-(15, 'phuquy1872007@gmail.com', '2962b96f603761a64356404346e1fdd9', '2024-12-01 14:11:20'),
-(16, 'phuquy1872007@gmail.com', '37b8410ff141b6e21a220449843686d7', '2024-12-01 14:12:31');
 
 --
 -- Indexes for dumped tables
@@ -994,7 +987,10 @@ ALTER TABLE `tbl_vnpay`
 -- Indexes for table `tbl_xacnhanemail`
 --
 ALTER TABLE `tbl_xacnhanemail`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_email` (`email`),
+  ADD KEY `idx_token` (`token`),
+  ADD KEY `idx_verified` (`verified`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1094,7 +1090,7 @@ ALTER TABLE `tbl_vnpay`
 -- AUTO_INCREMENT for table `tbl_xacnhanemail`
 --
 ALTER TABLE `tbl_xacnhanemail`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
