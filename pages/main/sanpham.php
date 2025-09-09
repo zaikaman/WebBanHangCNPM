@@ -6,7 +6,7 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
     <?php
     while ($info = mysqli_fetch_array($pro_info)) {
     ?>
-        <form class="product_content" method="POST" action="/pages/main/themgiohang.php?idsanpham=<?php echo $info['id_sp'] ?>">
+        <form class="product_content" method="POST" action="/WebBanHangCNPM/pages/main/themgiohang.php?idsanpham=<?php echo $info['id_sp'] ?>">
             <div class="product_img">
                 <img class="img" src="admincp/modules/quanLySanPham/uploads/<?php echo $info['hinh_anh'] ?>" alt="">
             </div>

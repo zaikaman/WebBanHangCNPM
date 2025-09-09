@@ -56,7 +56,7 @@
                                                     <hr class="my-4" style="border-width: 2px;">
                                                     <div class="row mb-4 d-flex justify-content-between align-items-center">
                                                         <div class="col-md-2 col-lg-2 col-xl-2">
-                                                            <img src="/admincp/modules/quanLySanPham/uploads/<?php echo $cart_item['hinh_anh']; ?>" class="img-fluid rounded-3" alt="Product Image">
+                                                            <img src="admincp/modules/quanLySanPham/uploads/<?php echo $cart_item['hinh_anh']; ?>" class="img-fluid rounded-3" alt="Product Image">
                                                         </div>
                                                         <div class="col-md-3 col-lg-3 col-xl-3" style="padding: 0;">
                                                             <h6 class="text-muted"><?php echo $cart_item['ten_sp']; ?></h6>

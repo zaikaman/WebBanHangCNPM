@@ -6,7 +6,7 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
 }
 include('../../admincp/config/config.php');
 require('../../Carbon-3.8.0/autoload.php');
-$config = include 'brevo_config.php';
+require('../../mail/sendmail.php');
 require_once('config_vnpay.php');
 
 use Carbon\Carbon;
@@ -200,116 +200,42 @@ foreach ($_SESSION['cart'] as $key => $value) {
   error_log('Product ID: ' . $value['id'] . ', Quantity: ' . $value['so_luong'] . ', Subtotal: ' . $thanhtien, 3, $logFilePath);
 }
 
-// Gửi email xác nhận đơn hàng qua Brevo
-$apiKey = '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';
-$url = 'https://api.brevo.com/v3/smtp/email';
+// Gửi email xác nhận đơn hàng qua PHPMailer
+$mailer = new Mailer();
 
-$tieude = "Đặt hàng website 7TCC thành công!";
-
-$noidung = "
-<div style='font-family: Arial, sans-serif; color: #333;'>
-    <div style='background-color: #e60000; padding: 20px; text-align: center; color: #fff;'>
-        <h2>7TCC - Xác nhận đơn hàng</h2>
-    </div>
-    <p>Chào " . $_SESSION['ten_khachhang'] . ",</p>
-    <p>Cảm ơn bạn đã đặt hàng với mã đơn hàng: <strong>" . $ma_gh . "</strong>.</p>
-    <h4 style='color: #e60000;'>Chi tiết đơn hàng:</h4>
-    <table style='width: 100%; border-collapse: collapse; margin-top: 10px;'>
-        <thead>
-            <tr style='background-color: #f8f8f8;'>
-                <th style='border: 1px solid #ddd; padding: 8px;'>Tên sản phẩm</th>
-                <th style='border: 1px solid #ddd; padding: 8px;'>Mã sản phẩm</th>
-                <th style='border: 1px solid #ddd; padding: 8px;'>Giá</th>
-                <th style='border: 1px solid #ddd; padding: 8px;'>Số lượng</th>
-                <th style='border: 1px solid #ddd; padding: 8px;'>Thành tiền</th>
-            </tr>
-        </thead>
-        <tbody>";
-
-// Thêm các sản phẩm vào email
+// Chuẩn bị dữ liệu giỏ hàng để gửi email
+$cartItems = [];
 $tong_tien = 0;
 foreach ($_SESSION['cart'] as $item) {
-    $ten_sp = $item['ten_sp'];
-    $ma_sp = $item['ma_sp'];
-    $gia_sp = number_format($item['gia_sp'], 0, ',', ',') . " VND";
-    $so_luong = $item['so_luong'];
-    $thanhtien = number_format($so_luong * $item['gia_sp'], 0, ',', ',') . " VND";
-    $tong_tien += $so_luong * $item['gia_sp'];
-
-    $noidung .= "
-        <tr>
-            <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>$ten_sp</td>
-            <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>$ma_sp</td>
-            <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>$gia_sp</td>
-            <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>$so_luong</td>
-            <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>$thanhtien</td>
-        </tr>";
+    $cartItems[] = [
+        'ten_sp' => $item['ten_sp'],
+        'ma_sp' => $item['ma_sp'],
+        'gia_sp' => $item['gia_sp'],
+        'so_luong' => $item['so_luong']
+    ];
+    $tong_tien += $item['so_luong'] * $item['gia_sp'];
 }
 
-// Tổng tiền của đơn hàng
-$noidung .= "
-        </tbody>
-    </table>
-    <h4 style='text-align: right; color: #e60000; margin-top: 10px;'>Tổng tiền: " . number_format($tong_tien, 0, ',', '.') . " VND</h4>
-    <p>Chúng tôi sẽ liên hệ để xác nhận và giao hàng trong thời gian sớm nhất. Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email hoặc số điện thoại hỗ trợ.</p>
-    <p>Trân trọng,<br>Đội ngũ 7TCC</p>
-    <div style='background-color: #f8f8f8; padding: 10px; text-align: center; font-size: 12px; color: #555;'>
-        <p>7TCC - Địa chỉ liên hệ: 123 Đường ABC, TP. XYZ</p>
-        <p>Email: support@7tcc.vn | Hotline: 0123 456 789</p>
-    </div>
-</div>";
+// Gửi email xác nhận đơn hàng
+$emailSent = $mailer->sendOrderConfirmation(
+    $_SESSION['email'],
+    $_SESSION['ten_khachhang'],
+    $ma_gh,
+    $cartItems,
+    $tong_tien
+);
 
-// Chuẩn bị dữ liệu email
-$emailData = [
-    'sender' => [
-        'name' => '7TCC Team',
-        'email' => 'zaikaman123@gmail.com'
-    ],
-    'to' => [
-        [
-            'email' => $_SESSION['email'],
-            'name' => $_SESSION['ten_khachhang']
-        ]
-    ],
-    'subject' => $tieude,
-    'htmlContent' => $noidung
-];
-
-// Cấu hình cURL để gửi email
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'accept: application/json',
-    'api-key: ' . $config['apiKey'],
-    'content-type: application/json'
-]);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($emailData));
-
-// Gửi email
-$response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-$curlError = curl_error($ch);
-curl_close($ch);
-
-// Log curl errors
-if ($curlError) {
-  error_log('cURL Error: ' . $curlError, 3, $logFilePath);
+// Log kết quả gửi email
+if ($emailSent) {
+    error_log('Order confirmation email sent successfully to: ' . $_SESSION['email'], 3, $logFilePath);
+    unset($_SESSION['cart']); // Chỉ xóa giỏ hàng khi email gửi thành công
 } else {
-  if ($httpCode != 201 && $httpCode != 200) {
-      error_log('Failed to send email. HTTP Response Code: ' . $httpCode, 3, $logFilePath);
-      error_log('Response: ' . $response, 3, $logFilePath);
-  } else {
-      error_log('Email sent successfully.', 3, $logFilePath);
-  }
+    error_log('Failed to send order confirmation email to: ' . $_SESSION['email'], 3, $logFilePath);
+    // Vẫn xóa giỏ hàng nhưng ghi log lỗi
+    unset($_SESSION['cart']);
 }
 
-error_log(print_r($_SESSION['cart'], true), 3, $logFilePath);
-
-if ($httpCode == 201 || $httpCode == 200) {
-  unset($_SESSION['cart']); 
-}
+error_log(print_r($cartItems, true), 3, $logFilePath);
 
 // Redirect to thank you page
 header('Location:../../index.php?quanly=camon');

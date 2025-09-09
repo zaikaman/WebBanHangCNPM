@@ -15,18 +15,11 @@
 class Mailer {
 
     private function getMailConfig() {
-        // Sử dụng env helper nếu có, nếu không dùng default
-        if (function_exists('env')) {
-            return [
-                'host' => env('MAIL_HOST', 'smtp.gmail.com'),
-                'username' => env('MAIL_USERNAME', 'luutrithon1996@gmail.com'),
-                'password' => env('MAIL_PASSWORD', 'xwxx lyju spew lpvg'),
-                'port' => env('MAIL_PORT', 587),
-                'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-                'from_address' => env('MAIL_FROM_ADDRESS', 'luutrithon1996@gmail.com'),
-                'from_name' => env('MAIL_FROM_NAME', '7TCC Store')
-            ];
+        // Sử dụng env helper để lấy cấu hình email
+        if (function_exists('mail_config')) {
+            return mail_config();
         } else {
+            // Fallback nếu không có env helper
             return [
                 'host' => 'smtp.gmail.com',
                 'username' => 'luutrithon1996@gmail.com',
@@ -48,7 +41,7 @@ class Mailer {
         $mail->Username = $config['username'];
         $mail->Password = $config['password'];
         $mail->SMTPSecure = $config['encryption'];
-        $mail->Port = $config['port'];
+        $mail->Port = (int)$config['port'];
         $mail->CharSet = "utf8";
         
         $mail->SMTPOptions = array(
@@ -119,6 +112,113 @@ class Mailer {
             error_log('Verification Email Error: ' . $mail->ErrorInfo);
             return false;
         }
+    }
+
+    public function sendOrderConfirmation($email, $customerName, $orderId, $cartItems, $totalAmount) {
+        $mail = new PHPMailer(true);
+        $config = $this->getMailConfig();
+        
+        try {
+            $this->setupSMTP($mail);
+            
+            // Recipients
+            $mail->setFrom($config['from_address'], $config['from_name']);
+            $mail->addAddress($email, $customerName);
+            
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Xác nhận đơn hàng - 7TCC Store';
+            
+            $mail->Body = $this->getOrderConfirmationTemplate($customerName, $orderId, $cartItems, $totalAmount);
+            
+            $mail->send();
+            return true;
+            
+        } catch(Exception $e) {
+            error_log('Order Confirmation Email Error: ' . $mail->ErrorInfo);
+            return false;
+        }
+    }
+
+    private function getOrderConfirmationTemplate($customerName, $orderId, $cartItems, $totalAmount) {
+        $productRows = '';
+        foreach ($cartItems as $item) {
+            $productRows .= "
+                <tr>
+                    <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>{$item['ten_sp']}</td>
+                    <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>{$item['ma_sp']}</td>
+                    <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>" . number_format($item['gia_sp'], 0, ',', ',') . " VND</td>
+                    <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>{$item['so_luong']}</td>
+                    <td style='border: 1px solid #ddd; padding: 8px; text-align: center;'>" . number_format($item['so_luong'] * $item['gia_sp'], 0, ',', ',') . " VND</td>
+                </tr>";
+        }
+
+        return "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+            <title>Xác nhận đơn hàng</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 700px; margin: 0 auto; padding: 20px; }
+                .header { background: #e60000; color: white; padding: 20px; text-align: center; }
+                .content { padding: 20px; background: #f9f9f9; }
+                .order-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                .order-table th { background: #f8f8f8; border: 1px solid #ddd; padding: 12px; text-align: center; }
+                .order-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+                .total { text-align: right; color: #e60000; font-weight: bold; font-size: 18px; margin-top: 15px; }
+                .footer { text-align: center; font-size: 12px; color: #666; margin-top: 30px; background: #f8f8f8; padding: 15px; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>7TCC Store</h1>
+                    <h2>Xác nhận đơn hàng</h2>
+                </div>
+                <div class='content'>
+                    <p>Chào <strong>$customerName</strong>,</p>
+                    <p>Cảm ơn bạn đã đặt hàng tại 7TCC Store! Đơn hàng của bạn đã được tiếp nhận thành công.</p>
+                    <p><strong>Mã đơn hàng:</strong> $orderId</p>
+                    
+                    <h3 style='color: #e60000;'>Chi tiết đơn hàng:</h3>
+                    <table class='order-table'>
+                        <thead>
+                            <tr>
+                                <th>Tên sản phẩm</th>
+                                <th>Mã sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            $productRows
+                        </tbody>
+                    </table>
+                    
+                    <div class='total'>
+                        Tổng tiền: " . number_format($totalAmount, 0, ',', ',') . " VND
+                    </div>
+                    
+                    <p style='margin-top: 30px;'>Chúng tôi sẽ liên hệ với bạn để xác nhận và giao hàng trong thời gian sớm nhất.</p>
+                    <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua:</p>
+                    <ul>
+                        <li>Email: support@7tcc.vn</li>
+                        <li>Hotline: 0909888888</li>
+                    </ul>
+                    
+                    <p>Trân trọng,<br><strong>Đội ngũ 7TCC Store</strong></p>
+                </div>
+                <div class='footer'>
+                    <p><strong>© 2024 7TCC Store - Thời trang thể thao chất lượng</strong></p>
+                    <p>Địa chỉ: 273 An Dương Vương – Phường 3 – Quận 5, TP.HCM</p>
+                    <p>Email: support@7tcc.vn | Hotline: 0909888888</p>
+                </div>
+            </div>
+        </body>
+        </html>";
     }
 
     private function getVerificationEmailTemplate($name, $verificationLink) {

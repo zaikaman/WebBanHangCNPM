@@ -64,13 +64,13 @@ if (isset($_POST['themgiohang'])) {
             // print_r($_SESSION['cart']);
         }
     }
-    header('Location:../../index.php?quanly=sanpham&id=' . $id . '&additem_success=1');
+    header('Location:/WebBanHangCNPM/index.php?quanly=sanpham&id=' . $id . '&additem_success=1');
 }
 
 // xóa tất cả
 if (isset($_GET['xoatatca']) && $_GET['xoatatca'] == 1) {
     unset($_SESSION['cart']);
-    header('Location:../../index.php?quanly=giohang');
+    header('Location:/WebBanHangCNPM/index.php?quanly=giohang');
 }
 // xóa sản phẩm
 if (isset($_GET['xoa']) && isset($_SESSION['cart'])) {
@@ -88,7 +88,7 @@ if (isset($_GET['xoa']) && isset($_SESSION['cart'])) {
         }
         $_SESSION['cart'] = $product;
     }
-    echo "<script>window.location.href='../../index.php?quanly=giohang';</script>";
+    echo "<script>window.location.href='/WebBanHangCNPM/index.php?quanly=giohang';</script>";
 }
 //thêm số lượng
 
@@ -132,7 +132,7 @@ if (isset($_GET['cong'])) {
             $_SESSION['cart'] = $product;
         }
     }
-    header('Location:../../index.php?quanly=giohang');
+    header('Location:/WebBanHangCNPM/index.php?quanly=giohang');
 }
 // trừ số lượng
 if (isset($_GET['tru'])) {
@@ -164,5 +164,5 @@ if (isset($_GET['tru'])) {
             $_SESSION['cart'] = $product;
         }
     }
-    header('Location:../../index.php?quanly=giohang');
+    header('Location:/WebBanHangCNPM/index.php?quanly=giohang');
 }

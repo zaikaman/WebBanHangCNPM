@@ -59,7 +59,7 @@
                                                             <hr class="my-4" style="border-width: 2px;">
                                                             <div class="row mb-4 d-flex justify-content-between align-items-center">
                                                                 <div class="col-md-2 col-lg-2 col-xl-2 c-img">
-                                                                    <img src="/admincp/modules/quanLySanPham/uploads/<?php echo $cart_item['hinh_anh']; ?>" class="img-fluid rounded-3" alt="Product Image">
+                                                                    <img src="admincp/modules/quanLySanPham/uploads/<?php echo $cart_item['hinh_anh']; ?>" class="img-fluid rounded-3" alt="Product Image">
                                                                 </div>
                                                                 <div class="col-md-3 col-lg-3 col-xl-3 c-info" style="padding: 0;">
                                                                     <h6 class="text-muted"><?php echo $cart_item['ten_sp']; ?></h6>
@@ -81,7 +81,7 @@
                                                     ?>
                                                         <hr class="my-4" style="border-width: 2px;">
                                                         <div style="width : 100%; display : flex; flex-direction : column; align-items : center; justify-content : center">
-                                                            <img style="margin-top: 0px;" src="../images/emptycart.jpg" alt="EmtpyCart" width="200px" height="200px">
+                                                            <img style="margin-top: 0px;" src="images/emptycart.jpg" alt="EmtpyCart" width="200px" height="200px">
                                                             <h4 style="font-style: italic; margin : 0 0 20px 0;">Giỏ hàng trống </h4>
                                                         </div>
                                                     <?php } ?>
@@ -108,7 +108,7 @@
                                                         ; gap : 10px">
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="payment" value="tienmat" id="radios1" checked>
-                                                                <img style="width: 32px; height:32px" src="../../images/cash.jpg">
+                                                                <img style="width: 32px; height:32px" src="images/cash.jpg">
                                                                 <label class="form-check-label" for="radios1">
                                                                     Tiền mặt
                                                                 </label>

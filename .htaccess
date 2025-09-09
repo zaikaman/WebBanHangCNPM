@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Allow access to specific directories and files
+RewriteRule ^admincp/ - [L]
+RewriteRule ^pages/ - [L]
+RewriteRule ^css/ - [L]
+RewriteRule ^js/ - [L]
+RewriteRule ^images/ - [L]
+RewriteRule ^api/ - [L]
+RewriteRule ^mail/ - [L]
+RewriteRule ^vendor/ - [L]
+RewriteRule ^favicon_io/ - [L]
+RewriteRule ^tfpdf/ - [L]
