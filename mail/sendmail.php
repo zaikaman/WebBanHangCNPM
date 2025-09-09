@@ -10,51 +10,159 @@
     use PHPMailer\PHPMailer\Exception;
 class Mailer {
 
+    private function getMailConfig() {
+        // Sử dụng env helper nếu có, nếu không dùng default
+        if (function_exists('env')) {
+            return [
+                'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+                'username' => env('MAIL_USERNAME', 'luutrithon1996@gmail.com'),
+                'password' => env('MAIL_PASSWORD', 'xwxx lyju spew lpvg'),
+                'port' => env('MAIL_PORT', 587),
+                'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+                'from_address' => env('MAIL_FROM_ADDRESS', 'luutrithon1996@gmail.com'),
+                'from_name' => env('MAIL_FROM_NAME', '7TCC Store')
+            ];
+        } else {
+            return [
+                'host' => 'smtp.gmail.com',
+                'username' => 'luutrithon1996@gmail.com',
+                'password' => 'xwxx lyju spew lpvg',
+                'port' => 587,
+                'encryption' => 'tls',
+                'from_address' => 'luutrithon1996@gmail.com',
+                'from_name' => '7TCC Store'
+            ];
+        }
+    }
+
+    private function setupSMTP($mail) {
+        $config = $this->getMailConfig();
+        
+        $mail->isSMTP();
+        $mail->Host = $config['host'];
+        $mail->SMTPAuth = true;
+        $mail->Username = $config['username'];
+        $mail->Password = $config['password'];
+        $mail->SMTPSecure = $config['encryption'];
+        $mail->Port = $config['port'];
+        $mail->CharSet = "utf8";
+        
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true,
+            ),
+        );
+    }
+
     public function dathang($tieude,$noidung, $maildathang) {
         $mail = new PHPMailer(true);
-        $mail->CharSet = "utf8";
+        $config = $this->getMailConfig();
+        
         try{
-            //server setting
-            $mail -> SMTPDebug = 2; //Enable verbose debug output
-            $mail -> isSMTP(); //Set mailer to use SMTP
-            $mail -> Host='smtp.gmail.com'; //Specify main and backup SMTP servers
-                $mail->SMTPOptions = array(
-    'ssl' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true,
-    ),
-);
-            $mail -> SMTPAuth = true; //Enable SMTP authentication
-            $mail -> Username = 'luutrithon1996@gmail.com'; //SMTP username
-            $mail -> Password = 'xwxx lyju spew lpvg'; //SMTP password
-            $mail -> SMTPSecure ='tls'; //Enable TLS encryption, 'ssl' also accepted
-            $mail -> Port = 587; // TCP port to connect to
+            $this->setupSMTP($mail);
     
             //recipients
-            $mail ->setFrom('luutrithon1996@gmail.com','Mailer');
-            $mail -> addAddress($maildathang,'Wolfdabest'); //Add a recipient
-            $mail -> addAddress('nnt090904@gmail.com'); //Name is optional 
-            //$mail -> addReplyTo('info@example.com','Information');
-            $mail -> addCC('luutrithon1996@gmail.com');
-            // $mail -> addBCC('bcc@example.com');
-    
-            //attachments
-            // $mail -> addAttachment('/var/tmp/file.tar.gz'); //Add attachments
-            // $mail -> addAttachment('/tmp/imgage.jgl','new.jpg'); //Optional name
+            $mail->setFrom($config['from_address'], $config['from_name']);
+            $mail->addAddress($maildathang,'Wolfdabest'); //Add a recipient
+            $mail->addAddress('nnt090904@gmail.com'); //Name is optional 
+            $mail->addCC($config['from_address']);
     
             //content 
-            $mail -> isHTML(true); //Set email format to HTML
-            $mail -> Subject=$tieude;
-            $mail -> Body = $noidung;
-            //$mail -> AltBody='This is the body in plain text for non-HTML mail clients';
+            $mail->isHTML(true);
+            $mail->Subject = $tieude;
+            $mail->Body = $noidung;
     
-            $mail -> send();
-            echo 'Message has been sent';
+            $mail->send();
+            return true;
     
         } catch(Exception $e){
-            echo 'Message could not be sent . Mailer Error: ', $mail -> ErrorInfo;
+            error_log('Mailer Error: ' . $mail->ErrorInfo);
+            return false;
         }
+    }
+
+    public function sendVerificationEmail($email, $name, $verificationLink) {
+        $mail = new PHPMailer(true);
+        $config = $this->getMailConfig();
+        
+        try {
+            $this->setupSMTP($mail);
+            
+            // Recipients
+            $mail->setFrom($config['from_address'], $config['from_name']);
+            $mail->addAddress($email, $name);
+            
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Xác nhận đăng ký tài khoản - 7TCC Store';
+            
+            $mail->Body = $this->getVerificationEmailTemplate($name, $verificationLink);
+            
+            $mail->send();
+            return true;
+            
+        } catch(Exception $e) {
+            error_log('Verification Email Error: ' . $mail->ErrorInfo);
+            return false;
+        }
+    }
+
+    private function getVerificationEmailTemplate($name, $verificationLink) {
+        return "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+            <title>Xác nhận đăng ký</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .header { background: #dc0521; color: white; padding: 20px; text-align: center; }
+                .content { padding: 20px; background: #f9f9f9; }
+                .button { 
+                    display: inline-block; 
+                    background: #dc0521; 
+                    color: white !important; 
+                    padding: 12px 30px; 
+                    text-decoration: none; 
+                    border-radius: 5px; 
+                    margin: 20px 0;
+                }
+                .footer { text-align: center; font-size: 12px; color: #666; margin-top: 20px; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>7TCC Store</h1>
+                    <p>Xác nhận đăng ký tài khoản</p>
+                </div>
+                <div class='content'>
+                    <h2>Xin chào $name,</h2>
+                    <p>Cảm ơn bạn đã đăng ký tài khoản tại 7TCC Store!</p>
+                    <p>Để hoàn tất quá trình đăng ký, vui lòng nhấn vào nút bên dưới để xác nhận địa chỉ email của bạn:</p>
+                    
+                    <center>
+                        <a href='$verificationLink' class='button'>Xác nhận email</a>
+                    </center>
+                    
+                    <p>Hoặc copy và paste đường link sau vào trình duyệt:</p>
+                    <p><a href='$verificationLink'>$verificationLink</a></p>
+                    
+                    <p><strong>Lưu ý:</strong> Link xác nhận này có hiệu lực trong 24 giờ.</p>
+                    
+                    <p>Nếu bạn không thực hiện đăng ký này, vui lòng bỏ qua email này.</p>
+                </div>
+                <div class='footer'>
+                    <p>© 2024 7TCC Store - Thời trang thể thao chất lượng</p>
+                    <p>Địa chỉ: 273 An Dương Vương – Phường 3 – Quận 5, TP.HCM</p>
+                    <p>Hotline: 0909888888</p>
+                </div>
+            </div>
+        </body>
+        </html>";
     }
 }
 ?>

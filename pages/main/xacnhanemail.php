@@ -1,9 +1,9 @@
 <?php
 session_start();
+require_once __DIR__ . '/../../admincp/config/config.php';
+require_once __DIR__ . '/../../mail/sendmail.php';
 
-$apiKey = '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';
-$url = 'https://api.brevo.com/v3/smtp/email';
-$siteURL = 'https://web7tcc-a9aaa5d624b4.herokuapp.com/'; // Replace with your actual website URL
+$siteURL = app_url(); // Sử dụng helper function từ .env
 
 // Generate a unique token
 if (isset($_SESSION['email'])) {
@@ -11,55 +11,22 @@ if (isset($_SESSION['email'])) {
     $user_name = $_SESSION['ten_khachhang'];
     
     $token = bin2hex(random_bytes(16)); // Create a unique token
-    $verificationLink = "$siteURL/verify.php?token=$token"; // Construct the verification link
+    $verificationLink = "$siteURL/index.php?quanly=verify&token=$token"; // Construct the verification link
 
     // Store the token in the database
-    // Here you should use your own database connection and save the token with the user's email
-    // For example:
-    // $stmt = $pdo->prepare("INSERT INTO email_verification (email, token) VALUES (?, ?)");
-    // $stmt->execute([$user_email, $token]);
+    $stmt = $mysqli->prepare("INSERT INTO tbl_xacnhanemail (email, token, created_at) VALUES (?, ?, NOW())");
+    $stmt->bind_param("ss", $user_email, $token);
+    $stmt->execute();
 
-    // Prepare email content
-    $tieude = "Xác nhận đăng ký của bạn";
-    $noidung = "<p>Bạn gần hoàn thành quá trình đăng ký. Vui lòng nhấn vào liên kết bên dưới để xác nhận email:</p>";
-    $noidung .= "<p><a href='$verificationLink'>Xác nhận email của bạn</a></p>";
-    
-    // Email data array for Brevo API
-    $emailData = [
-        'sender' => [
-            'name' => 'Your Company',
-            'email' => 'zaikaman123@gmail.com'
-        ],
-        'to' => [
-            [
-                'email' => $user_email,
-                'name' => $user_name
-            ]
-        ],
-        'subject' => $tieude,
-        'htmlContent' => $noidung
-    ];
-
-    // Send email using Brevo API
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'accept: application/json',
-        'api-key: ' . $apiKey,
-        'content-type: application/json'
-    ]);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($emailData));
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    // Send email using PHPMailer
+    $mailer = new Mailer();
+    $emailSent = $mailer->sendVerificationEmail($user_email, $user_name, $verificationLink);
 
     // Feedback message
-    if ($httpCode == 201 || $httpCode == 200) {
-        $resend_message = "Email xác nhận đã được gửi lại tới " . $user_email;
+    if ($emailSent) {
+        $resend_message = "Email xác nhận đã được gửi tới " . $user_email;
     } else {
-        $resend_message = "Có lỗi xảy ra khi gửi email xác nhận.";
+        $resend_message = "Có lỗi xảy ra khi gửi email xác nhận. Vui lòng thử lại.";
     }
 } else {
     $resend_message = "Không tìm thấy email của bạn trong hệ thống.";
@@ -75,12 +42,33 @@ if (isset($_SESSION['email'])) {
 
 // Xử lý chức năng gửi lại email
 if (isset($_POST['resend_email'])) {
-    // Thêm logic để gửi lại email xác nhận tại đây
-    // Ví dụ, bạn có thể gửi lại email xác nhận bằng hàm mail hoặc API gửi email
-
-    // Phản hồi sau khi gửi lại email
-    $resend_message = "Email xác nhận đã được gửi lại tới " . $user_email;
+    if (isset($_SESSION['email'])) {
+        $user_email = $_SESSION['email'];
+        $user_name = $_SESSION['ten_khachhang'];
+        
+        // Tạo token mới
+        $new_token = bin2hex(random_bytes(16));
+        $new_verificationLink = "$siteURL/index.php?quanly=verify&token=$new_token";
+        
+        // Cập nhật token mới trong database
+        $stmt = $mysqli->prepare("UPDATE tbl_xacnhanemail SET token = ?, created_at = NOW() WHERE email = ?");
+        $stmt->bind_param("ss", $new_token, $user_email);
+        $stmt->execute();
+        
+        // Gửi email mới
+        $mailer = new Mailer();
+        $emailSent = $mailer->sendVerificationEmail($user_email, $user_name, $new_verificationLink);
+        
+        if ($emailSent) {
+            $resend_message = "Email xác nhận đã được gửi lại tới " . $user_email;
+        } else {
+            $resend_message = "Có lỗi xảy ra khi gửi lại email xác nhận.";
+        }
+    } else {
+        $resend_message = "Không tìm thấy thông tin phiên đăng ký.";
+    }
 }
+?>
 ?>
 
 <!DOCTYPE html>

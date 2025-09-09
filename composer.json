@@ -1,7 +1,7 @@
 {
     "require": {
         "ext-mbstring": "*",
-        "vlucas/phpdotenv": "^5.0"
+        "vlucas/phpdotenv": "^5.0",
+        "phpmailer/phpmailer": "^6.10"
     }
 }
-  

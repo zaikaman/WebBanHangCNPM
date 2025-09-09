@@ -1,6 +1,7 @@
 <div class="main_content">
     <?php
-    $config = include 'brevo_config.php';
+    // Include Mailer class for email sending
+    require_once(__DIR__ . '/../../mail/sendmail.php');
     $registration_error = '';
 
     if (isset($_POST['dang_ky'])) {
@@ -52,68 +53,16 @@
                 $siteURL = 'https://web7tcc-a9aaa5d624b4.herokuapp.com';
                 $verificationLink = "{$siteURL}/index.php?quanly=verify&token=$token";
 
-                // Prepare email content
-                $tieude = "Xác nhận đăng ký của bạn";
-                $noidung = "
-            <div style='font-family: Arial, sans-serif; color: #333;'>
-                <div style='background-color: #e60000; padding: 20px; text-align: center; color: #fff;'>
-                    <h2>7TCC - Xác nhận đăng ký</h2>
-                </div>
-                <div style='padding: 20px;'>
-                    <p>Chào <strong>$ten_khachhang</strong>,</p>
-                    <p>Cảm ơn bạn đã đăng ký tài khoản trên 7TCC!</p>
-                    <p style='color: #e60000;'>Để hoàn tất đăng ký, vui lòng nhấp vào liên kết dưới đây để xác nhận email của bạn:</p>
-                    <p style='text-align: center;'>
-                        <a href='$verificationLink' style='background-color: #e60000; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>Xác nhận email của bạn</a>
-                    </p>
-                    <p>Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này.</p>
-                    <p>Trân trọng,<br>Đội ngũ 7TCC</p>
-                </div>
-                <div style='background-color: #f8f8f8; padding: 10px; text-align: center; font-size: 12px; color: #555;'>
-                    <p>7TCC - Địa chỉ liên hệ: 123 Đường ABC, TP. XYZ</p>
-                    <p>Email: support@7tcc.vn | Hotline: 0123 456 789</p>
-                </div>
-            </div>";
+                // Send email using PHPMailer
+                $mailer = new Mailer();
+                $emailSent = $mailer->sendVerificationEmail($email, $ten_khachhang, $verificationLink);
 
-                // Send email with Brevo
-                $url = 'https://api.brevo.com/v3/smtp/email';
-
-                $emailData = [
-                    'sender' => [
-                        'name' => '7TCC Team',
-                        'email' => 'zaikaman123@gmail.com'
-                    ],
-                    'to' => [
-                        [
-                            'email' => $email,
-                            'name' => $ten_khachhang
-                        ]
-                    ],
-                    'subject' => $tieude,
-                    'htmlContent' => $noidung
-                ];
-
-                // Initialize cURL for Brevo API request
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    'accept: application/json',
-                    'api-key: ' . $config['apiKey'],
-                    'content-type: application/json'
-                ]);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($emailData));
-                $response = curl_exec($ch);
-                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-                if ($httpCode == 201 || $httpCode == 200) {
+                if ($emailSent) {
                     echo "Email xác nhận đã được gửi. Vui lòng kiểm tra email để hoàn tất đăng ký!";
                 } else {
-                    echo "Lỗi gửi email: " . $response;
+                    echo "Lỗi gửi email. Vui lòng thử lại sau.";
                     unset($_SESSION['user_info']); // Clear session if email sending fails
                 }
-                curl_close($ch);
             } else {
                 echo "Lỗi: Không thể lưu thông tin xác nhận email.";
             }
