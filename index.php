@@ -114,10 +114,6 @@ if (session_status() == PHP_SESSION_NONE) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom Script -->
-    <script src="js/script.js"></script>
-    <script src="js/chat.js"></script>
-
     <div class="chat-toggle">
         <ion-icon name="chatbubbles-outline" style="font-size: 24px;"></ion-icon>
     </div>
@@ -125,7 +121,12 @@ if (session_status() == PHP_SESSION_NONE) {
     <div class="chat-container">
         <div class="chat-header">
             <span>Chat với AI</span>
-            <ion-icon name="close-outline" style="cursor: pointer;" id="close-chat"></ion-icon>
+            <div class="chat-header-buttons">
+                <button id="new-chat" title="Cuộc trò chuyện mới">
+                    <ion-icon name="add-outline" style="font-size: 18px;"></ion-icon>
+                </button>
+                <ion-icon name="close-outline" style="cursor: pointer; font-size: 20px;" id="close-chat"></ion-icon>
+            </div>
         </div>
         <div class="chat-messages" id="chat-messages">
         </div>
@@ -134,6 +135,10 @@ if (session_status() == PHP_SESSION_NONE) {
             <button id="send-message">Gửi</button>
         </div>
     </div>
+
+    <!-- Custom Scripts -->
+    <script src="js/script.js"></script>
+    <script src="js/chat_new.js"></script>
 </body>
 
 </html>

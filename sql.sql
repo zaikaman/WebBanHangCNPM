@@ -87,6 +87,7 @@ INSERT INTO `tbl_baiviet` (`id`, `tenbaiviet`, `tomtat`, `noidung`, `id_danhmuc`
 CREATE TABLE `tbl_chat_history` (
   `id` int NOT NULL,
   `email` varchar(100) DEFAULT NULL,
+  `session_id` varchar(100) DEFAULT NULL,
   `message` text NOT NULL,
   `response` text NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
@@ -96,10 +97,10 @@ CREATE TABLE `tbl_chat_history` (
 -- Dumping data for table `tbl_chat_history`
 --
 
-INSERT INTO `tbl_chat_history` (`id`, `email`, `message`, `response`, `created_at`) VALUES
-(2, NULL, 'chào bạn, email của tôi là gì', 'Xin chào bạn, email của chúng tôi là support@7tcc.vn. Bạn có cần hỗ trợ gì thêm không ạ?', '2024-11-11 12:16:08'),
-(3, 'thinhgpt1706@gmail.com', 'chào bạn, email của tài khoản tôi là gì', 'Chào bạn, thông tin tài khoản cá nhân của bạn sẽ được bảo mật. Bạn vui lòng liên hệ trực tiếp qua hotline 0938688079 để chúng tôi hỗ trợ bạn kiểm tra và cung cấp thông tin chính xác nhất nhé.', '2024-11-11 12:17:03'),
-(4, 'thinhgpt1706@gmail.com', 'tin nhắn trước đó của tôi là gì', 'Chào bạn, bạn vừa gửi tin nhắn hỏi thông tin email của tài khoản. Tôi đã trả lời bạn rằng thông tin tài khoản cá nhân sẽ được bảo mật và hướng dẫn bạn liên hệ trực tiếp qua hotline để được hỗ trợ kiểm tra và cung cấp thông tin chính xác nhất.', '2024-11-11 12:17:36'),
+INSERT INTO `tbl_chat_history` (`id`, `email`, `session_id`, `message`, `response`, `created_at`) VALUES
+(2, NULL, NULL, 'chào bạn, email của tôi là gì', 'Xin chào bạn, email của chúng tôi là support@7tcc.vn. Bạn có cần hỗ trợ gì thêm không ạ?', '2024-11-11 12:16:08'),
+(3, 'thinhgpt1706@gmail.com', NULL, 'chào bạn, email của tài khoản tôi là gì', 'Chào bạn, thông tin tài khoản cá nhân của bạn sẽ được bảo mật. Bạn vui lòng liên hệ trực tiếp qua hotline 0938688079 để chúng tôi hỗ trợ bạn kiểm tra và cung cấp thông tin chính xác nhất nhé.', '2024-11-11 12:17:03'),
+(4, 'thinhgpt1706@gmail.com', NULL, 'tin nhắn trước đó của tôi là gì', 'Chào bạn, bạn vừa gửi tin nhắn hỏi thông tin email của tài khoản. Tôi đã trả lời bạn rằng thông tin tài khoản cá nhân sẽ được bảo mật và hướng dẫn bạn liên hệ trực tiếp qua hotline để được hỗ trợ kiểm tra và cung cấp thông tin chính xác nhất.', '2024-11-11 12:17:36'),
 (5, NULL, 'có áo đá banh đội MU không', 'Chào bạn, hiện tại cửa hàng chúng tôi có áo đá banh của đội MU. Bạn muốn mình tư vấn thêm về sản phẩm này không ạ?', '2024-11-11 12:19:10'),
 (6, NULL, 'có', 'Chào bạn, chúng tôi có rất nhiều mẫu áo đá banh của đội MU. Bạn có muốn mình tư vấn chi tiết hơn về các mẫu áo này không ạ?', '2024-11-11 12:19:22'),
 (7, 'thinhgpt1706@gmail.com', 'web 7tcc có bao nhiêu sản phẩm vậy', 'Hiện tại, trên website của 7TCC chúng mình đang có tổng cộng **20 sản phẩm** thuộc các danh mục: Bóng đá, Cầu lông và Bóng rổ. Bạn có thể truy cập website của chúng mình tại địa chỉ https://7tcc.vn/ để tham khảo chi tiết từng sản phẩm nhé!', '2024-11-11 12:19:41'),
@@ -909,7 +910,9 @@ ALTER TABLE `tbl_baiviet`
 -- Indexes for table `tbl_chat_history`
 --
 ALTER TABLE `tbl_chat_history`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_session_id` (`session_id`),
+  ADD KEY `idx_email_session` (`email`,`session_id`);
 
 --
 -- Indexes for table `tbl_chitiet_gh`

@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Khai báo tất cả elements
+    console.log('Chat script loaded');
+    
+    // Elements
     const chatToggle = document.querySelector('.chat-toggle');
     const chatContainer = document.querySelector('.chat-container');
     const closeChat = document.querySelector('#close-chat');
@@ -8,28 +10,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatMessages = document.querySelector('#chat-messages');
     const newChatButton = document.querySelector('#new-chat');
 
-    // Khai báo biến
+    console.log('Elements found:', {
+        chatToggle: !!chatToggle,
+        chatContainer: !!chatContainer,
+        closeChat: !!closeChat,
+        sendButton: !!sendButton,
+        userInput: !!userInput,
+        chatMessages: !!chatMessages,
+        newChatButton: !!newChatButton
+    });
+
+    // Variables
     let sessionId;
     let isFirstMessage = true;
 
-    // =========== ĐỊNH NGHĨA TẤT CẢ CÁC HÀMS TRƯỚC ===========
-    
-    // Các hàm quản lý session và lịch sử chat
+    // Functions
     function generateSessionId() {
         return 'chat_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     }
 
     function getSessionId() {
-        let sessionId = localStorage.getItem('chatSessionId');
-        if (!sessionId) {
-            sessionId = generateSessionId();
-            saveSessionId(sessionId);
+        let id = localStorage.getItem('chatSessionId');
+        if (!id) {
+            id = generateSessionId();
+            localStorage.setItem('chatSessionId', id);
         }
-        return sessionId;
-    }
-
-    function saveSessionId(id) {
-        localStorage.setItem('chatSessionId', id);
+        return id;
     }
 
     function getChatHistory() {
@@ -44,22 +50,22 @@ document.addEventListener('DOMContentLoaded', function() {
         messageElements.forEach(element => {
             const isUser = element.classList.contains('user-message');
             messages.push({
-                text: element.textContent,
+                text: element.textContent || element.innerText,
                 sender: isUser ? 'user' : 'ai',
                 timestamp: Date.now()
             });
         });
         
-        console.log('Saving chat history:', messages);
-        console.log('Session ID:', sessionId);
         localStorage.setItem('chatHistory_' + sessionId, JSON.stringify(messages));
+        console.log('Chat history saved:', messages.length, 'messages');
     }
 
     function loadChatHistory() {
         const history = getChatHistory();
-        console.log('Loading chat history:', history);
+        console.log('Loading chat history:', history.length, 'messages');
         
         if (history.length > 0) {
+            chatMessages.innerHTML = '';
             history.forEach(message => {
                 appendMessage(message.text, message.sender);
             });
@@ -69,43 +75,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function clearChatHistory() {
         localStorage.removeItem('chatHistory_' + sessionId);
-        // Xóa tất cả các session cũ để tránh tích tụ dữ liệu
         Object.keys(localStorage).forEach(key => {
             if (key.startsWith('chatHistory_')) {
                 localStorage.removeItem(key);
             }
         });
+        console.log('Chat history cleared');
     }
 
-    // Hàm thêm tin nhắn vào khung chat
     function appendMessage(text, sender) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}-message`;
         
-        // Xử lý định dạng tin nhắn
-        let formattedText = text
-            // Chuyển URL thành links
+        const formattedText = text
             .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>')
-            // Xử lý xuống dòng
             .replace(/\n/g, '<br>');
 
         messageDiv.innerHTML = formattedText;
         chatMessages.appendChild(messageDiv);
-        
-        // Cuộn xuống tin nhắn mới nhất
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Hàm gửi tin nhắn
     async function sendMessage() {
         const message = userInput.value.trim();
         if (!message) return;
 
-        // Hiển thị tin nhắn người dùng
         appendMessage(message, 'user');
         userInput.value = '';
-        
-        // Lưu lịch sử ngay sau khi thêm tin nhắn người dùng
         saveChatHistory();
 
         try {
@@ -127,10 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
             const aiResponse = data.candidates[0].content.parts[0].text;
             
-            // Xử lý và hiển thị tin nhắn AI
             appendMessage(aiResponse, 'ai');
-            
-            // Lưu lịch sử sau khi nhận phản hồi từ AI
             saveChatHistory();
 
         } catch (error) {
@@ -140,69 +133,69 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // =========== KHỞI TẠO SAU KHI ĐỊNH NGHĨA TẤT CẢ HÀM ===========
-    
-    // Khởi tạo chat với session ID
+    // Initialize
     sessionId = getSessionId();
-    
-    // Load lịch sử chat từ localStorage khi khởi tạo
+    console.log('Session ID:', sessionId);
     loadChatHistory();
 
-    // =========== EVENT LISTENERS ===========
-    
-    chatToggle.addEventListener('click', () => {
-        console.log('Chat toggle clicked');
-        chatContainer.style.display = 'flex';
-        chatToggle.style.display = 'none';
-        
-        // Chỉ hiển thị tin nhắn chào mừng nếu chưa có lịch sử chat
-        const chatHistory = getChatHistory();
-        console.log('Current chat history when opening:', chatHistory);
-        if (chatHistory.length === 0 && isFirstMessage) {
-            console.log('Adding welcome message');
-            appendMessage("Xin chào! Tôi là trợ lý AI của 7TCC. Tôi có thể giúp gì cho bạn?", 'ai');
-            saveChatHistory();
-            isFirstMessage = false;
-        }
-    });
+    // Event listeners
+    if (chatToggle) {
+        chatToggle.addEventListener('click', () => {
+            console.log('Chat toggle clicked');
+            chatContainer.style.display = 'flex';
+            chatToggle.style.display = 'none';
+            
+            const chatHistory = getChatHistory();
+            if (chatHistory.length === 0 && isFirstMessage) {
+                appendMessage("Xin chào! Tôi là trợ lý AI của 7TCC. Tôi có thể giúp gì cho bạn?", 'ai');
+                saveChatHistory();
+                isFirstMessage = false;
+            }
+        });
+    }
 
-    closeChat.addEventListener('click', () => {
-        chatContainer.style.display = 'none';
-        chatToggle.style.display = 'flex';
-    });
+    if (closeChat) {
+        closeChat.addEventListener('click', () => {
+            chatContainer.style.display = 'none';
+            chatToggle.style.display = 'flex';
+        });
+    }
 
-    // Xử lý nút "Cuộc trò chuyện mới"
     if (newChatButton) {
-        console.log('Nút new-chat đã được tìm thấy và đang thêm event listener');
+        console.log('New chat button found, adding event listener');
         newChatButton.addEventListener('click', (e) => {
-            console.log('Nút new-chat đã được click');
+            console.log('New chat button clicked');
             e.preventDefault();
             e.stopPropagation();
             
             if (confirm('Bạn có chắc chắn muốn bắt đầu cuộc trò chuyện mới? Lịch sử chat hiện tại sẽ bị xóa.')) {
-                console.log('User xác nhận xóa chat');
+                console.log('User confirmed new chat');
                 clearChatHistory();
                 chatMessages.innerHTML = '';
                 sessionId = generateSessionId();
-                saveSessionId(sessionId);
+                localStorage.setItem('chatSessionId', sessionId);
                 isFirstMessage = true;
                 appendMessage("Xin chào! Tôi là trợ lý AI của 7TCC. Tôi có thể giúp gì cho bạn?", 'ai');
                 saveChatHistory();
-                console.log('Chat đã được reset với session ID mới:', sessionId);
+                console.log('New chat started with session ID:', sessionId);
             }
         });
     } else {
-        console.error('Không tìm thấy nút new-chat');
+        console.error('New chat button not found');
     }
 
-    // Xử lý gửi tin nhắn khi click nút gửi
-    sendButton.addEventListener('click', sendMessage);
+    if (sendButton) {
+        sendButton.addEventListener('click', sendMessage);
+    }
 
-    // Xử lý gửi tin nhắn khi nhấn Enter
-    userInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
+    if (userInput) {
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    }
+
+    console.log('Chat initialization complete');
 });

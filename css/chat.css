@@ -22,6 +22,40 @@
     align-items: center;
 }
 
+.chat-header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#new-chat {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    transition: background 0.3s ease;
+}
+
+#new-chat:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+#close-chat {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#close-chat:hover {
+    transform: scale(1.1);
+}
+
 .chat-messages {
     flex: 1;
     overflow-y: auto;

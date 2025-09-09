@@ -47,23 +47,30 @@ function getStoreContext($mysqli) {
     return $context;
 }
 
-function saveChat($mysqli, $message, $response) {
+function saveChat($mysqli, $message, $response, $sessionId = null) {
     $message = mysqli_real_escape_string($mysqli, $message);
     $response = mysqli_real_escape_string($mysqli, $response);
     $email = isset($_SESSION['email']) ? mysqli_real_escape_string($mysqli, $_SESSION['email']) : NULL;
+    $sessionIdEscaped = $sessionId ? mysqli_real_escape_string($mysqli, $sessionId) : NULL;
     
-    $sql = "INSERT INTO tbl_chat_history (email, message, response) 
-            VALUES (" . ($email ? "'$email'" : "NULL") . ", '$message', '$response')";
+    $sql = "INSERT INTO tbl_chat_history (email, message, response, session_id) 
+            VALUES (" . ($email ? "'$email'" : "NULL") . ", '$message', '$response', " . ($sessionIdEscaped ? "'$sessionIdEscaped'" : "NULL") . ")";
     mysqli_query($mysqli, $sql);
 }
 
-function getRecentChat($mysqli, $limit = 5) {
+function getRecentChat($mysqli, $sessionId = null, $limit = 5) {
     $email = isset($_SESSION['email']) ? mysqli_real_escape_string($mysqli, $_SESSION['email']) : NULL;
+    $sessionIdEscaped = $sessionId ? mysqli_real_escape_string($mysqli, $sessionId) : NULL;
     
-    $sql = "SELECT message, response FROM tbl_chat_history ";
-    if($email) {
-        $sql .= "WHERE email = '$email' ";
+    $sql = "SELECT message, response FROM tbl_chat_history WHERE 1=1 ";
+    
+    // Ưu tiên session_id nếu có
+    if($sessionIdEscaped) {
+        $sql .= "AND session_id = '$sessionIdEscaped' ";
+    } else if($email) {
+        $sql .= "AND email = '$email' ";
     }
+    
     $sql .= "ORDER BY created_at DESC LIMIT $limit";
     
     $result = mysqli_query($mysqli, $sql);
@@ -77,11 +84,12 @@ function getRecentChat($mysqli, $limit = 5) {
     return array_reverse($history);
 }
 
-$API_KEY = 'AIzaSyA6u7EwDRkWuJSvT3n4bdUHBb9at6xQspM';
+$API_KEY = 'AIzaSyCKUEGvYuLfNu1MQ32n1lGLblvgo7HJldM';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
     $message = $data['message'] ?? '';
+    $sessionId = $data['sessionId'] ?? null;
 
     if (empty($message)) {
         http_response_code(400);
@@ -90,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $context = getStoreContext($mysqli);
-    $history = getRecentChat($mysqli);
+    $history = getRecentChat($mysqli, $sessionId);
     
     $initialPrompt = "Bạn là trợ lý AI của 7TCC - Thương hiệu thời trang thể thao được phát triển bởi nhóm 8 sinh viên Đại học Sài Gòn.
 
@@ -137,7 +145,7 @@ Hãy trả lời bằng Tiếng Việt một cách thân thiện và chuyên ngh
 
 Khách hàng: " . $message;
 
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" . $API_KEY;
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $API_KEY;
     
     $postData = [
         'contents' => [
@@ -162,7 +170,7 @@ Khách hàng: " . $message;
     if ($httpCode === 200) {
         $responseData = json_decode($response, true);
         $aiResponse = $responseData['candidates'][0]['content']['parts'][0]['text'];
-        saveChat($mysqli, $message, $aiResponse);
+        saveChat($mysqli, $message, $aiResponse, $sessionId);
         echo $response;
     } else {
         http_response_code(500);
