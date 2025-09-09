@@ -28,8 +28,69 @@ if (session_status() == PHP_SESSION_NONE) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYpPsrHbQ/qOUu4Tpvb9Kdh9jjp/aYY8bTjFNE1xQ+Kbh" crossorigin="anonymous">
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="/css/style-v1.css">
+    <link rel="stylesheet" type="text/css" href="css/style-v1.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="css/chat.css">
+    
+    <!-- Force center navigation -->
+    <style>
+        .menu_content {
+            justify-content: center !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+        }
+        
+        .menu .menu_content {
+            justify-content: center !important;
+        }
+        
+        .menu_items {
+            min-width: 80px !important;
+            flex: 0 0 auto !important;
+            width: auto !important;
+            margin: 0 5px !important;
+        }
+        
+        .menu_items * {
+            font-size: 16px !important;
+            font-weight: 600 !important;
+        }
+        
+        .item {
+            padding: 0 15px !important;
+        }
+        
+        /* Improve banner quality */
+        .carousel {
+            height: 400px !important;
+            overflow: hidden !important;
+        }
+        
+        .carousel-inner img {
+            height: 400px !important;
+            width: 100% !important;
+            object-fit: cover !important;
+            object-position: center !important;
+        }
+        
+        .slide img {
+            height: 400px !important;
+            width: 100% !important;
+            object-fit: cover !important;
+            object-position: center !important;
+        }
+        
+        @media (max-width: 768px) {
+            .carousel {
+                height: 280px !important;
+            }
+            
+            .carousel-inner img,
+            .slide img {
+                height: 280px !important;
+            }
+        }
+    </style>
 </head>
 
 <body>

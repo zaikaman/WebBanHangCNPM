@@ -87,7 +87,7 @@
                          
                                                 <hr class="my-4" style="border-width: 2px;">
                                                 <div style="width : 100%; display : flex; flex-direction : column; align-items : center; justify-content : center">
-                                                    <img style="margin-top: 0px;" src="../images/emptycart.jpg" alt="EmtpyCart" width="200px" height="200px">
+                                                    <img style="margin-top: 0px;" src="images/emptycart.jpg" alt="EmtpyCart" width="200px" height="200px">
                                                     <h4 style="font-style: italic; margin : 0 0 20px 0;">Giỏ hàng trống </h4>
                                                 </div>
                                             <?php } ?>

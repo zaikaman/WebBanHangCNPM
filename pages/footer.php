@@ -41,10 +41,10 @@
         <div class="footer_info">
             <p class="title">Phương thức thanh toán</p>
             <div class="sda">
-                <img class="thanhtoan_img" src="../images/atm.png" alt="">
-                <img class="thanhtoan_img" src="../images/jcb.png" alt="">
-                <img class="thanhtoan_img" src="../images/debit.png" alt="">
-                <img class="thanhtoan_img" src="../images/visa.png" alt="">
+                <img class="thanhtoan_img" src="images/atm.png" alt="">
+                <img class="thanhtoan_img" src="images/jcb.png" alt="">
+                <img class="thanhtoan_img" src="images/debit.png" alt="">
+                <img class="thanhtoan_img" src="images/visa.png" alt="">
             </div>
         </div>
         <div class="footer_info">
@@ -52,27 +52,27 @@
             <div class="sda" style="display : flex; flex-direction : row; gap : 10px">
                 <a href="#">
                     <div class="contact_icon" style="background-color: rgba(29, 161, 242, 1);">
-                        <img style="width: 18px;height: 18px; " src="../images/twitter.svg" alt="">
+                        <img style="width: 18px;height: 18px; " src="images/twitter.svg" alt="">
                     </div>
                 </a>
                 <a href="#">
                     <div class="contact_icon" style="background-color: rgba(59, 89, 152, 1);">
-                        <img style="width: 18px;height: 18px; " src="../images/facebook.svg" alt="">
+                        <img style="width: 18px;height: 18px; " src="images/facebook.svg" alt="">
                     </div>
                 </a>
                 <a href="#">
                     <div class="contact_icon" style="background-color: rgba(221, 75, 57, 1);">
-                        <img style="width: 18px;height: 18px; " src="../images/gmail.svg" alt="">
+                        <img style="width: 18px;height: 18px; " src="images/gmail.svg" alt="">
                     </div>
                 </a>
                 <a href="#">
                     <div class="contact_icon" style="background-color: rgba(30, 136, 229, 1);">
-                        <img style="width: 18px;height: 18px; " src="../images/instagram.svg" alt="">
+                        <img style="width: 18px;height: 18px; " src="images/instagram.svg" alt="">
                     </div>
                 </a>
                 <a href="#">
                     <div class="contact_icon" style="background-color: rgba(225, 0, 0, 1);">
-                        <img style="width: 18px;height: 18px; " src="../images/youtube.svg" alt="">
+                        <img style="width: 18px;height: 18px; " src="images/youtube.svg" alt="">
                     </div>
                 </a>
             </div>

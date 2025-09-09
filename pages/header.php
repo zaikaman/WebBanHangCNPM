@@ -33,13 +33,13 @@ if (isset($_GET['dangXuat']) && $_GET['dangXuat'] == 1) {
                 <form class="search_form" action="index.php?quanly=timKiem" method="POST">
                     <input class="search_input" type="text" name="tuKhoa" id="search-box" placeholder="Bạn cần tìm gì hôm nay ?">
                     <button class="search_btn" type="submit" name="timKiem" class="icon_container">
-                        <img src="../images/search-icon.svg" alt="arrow">
+                        <img src="images/search-icon.svg" alt="arrow">
                     </button>
                 </form>
             </div>
             <div class="hotline none">
                 <div class="phone">
-                    <img style="margin-top: 8px;" src="../images/phone.svg" alt="">
+                    <img style="margin-top: 8px;" src="images/phone.svg" alt="">
                 </div>
                 <div class="hotline_info">
                     <p style="margin : 0; font-size : 13px;">0909888888</p>
@@ -52,7 +52,7 @@ if (isset($_GET['dangXuat']) && $_GET['dangXuat'] == 1) {
             ?>
                 <div class="hotline logout">
                     <div class="phone">
-                        <img style="margin-top: 8px;" src="../images/user.svg" alt="">
+                        <img style="margin-top: 8px;" src="images/user.svg" alt="">
                     </div>
                     <div class="hotline_info">
                         <p style="margin : 0 0 1px 0; font-size : 12px;">Xin chào</p>
@@ -77,7 +77,7 @@ if (isset($_GET['dangXuat']) && $_GET['dangXuat'] == 1) {
             ?>
             <a href="index.php?quanly=giohang" class="shopping_cart">
                 <div class="cart_icon_container">
-                    <img style="margin-top: 8px;" src="../images/shopping-bag.svg" alt="">
+                    <img style="margin-top: 8px;" src="images/shopping-bag.svg" alt="">
                 </div>
                 <?php
                 if (isset($_SESSION['cart'])) {

@@ -1,6 +1,7 @@
 {
     "require": {
-      "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "vlucas/phpdotenv": "^5.0"
     }
-  }
+}
   
