@@ -84,7 +84,7 @@ function getRecentChat($mysqli, $sessionId = null, $limit = 5) {
     return array_reverse($history);
 }
 
-$API_KEY = 'AIzaSyCKUEGvYuLfNu1MQ32n1lGLblvgo7HJldM';
+$API_KEY = env('GEMINI_API_KEY');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
