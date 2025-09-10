@@ -139,6 +139,7 @@ if (isset($_GET['partnerCode'])) {
          $insert_cart = "INSERT INTO tbl_hoadon(id_khachhang,ma_gh,trang_thai,cart_date,cart_payment, cart_shipping) VALUES('" . $id_khachhang . "','" . $ma_gh . "',1,'" . $now . "','vnpay','" . $id_shipping . "')";
         $cart_query = mysqli_query($mysqli, $insert_cart);
         // add gio hang chi tiet
+        $tong_tien = 0; // Khởi tạo biến tong_tien
         foreach ($_SESSION['cart'] as $key => $value) {
           $id_sp = $value['id'];
           $so_luong = $value['so_luong'];
@@ -152,9 +153,12 @@ if (isset($_GET['partnerCode'])) {
         }
 
         // Gửi email xác nhận đơn hàng cho thanh toán VNPay
-        if (isset($_SESSION['email']) && isset($_SESSION['ten_khachhang']) && isset($_SESSION['cart'])) {
+        if (isset($_SESSION['email']) && isset($_SESSION['cart'])) {
             try {
                 $mailer = new Mailer();
+                
+                // Sử dụng tên mặc định nếu không có tên trong session
+                $customerName = $_SESSION['ten_khachhang'] ?? 'Khách hàng';
                 
                 // Chuẩn bị dữ liệu giỏ hàng để gửi email
                 $cartItems = [];
@@ -172,7 +176,7 @@ if (isset($_GET['partnerCode'])) {
                 // Gửi email xác nhận đơn hàng
                 $emailSent = $mailer->sendOrderConfirmation(
                     $_SESSION['email'],
-                    $_SESSION['ten_khachhang'],
+                    $customerName,
                     $ma_gh,
                     $cartItems,
                     $tong_tien_email
