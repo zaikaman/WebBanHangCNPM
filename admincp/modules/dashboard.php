@@ -55,7 +55,9 @@ $today_revenue = $result_doanhthu_today ? $result_doanhthu_today['today_revenue'
             <div class="icon">
                 <i class="fas fa-shopping-cart"></i>
             </div>
-            <h3><?php echo number_format($total_orders); ?></h3>
+            <h3 title="<?php echo number_format($total_orders); ?> đơn hàng">
+                <?php echo number_format($total_orders); ?>
+            </h3>
             <p>Tổng đơn hàng</p>
             <small class="text-muted">
                 <i class="fas fa-calendar-day mr-1"></i>
@@ -69,11 +71,32 @@ $today_revenue = $result_doanhthu_today ? $result_doanhthu_today['today_revenue'
             <div class="icon">
                 <i class="fas fa-dollar-sign"></i>
             </div>
-            <h3><?php echo number_format($total_revenue ? $total_revenue : 0); ?> ₫</h3>
+            <h3 title="<?php echo number_format($total_revenue ? $total_revenue : 0); ?> ₫">
+                <?php 
+                $revenue = $total_revenue ? $total_revenue : 0;
+                if ($revenue >= 1000000) {
+                    echo number_format($revenue / 1000000, 1) . 'M ₫';
+                } elseif ($revenue >= 1000) {
+                    echo number_format($revenue / 1000, 1) . 'K ₫';
+                } else {
+                    echo number_format($revenue) . ' ₫';
+                }
+                ?>
+            </h3>
             <p>Tổng doanh thu</p>
             <small class="text-muted">
                 <i class="fas fa-calendar-day mr-1"></i>
-                Hôm nay: <?php echo number_format($today_revenue ? $today_revenue : 0); ?> ₫
+                Hôm nay: 
+                <?php 
+                $today_rev = $today_revenue ? $today_revenue : 0;
+                if ($today_rev >= 1000000) {
+                    echo number_format($today_rev / 1000000, 1) . 'M ₫';
+                } elseif ($today_rev >= 1000) {
+                    echo number_format($today_rev / 1000, 1) . 'K ₫';
+                } else {
+                    echo number_format($today_rev) . ' ₫';
+                }
+                ?>
             </small>
         </div>
     </div>

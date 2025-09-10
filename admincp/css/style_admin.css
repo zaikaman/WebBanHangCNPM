@@ -206,6 +206,18 @@ body {
   border-radius: 0 0 12px 12px;
 }
 
+/* Statistics Cards Row */
+.row.mb-4 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.row.mb-4 > [class*="col-"] {
+  display: flex;
+  align-items: stretch;
+}
+
 /* Statistics Cards */
 .stat-card {
   background: #fff;
@@ -215,6 +227,12 @@ body {
   border: none;
   transition: all 0.3s ease;
   margin-bottom: 20px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
 }
 
 .stat-card:hover {
@@ -231,6 +249,7 @@ body {
   justify-content: center;
   font-size: 24px;
   margin-bottom: 16px;
+  flex-shrink: 0;
 }
 
 .stat-card.orders .icon {
@@ -254,16 +273,29 @@ body {
 }
 
 .stat-card h3 {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   color: #333;
   margin: 0;
+  line-height: 1.2;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  flex-shrink: 0;
 }
 
 .stat-card p {
   color: #666;
   margin: 8px 0 0 0;
   font-weight: 500;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.stat-card small {
+  font-size: 12px;
+  line-height: 1.2;
+  margin-top: auto;
+  padding-top: 8px;
 }
 
 /* Form Controls */
@@ -472,6 +504,20 @@ body {
   
   .stat-card {
     margin-bottom: 15px;
+    min-height: 160px;
+    padding: 20px;
+  }
+  
+  .stat-card h3 {
+    font-size: 20px;
+  }
+  
+  .stat-card p {
+    font-size: 13px;
+  }
+  
+  .stat-card small {
+    font-size: 11px;
   }
   
   .card-body {
@@ -480,6 +526,37 @@ body {
   
   .form-section {
     padding: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .stat-card h3 {
+    font-size: 18px;
+    line-height: 1.1;
+  }
+  
+  .stat-card {
+    min-height: 140px;
+    padding: 16px;
+  }
+  
+  .stat-card .icon {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+}
+
+/* Special handling for large numbers */
+.stat-card.revenue h3 {
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+@media (min-width: 769px) {
+  .stat-card.revenue h3 {
+    font-size: 22px;
   }
 }
 
