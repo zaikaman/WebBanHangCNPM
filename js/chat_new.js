@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Chat script loaded');
-    
+ 
     // Elements
     const chatToggle = document.querySelector('.chat-toggle');
     const chatContainer = document.querySelector('.chat-container');
@@ -9,16 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const userInput = document.querySelector('#user-input');
     const chatMessages = document.querySelector('#chat-messages');
     const newChatButton = document.querySelector('#new-chat');
-
-    console.log('Elements found:', {
-        chatToggle: !!chatToggle,
-        chatContainer: !!chatContainer,
-        closeChat: !!closeChat,
-        sendButton: !!sendButton,
-        userInput: !!userInput,
-        chatMessages: !!chatMessages,
-        newChatButton: !!newChatButton
-    });
 
     // Variables
     let sessionId;
@@ -57,12 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         localStorage.setItem('chatHistory_' + sessionId, JSON.stringify(messages));
-        console.log('Chat history saved:', messages.length, 'messages');
     }
 
     function loadChatHistory() {
         const history = getChatHistory();
-        console.log('Loading chat history:', history.length, 'messages');
         
         if (history.length > 0) {
             chatMessages.innerHTML = '';
@@ -80,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.removeItem(key);
             }
         });
-        console.log('Chat history cleared');
     }
 
     function appendMessage(text, sender) {
@@ -135,13 +121,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize
     sessionId = getSessionId();
-    console.log('Session ID:', sessionId);
     loadChatHistory();
 
     // Event listeners
     if (chatToggle) {
         chatToggle.addEventListener('click', () => {
-            console.log('Chat toggle clicked');
             chatContainer.style.display = 'flex';
             chatToggle.style.display = 'none';
             
@@ -162,14 +146,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (newChatButton) {
-        console.log('New chat button found, adding event listener');
         newChatButton.addEventListener('click', (e) => {
-            console.log('New chat button clicked');
             e.preventDefault();
             e.stopPropagation();
             
             if (confirm('Bạn có chắc chắn muốn bắt đầu cuộc trò chuyện mới? Lịch sử chat hiện tại sẽ bị xóa.')) {
-                console.log('User confirmed new chat');
                 clearChatHistory();
                 chatMessages.innerHTML = '';
                 sessionId = generateSessionId();
@@ -177,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 isFirstMessage = true;
                 appendMessage("Xin chào! Tôi là trợ lý AI của 7TCC. Tôi có thể giúp gì cho bạn?", 'ai');
                 saveChatHistory();
-                console.log('New chat started with session ID:', sessionId);
             }
         });
     } else {
@@ -196,6 +176,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    console.log('Chat initialization complete');
 });
