@@ -95,8 +95,9 @@ if ($cart_payment == 'tienmat' || $cart_payment == 'chuyenkhoan') {
     foreach ($_SESSION['cart'] as $key => $value) {
       $id_sp = $value['id'];
       $so_luong = $value['so_luong'];
-      $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh, id_sp, so_luong_mua) 
-                              VALUES ('$ma_gh', '$id_sp', '$so_luong')";
+      $size = isset($value['size']) ? $value['size'] : 'M';
+      $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh, id_sp, so_luong_mua, size) 
+                              VALUES ('$ma_gh', '$id_sp', '$so_luong', '$size')";
       mysqli_query($mysqli, $insert_order_details);
 
       // Update stock

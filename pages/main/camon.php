@@ -48,7 +48,8 @@ if (isset($_GET['partnerCode'])) {
         foreach ($_SESSION['cart'] as $key => $value) {
             $id_sp = $value['id'];
             $so_luong = $value['so_luong'];
-            $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua) VALUES('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "')";
+            $size = isset($value['size']) ? $value['size'] : 'M';
+            $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua,size) VALUES('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "','" . $size . "')";
             mysqli_query($mysqli, $insert_order_details);
             // cap nhat so luong san pham
             $update_stock = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - $so_luong WHERE id_sp = $id_sp";
@@ -143,9 +144,10 @@ if (isset($_GET['partnerCode'])) {
         foreach ($_SESSION['cart'] as $key => $value) {
           $id_sp = $value['id'];
           $so_luong = $value['so_luong'];
+          $size = isset($value['size']) ? $value['size'] : 'M';
           $thanhtien = $so_luong * $value['gia_sp'];
           $tong_tien += $thanhtien;
-          $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua) VALUES('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "')";
+          $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua,size) VALUES('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "','" . $size . "')";
           mysqli_query($mysqli, $insert_order_details);
           // cap nhat so luong san pham
           $update_stock = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - $so_luong WHERE id_sp = $id_sp";

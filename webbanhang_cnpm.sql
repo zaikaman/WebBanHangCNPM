@@ -201,20 +201,21 @@ CREATE TABLE `tbl_chitiet_gh` (
   `id_ctgh` int(11) NOT NULL,
   `ma_gh` varchar(100) NOT NULL,
   `id_sp` int(11) NOT NULL,
-  `so_luong_mua` int(11) NOT NULL
+  `so_luong_mua` int(11) NOT NULL,
+  `size` varchar(10) DEFAULT 'M'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_chitiet_gh`
 --
 
-INSERT INTO `tbl_chitiet_gh` (`id_ctgh`, `ma_gh`, `id_sp`, `so_luong_mua`) VALUES
-(14, '2946', 113, 1),
-(15, '8262', 114, 1),
-(16, '6879', 112, 1),
-(17, '3410', 113, 2),
-(18, '3410', 112, 2),
-(19, '2870', 113, 2),
+INSERT INTO `tbl_chitiet_gh` (`id_ctgh`, `ma_gh`, `id_sp`, `so_luong_mua`, `size`) VALUES
+(14, '2946', 113, 1, 'M'),
+(15, '8262', 114, 1, 'L'),
+(16, '6879', 112, 1, 'M'),
+(17, '3410', 113, 2, 'L'),
+(18, '3410', 112, 2, 'M'),
+(19, '2870', 113, 2, 'XL'),
 (20, '2870', 112, 2),
 (21, '2870', 110, 3),
 (22, '4500', 104, 10),
@@ -808,8 +809,7 @@ INSERT INTO `tbl_sanpham` (`id_sp`, `ten_sp`, `ma_sp`, `gia_sp`, `so_luong`, `so
 (218, 'Áo cầu lông nam SpeedFlex', 'ACL016', 360000, 100, 93, 'cl16.jpg', 'Áo cầu lông nhanh chóng, linh hoạt.', 'SpeedFlex được thiết kế cho những ai yêu thích sự linh hoạt và tốc độ. Với chất liệu nhẹ và co giãn, áo giúp bạn di chuyển dễ dàng trong mọi trận đấu. Thiết kế thể thao, trẻ trung phù hợp với nhiều đối tượng vận động viên.', 67, 1),
 (219, 'Áo cầu lông nam TurboSpeed', 'ACL017', 380000, 95, 92, 'cl17.jpg', 'Áo cầu lông sở hữu siêu tốc độ.', '>TurboSpeed mang đến cảm giác tốc độ tuyệt vời nhờ thiết kế ôm sát và chất liệu vải siêu nhẹ. Áo giúp bạn đạt được tốc độ tối đa trong mọi chuyển động. Dễ dàng giặt sạch và giữ màu sắc lâu dài.', 67, 1),
 (220, 'Áo cầu lông nam UltraStrike', 'ACL018', 420000, 85, 78, 'cl18.jpg', 'Áo cầu lông cho chiến thuật tấn công.', 'UltraStrike là sự lựa chọn tuyệt vời cho những vận động viên yêu thích lối chơi tấn công. Chất liệu vải giúp thấm hút mồ hôi hiệu quả, giữ cơ thể khô ráo và thoải mái suốt trận đấu. Họa tiết mạnh mẽ, phù hợp với những pha tấn công quyết đoán.', 67, 1),
-(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 63, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', '>PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1),
-(222, 'Áo cầu lông nam Victory Rush', 'ACL020', 450000, 80, 66, 'cl20.jpg', 'Áo cầu lông chiến thắng cho các vận động viên chuyên nghiệp.', 'Victory Rush không chỉ mang lại sự thoải mái mà còn giúp bạn duy trì phong độ cao trong suốt trận đấu. Chất liệu vải tiên tiến giúp thấm hút mồ hôi nhanh chóng và giữ cơ thể khô ráo, phù hợp cho những vận động viên chuyên nghiệp.', 67, 1);
+(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 63, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', '>PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1);
 
 -- --------------------------------------------------------
 

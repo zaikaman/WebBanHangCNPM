@@ -61,20 +61,21 @@
                                                         <div class="col-md-3 col-lg-3 col-xl-3" style="padding: 0;">
                                                             <h6 class="text-muted"><?php echo $cart_item['ten_sp']; ?></h6>
                                                             <h6 class="mb-0"><?php echo $cart_item['ten_sp']; ?></h6>
+                                                            <small class="text-muted">Size: <?php echo isset($cart_item['size']) ? $cart_item['size'] : 'M'; ?></small>
                                                         </div>
                                                         <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                                             <span style="font-size: 20px; font-weight : bold; margin-right : 7px ">
-                                                                <a style="color : red;" href="pages/main/themgiohang.php?tru=<?php echo $cart_item['id'] ?>">-</a>
+                                                                <a style="color : red;" href="pages/main/themgiohang.php?tru=<?php echo $cart_item['id'] ?>&size=<?php echo isset($cart_item['size']) ? $cart_item['size'] : 'M'; ?>">-</a>
                                                             </span>
                                                             <input style="width : 60%" min="0" name="quantity" value="<?php echo $cart_item['so_luong']; ?>" type="number" class="form-control form-control-sm" disabled />
                                                             <span style="font-size: 20px; font-weight : bold; margin-left : 4px ">
-                                                                <a style="color : red;" href="pages/main/themgiohang.php?cong=<?php echo $cart_item['id'] ?>">+</a> </span>
+                                                                <a style="color : red;" href="pages/main/themgiohang.php?cong=<?php echo $cart_item['id'] ?>&size=<?php echo isset($cart_item['size']) ? $cart_item['size'] : 'M'; ?>">+</a> </span>
                                                         </div>
                                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1" style="padding: 0;">
                                                             <h6 class="mb-0"><?php echo number_format($cart_item['gia_sp'], 0, ',', ',') . 'đ'; ?></h6>
                                                         </div>
                                                         <div class="col-md-1 col-lg-1 col-xl-1 text-end" style="padding: 0;">
-                                                            <a href="pages/main/themgiohang.php?xoa=<?php echo $cart_item['id']; ?>" class="text-muted"><ion-icon name="close-circle-outline" style="font-size : 22px; color:red"></ion-icon></a>
+                                                            <a href="pages/main/themgiohang.php?xoa=<?php echo $cart_item['id']; ?>&size=<?php echo isset($cart_item['size']) ? $cart_item['size'] : 'M'; ?>" class="text-muted"><ion-icon name="close-circle-outline" style="font-size : 22px; color:red"></ion-icon></a>
                                                         </div>
                                                     </div>
                                             <?php

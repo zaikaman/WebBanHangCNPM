@@ -207,3 +207,14 @@ Product ID: 221, Quantity: 1, Subtotal: 400000Order confirmation email sent succ
         )
 
 )
+Product ID: 220, Quantity: 1, Subtotal: 420000Order confirmation email sent successfully to: zaikaman123@gmail.comArray
+(
+    [0] => Array
+        (
+            [ten_sp] => Áo cầu lông nam UltraStrike
+            [ma_sp] => ACL018
+            [gia_sp] => 420000
+            [so_luong] => 1
+        )
+
+)
