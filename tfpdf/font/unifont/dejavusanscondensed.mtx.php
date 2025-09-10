@@ -13,7 +13,7 @@ $desc=array (
 );
 $up=-63;
 $ut=44;
-$ttffile='C:\xampp\htdocs\WebBanHang\tfpdf/font/unifont/DejaVuSansCondensed.ttf';
+$ttffile=dirname(__FILE__).'/DejaVuSansCondensed.ttf';
 $originalsize=680264;
 $fontkey='dejavu';
 ?>

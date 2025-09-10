@@ -18,6 +18,12 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
             <a class="item" href="index.php?quanly=giohang" data-ajax="true">Giỏ hàng<span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>
         </div>
 
+        <?php if (isset($_SESSION['dang_ky'])): ?>
+        <div class="menu_items">
+            <a class="item" href="index.php?quanly=lichSuDonHang" data-ajax="true">Lịch sử đơn hàng<span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>
+        </div>
+        <?php endif; ?>
+
         <div class="menu_items">
             <a class="item" href="index.php?quanly=tintuc" data-ajax="true">Tin tức<span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>
             <div class="news_content" id="news_content">
@@ -72,6 +78,11 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 <?php } ?>
                 <li> <a class="item" href="index.php?quanly=giohang" data-ajax="true">Giỏ hàng<span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>
                 </li>
+                
+                <?php if (isset($_SESSION['dang_ky'])): ?>
+                <li> <a class="item" href="index.php?quanly=lichSuDonHang" data-ajax="true">Lịch sử đơn hàng<span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>
+                </li>
+                <?php endif; ?>
 
                 <li style="position : relative">
                     <a class="item" href="index.php?quanly=tintuc" id="newsMenuItem" data-ajax="true">Shop<span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>

@@ -1,45 +1,129 @@
 <?php
-    require('../../tfpdf/tfpdf.php');
-	require('../../admincp/config/config.php');
-    $pdf = new tFPDF();
-    $pdf->AddPage("0");
-    // $pdf->SetFont('Arial','B',16);
+require('../../tfpdf/tfpdf.php');
+require('../../admincp/config/config.php');
 
-	$pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
-	$pdf->SetFont('DejaVu','',14);
+$pdf = new tFPDF();
+$pdf->AddPage("0");
 
-	$pdf->SetFillColor(193,229,253);
+// Thiết lập font Unicode để hỗ trợ tiếng Việt
+$pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
+$pdf->SetFont('DejaVu','',12);
 
-	$code = $_GET['code'];
-	$sql_lietke_dh= "SELECT * FROM tbl_chitiet_gh,tbl_sanpham WHERE tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp AND tbl_chitiet_gh.ma_gh='".$code."' ORDER BY tbl_chitiet_gh.id_ctgh DESC ";
-	$lietke_dh= mysqli_query($mysqli,$sql_lietke_dh);
+// Màu nền cho header
+$pdf->SetFillColor(70, 130, 180); // Steel Blue
+$pdf->SetTextColor(255, 255, 255); // White text
 
-    $pdf->Write(10,'Đơn hàng của bạn gồm có:');
-	$pdf->Ln(10);
+// Header của hóa đơn
+$pdf->Cell(0, 15, '7TCC - THOI TRANG THE THAO', 0, 1, 'C', true);
+$pdf->SetTextColor(0, 0, 0); // Black text
+$pdf->Ln(5);
 
-	$width_cell=array(5,35,80,20,30,40);
+// Thông tin công ty
+$pdf->SetFont('DejaVu','',10);
+$pdf->Cell(0, 8, 'Dia chi: 273 An Duong Vuong, Phuong 3, Quan 5, TP.HCM', 0, 1, 'C');
+$pdf->Cell(0, 8, 'Dien thoai: 0938688079 | Email: support@7tcc.vn', 0, 1, 'C');
+$pdf->Ln(10);
 
-	$pdf->Cell($width_cell[0],10,'ID',1,0,'C',true);
-	$pdf->Cell($width_cell[1],10,'Mã hàng',1,0,'C',true);
-	$pdf->Cell($width_cell[2],10,'Tên sản phẩm',1,0,'C',true);
-	$pdf->Cell($width_cell[3],10,'Số lượng',1,0,'C',true); 
-	$pdf->Cell($width_cell[4],10,'Giá',1,0,'C',true);
-	$pdf->Cell($width_cell[5],10,'Tổng tiền',1,1,'C',true); 
-	$pdf->SetFillColor(235,236,236); 
-	$fill=false;
-	$i = 0;
-	while($row = mysqli_fetch_array($lietke_dh)){
-		$i++;
-	$pdf->Cell($width_cell[0],10,$i,1,0,'C',$fill);
-	$pdf->Cell($width_cell[1],10,$row['ma_gh'],1,0,'C',$fill);
-	$pdf->Cell($width_cell[2],10,$row['ten_sp'],1,0,'C',$fill);
-	$pdf->Cell($width_cell[3],10,$row['so_luong_mua'],1,0,'C',$fill);
-	$pdf->Cell($width_cell[4],10,number_format($row['gia_sp']),1,0,'C',$fill);
-	$pdf->Cell($width_cell[5],10,number_format($row['so_luong_mua']*$row['gia_sp']),1,1,'C',$fill);
-	$fill = !$fill;
+// Lấy thông tin đơn hàng
+$code = $_GET['code'];
+$sql_don_hang = "SELECT hd.*, dk.ten_khachhang, dk.email, dk.dien_thoai, gh.address, gh.name as ten_nguoi_nhan, gh.phone as sdt_nguoi_nhan 
+                FROM tbl_hoadon hd 
+                LEFT JOIN tbl_dangky dk ON hd.id_khachhang = dk.id_dangky 
+                LEFT JOIN tbl_giaohang gh ON hd.cart_shipping = gh.id_shipping 
+                WHERE hd.ma_gh = '$code'";
+$don_hang = mysqli_query($mysqli, $sql_don_hang);
+$info_don_hang = mysqli_fetch_array($don_hang);
 
-	}
-	$pdf->Write(10,'Cảm ơn bạn đã đặt hàng tại website của chúng tôi.');
-	$pdf->Ln(10);
-    $pdf->Output();
+// Thông tin đơn hàng
+$pdf->SetFont('DejaVu','',14);
+$pdf->SetFillColor(240, 240, 240);
+$pdf->Cell(0, 10, 'HOA DON BAN HANG', 0, 1, 'C', true);
+$pdf->Ln(5);
+
+$pdf->SetFont('DejaVu','',10);
+$pdf->Cell(50, 8, 'Ma don hang: ', 0, 0, 'L');
+$pdf->Cell(0, 8, '#' . $code, 0, 1, 'L');
+
+if (isset($info_don_hang['cart_date'])) {
+    $pdf->Cell(50, 8, 'Ngay dat hang: ', 0, 0, 'L');
+    $pdf->Cell(0, 8, date('d/m/Y H:i:s', strtotime($info_don_hang['cart_date'])), 0, 1, 'L');
+}
+
+if (isset($info_don_hang['ten_khachhang'])) {
+    $pdf->Cell(50, 8, 'Khach hang: ', 0, 0, 'L');
+    $pdf->Cell(0, 8, $info_don_hang['ten_khachhang'], 0, 1, 'L');
+}
+
+if (isset($info_don_hang['dien_thoai'])) {
+    $pdf->Cell(50, 8, 'Dien thoai: ', 0, 0, 'L');
+    $pdf->Cell(0, 8, $info_don_hang['dien_thoai'], 0, 1, 'L');
+}
+
+if (isset($info_don_hang['address'])) {
+    $pdf->Cell(50, 8, 'Dia chi giao: ', 0, 0, 'L');
+    $pdf->Cell(0, 8, $info_don_hang['address'], 0, 1, 'L');
+}
+
+$pdf->Ln(10);
+
+// Chi tiết sản phẩm
+$sql_lietke_dh = "SELECT * FROM tbl_chitiet_gh,tbl_sanpham WHERE tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp AND tbl_chitiet_gh.ma_gh='".$code."' ORDER BY tbl_chitiet_gh.id_ctgh DESC ";
+$lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
+
+$pdf->SetFont('DejaVu','',11);
+$pdf->Write(10, 'CHI TIET DON HANG:');
+$pdf->Ln(8);
+
+// Header bảng
+$pdf->SetFillColor(70, 130, 180);
+$pdf->SetTextColor(255, 255, 255);
+$pdf->SetFont('DejaVu','',9);
+
+$width_cell = array(10, 30, 70, 20, 30, 40);
+
+$pdf->Cell($width_cell[0], 10, 'STT', 1, 0, 'C', true);
+$pdf->Cell($width_cell[1], 10, 'Ma SP', 1, 0, 'C', true);
+$pdf->Cell($width_cell[2], 10, 'Ten san pham', 1, 0, 'C', true);
+$pdf->Cell($width_cell[3], 10, 'So luong', 1, 0, 'C', true); 
+$pdf->Cell($width_cell[4], 10, 'Don gia', 1, 0, 'C', true);
+$pdf->Cell($width_cell[5], 10, 'Thanh tien', 1, 1, 'C', true); 
+
+// Nội dung bảng
+$pdf->SetFillColor(248, 249, 250); 
+$pdf->SetTextColor(0, 0, 0);
+$fill = false;
+$i = 0;
+$tong_tien = 0;
+
+while($row = mysqli_fetch_array($lietke_dh)){
+    $i++;
+    $thanh_tien = $row['so_luong_mua'] * $row['gia_sp'];
+    $tong_tien += $thanh_tien;
+    
+    $pdf->Cell($width_cell[0], 10, $i, 1, 0, 'C', $fill);
+    $pdf->Cell($width_cell[1], 10, $row['ma_sp'], 1, 0, 'C', $fill);
+    $pdf->Cell($width_cell[2], 10, $row['ten_sp'], 1, 0, 'L', $fill);
+    $pdf->Cell($width_cell[3], 10, $row['so_luong_mua'], 1, 0, 'C', $fill);
+    $pdf->Cell($width_cell[4], 10, number_format($row['gia_sp']) . ' d', 1, 0, 'R', $fill);
+    $pdf->Cell($width_cell[5], 10, number_format($thanh_tien) . ' d', 1, 1, 'R', $fill);
+    $fill = !$fill;
+}
+
+// Tổng tiền
+$pdf->SetFillColor(255, 255, 0); // Yellow background
+$pdf->SetFont('DejaVu','',10);
+$pdf->Cell(array_sum(array_slice($width_cell, 0, 5)), 10, 'TONG TIEN:', 1, 0, 'R', true);
+$pdf->Cell($width_cell[5], 10, number_format($tong_tien) . ' d', 1, 1, 'R', true);
+
+$pdf->Ln(15);
+
+// Footer
+$pdf->SetFont('DejaVu','',10);
+$pdf->Write(10, 'Cam on quy khach da mua hang tai 7TCC!');
+$pdf->Ln(8);
+$pdf->Write(10, 'Moi thac mac vui long lien he: 0938688079');
+$pdf->Ln(8);
+$pdf->Write(10, 'Website: 7tcc.vn | Email: support@7tcc.vn');
+
+$pdf->Output('HoaDon_' . $code . '.pdf', 'I');
 ?>
