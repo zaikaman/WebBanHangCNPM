@@ -36,7 +36,7 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
                     </div>
                 </div>
                 <div class="size_selection">
-                    <label for="" style="color : #55595C; font-size : 16px;">Kích cỡ :</label>
+                    <label for="" style="color : #55595C; font-size : 16px; margin-top: 5px">Kích cỡ :</label>
                     <select name="size" class="size_select" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
                         <option value="S">S (Small)</option>
                         <option value="M" selected>M (Medium)</option>
