@@ -1,11 +1,14 @@
 <?php
 	include("config/config.php");
+    include("includes/pagination.php");
     
     if(isset($_GET['ajax_search'])) {
         $search = isset($_GET['search']) ? $_GET['search'] : '';
         $search_field = isset($_GET['search_field']) ? $_GET['search_field'] : 'all';
         $price_min = isset($_GET['price_min']) ? floatval($_GET['price_min']) : '';
         $price_max = isset($_GET['price_max']) ? floatval($_GET['price_max']) : '';
+        $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $records_per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 10;
         
         $where_clause = "WHERE tbl_sanpham.id_dm = tbl_danhmucqa.id_dm";
         
@@ -38,11 +41,22 @@
             }
         }
         
-        $sql_lietke = "SELECT * FROM tbl_sanpham, tbl_danhmucqa $where_clause ORDER BY id_sp DESC";
+        // Đếm tổng số bản ghi cho AJAX
+        $sql_count = "SELECT COUNT(*) as total FROM tbl_sanpham, tbl_danhmucqa $where_clause";
+        $count_result = mysqli_query($mysqli, $sql_count);
+        $total_records = mysqli_fetch_array($count_result)['total'];
+        
+        // Tạo pagination object cho AJAX
+        $query_params = $_GET;
+        unset($query_params['page'], $query_params['ajax_search']);
+        $pagination = new Pagination($current_page, $total_records, $records_per_page, $query_params);
+        
+        $sql_lietke = "SELECT * FROM tbl_sanpham, tbl_danhmucqa $where_clause ORDER BY id_sp DESC LIMIT " . $pagination->getLimit() . " OFFSET " . $pagination->getOffset();
         $lietke = mysqli_query($mysqli, $sql_lietke);
 
         ob_start();
-        $i = 0;
+        $start_number = $pagination->getOffset();
+        $i = $start_number;
         while ($row = mysqli_fetch_array($lietke)) {
             $i++;
             ?>
@@ -63,13 +77,20 @@
                 </td>
                 <td><?php echo ($row['tinh_trang'] == 1) ? 'Kích hoạt' : 'Ẩn' ?></td>
                 <td>
-                    <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo $row['ma_sp'] ?>" class="btn btn-danger btn-sm">Xóa</a>
+                    <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo $row['ma_sp'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
                     <a href="?action=quanLySanPham&query=sua&idsp=<?php echo $row['ma_sp'] ?>" class="btn btn-warning btn-sm">Sửa</a>
                 </td>
             </tr>
             <?php
         }
-        echo ob_get_clean();
+        $table_content = ob_get_clean();
+        
+        // Trả về JSON response với cả table content và pagination
+        echo json_encode([
+            'table_content' => $table_content,
+            'pagination' => $pagination->render(),
+            'total_records' => $total_records
+        ]);
         exit;
     }
     
@@ -78,6 +99,8 @@
     $search_field = isset($_GET['search_field']) ? $_GET['search_field'] : 'all';
     $price_min = isset($_GET['price_min']) ? floatval($_GET['price_min']) : '';
     $price_max = isset($_GET['price_max']) ? floatval($_GET['price_max']) : '';
+    $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $records_per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 10;
     
     $where_clause = "WHERE tbl_sanpham.id_dm = tbl_danhmucqa.id_dm";
     
@@ -110,7 +133,17 @@
         }
     }
     
-    $sql_lietke = "SELECT * FROM tbl_sanpham, tbl_danhmucqa $where_clause ORDER BY id_sp DESC";
+    // Đếm tổng số bản ghi
+    $sql_count = "SELECT COUNT(*) as total FROM tbl_sanpham, tbl_danhmucqa $where_clause";
+    $count_result = mysqli_query($mysqli, $sql_count);
+    $total_records = mysqli_fetch_array($count_result)['total'];
+    
+    // Tạo pagination object
+    $query_params = $_GET;
+    unset($query_params['page']);
+    $pagination = new Pagination($current_page, $total_records, $records_per_page, $query_params);
+    
+    $sql_lietke = "SELECT * FROM tbl_sanpham, tbl_danhmucqa $where_clause ORDER BY id_sp DESC LIMIT " . $pagination->getLimit() . " OFFSET " . $pagination->getOffset();
     $lietke = mysqli_query($mysqli, $sql_lietke);
 ?>
 
@@ -120,38 +153,48 @@
 <div class="container mt-5">
     <h3 class="text-center">Liệt Kê Sản Phẩm</h3>
     
+    <!-- Page Size Selector -->
+    <?php echo $pagination->renderPageSizeSelector(); ?>
+    
     <!-- Search Form -->
     <div class="row mb-4">
         <div class="col-md-12">
-            <form class="row g-3" method="GET" action="index.php">
+            <form class="row g-3" method="GET" action="index.php" id="searchForm">
                 <input type="hidden" name="action" value="quanLySanPham">
-                <input type="hidden" name="query" value="timkiem">
+                <input type="hidden" name="query" value="lietke">
+                <input type="hidden" name="per_page" value="<?php echo $records_per_page; ?>">
                 
                 <div class="col-md-4">
-                    <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm...">
+                    <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="<?php echo htmlspecialchars($search); ?>">
                 </div>
                 
                 <div class="col-md-2">
                     <select name="search_field" class="form-select">
-                        <option value="all">Tất cả</option>
-                        <option value="ten_sp">Tên sản phẩm</option>
-                        <option value="ma_sp">Mã sản phẩm</option>
-                        <option value="tinh_trang">Trạng thái</option>
+                        <option value="all" <?php echo ($search_field == 'all') ? 'selected' : ''; ?>>Tất cả</option>
+                        <option value="ten_sp" <?php echo ($search_field == 'ten_sp') ? 'selected' : ''; ?>>Tên sản phẩm</option>
+                        <option value="ma_sp" <?php echo ($search_field == 'ma_sp') ? 'selected' : ''; ?>>Mã sản phẩm</option>
+                        <option value="tinh_trang" <?php echo ($search_field == 'tinh_trang') ? 'selected' : ''; ?>>Trạng thái</option>
                     </select>
                 </div>
                 
                 <div class="col-md-2">
-                    <input type="number" name="price_min" class="form-control" placeholder="Giá tối thiểu">
+                    <input type="number" name="price_min" class="form-control" placeholder="Giá tối thiểu" value="<?php echo $price_min; ?>">
                 </div>
                 
                 <div class="col-md-2">
-                    <input type="number" name="price_max" class="form-control" placeholder="Giá tối đa">
+                    <input type="number" name="price_max" class="form-control" placeholder="Giá tối đa" value="<?php echo $price_max; ?>">
                 </div>
                 
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-search"></i> Tìm kiếm
+                        <i class="fas fa-search"></i>
                     </button>
+                </div>
+                
+                <div class="col-md-1">
+                    <a href="index.php?action=quanLySanPham&query=lietke" class="btn btn-secondary w-100">
+                        <i class="fas fa-refresh"></i>
+                    </a>
                 </div>
             </form>
         </div>
@@ -177,7 +220,8 @@
             </thead>
             <tbody id="productTableBody">
                 <?php
-                $i = 0;
+                $start_number = $pagination->getOffset();
+                $i = $start_number;
                 while ($row = mysqli_fetch_array($lietke)) {
                     $i++;
                 ?>
@@ -198,7 +242,7 @@
                         </td>
                         <td><?php echo ($row['tinh_trang'] == 1) ? 'Kích hoạt' : 'Ẩn' ?></td>
                         <td>
-                            <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo $row['ma_sp'] ?>" class="btn btn-danger btn-sm">Xóa</a>
+                            <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo $row['ma_sp'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
                             <a href="?action=quanLySanPham&query=sua&idsp=<?php echo $row['ma_sp'] ?>" class="btn btn-warning btn-sm">Sửa</a>
                         </td>
                     </tr>
@@ -207,6 +251,11 @@
                 ?>
             </tbody>
         </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div id="paginationContainer">
+        <?php echo $pagination->render(); ?>
     </div>
 </div>
 
@@ -223,8 +272,10 @@ $(document).ready(function() {
             url: 'modules/quanLySanPham/lietke.php',
             type: 'GET',
             data: formData + '&ajax_search=1',
+            dataType: 'json',
             success: function(response) {
-                $('#productTableBody').html(response);
+                $('#productTableBody').html(response.table_content);
+                $('#paginationContainer').html(response.pagination);
             },
             error: function(xhr, status, error) {
                 console.error('Error:', error);
@@ -236,6 +287,31 @@ $(document).ready(function() {
     $('#searchForm input, #searchForm select').on('input change', function() {
         clearTimeout(window.searchTimeout);
         window.searchTimeout = setTimeout(performSearch, 300);
+    });
+    
+    // Handle pagination clicks
+    $(document).on('click', '#paginationContainer a', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        var params = new URLSearchParams(url.split('?')[1]);
+        var page = params.get('page');
+        
+        // Update form with new page
+        var formData = $('#searchForm').serialize() + '&page=' + page + '&ajax_search=1';
+        
+        $.ajax({
+            url: 'modules/quanLySanPham/lietke.php',
+            type: 'GET',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                $('#productTableBody').html(response.table_content);
+                $('#paginationContainer').html(response.pagination);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
     });
 });
 </script>

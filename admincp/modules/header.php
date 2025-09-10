@@ -4,6 +4,11 @@ if(isset($_GET['dangXuat']) && $_GET['dangXuat'] == 1){
     header('Location:login.php');
 }
 ?>
+
+<!-- Include Pagination CSS and JS -->
+<link href="css/pagination.css" rel="stylesheet">
+<script src="js/pagination.js"></script>
+
 <p class="text-end">
     <a href="index.php?dangXuat=1" class="btn btn-danger">
         Đăng xuất: 
