@@ -4,6 +4,11 @@
 .env.production
 .env.staging
 
+# Ignore deployment files
+deployment_infinityfree/
+infinityfree_deployment.zip
+env_check.php
+
 # Ignore vendor folder
 /vendor/
 

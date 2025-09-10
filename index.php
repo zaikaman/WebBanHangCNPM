@@ -1,4 +1,10 @@
 <?php
+// Load configuration và security helpers
+require_once 'admincp/config/config.php';
+
+// Force HTTPS nếu cần thiết
+force_https();
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }

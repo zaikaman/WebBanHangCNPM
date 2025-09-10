@@ -2,6 +2,9 @@
 session_start();
 header('Content-type: text/html; charset=utf-8');
 
+// Load config and environment variables
+require_once '../../admincp/config/config.php';
+
 // Function to calculate total amount
 function calculateTotalAmount() {
     if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
@@ -40,16 +43,21 @@ function execPostRequest($url, $data)
     return $result;
 }
 
+// Get MoMo configuration from environment variables
+$momo_config = momo_config();
 $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
+$partnerCode = $momo_config['partner_code'];
+$accessKey = $momo_config['access_key'];
+$secretKey = $momo_config['secret_key'];
 
-$partnerCode = 'MOMOBKUN20180529';
-$accessKey = 'klm05TvNBzhg7h7j';
-$secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
 $orderInfo = "Thanh toán qua MoMo ATM";
 $amount = calculateTotalAmount();
 $orderId = time() . "";
-$redirectUrl = "https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php?quanly=camon";
-$ipnUrl = "https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php?quanly=camon";
+
+// Get app URL from environment for redirect URLs
+$app_url = app_url();
+$redirectUrl = $app_url . "/index.php?quanly=camon";
+$ipnUrl = $app_url . "/index.php?quanly=camon";
 $extraData = "";
 
 $requestId = time() . "";

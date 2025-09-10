@@ -106,5 +106,47 @@ function vnpay_config() {
     ];
 }
 
+/**
+ * Kiểm tra xem có đang chạy trên HTTPS không
+ * @return bool
+ */
+function is_https() {
+    return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+           $_SERVER['SERVER_PORT'] == 443 ||
+           (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+}
+
+/**
+ * Force HTTPS redirect nếu cấu hình yêu cầu
+ * @return void
+ */
+function force_https() {
+    if (env('FORCE_HTTPS', false) && !is_https() && is_production()) {
+        $redirect_url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        header('Location: ' . $redirect_url, true, 301);
+        exit();
+    }
+}
+
+/**
+ * Lấy base path của ứng dụng
+ * @return string
+ */
+function base_path($path = '') {
+    $base = dirname(dirname(__DIR__));
+    return $base . ($path ? DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR) : '');
+}
+
+/**
+ * Kiểm tra xem có đang chạy trên InfinityFree không
+ * @return bool
+ */
+function is_infinityfree() {
+    return isset($_SERVER['HTTP_HOST']) && 
+           (strpos($_SERVER['HTTP_HOST'], 'infinityfreeapp.com') !== false ||
+            strpos($_SERVER['HTTP_HOST'], 'rf.gd') !== false ||
+            strpos($_SERVER['HTTP_HOST'], 'eu.org') !== false);
+}
+
 } // End function_exists check
 ?>

@@ -1,6 +1,9 @@
 <?php
 header('Content-type: text/html; charset=utf-8');
 
+// Load config and environment variables
+require_once '../admincp/config/config.php';
+
 
 function execPostRequest($url, $data)
 {
@@ -21,20 +24,21 @@ function execPostRequest($url, $data)
     return $result;
 }
 
-
+// Get MoMo configuration from environment variables
+$momo_config = momo_config();
 $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
-
-
-$partnerCode = 'MOMOBKUN20180529';
-$accessKey = 'klm05TvNBzhg7h7j';
-$secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
-
+$partnerCode = $momo_config['partner_code'];
+$accessKey = $momo_config['access_key'];
+$secretKey = $momo_config['secret_key'];
 
 $orderInfo = "Thanh toán qua mã QR MoMo";
 $amount = "10000";
 $orderId = time() ."";
-$redirectUrl = "http://localhost/index.php?quanly=camon";
-$ipnUrl = "http://localhost/index.php?quanly=camon";
+
+// Get app URL from environment for redirect URLs
+$app_url = app_url();
+$redirectUrl = $app_url . "/index.php?quanly=camon";
+$ipnUrl = $app_url . "/index.php?quanly=camon";
 $extraData = "";
 
     $requestId = time() . "";

@@ -9,8 +9,16 @@ require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
-// Load .env file
-$dotenv = Dotenv::createImmutable(dirname(__FILE__) . '/../../');
+// Load .env file - kiểm tra môi trường
+$envPath = dirname(__FILE__) . '/../../';
+$dotenv = Dotenv::createImmutable($envPath);
+
+// Nếu có file .env.production trong production environment
+if (file_exists($envPath . '.env.production') && 
+    (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'infinityfreeapp.com') !== false)) {
+    $dotenv = Dotenv::createImmutable($envPath, '.env.production');
+}
+
 $dotenv->load();
 
 // Include helper functions

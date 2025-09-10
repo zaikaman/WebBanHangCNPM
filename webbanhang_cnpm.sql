@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: gtizpe105piw2gfq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
--- Generation Time: Dec 03, 2024 at 05:42 AM
--- Server version: 8.0.35
--- PHP Version: 8.1.27
+-- Host: 127.0.0.1
+-- Generation Time: Sep 09, 2025 at 03:10 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `kv0l93tcry5svq6w`
+-- Database: `webbanhang_cnpm`
 --
 
 -- --------------------------------------------------------
@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tbl_admin` (
-  `id_ad` int NOT NULL,
-  `user_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `admin_status` int NOT NULL
+  `id_ad` int(11) NOT NULL,
+  `user_name` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `admin_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -48,14 +48,14 @@ INSERT INTO `tbl_admin` (`id_ad`, `user_name`, `password`, `admin_status`) VALUE
 --
 
 CREATE TABLE `tbl_baiviet` (
-  `id` int NOT NULL,
-  `tenbaiviet` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `tomtat` text COLLATE utf8mb4_general_ci,
-  `noidung` longtext COLLATE utf8mb4_general_ci,
-  `id_danhmuc` int NOT NULL,
-  `tinhtrang` int NOT NULL,
-  `hinhanh` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `link` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
+  `id` int(11) NOT NULL,
+  `tenbaiviet` varchar(255) NOT NULL,
+  `tomtat` text DEFAULT NULL,
+  `noidung` longtext DEFAULT NULL,
+  `id_danhmuc` int(11) NOT NULL,
+  `tinhtrang` int(11) NOT NULL,
+  `hinhanh` varchar(255) NOT NULL,
+  `link` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -85,12 +85,12 @@ INSERT INTO `tbl_baiviet` (`id`, `tenbaiviet`, `tomtat`, `noidung`, `id_danhmuc`
 --
 
 CREATE TABLE `tbl_chat_history` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `session_id` varchar(100) DEFAULT NULL,
   `message` text NOT NULL,
   `response` text NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -101,81 +101,95 @@ INSERT INTO `tbl_chat_history` (`id`, `email`, `session_id`, `message`, `respons
 (2, NULL, NULL, 'chào bạn, email của tôi là gì', 'Xin chào bạn, email của chúng tôi là support@7tcc.vn. Bạn có cần hỗ trợ gì thêm không ạ?', '2024-11-11 12:16:08'),
 (3, 'thinhgpt1706@gmail.com', NULL, 'chào bạn, email của tài khoản tôi là gì', 'Chào bạn, thông tin tài khoản cá nhân của bạn sẽ được bảo mật. Bạn vui lòng liên hệ trực tiếp qua hotline 0938688079 để chúng tôi hỗ trợ bạn kiểm tra và cung cấp thông tin chính xác nhất nhé.', '2024-11-11 12:17:03'),
 (4, 'thinhgpt1706@gmail.com', NULL, 'tin nhắn trước đó của tôi là gì', 'Chào bạn, bạn vừa gửi tin nhắn hỏi thông tin email của tài khoản. Tôi đã trả lời bạn rằng thông tin tài khoản cá nhân sẽ được bảo mật và hướng dẫn bạn liên hệ trực tiếp qua hotline để được hỗ trợ kiểm tra và cung cấp thông tin chính xác nhất.', '2024-11-11 12:17:36'),
-(5, NULL, 'có áo đá banh đội MU không', 'Chào bạn, hiện tại cửa hàng chúng tôi có áo đá banh của đội MU. Bạn muốn mình tư vấn thêm về sản phẩm này không ạ?', '2024-11-11 12:19:10'),
-(6, NULL, 'có', 'Chào bạn, chúng tôi có rất nhiều mẫu áo đá banh của đội MU. Bạn có muốn mình tư vấn chi tiết hơn về các mẫu áo này không ạ?', '2024-11-11 12:19:22'),
-(7, 'thinhgpt1706@gmail.com', 'web 7tcc có bao nhiêu sản phẩm vậy', 'Hiện tại, trên website của 7TCC chúng mình đang có tổng cộng **20 sản phẩm** thuộc các danh mục: Bóng đá, Cầu lông và Bóng rổ. Bạn có thể truy cập website của chúng mình tại địa chỉ https://7tcc.vn/ để tham khảo chi tiết từng sản phẩm nhé!', '2024-11-11 12:19:41'),
-(8, NULL, 'giới thiệu cho tôi 1 mẫu', 'Chào bạn, mẫu áo đấu sân khách của Manchester United mùa giải 2023-2024 là một lựa chọn tuyệt vời dành cho bạn. Áo có màu trắng chủ đạo, được thiết kế với họa tiết độc đáo lấy cảm hứng từ những năm 1990. Mẫu áo này được làm từ chất liệu vải cao cấp, thoáng khí, thấm hút mồ hôi tốt, giúp bạn luôn cảm thấy thoải mái khi mặc.', '2024-11-11 12:19:41'),
-(9, 'thinhgpt1706@gmail.com', 'sản phẩm tên là \"Áo bóng rổ 5\" có số lượng còn lại là bao nhiêu', 'Chào bạn, hiện tại chúng mình không có sản phẩm nào có tên là \"Áo bóng rổ 5\". Bạn vui lòng cung cấp lại tên chính xác của sản phẩm hoặc truy cập website của chúng mình tại https://7tcc.vn/ để kiểm tra tình trạng còn hàng của các sản phẩm nhé!', '2024-11-11 12:20:03'),
-(10, 'thinhgpt1706@gmail.com', 'Có mà, mã sản phẩm là br5 đó', 'Chào bạn, cảm ơn bạn đã phản hồi.\n\nChúng mình xác nhận hiện tại sản phẩm **Áo bóng rổ BR5** còn **hết hàng**. Bạn vui lòng tham khảo những mẫu áo bóng rổ khác tại website của chúng mình nhé: https://7tcc.vn/collections/ao-bong-ro\n\nHoặc nếu bạn có nhu cầu tư vấn chi tiết hơn, bạn có thể liên hệ trực tiếp qua hotline **0938688079** để được hỗ trợ nhanh chóng nhất.', '2024-11-11 12:20:27'),
-(11, NULL, 'giới thiệu áo MU', 'Chào bạn, hiện tại chúng mình có rất nhiều mẫu áo câu lạc bộ Manchester United. Bạn muốn mình tư vấn cho bạn một mẫu cụ thể nào không ạ? Hoặc bạn có thể tham khảo các mẫu áo đấu MU mới nhất tại đây: https://7tcc.vn/collections/manchester-united', '2024-11-11 12:20:47'),
-(12, NULL, 'có các danh mục sản phẩm nào', 'Chào bạn, hiện tại 7TCC chúng mình đang có những danh mục sản phẩm chính sau:\n\n- Bóng đá\n- Cầu lông\n- Bóng rổ\n\nNgoài ra, chúng mình còn có các phụ kiện thể thao như: Balo, túi xách, giày thể thao, tất, băng đầu gối,...\n\nBạn có nhu cầu tìm hiểu sản phẩm ở danh mục nào ạ?', '2024-11-11 12:21:16'),
-(13, NULL, 'chào bạn', 'Chào bạn, mình là trợ lý ảo của 7TCC đây. Bạn muốn mình tư vấn về sản phẩm nào ạ?', '2024-11-11 12:28:18'),
-(14, NULL, 'Áo bóng rổ 5 còn hàng ko', 'Chào bạn, sản phẩm **Áo bóng rổ BR5** hiện tại **hết hàng**. Bạn vui lòng tham khảo những mẫu áo bóng rổ khác tại website của chúng mình nhé: https://7tcc.vn/collections/ao-bong-ro\n\nHoặc nếu bạn có nhu cầu tư vấn chi tiết hơn, bạn có thể liên hệ trực tiếp qua hotline **0938688079** để được hỗ trợ nhanh chóng nhất.', '2024-11-11 12:28:29'),
-(15, NULL, 'store này có tổng cộng bao nhiêu áo', 'Chào bạn, tổng cộng cửa hàng 7TCC có **32** mẫu áo đấu của các bộ môn:\n\n- Bóng đá: **9** mẫu (bao gồm áo MC, áo MU)\n- Cầu lông: **6** mẫu (bao gồm áo Yonex)\n- Bóng rổ: **17** mẫu (bao gồm áo bóng rổ BR5)\n\nNgoài ra, 7TCC còn có rất nhiều mẫu phụ kiện thể thao, bạn có nhu cầu tham khảo thêm không ạ?', '2024-11-11 12:29:37'),
-(16, NULL, '32 mẫu hả, trên web tôi thấy có 17 mà', 'Chào bạn, bạn có thể đang nhầm lẫn với số lượng sản phẩm trên website hiện tại của 7TCC. Trên website chỉ hiển thị một số mẫu áo bán chạy nhất và những mẫu áo mới nhất.\n\nTổng cộng cửa hàng 7TCC chúng mình có 32 mẫu áo đấu của các bộ môn thể thao chính, bao gồm:\n\n- Bóng đá: 9 mẫu\n- Cầu lông: 6 mẫu\n- Bóng rổ: 17 mẫu\n\nNgoài ra, 7TCC còn có rất nhiều mẫu phụ kiện thể thao, bạn có nhu cầu tham khảo thêm không ạ?', '2024-11-11 12:30:01'),
-(17, NULL, 'kể tên các loại áo bóng đá', 'Chào bạn, hiện tại 7TCC chúng mình có những mẫu áo bóng đá như sau:\n\n- Áo MC (Mã SP: 5)\n- Áo MU (Mã SP: mu023)\n\nBạn có nhu cầu tìm hiểu chi tiết về sản phẩm nào trong số này không ạ?', '2024-11-11 12:30:16'),
-(18, NULL, 'bạn biết sản phẩm tên là Áo MU ko', 'Chào bạn, sản phẩm **Áo MU** (Mã SP: mu023) hiện tại còn **99** mẫu tại cửa hàng.\n\nGiá của sản phẩm là **400.000đ**.\n\nĐây là mẫu áo bóng đá thiết kế theo chuẩn áo thi đấu của câu lạc bộ Manchester United, với chất liệu vải thoáng mát, thấm hút mồ hôi tốt, đảm bảo sự thoải mái khi vận động.\n\nBạn có nhu cầu tìm hiểu thêm thông tin về sản phẩm hoặc đặt mua sản phẩm này không ạ?', '2024-11-11 12:31:20'),
-(19, NULL, 'Mã sản phẩm br5 là sản phẩm gì', 'Chào bạn, sản phẩm mã **BR5** có tên là **Áo bóng rổ 5**. \n\nSản phẩm hiện tại **hết hàng**. \n\nĐây là mẫu áo bóng rổ với thiết kế mạnh mẽ, thể thao, sử dụng chất liệu vải cao cấp, thoáng mát, thấm hút mồ hôi tốt. Bạn có thể tham khảo những mẫu áo bóng rổ khác tại website của chúng mình nhé: https://7tcc.vn/collections/ao-bong-ro.', '2024-11-11 12:33:16'),
-(20, NULL, 'id danh mục', 'Chào bạn, bạn muốn biết ID danh mục của sản phẩm nào ạ?', '2024-11-11 12:33:32'),
-(21, NULL, 'Áo bóng rổ 5', 'Chào bạn, sản phẩm **Áo bóng rổ 5** có ID danh mục là **1005**.\n\nBạn còn thắc mắc gì về sản phẩm này không ạ?', '2024-11-11 12:33:41'),
-(22, NULL, 'Áo cầu lông 2 còn lại bao nhiêu sản phẩm', 'Chào bạn, hiện tại 7TCC chúng mình còn **100** sản phẩm **Áo cầu lông 2** (Mã SP: ynex2).\n\nBạn có nhu cầu tìm hiểu thêm thông tin về sản phẩm hoặc đặt mua sản phẩm này không ạ?', '2024-11-11 12:34:05'),
-(23, NULL, 'hiện web đang có những sản phẩm nào', 'Chào bạn, hiện tại website của 7TCC chúng mình có các sản phẩm sau:\n\n**Bóng đá:**\n- Áo MC (Mã SP: 5)\n- Áo MU (Mã SP: mu023)\n\n**Cầu lông:**\n- Áo Yonex (Mã SP: ynex123)\n- Áo cầu lông 2 (Mã SP: ynex2)\n- Áo cầu lông 3 (Mã SP: ynex3)\n- Áo cầu lông 4 (Mã SP: ynex4)\n- Áo cầu lông 5 (Mã SP: ynex5)\n- Áo cầu lông 6 (Mã SP: ynex6)\n\n**Bóng rổ:**\n- Áo bóng rổ 1 (Mã SP: br1)\n- Áo bóng rổ 2 (Mã SP: br2)\n- Áo bóng rổ 3 (Mã SP: br3)\n- Áo bóng rổ 4 (Mã SP: br4)\n- Áo bóng rổ 5 (Mã SP: br5)\n\nBạn quan tâm đến sản phẩm nào ạ? Mình sẽ cung cấp thêm thông tin chi tiết cho bạn nhé!', '2024-11-11 12:35:05'),
-(24, NULL, 'có những danh mục sản phẩm nào', 'Chào bạn, hiện tại 7TCC chúng mình có các danh mục sản phẩm sau:\n\n- Bóng đá\n- Cầu lông\n- Bóng rổ\n\nBạn quan tâm đến danh mục sản phẩm nào ạ? Mình sẽ cung cấp thêm thông tin chi tiết cho bạn nhé!', '2024-11-11 12:35:34'),
-(25, NULL, 'có áo MU không', '7TCC: Chào bạn, hiện tại 7TCC chúng mình có áo MU. Bạn có thể đặt hàng trực tiếp qua website hoặc đến trực tiếp cửa hàng để xem và mua sản phẩm.\n\nThông tin sản phẩm:\n\n**Áo MU**\n- Mã SP: mu023\n- Giá: 400.000đ\n- Số lượng còn lại: 99\n- Mô tả: mu\n\nBạn có nhu cầu đặt hàng hoặc được tư vấn thêm về sản phẩm này không ạ?', '2024-11-11 12:35:52'),
-(26, NULL, 'có áo Juventus không', 'Chào bạn, hiện tại 7TCC chúng mình không có sản phẩm áo Juventus. Bạn có nhu cầu đặt hàng sản phẩm này không ạ?', '2024-11-11 12:36:24'),
-(27, NULL, 'có', 'Chào bạn, hiện tại 7TCC chúng mình có những sản phẩm sau:\n\n**Bóng đá:**\n- Áo MC (Mã SP: 5)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- Áo MU (Mã SP: mu023)\n\n**Cầu lông:**\n- Áo Yonex (Mã SP: ynex123)\n- Áo cầu lông 2 (Mã SP: ynex2)\n- Áo cầu lông 3 (Mã SP: ynex3)\n- Áo cầu lông 4 (Mã SP: ynex4)\n- Áo cầu lông 5 (Mã SP: ynex5)\n- Áo cầu lông 6 (Mã SP: ynex6)\n\n**Bóng rổ:**\n- Áo bóng rổ 1 (Mã SP: br1)\n- Áo bóng rổ 2 (Mã SP: br2)\n- Áo bóng rổ 3 (Mã SP: br3)\n- Áo bóng rổ 4 (Mã SP: br4)\n- Áo bóng rổ 5 (Mã SP: br5)\n\nBạn quan tâm đến sản phẩm nào ạ? Mình sẽ cung cấp thêm thông tin chi tiết cho bạn nhé!', '2024-11-11 12:36:36'),
-(28, NULL, 'Áo cầu lông 6 thì sao', 'Chào bạn, hiện tại 7TCC chúng mình còn **93** sản phẩm **Áo cầu lông 6** (Mã SP: ynex6).\n\nSản phẩm có mức giá là **400.000đ**.\n\nBạn có nhu cầu tìm hiểu thêm thông tin về sản phẩm hoặc đặt mua sản phẩm này không ạ?', '2024-11-11 12:36:37'),
-(29, NULL, 'kể tên các sản phẩm trong danh mục có id 52', 'Chào bạn, danh mục sản phẩm có ID 52 là **Bóng đá**. Dưới đây là danh sách sản phẩm trong danh mục này:\n\n- Áo MC (Mã SP: 5)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- Áo MU (Mã SP: mu023)\n\nBạn có nhu cầu tìm hiểu thêm thông tin về sản phẩm nào ạ? Mình sẽ cung cấp thêm thông tin chi tiết cho bạn nhé!', '2024-11-11 12:37:48'),
-(30, 'ngoctuan090904@gmail.com', 'tôi muốn mua áo cầu lông hãy tư vấn', 'Xin chào bạn, cảm ơn bạn đã quan tâm đến sản phẩm áo cầu lông của 7TCC. Hiện tại, chúng tôi có sẵn các sản phẩm áo cầu lông với thông tin như sau:\n\n- Áo Yonex, mã sản phẩm: ynex123, giá 400.000đ, số lượng còn lại: 98, mô tả: yonex.\n- Áo cầu lông 2, mã sản phẩm: ynex2, giá 400.000đ, số lượng còn lại: 100, mô tả: .\n- Áo cầu lông 3, mã sản phẩm: ynex3, giá 400.000đ, số lượng còn lại: 100, mô tả: .\n- Áo cầu lông 4, mã sản phẩm: ynex4, giá 400.000đ, số lượng còn lại: 97, mô tả: .\n- Áo cầu lông 5, mã sản phẩm: ynex5, giá 400.000đ, số lượng còn lại: 95, mô tả: .\n- Áo cầu lông 6, mã sản phẩm: ynex6, giá 400.000đ, số lượng còn lại: 93, mô tả: .\n\nBạn có thể truy cập website hoặc liên hệ với chúng tôi qua số hotline 0938688079 để được hỗ trợ tư vấn chi tiết hơn về sản phẩm và cách thức đặt hàng.', '2024-11-11 12:40:26'),
-(31, 'ngoctuan090904@gmail.com', 'cho tôi xem mẫu mã của áo số 5', 'Xin chào bạn, cảm ơn bạn đã quan tâm đến sản phẩm áo cầu lông số 5 của chúng tôi. Hiện tại, chúng tôi không có hình ảnh mẫu mã của sản phẩm này. Tuy nhiên, bạn có thể truy cập website của chúng tôi để xem các sản phẩm có sẵn hoặc liên hệ với chúng tôi qua số hotline 0938688079 để được hỗ trợ trực tiếp.', '2024-11-11 12:40:56'),
-(32, 'ngoctuan090904@gmail.com', 'giúp tôi đặt hàng áo số 5', 'Xin chào bạn, cảm ơn bạn đã đặt hàng tại 7TCC. Để đặt hàng áo cầu lông số 5, mã sản phẩm: ynex5, giá 400.000đ, còn lại 95 sản phẩm, bạn vui lòng cung cấp cho chúng tôi các thông tin sau:\n\n- Họ và tên:\n- Số điện thoại:\n- Địa chỉ nhận hàng:\n- Size áo:\n- Số lượng sản phẩm:\n\nSau khi nhận được các thông tin trên, chúng tôi sẽ tiến hành xác nhận đơn hàng và gửi mã đơn hàng cho bạn. Chúng tôi sẽ giao hàng trong vòng 3-5 ngày làm việc và bạn có thể thanh toán bằng COD, chuyển khoản hoặc Momo khi nhận hàng.\n\nNếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua hotline 0938688079 để được hỗ trợ.', '2024-11-11 12:41:17'),
-(33, 'thinhgpt1706@gmail.com', 'danh mục 52 là danh mục gì', 'Chúng mình không có danh mục nào có tên gọi là \"danh mục 52\". Bạn vui lòng cung cấp lại thông tin về danh mục mà bạn thắc mắc để chúng mình kiểm tra chính xác nhé!', '2024-11-11 12:41:19'),
-(34, 'thinhgpt1706@gmail.com', 'ý tôi là danh mục có id 52', 'Chào bạn, chúng mình không có danh mục nào có ID là 52. Bạn có thể cung cấp thêm thông tin về danh mục mà bạn muốn hỏi không? Hoặc nếu bạn muốn đặt hàng sản phẩm, bạn có thể truy cập website của chúng mình tại https://7tcc.vn/ để tham khảo danh sách sản phẩm và đặt hàng trực tiếp nhé!', '2024-11-11 12:41:31'),
-(35, 'ngoctuan090904@gmail.com', 'có sản phẩm nào mới ra mắt không', 'Xin chào bạn, hiện tại chúng tôi chưa có sản phẩm mới nào ra mắt. Tuy nhiên, chúng tôi sẽ cập nhật các sản phẩm mới nhất trên website và các kênh truyền thông của 7TCC. Bạn có thể truy cập website hoặc liên hệ với chúng tôi qua số hotline 0938688079 để được thông báo về các sản phẩm mới nhất.', '2024-11-11 12:42:17'),
-(36, 'thinhgpt1706@gmail.com', 'áo bóng rổ gồm có áo nào', 'Chào bạn, hiện tại danh mục áo bóng rổ trên website của 7TCC có các sản phẩm sau:\n\n- **Áo bóng rổ 1** (Mã SP: br1): 300.000đ - Còn 99 sản phẩm\n- **Áo bóng rổ 2** (Mã SP: br2): 300.000đ - Còn 98 sản phẩm\n- **Áo bóng rổ 3** (Mã SP: br3): 300.000đ - Còn 95 sản phẩm\n- **Áo bóng rổ 4** (Mã SP: br4): 300.000đ - Còn 83 sản phẩm\n\nBạn có thể truy cập website của chúng mình tại https://7tcc.vn/collections/ao-bong-ro để xem chi tiết từng sản phẩm nhé!', '2024-11-11 12:42:32'),
-(37, 'thinhgpt1706@gmail.com', 'áo yonex thì sao', 'Chào bạn, danh mục áo Yonex trên website của 7TCC có các sản phẩm sau:\n\n- **Áo Yonex 123** (Mã SP: ynex123): 400.000đ - Còn 98 sản phẩm\n- **Áo cầu lông 2** (Mã SP: ynex2): 400.000đ - Còn 100 sản phẩm\n- **Áo cầu lông 3** (Mã SP: ynex3): 400.000đ - Còn 100 sản phẩm\n- **Áo cầu lông 4** (Mã SP: ynex4): 400.000đ - Còn 97 sản phẩm\n- **Áo cầu lông 5** (Mã SP: ynex5): 400.000đ - Còn 95 sản phẩm\n- **Áo cầu lông 6** (Mã SP: ynex6): 400.000đ - Còn 93 sản phẩm\n\nBạn có thể truy cập website của chúng mình tại https://7tcc.vn/collections/ao-cau-long để xem chi tiết từng sản phẩm nhé!', '2024-11-11 12:44:02'),
-(38, 'thinhgpt1706@gmail.com', 'áo bóng rổ 4 còn bao nhiêu cái', 'Chào bạn, hiện tại sản phẩm **Áo bóng rổ 4** (Mã SP: br4) còn **83** sản phẩm ạ. Bạn có nhu cầu đặt hàng sản phẩm này không ạ?', '2024-11-11 12:45:22'),
-(39, 'thinhgpt1706@gmail.com', 'bạn có thấy các sản phẩm áo mới trùng nhau không', 'Chào bạn, cảm ơn bạn đã phản hồi.\n\nĐúng vậy, chúng mình nhận thấy có 4 sản phẩm áo mới trong danh mục Bóng đá trùng nhau. Sản phẩm này có mã SP là 1230, với giá 100.000đ và mô tả là \"a\".\n\nChúng mình đã tiến hành kiểm tra lại hệ thống và đã xóa 3 sản phẩm trùng lặp đó. Hiện tại, chỉ còn 1 sản phẩm áo mới có mã SP 1230 trong danh mục Bóng đá.\n\nChúng mình rất xin lỗi vì sự cố này. Chúng mình sẽ cố gắng kiểm tra kỹ lưỡng hơn để tránh những sai sót tương tự trong tương lai.\n\nBạn có thể truy cập vào website của chúng mình tại https://7tcc.vn/ để xem lại danh sách sản phẩm đã cập nhật.\n\nMột lần nữa, chúng mình xin chân thành cảm ơn phản hồi của bạn. Nhờ có phản hồi của bạn, chúng mình có thể cải thiện chất lượng sản phẩm và dịch vụ của mình tốt hơn.', '2024-11-11 12:48:29'),
-(40, 'thinhgpt1706@gmail.com', 'bạn có chắc bạn đã xóa chưa', 'Chào bạn, chúng mình xin xác nhận lại là đã xóa 3 sản phẩm áo mới trùng lặp trong danh mục Bóng đá. Hiện tại, chỉ còn 1 sản phẩm áo mới có mã SP 1230 trong danh mục này.\n\nBạn có thể truy cập lại website của chúng mình tại https://7tcc.vn/collections/ao-bong-da để kiểm tra lại thông tin sản phẩm nhé.\n\nNếu bạn vẫn gặp vấn đề về sản phẩm trùng lặp, vui lòng liên hệ trực tiếp với chúng mình qua hotline 0938688079 để được hỗ trợ nhanh nhất.', '2024-11-11 12:52:18'),
-(41, NULL, 'link web này là gì', 'Chào bạn, link website của 7TCC là https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php nhé. Bạn có thể truy cập vào link này để tìm hiểu thông tin về các sản phẩm, chương trình khuyến mãi và chính sách của cửa hàng chúng mình.', '2024-11-11 12:57:07'),
-(42, NULL, 'link web này là gì', 'Chào bạn, link website của 7TCC là https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php nhé. Bạn có thể truy cập vào link này để tìm hiểu thông tin về các sản phẩm, chương trình khuyến mãi và chính sách của cửa hàng chúng mình.', '2024-11-11 13:00:50'),
-(43, NULL, 'bạn là ai', 'Chào bạn, mình là 7TCC, trợ lý AI hỗ trợ khách hàng của 7TCC - Thương hiệu thời trang thể thao được phát triển bởi nhóm 8 sinh viên Đại học Sài Gòn. Bạn cần mình hỗ trợ điều gì ạ?', '2024-11-11 13:01:02'),
-(44, NULL, 'web này là web gì', 'Chào bạn, đây là website chính thức của 7TCC - Thương hiệu thời trang thể thao được phát triển bởi nhóm 8 sinh viên Đại học Sài Gòn. Bạn có thể truy cập vào website này để tìm hiểu thông tin về các sản phẩm, chương trình khuyến mãi và chính sách của cửa hàng 7TCC.\n\nLink website: https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php', '2024-11-11 13:03:13'),
-(45, NULL, 'hi', 'Xin chào bạn! Rất vui được hỗ trợ bạn. Bạn có cần mình tư vấn về sản phẩm, chính sách hay bất kỳ thông tin gì của 7TCC không ạ?', '2024-11-11 13:04:54'),
-(46, NULL, 'web này url là gì', 'Chào bạn, link website của 7TCC là https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php bạn nhé!', '2024-11-11 13:05:04'),
-(47, NULL, 'áo bóng rổ 4 còn bao nhiêu cái', 'Áo bóng rổ 4 mã SP: br4 còn 83 cái bạn nhé!', '2024-11-11 13:05:42'),
-(48, NULL, '1+1= mấy', 'Chào bạn, mình là trợ lý AI, không thể thực hiện phép tính toán học. Bạn có cần mình hỗ trợ điều gì liên quan đến sản phẩm hoặc dịch vụ của 7TCC không ạ?', '2024-11-11 13:09:23'),
-(49, NULL, 'cứ tính đi', 'Chào bạn, mình chỉ là trợ lý AI hỗ trợ thông tin về cửa hàng thời trang thể thao 7TCC, không thể thực hiện phép tính toán học. Bạn vui lòng liên hệ trực tiếp qua hotline: 0909888888 để được hỗ trợ tốt nhất nhé!', '2024-11-11 13:09:37'),
-(50, NULL, 'ok, tôi cao 1m81 nặng 76kg mặc size nào', 'Chào bạn! Dựa trên chiều cao và cân nặng của bạn, mình gợi ý bạn chọn size áo XL nhé. Nhưng để chắc chắn hơn, bạn vui lòng cung cấp cho mình số đo vòng ngực và vòng bụng để mình tư vấn chính xác hơn cho bạn nhé!', '2024-11-11 13:10:16'),
-(51, NULL, 'cút', 'Chào bạn, mình là trợ lý AI của 7TCC, mình ở đây để hỗ trợ bạn. Vui lòng liên hệ trực tiếp qua hotline: 0909888888 để được phục vụ tốt nhất nhé!', '2024-11-12 06:21:03'),
-(52, NULL, 'cac', 'Chào bạn, bạn cần hỗ trợ thông tin gì về sản phẩm hoặc dịch vụ của thời trang thể thao 7TCC ạ?', '2024-11-12 06:21:13'),
-(53, NULL, 'tao fan mu', 'Chào bạn, mình hiểu bạn là fan của đội bóng Manchester United. 7TCC hiện có áo đấu chính thức của MU với giá 400.000đ, size áo từ S đến XXL. Bạn muốn đặt áo size nào ạ?', '2024-11-12 06:21:25'),
-(54, NULL, 'xl', 'Chào bạn, bạn cần size XL áo đấu MU đúng không ạ? Mình sẽ kiểm tra số lượng còn lại giúp bạn nhé. Vui lòng cung cấp cho mình địa chỉ và số điện thoại để mình lên đơn hàng và tiến hành giao hàng cho bạn nhé!', '2024-11-12 06:21:41'),
-(55, NULL, 'bạn biết ĐPT kh?', 'Bạn ơi, ĐPT là gì vậy ạ? Bạn có thể vui lòng giải thích rõ hơn không?', '2024-11-13 01:38:43'),
-(56, NULL, 'mình cần mua áo bóng rổ', 'Xin chào bạn, 7TCC hiện có nhiều mẫu áo bóng rổ với nhiều size khác nhau. Bạn có thể tham khảo một số mẫu áo bóng rổ tại danh mục Bóng rổ trên website của chúng tôi: https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php.\n\nBạn có thể cung cấp cho mình thông tin về chiều cao và cân nặng để mình có thể tư vấn size áo phù hợp cho bạn nhé!', '2024-11-13 01:39:06'),
-(57, NULL, 'mình cần mua áo dú', 'Xin chào bạn, 7TCC không có bán áo dú trong danh sách sản phẩm hiện tại. Bạn có thể tham khảo các sản phẩm áo bóng rổ khác tại danh mục Bóng rổ trên website của chúng tôi: https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php.', '2024-11-13 01:39:15'),
-(58, NULL, 'mình muốn mua áo MU', 'Xin chào bạn, 7TCC hiện có áo đấu chính thức của MU với giá 400.000đ, size áo từ S đến XXL. Bạn muốn đặt áo size nào ạ?', '2024-11-13 01:40:10'),
-(59, NULL, 'có size XXXL không ạ', 'Xin chào bạn, hiện tại chúng tôi không còn size XXXL áo đấu MU. Các size áo hiện tại còn hàng là từ S đến XXL. Bạn muốn đặt size áo nào ạ?', '2024-11-13 01:40:37'),
-(60, NULL, 'có size TMLDPT không ạ', 'Xin chào bạn, 7TCC không có áo đấu có size TMLDPT. Các size áo hiện tại còn hàng là từ S đến XXL. Bạn muốn đặt size áo nào ạ?', '2024-11-13 01:40:51'),
-(61, NULL, '\'', 'Xin chào bạn. 7TCC hiện có những mẫu áo bóng đá, cầu lông, bóng rổ với nhiều kiểu dáng và kích cỡ khác nhau. Bạn có thể tham khảo thêm tại website của chúng tôi: https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php. Bạn đang tìm mẫu áo nào vậy ạ?', '2024-11-13 01:41:08'),
-(62, NULL, 'mình tìm mẫu \'', '7TCC: Xin chào bạn, bạn có thể cung cấp thêm thông tin về mẫu áo mà bạn đang tìm không ạ? Bạn đang tìm mẫu áo trong danh mục sản phẩm nào (bóng đá, cầu lông hoặc bóng rổ)? Hoặc bạn có thể cung cấp thêm đặc điểm về kiểu dáng, màu sắc hoặc chất liệu áo mà bạn đang muốn tìm không ạ?', '2024-11-13 01:41:21'),
-(63, NULL, 'mình cần một cái áo màu đỏ', 'Xin chào bạn, 7TCC hiện có các mẫu áo màu đỏ ở cả 3 danh mục sản phẩm bóng đá, cầu lông và bóng rổ:\n\n- Danh mục bóng đá:\n  + Áo MC: Giá 400.000đ, số lượng còn lại 1, size S đến XXL\n  + Áo MU: Giá 400.000đ, số lượng còn lại 99, size S đến XXL\n\n- Danh mục cầu lông:\n  + Áo Yonex: Giá 400.000đ, số lượng còn lại 98, size M đến XXL\n\n- Danh mục bóng rổ:\n  + Áo bóng rổ 1: Giá 300.000đ, số lượng còn lại 99, size M đến XXL\n  + Áo bóng rổ 3: Giá 300.000đ, số lượng còn lại 95, size M đến XXL\n\nBạn quan tâm đến mẫu áo nào ạ?', '2024-11-13 01:41:40'),
-(64, 'ngoctuan090904@gmail.com', 'có bán sản phẩm bóng chuyền nào không', 'Xin chào bạn, cảm ơn bạn đã quan tâm đến sản phẩm của 7TCC. Hiện tại, chúng tôi chưa có sản phẩm bóng chuyền nào trong danh mục sản phẩm. Tuy nhiên, bạn có thể truy cập website hoặc liên hệ với chúng tôi qua số hotline 0909888888 để được thông báo về các sản phẩm mới nhất của chúng tôi. Chúng tôi sẽ cập nhật các sản phẩm mới nhất trên website và các kênh truyền thông của 7TCC.', '2024-11-15 03:26:45'),
-(65, 'ngoctuan090904@gmail.com', 'có bán áo Lake không', 'Xin chào bạn, hiện tại chúng tôi không có sản phẩm áo Lake trong danh mục sản phẩm. Tuy nhiên, bạn có thể truy cập website của chúng tôi hoặc liên hệ với chúng tôi qua số hotline 0909888888 để được thông báo về các sản phẩm mới nhất của chúng tôi. Chúng tôi sẽ cập nhật các sản phẩm mới nhất trên website và các kênh truyền thông của 7TCC.', '2024-11-15 03:27:02'),
-(66, 'ngoctuan090904@gmail.com', 'áo cầu lông có không', 'Xin chào bạn, hiện tại chúng tôi có các mẫu áo cầu lông sau:\n\n- Áo Yonex, mã sản phẩm: ynex123, giá 400.000đ, còn lại 98 sản phẩm, mô tả: yonex\n- Áo cầu lông 2, mã sản phẩm: ynex2, giá 400.000đ, còn lại 100 sản phẩm\n- Áo cầu lông 3, mã sản phẩm: ynex3, giá 400.000đ, còn lại 100 sản phẩm\n- Áo cầu lông 4, mã sản phẩm: ynex4, giá 400.000đ, còn lại 97 sản phẩm\n- Áo cầu lông 5, mã sản phẩm: ynex5, giá 400.000đ, còn lại 95 sản phẩm\n- Áo cầu lông 6, mã sản phẩm: ynex6, giá 400.000đ, còn lại 93 sản phẩm\n\nBạn có thể truy cập website của chúng tôi để xem thêm thông tin chi tiết về các sản phẩm này hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được tư vấn cụ thể hơn.', '2024-11-15 03:27:23'),
-(67, 'ngoctuan090904@gmail.com', 'chỉ đưa tên áo', 'Xin chào bạn, hiện tại chúng tôi có các mẫu áo sau:\n\n- Áo MC\n- Áo MU\n- Áo Yonex\n- Áo cầu lông 2\n- Áo cầu lông 3\n- Áo cầu lông 4\n- Áo cầu lông 5\n- Áo cầu lông 6\n- Áo bóng rổ 1\n- Áo bóng rổ 2\n- Áo bóng rổ 3\n- Áo bóng rổ 4\n\nBạn có thể truy cập website của chúng tôi để xem thêm thông tin chi tiết về các sản phẩm này hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được tư vấn cụ thể hơn.', '2024-11-15 03:28:42'),
-(68, 'ngoctuan090904@gmail.com', 'khoa cntt truong dai hoc sai gon', 'Xin chào bạn, bạn đang trò chuyện với trợ lý AI của 7TCC, một thương hiệu thời trang thể thao được phát triển bởi nhóm 8 sinh viên Khoa Công nghệ thông tin, Trường Đại học Sài Gòn.\n\nRất vui được hỗ trợ bạn!', '2024-11-15 04:12:17'),
-(69, 'ngoctuan090904@gmail.com', 'ao bong ro 3 thong tin', 'Xin chào bạn, hiện tại chúng tôi có sản phẩm áo bóng rổ 3 với thông tin như sau:\n\n- Mã sản phẩm: br3\n- Giá: 300.000đ\n- Số lượng còn lại: 93\n- Mô tả: áo bóng rổ 3\n\nBạn có thể truy cập website của chúng tôi để xem thêm thông tin chi tiết về sản phẩm này hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được tư vấn cụ thể hơn.', '2024-11-15 04:14:54'),
-(70, 'ngoctuan090904@gmail.com', 'gioi thieu cho toi ve ao bong ro 3, khac voi nhung thong tin nay', 'Ngoài những thông tin đã nêu, áo bóng rổ 3 còn có những đặc điểm nổi bật sau:\n\n- Chất liệu vải cao cấp, thoáng mát, thấm hút mồ hôi tốt, giúp bạn luôn thoải mái khi vận động.\n- Thiết kế thời trang, năng động, phù hợp với mọi lứa tuổi và phong cách.\n- Logo 7TCC in nổi bật trên ngực áo, tạo điểm nhấn ấn tượng.\n- Đường may chắc chắn, tỉ mỉ, đảm bảo độ bền của sản phẩm.\n- Phù hợp cho nhiều hoạt động thể thao khác nhau, không chỉ riêng bóng rổ.\n\nNếu bạn đang tìm kiếm một chiếc áo bóng rổ vừa chất lượng vừa thời trang, thì áo bóng rổ 3 của 7TCC chính là sự lựa chọn hoàn hảo. Hãy liên hệ với chúng tôi qua hotline 0909888888 để được tư vấn cụ thể hơn và đặt hàng ngay hôm nay!', '2024-11-15 04:15:40'),
-(71, NULL, 'hi', 'Xin chào, mình có thể giúp gì bạn?', '2024-12-01 05:24:16'),
-(72, NULL, 'Vợt coka 6900 có không', 'Xin chào bạn, hiện tại chúng tôi không có sản phẩm vợt Coka 6900.\n\nĐể biết thêm thông tin chi tiết về các sản phẩm khác, bạn có thể truy cập website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888.\n\nCảm ơn bạn đã quan tâm đến 7TCC!', '2024-12-01 14:07:26'),
-(73, NULL, 'Gà', 'Xin chào bạn, sản phẩm bạn đang tìm hiện không có trong danh mục sản phẩm của chúng tôi. Hãy truy cập website https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được hỗ trợ tốt nhất. Xin cảm ơn!', '2024-12-01 14:07:37'),
-(74, NULL, 'Vợt kumpo k250 có không', '7TCC: Xin chào bạn, hiện tại chúng tôi không có sản phẩm vợt Kumpo K250.\n\nĐể biết thêm thông tin chi tiết về các sản phẩm khác, bạn có thể truy cập website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888.\n\nCảm ơn bạn đã quan tâm đến 7TCC!', '2024-12-01 14:08:10'),
-(75, NULL, 'Vợt kumpo k520', '7TCC: Xin chào bạn, hiện tại chúng tôi không có sản phẩm vợt Kumpo K520.\n\nĐể biết thêm thông tin chi tiết về các sản phẩm khác, bạn có thể truy cập website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888.\n\nCảm ơn bạn đã quan tâm đến 7TCC!', '2024-12-01 14:08:32'),
-(76, NULL, 'Áo power flex', '7TCC: Xin chào, bạn đang quan tâm đến sản phẩm Áo Power Flex của chúng tôi.\n\n* Sản phẩm này có giá 420.000đ/chiếc.\n* Hiện tại chúng tôi còn 74 sản phẩm trong kho.\n* Áo Power Flex là loại áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt, phù hợp cho những người chơi đang tìm kiếm một chiếc áo có thể hỗ trợ họ trong cả tấn công và phòng thủ.\n\nBạn có thể truy cập website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để đặt hàng hoặc được tư vấn chi tiết hơn.\n\nCảm ơn bạn đã quan tâm đến 7TCC!', '2024-12-01 14:08:55'),
-(77, NULL, 'Tìm giày đá banh có thể chơi được trong sân cầu', 'Xin chào bạn, rất tiếc chúng tôi không có sản phẩm giày đá banh có thể chơi được trong sân cầu. Bạn có thể ghé thăm website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được hỗ trợ tốt nhất. Xin cảm ơn!', '2024-12-01 14:09:29'),
-(78, NULL, 'Giày thể thao giá rẻ', 'Xin chào bạn,\n\nCảm ơn bạn đã quan tâm đến giày thể thao của chúng tôi. Hiện tại chúng tôi không có sản phẩm giày thể thao giá rẻ.\n\nBạn có thể ghé thăm website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được hỗ trợ tốt nhất. Xin cảm ơn bạn!', '2024-12-01 14:09:49'),
-(79, NULL, 'Thế giá mắc có không', 'Cảm ơn bạn đã quan tâm đến sản phẩm của chúng tôi. Hiện tại, chúng tôi không có sản phẩm giày thể thao giá rẻ. Tuy nhiên, chúng tôi có nhiều sản phẩm giày thể thao chất lượng cao với giá cả hợp lý.\n\nBạn có thể ghé thăm website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được hỗ trợ tốt nhất. Xin cảm ơn bạn!', '2024-12-01 14:10:19');
+(5, NULL, NULL, 'có áo đá banh đội MU không', 'Chào bạn, hiện tại cửa hàng chúng tôi có áo đá banh của đội MU. Bạn muốn mình tư vấn thêm về sản phẩm này không ạ?', '2024-11-11 12:19:10'),
+(6, NULL, NULL, 'có', 'Chào bạn, chúng tôi có rất nhiều mẫu áo đá banh của đội MU. Bạn có muốn mình tư vấn chi tiết hơn về các mẫu áo này không ạ?', '2024-11-11 12:19:22'),
+(7, 'thinhgpt1706@gmail.com', NULL, 'web 7tcc có bao nhiêu sản phẩm vậy', 'Hiện tại, trên website của 7TCC chúng mình đang có tổng cộng **20 sản phẩm** thuộc các danh mục: Bóng đá, Cầu lông và Bóng rổ. Bạn có thể truy cập website của chúng mình tại địa chỉ https://7tcc.vn/ để tham khảo chi tiết từng sản phẩm nhé!', '2024-11-11 12:19:41'),
+(8, NULL, NULL, 'giới thiệu cho tôi 1 mẫu', 'Chào bạn, mẫu áo đấu sân khách của Manchester United mùa giải 2023-2024 là một lựa chọn tuyệt vời dành cho bạn. Áo có màu trắng chủ đạo, được thiết kế với họa tiết độc đáo lấy cảm hứng từ những năm 1990. Mẫu áo này được làm từ chất liệu vải cao cấp, thoáng khí, thấm hút mồ hôi tốt, giúp bạn luôn cảm thấy thoải mái khi mặc.', '2024-11-11 12:19:41'),
+(9, 'thinhgpt1706@gmail.com', NULL, 'sản phẩm tên là \"Áo bóng rổ 5\" có số lượng còn lại là bao nhiêu', 'Chào bạn, hiện tại chúng mình không có sản phẩm nào có tên là \"Áo bóng rổ 5\". Bạn vui lòng cung cấp lại tên chính xác của sản phẩm hoặc truy cập website của chúng mình tại https://7tcc.vn/ để kiểm tra tình trạng còn hàng của các sản phẩm nhé!', '2024-11-11 12:20:03'),
+(10, 'thinhgpt1706@gmail.com', NULL, 'Có mà, mã sản phẩm là br5 đó', 'Chào bạn, cảm ơn bạn đã phản hồi.\n\nChúng mình xác nhận hiện tại sản phẩm **Áo bóng rổ BR5** còn **hết hàng**. Bạn vui lòng tham khảo những mẫu áo bóng rổ khác tại website của chúng mình nhé: https://7tcc.vn/collections/ao-bong-ro\n\nHoặc nếu bạn có nhu cầu tư vấn chi tiết hơn, bạn có thể liên hệ trực tiếp qua hotline **0938688079** để được hỗ trợ nhanh chóng nhất.', '2024-11-11 12:20:27'),
+(11, NULL, NULL, 'giới thiệu áo MU', 'Chào bạn, hiện tại chúng mình có rất nhiều mẫu áo câu lạc bộ Manchester United. Bạn muốn mình tư vấn cho bạn một mẫu cụ thể nào không ạ? Hoặc bạn có thể tham khảo các mẫu áo đấu MU mới nhất tại đây: https://7tcc.vn/collections/manchester-united', '2024-11-11 12:20:47'),
+(12, NULL, NULL, 'có các danh mục sản phẩm nào', 'Chào bạn, hiện tại 7TCC chúng mình đang có những danh mục sản phẩm chính sau:\n\n- Bóng đá\n- Cầu lông\n- Bóng rổ\n\nNgoài ra, chúng mình còn có các phụ kiện thể thao như: Balo, túi xách, giày thể thao, tất, băng đầu gối,...\n\nBạn có nhu cầu tìm hiểu sản phẩm ở danh mục nào ạ?', '2024-11-11 12:21:16'),
+(13, NULL, NULL, 'chào bạn', 'Chào bạn, mình là trợ lý ảo của 7TCC đây. Bạn muốn mình tư vấn về sản phẩm nào ạ?', '2024-11-11 12:28:18'),
+(14, NULL, NULL, 'Áo bóng rổ 5 còn hàng ko', 'Chào bạn, sản phẩm **Áo bóng rổ BR5** hiện tại **hết hàng**. Bạn vui lòng tham khảo những mẫu áo bóng rổ khác tại website của chúng mình nhé: https://7tcc.vn/collections/ao-bong-ro\n\nHoặc nếu bạn có nhu cầu tư vấn chi tiết hơn, bạn có thể liên hệ trực tiếp qua hotline **0938688079** để được hỗ trợ nhanh chóng nhất.', '2024-11-11 12:28:29'),
+(15, NULL, NULL, 'store này có tổng cộng bao nhiêu áo', 'Chào bạn, tổng cộng cửa hàng 7TCC có **32** mẫu áo đấu của các bộ môn:\n\n- Bóng đá: **9** mẫu (bao gồm áo MC, áo MU)\n- Cầu lông: **6** mẫu (bao gồm áo Yonex)\n- Bóng rổ: **17** mẫu (bao gồm áo bóng rổ BR5)\n\nNgoài ra, 7TCC còn có rất nhiều mẫu phụ kiện thể thao, bạn có nhu cầu tham khảo thêm không ạ?', '2024-11-11 12:29:37'),
+(16, NULL, NULL, '32 mẫu hả, trên web tôi thấy có 17 mà', 'Chào bạn, bạn có thể đang nhầm lẫn với số lượng sản phẩm trên website hiện tại của 7TCC. Trên website chỉ hiển thị một số mẫu áo bán chạy nhất và những mẫu áo mới nhất.\n\nTổng cộng cửa hàng 7TCC chúng mình có 32 mẫu áo đấu của các bộ môn thể thao chính, bao gồm:\n\n- Bóng đá: 9 mẫu\n- Cầu lông: 6 mẫu\n- Bóng rổ: 17 mẫu\n\nNgoài ra, 7TCC còn có rất nhiều mẫu phụ kiện thể thao, bạn có nhu cầu tham khảo thêm không ạ?', '2024-11-11 12:30:01'),
+(17, NULL, NULL, 'kể tên các loại áo bóng đá', 'Chào bạn, hiện tại 7TCC chúng mình có những mẫu áo bóng đá như sau:\n\n- Áo MC (Mã SP: 5)\n- Áo MU (Mã SP: mu023)\n\nBạn có nhu cầu tìm hiểu chi tiết về sản phẩm nào trong số này không ạ?', '2024-11-11 12:30:16'),
+(18, NULL, NULL, 'bạn biết sản phẩm tên là Áo MU ko', 'Chào bạn, sản phẩm **Áo MU** (Mã SP: mu023) hiện tại còn **99** mẫu tại cửa hàng.\n\nGiá của sản phẩm là **400.000đ**.\n\nĐây là mẫu áo bóng đá thiết kế theo chuẩn áo thi đấu của câu lạc bộ Manchester United, với chất liệu vải thoáng mát, thấm hút mồ hôi tốt, đảm bảo sự thoải mái khi vận động.\n\nBạn có nhu cầu tìm hiểu thêm thông tin về sản phẩm hoặc đặt mua sản phẩm này không ạ?', '2024-11-11 12:31:20'),
+(19, NULL, NULL, 'Mã sản phẩm br5 là sản phẩm gì', 'Chào bạn, sản phẩm mã **BR5** có tên là **Áo bóng rổ 5**. \n\nSản phẩm hiện tại **hết hàng**. \n\nĐây là mẫu áo bóng rổ với thiết kế mạnh mẽ, thể thao, sử dụng chất liệu vải cao cấp, thoáng mát, thấm hút mồ hôi tốt. Bạn có thể tham khảo những mẫu áo bóng rổ khác tại website của chúng mình nhé: https://7tcc.vn/collections/ao-bong-ro.', '2024-11-11 12:33:16'),
+(20, NULL, NULL, 'id danh mục', 'Chào bạn, bạn muốn biết ID danh mục của sản phẩm nào ạ?', '2024-11-11 12:33:32'),
+(21, NULL, NULL, 'Áo bóng rổ 5', 'Chào bạn, sản phẩm **Áo bóng rổ 5** có ID danh mục là **1005**.\n\nBạn còn thắc mắc gì về sản phẩm này không ạ?', '2024-11-11 12:33:41'),
+(22, NULL, NULL, 'Áo cầu lông 2 còn lại bao nhiêu sản phẩm', 'Chào bạn, hiện tại 7TCC chúng mình còn **100** sản phẩm **Áo cầu lông 2** (Mã SP: ynex2).\n\nBạn có nhu cầu tìm hiểu thêm thông tin về sản phẩm hoặc đặt mua sản phẩm này không ạ?', '2024-11-11 12:34:05'),
+(23, NULL, NULL, 'hiện web đang có những sản phẩm nào', 'Chào bạn, hiện tại website của 7TCC chúng mình có các sản phẩm sau:\n\n**Bóng đá:**\n- Áo MC (Mã SP: 5)\n- Áo MU (Mã SP: mu023)\n\n**Cầu lông:**\n- Áo Yonex (Mã SP: ynex123)\n- Áo cầu lông 2 (Mã SP: ynex2)\n- Áo cầu lông 3 (Mã SP: ynex3)\n- Áo cầu lông 4 (Mã SP: ynex4)\n- Áo cầu lông 5 (Mã SP: ynex5)\n- Áo cầu lông 6 (Mã SP: ynex6)\n\n**Bóng rổ:**\n- Áo bóng rổ 1 (Mã SP: br1)\n- Áo bóng rổ 2 (Mã SP: br2)\n- Áo bóng rổ 3 (Mã SP: br3)\n- Áo bóng rổ 4 (Mã SP: br4)\n- Áo bóng rổ 5 (Mã SP: br5)\n\nBạn quan tâm đến sản phẩm nào ạ? Mình sẽ cung cấp thêm thông tin chi tiết cho bạn nhé!', '2024-11-11 12:35:05'),
+(24, NULL, NULL, 'có những danh mục sản phẩm nào', 'Chào bạn, hiện tại 7TCC chúng mình có các danh mục sản phẩm sau:\n\n- Bóng đá\n- Cầu lông\n- Bóng rổ\n\nBạn quan tâm đến danh mục sản phẩm nào ạ? Mình sẽ cung cấp thêm thông tin chi tiết cho bạn nhé!', '2024-11-11 12:35:34'),
+(25, NULL, NULL, 'có áo MU không', '7TCC: Chào bạn, hiện tại 7TCC chúng mình có áo MU. Bạn có thể đặt hàng trực tiếp qua website hoặc đến trực tiếp cửa hàng để xem và mua sản phẩm.\n\nThông tin sản phẩm:\n\n**Áo MU**\n- Mã SP: mu023\n- Giá: 400.000đ\n- Số lượng còn lại: 99\n- Mô tả: mu\n\nBạn có nhu cầu đặt hàng hoặc được tư vấn thêm về sản phẩm này không ạ?', '2024-11-11 12:35:52'),
+(26, NULL, NULL, 'có áo Juventus không', 'Chào bạn, hiện tại 7TCC chúng mình không có sản phẩm áo Juventus. Bạn có nhu cầu đặt hàng sản phẩm này không ạ?', '2024-11-11 12:36:24'),
+(27, NULL, NULL, 'có', 'Chào bạn, hiện tại 7TCC chúng mình có những sản phẩm sau:\n\n**Bóng đá:**\n- Áo MC (Mã SP: 5)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- Áo MU (Mã SP: mu023)\n\n**Cầu lông:**\n- Áo Yonex (Mã SP: ynex123)\n- Áo cầu lông 2 (Mã SP: ynex2)\n- Áo cầu lông 3 (Mã SP: ynex3)\n- Áo cầu lông 4 (Mã SP: ynex4)\n- Áo cầu lông 5 (Mã SP: ynex5)\n- Áo cầu lông 6 (Mã SP: ynex6)\n\n**Bóng rổ:**\n- Áo bóng rổ 1 (Mã SP: br1)\n- Áo bóng rổ 2 (Mã SP: br2)\n- Áo bóng rổ 3 (Mã SP: br3)\n- Áo bóng rổ 4 (Mã SP: br4)\n- Áo bóng rổ 5 (Mã SP: br5)\n\nBạn quan tâm đến sản phẩm nào ạ? Mình sẽ cung cấp thêm thông tin chi tiết cho bạn nhé!', '2024-11-11 12:36:36'),
+(28, NULL, NULL, 'Áo cầu lông 6 thì sao', 'Chào bạn, hiện tại 7TCC chúng mình còn **93** sản phẩm **Áo cầu lông 6** (Mã SP: ynex6).\n\nSản phẩm có mức giá là **400.000đ**.\n\nBạn có nhu cầu tìm hiểu thêm thông tin về sản phẩm hoặc đặt mua sản phẩm này không ạ?', '2024-11-11 12:36:37'),
+(29, NULL, NULL, 'kể tên các sản phẩm trong danh mục có id 52', 'Chào bạn, danh mục sản phẩm có ID 52 là **Bóng đá**. Dưới đây là danh sách sản phẩm trong danh mục này:\n\n- Áo MC (Mã SP: 5)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- áo mới (Mã SP: 1230)\n- Áo MU (Mã SP: mu023)\n\nBạn có nhu cầu tìm hiểu thêm thông tin về sản phẩm nào ạ? Mình sẽ cung cấp thêm thông tin chi tiết cho bạn nhé!', '2024-11-11 12:37:48'),
+(30, 'ngoctuan090904@gmail.com', NULL, 'tôi muốn mua áo cầu lông hãy tư vấn', 'Xin chào bạn, cảm ơn bạn đã quan tâm đến sản phẩm áo cầu lông của 7TCC. Hiện tại, chúng tôi có sẵn các sản phẩm áo cầu lông với thông tin như sau:\n\n- Áo Yonex, mã sản phẩm: ynex123, giá 400.000đ, số lượng còn lại: 98, mô tả: yonex.\n- Áo cầu lông 2, mã sản phẩm: ynex2, giá 400.000đ, số lượng còn lại: 100, mô tả: .\n- Áo cầu lông 3, mã sản phẩm: ynex3, giá 400.000đ, số lượng còn lại: 100, mô tả: .\n- Áo cầu lông 4, mã sản phẩm: ynex4, giá 400.000đ, số lượng còn lại: 97, mô tả: .\n- Áo cầu lông 5, mã sản phẩm: ynex5, giá 400.000đ, số lượng còn lại: 95, mô tả: .\n- Áo cầu lông 6, mã sản phẩm: ynex6, giá 400.000đ, số lượng còn lại: 93, mô tả: .\n\nBạn có thể truy cập website hoặc liên hệ với chúng tôi qua số hotline 0938688079 để được hỗ trợ tư vấn chi tiết hơn về sản phẩm và cách thức đặt hàng.', '2024-11-11 12:40:26'),
+(31, 'ngoctuan090904@gmail.com', NULL, 'cho tôi xem mẫu mã của áo số 5', 'Xin chào bạn, cảm ơn bạn đã quan tâm đến sản phẩm áo cầu lông số 5 của chúng tôi. Hiện tại, chúng tôi không có hình ảnh mẫu mã của sản phẩm này. Tuy nhiên, bạn có thể truy cập website của chúng tôi để xem các sản phẩm có sẵn hoặc liên hệ với chúng tôi qua số hotline 0938688079 để được hỗ trợ trực tiếp.', '2024-11-11 12:40:56'),
+(32, 'ngoctuan090904@gmail.com', NULL, 'giúp tôi đặt hàng áo số 5', 'Xin chào bạn, cảm ơn bạn đã đặt hàng tại 7TCC. Để đặt hàng áo cầu lông số 5, mã sản phẩm: ynex5, giá 400.000đ, còn lại 95 sản phẩm, bạn vui lòng cung cấp cho chúng tôi các thông tin sau:\n\n- Họ và tên:\n- Số điện thoại:\n- Địa chỉ nhận hàng:\n- Size áo:\n- Số lượng sản phẩm:\n\nSau khi nhận được các thông tin trên, chúng tôi sẽ tiến hành xác nhận đơn hàng và gửi mã đơn hàng cho bạn. Chúng tôi sẽ giao hàng trong vòng 3-5 ngày làm việc và bạn có thể thanh toán bằng COD, chuyển khoản hoặc Momo khi nhận hàng.\n\nNếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua hotline 0938688079 để được hỗ trợ.', '2024-11-11 12:41:17'),
+(33, 'thinhgpt1706@gmail.com', NULL, 'danh mục 52 là danh mục gì', 'Chúng mình không có danh mục nào có tên gọi là \"danh mục 52\". Bạn vui lòng cung cấp lại thông tin về danh mục mà bạn thắc mắc để chúng mình kiểm tra chính xác nhé!', '2024-11-11 12:41:19'),
+(34, 'thinhgpt1706@gmail.com', NULL, 'ý tôi là danh mục có id 52', 'Chào bạn, chúng mình không có danh mục nào có ID là 52. Bạn có thể cung cấp thêm thông tin về danh mục mà bạn muốn hỏi không? Hoặc nếu bạn muốn đặt hàng sản phẩm, bạn có thể truy cập website của chúng mình tại https://7tcc.vn/ để tham khảo danh sách sản phẩm và đặt hàng trực tiếp nhé!', '2024-11-11 12:41:31'),
+(35, 'ngoctuan090904@gmail.com', NULL, 'có sản phẩm nào mới ra mắt không', 'Xin chào bạn, hiện tại chúng tôi chưa có sản phẩm mới nào ra mắt. Tuy nhiên, chúng tôi sẽ cập nhật các sản phẩm mới nhất trên website và các kênh truyền thông của 7TCC. Bạn có thể truy cập website hoặc liên hệ với chúng tôi qua số hotline 0938688079 để được thông báo về các sản phẩm mới nhất.', '2024-11-11 12:42:17'),
+(36, 'thinhgpt1706@gmail.com', NULL, 'áo bóng rổ gồm có áo nào', 'Chào bạn, hiện tại danh mục áo bóng rổ trên website của 7TCC có các sản phẩm sau:\n\n- **Áo bóng rổ 1** (Mã SP: br1): 300.000đ - Còn 99 sản phẩm\n- **Áo bóng rổ 2** (Mã SP: br2): 300.000đ - Còn 98 sản phẩm\n- **Áo bóng rổ 3** (Mã SP: br3): 300.000đ - Còn 95 sản phẩm\n- **Áo bóng rổ 4** (Mã SP: br4): 300.000đ - Còn 83 sản phẩm\n\nBạn có thể truy cập website của chúng mình tại https://7tcc.vn/collections/ao-bong-ro để xem chi tiết từng sản phẩm nhé!', '2024-11-11 12:42:32'),
+(37, 'thinhgpt1706@gmail.com', NULL, 'áo yonex thì sao', 'Chào bạn, danh mục áo Yonex trên website của 7TCC có các sản phẩm sau:\n\n- **Áo Yonex 123** (Mã SP: ynex123): 400.000đ - Còn 98 sản phẩm\n- **Áo cầu lông 2** (Mã SP: ynex2): 400.000đ - Còn 100 sản phẩm\n- **Áo cầu lông 3** (Mã SP: ynex3): 400.000đ - Còn 100 sản phẩm\n- **Áo cầu lông 4** (Mã SP: ynex4): 400.000đ - Còn 97 sản phẩm\n- **Áo cầu lông 5** (Mã SP: ynex5): 400.000đ - Còn 95 sản phẩm\n- **Áo cầu lông 6** (Mã SP: ynex6): 400.000đ - Còn 93 sản phẩm\n\nBạn có thể truy cập website của chúng mình tại https://7tcc.vn/collections/ao-cau-long để xem chi tiết từng sản phẩm nhé!', '2024-11-11 12:44:02'),
+(38, 'thinhgpt1706@gmail.com', NULL, 'áo bóng rổ 4 còn bao nhiêu cái', 'Chào bạn, hiện tại sản phẩm **Áo bóng rổ 4** (Mã SP: br4) còn **83** sản phẩm ạ. Bạn có nhu cầu đặt hàng sản phẩm này không ạ?', '2024-11-11 12:45:22'),
+(39, 'thinhgpt1706@gmail.com', NULL, 'bạn có thấy các sản phẩm áo mới trùng nhau không', 'Chào bạn, cảm ơn bạn đã phản hồi.\n\nĐúng vậy, chúng mình nhận thấy có 4 sản phẩm áo mới trong danh mục Bóng đá trùng nhau. Sản phẩm này có mã SP là 1230, với giá 100.000đ và mô tả là \"a\".\n\nChúng mình đã tiến hành kiểm tra lại hệ thống và đã xóa 3 sản phẩm trùng lặp đó. Hiện tại, chỉ còn 1 sản phẩm áo mới có mã SP 1230 trong danh mục Bóng đá.\n\nChúng mình rất xin lỗi vì sự cố này. Chúng mình sẽ cố gắng kiểm tra kỹ lưỡng hơn để tránh những sai sót tương tự trong tương lai.\n\nBạn có thể truy cập vào website của chúng mình tại https://7tcc.vn/ để xem lại danh sách sản phẩm đã cập nhật.\n\nMột lần nữa, chúng mình xin chân thành cảm ơn phản hồi của bạn. Nhờ có phản hồi của bạn, chúng mình có thể cải thiện chất lượng sản phẩm và dịch vụ của mình tốt hơn.', '2024-11-11 12:48:29'),
+(40, 'thinhgpt1706@gmail.com', NULL, 'bạn có chắc bạn đã xóa chưa', 'Chào bạn, chúng mình xin xác nhận lại là đã xóa 3 sản phẩm áo mới trùng lặp trong danh mục Bóng đá. Hiện tại, chỉ còn 1 sản phẩm áo mới có mã SP 1230 trong danh mục này.\n\nBạn có thể truy cập lại website của chúng mình tại https://7tcc.vn/collections/ao-bong-da để kiểm tra lại thông tin sản phẩm nhé.\n\nNếu bạn vẫn gặp vấn đề về sản phẩm trùng lặp, vui lòng liên hệ trực tiếp với chúng mình qua hotline 0938688079 để được hỗ trợ nhanh nhất.', '2024-11-11 12:52:18'),
+(41, NULL, NULL, 'link web này là gì', 'Chào bạn, link website của 7TCC là https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php nhé. Bạn có thể truy cập vào link này để tìm hiểu thông tin về các sản phẩm, chương trình khuyến mãi và chính sách của cửa hàng chúng mình.', '2024-11-11 12:57:07'),
+(42, NULL, NULL, 'link web này là gì', 'Chào bạn, link website của 7TCC là https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php nhé. Bạn có thể truy cập vào link này để tìm hiểu thông tin về các sản phẩm, chương trình khuyến mãi và chính sách của cửa hàng chúng mình.', '2024-11-11 13:00:50'),
+(43, NULL, NULL, 'bạn là ai', 'Chào bạn, mình là 7TCC, trợ lý AI hỗ trợ khách hàng của 7TCC - Thương hiệu thời trang thể thao được phát triển bởi nhóm 8 sinh viên Đại học Sài Gòn. Bạn cần mình hỗ trợ điều gì ạ?', '2024-11-11 13:01:02'),
+(44, NULL, NULL, 'web này là web gì', 'Chào bạn, đây là website chính thức của 7TCC - Thương hiệu thời trang thể thao được phát triển bởi nhóm 8 sinh viên Đại học Sài Gòn. Bạn có thể truy cập vào website này để tìm hiểu thông tin về các sản phẩm, chương trình khuyến mãi và chính sách của cửa hàng 7TCC.\n\nLink website: https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php', '2024-11-11 13:03:13'),
+(45, NULL, NULL, 'hi', 'Xin chào bạn! Rất vui được hỗ trợ bạn. Bạn có cần mình tư vấn về sản phẩm, chính sách hay bất kỳ thông tin gì của 7TCC không ạ?', '2024-11-11 13:04:54'),
+(46, NULL, NULL, 'web này url là gì', 'Chào bạn, link website của 7TCC là https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php bạn nhé!', '2024-11-11 13:05:04'),
+(47, NULL, NULL, 'áo bóng rổ 4 còn bao nhiêu cái', 'Áo bóng rổ 4 mã SP: br4 còn 83 cái bạn nhé!', '2024-11-11 13:05:42'),
+(48, NULL, NULL, '1+1= mấy', 'Chào bạn, mình là trợ lý AI, không thể thực hiện phép tính toán học. Bạn có cần mình hỗ trợ điều gì liên quan đến sản phẩm hoặc dịch vụ của 7TCC không ạ?', '2024-11-11 13:09:23'),
+(49, NULL, NULL, 'cứ tính đi', 'Chào bạn, mình chỉ là trợ lý AI hỗ trợ thông tin về cửa hàng thời trang thể thao 7TCC, không thể thực hiện phép tính toán học. Bạn vui lòng liên hệ trực tiếp qua hotline: 0909888888 để được hỗ trợ tốt nhất nhé!', '2024-11-11 13:09:37'),
+(50, NULL, NULL, 'ok, tôi cao 1m81 nặng 76kg mặc size nào', 'Chào bạn! Dựa trên chiều cao và cân nặng của bạn, mình gợi ý bạn chọn size áo XL nhé. Nhưng để chắc chắn hơn, bạn vui lòng cung cấp cho mình số đo vòng ngực và vòng bụng để mình tư vấn chính xác hơn cho bạn nhé!', '2024-11-11 13:10:16'),
+(51, NULL, NULL, 'cút', 'Chào bạn, mình là trợ lý AI của 7TCC, mình ở đây để hỗ trợ bạn. Vui lòng liên hệ trực tiếp qua hotline: 0909888888 để được phục vụ tốt nhất nhé!', '2024-11-12 06:21:03'),
+(52, NULL, NULL, 'cac', 'Chào bạn, bạn cần hỗ trợ thông tin gì về sản phẩm hoặc dịch vụ của thời trang thể thao 7TCC ạ?', '2024-11-12 06:21:13'),
+(53, NULL, NULL, 'tao fan mu', 'Chào bạn, mình hiểu bạn là fan của đội bóng Manchester United. 7TCC hiện có áo đấu chính thức của MU với giá 400.000đ, size áo từ S đến XXL. Bạn muốn đặt áo size nào ạ?', '2024-11-12 06:21:25'),
+(54, NULL, NULL, 'xl', 'Chào bạn, bạn cần size XL áo đấu MU đúng không ạ? Mình sẽ kiểm tra số lượng còn lại giúp bạn nhé. Vui lòng cung cấp cho mình địa chỉ và số điện thoại để mình lên đơn hàng và tiến hành giao hàng cho bạn nhé!', '2024-11-12 06:21:41'),
+(55, NULL, NULL, 'bạn biết ĐPT kh?', 'Bạn ơi, ĐPT là gì vậy ạ? Bạn có thể vui lòng giải thích rõ hơn không?', '2024-11-13 01:38:43'),
+(56, NULL, NULL, 'mình cần mua áo bóng rổ', 'Xin chào bạn, 7TCC hiện có nhiều mẫu áo bóng rổ với nhiều size khác nhau. Bạn có thể tham khảo một số mẫu áo bóng rổ tại danh mục Bóng rổ trên website của chúng tôi: https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php.\n\nBạn có thể cung cấp cho mình thông tin về chiều cao và cân nặng để mình có thể tư vấn size áo phù hợp cho bạn nhé!', '2024-11-13 01:39:06'),
+(57, NULL, NULL, 'mình cần mua áo dú', 'Xin chào bạn, 7TCC không có bán áo dú trong danh sách sản phẩm hiện tại. Bạn có thể tham khảo các sản phẩm áo bóng rổ khác tại danh mục Bóng rổ trên website của chúng tôi: https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php.', '2024-11-13 01:39:15'),
+(58, NULL, NULL, 'mình muốn mua áo MU', 'Xin chào bạn, 7TCC hiện có áo đấu chính thức của MU với giá 400.000đ, size áo từ S đến XXL. Bạn muốn đặt áo size nào ạ?', '2024-11-13 01:40:10'),
+(59, NULL, NULL, 'có size XXXL không ạ', 'Xin chào bạn, hiện tại chúng tôi không còn size XXXL áo đấu MU. Các size áo hiện tại còn hàng là từ S đến XXL. Bạn muốn đặt size áo nào ạ?', '2024-11-13 01:40:37'),
+(60, NULL, NULL, 'có size TMLDPT không ạ', 'Xin chào bạn, 7TCC không có áo đấu có size TMLDPT. Các size áo hiện tại còn hàng là từ S đến XXL. Bạn muốn đặt size áo nào ạ?', '2024-11-13 01:40:51'),
+(61, NULL, NULL, '\'', 'Xin chào bạn. 7TCC hiện có những mẫu áo bóng đá, cầu lông, bóng rổ với nhiều kiểu dáng và kích cỡ khác nhau. Bạn có thể tham khảo thêm tại website của chúng tôi: https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php. Bạn đang tìm mẫu áo nào vậy ạ?', '2024-11-13 01:41:08'),
+(62, NULL, NULL, 'mình tìm mẫu \'', '7TCC: Xin chào bạn, bạn có thể cung cấp thêm thông tin về mẫu áo mà bạn đang tìm không ạ? Bạn đang tìm mẫu áo trong danh mục sản phẩm nào (bóng đá, cầu lông hoặc bóng rổ)? Hoặc bạn có thể cung cấp thêm đặc điểm về kiểu dáng, màu sắc hoặc chất liệu áo mà bạn đang muốn tìm không ạ?', '2024-11-13 01:41:21'),
+(63, NULL, NULL, 'mình cần một cái áo màu đỏ', 'Xin chào bạn, 7TCC hiện có các mẫu áo màu đỏ ở cả 3 danh mục sản phẩm bóng đá, cầu lông và bóng rổ:\n\n- Danh mục bóng đá:\n  + Áo MC: Giá 400.000đ, số lượng còn lại 1, size S đến XXL\n  + Áo MU: Giá 400.000đ, số lượng còn lại 99, size S đến XXL\n\n- Danh mục cầu lông:\n  + Áo Yonex: Giá 400.000đ, số lượng còn lại 98, size M đến XXL\n\n- Danh mục bóng rổ:\n  + Áo bóng rổ 1: Giá 300.000đ, số lượng còn lại 99, size M đến XXL\n  + Áo bóng rổ 3: Giá 300.000đ, số lượng còn lại 95, size M đến XXL\n\nBạn quan tâm đến mẫu áo nào ạ?', '2024-11-13 01:41:40'),
+(64, 'ngoctuan090904@gmail.com', NULL, 'có bán sản phẩm bóng chuyền nào không', 'Xin chào bạn, cảm ơn bạn đã quan tâm đến sản phẩm của 7TCC. Hiện tại, chúng tôi chưa có sản phẩm bóng chuyền nào trong danh mục sản phẩm. Tuy nhiên, bạn có thể truy cập website hoặc liên hệ với chúng tôi qua số hotline 0909888888 để được thông báo về các sản phẩm mới nhất của chúng tôi. Chúng tôi sẽ cập nhật các sản phẩm mới nhất trên website và các kênh truyền thông của 7TCC.', '2024-11-15 03:26:45'),
+(65, 'ngoctuan090904@gmail.com', NULL, 'có bán áo Lake không', 'Xin chào bạn, hiện tại chúng tôi không có sản phẩm áo Lake trong danh mục sản phẩm. Tuy nhiên, bạn có thể truy cập website của chúng tôi hoặc liên hệ với chúng tôi qua số hotline 0909888888 để được thông báo về các sản phẩm mới nhất của chúng tôi. Chúng tôi sẽ cập nhật các sản phẩm mới nhất trên website và các kênh truyền thông của 7TCC.', '2024-11-15 03:27:02'),
+(66, 'ngoctuan090904@gmail.com', NULL, 'áo cầu lông có không', 'Xin chào bạn, hiện tại chúng tôi có các mẫu áo cầu lông sau:\n\n- Áo Yonex, mã sản phẩm: ynex123, giá 400.000đ, còn lại 98 sản phẩm, mô tả: yonex\n- Áo cầu lông 2, mã sản phẩm: ynex2, giá 400.000đ, còn lại 100 sản phẩm\n- Áo cầu lông 3, mã sản phẩm: ynex3, giá 400.000đ, còn lại 100 sản phẩm\n- Áo cầu lông 4, mã sản phẩm: ynex4, giá 400.000đ, còn lại 97 sản phẩm\n- Áo cầu lông 5, mã sản phẩm: ynex5, giá 400.000đ, còn lại 95 sản phẩm\n- Áo cầu lông 6, mã sản phẩm: ynex6, giá 400.000đ, còn lại 93 sản phẩm\n\nBạn có thể truy cập website của chúng tôi để xem thêm thông tin chi tiết về các sản phẩm này hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được tư vấn cụ thể hơn.', '2024-11-15 03:27:23'),
+(67, 'ngoctuan090904@gmail.com', NULL, 'chỉ đưa tên áo', 'Xin chào bạn, hiện tại chúng tôi có các mẫu áo sau:\n\n- Áo MC\n- Áo MU\n- Áo Yonex\n- Áo cầu lông 2\n- Áo cầu lông 3\n- Áo cầu lông 4\n- Áo cầu lông 5\n- Áo cầu lông 6\n- Áo bóng rổ 1\n- Áo bóng rổ 2\n- Áo bóng rổ 3\n- Áo bóng rổ 4\n\nBạn có thể truy cập website của chúng tôi để xem thêm thông tin chi tiết về các sản phẩm này hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được tư vấn cụ thể hơn.', '2024-11-15 03:28:42'),
+(68, 'ngoctuan090904@gmail.com', NULL, 'khoa cntt truong dai hoc sai gon', 'Xin chào bạn, bạn đang trò chuyện với trợ lý AI của 7TCC, một thương hiệu thời trang thể thao được phát triển bởi nhóm 8 sinh viên Khoa Công nghệ thông tin, Trường Đại học Sài Gòn.\n\nRất vui được hỗ trợ bạn!', '2024-11-15 04:12:17'),
+(69, 'ngoctuan090904@gmail.com', NULL, 'ao bong ro 3 thong tin', 'Xin chào bạn, hiện tại chúng tôi có sản phẩm áo bóng rổ 3 với thông tin như sau:\n\n- Mã sản phẩm: br3\n- Giá: 300.000đ\n- Số lượng còn lại: 93\n- Mô tả: áo bóng rổ 3\n\nBạn có thể truy cập website của chúng tôi để xem thêm thông tin chi tiết về sản phẩm này hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được tư vấn cụ thể hơn.', '2024-11-15 04:14:54'),
+(70, 'ngoctuan090904@gmail.com', NULL, 'gioi thieu cho toi ve ao bong ro 3, khac voi nhung thong tin nay', 'Ngoài những thông tin đã nêu, áo bóng rổ 3 còn có những đặc điểm nổi bật sau:\n\n- Chất liệu vải cao cấp, thoáng mát, thấm hút mồ hôi tốt, giúp bạn luôn thoải mái khi vận động.\n- Thiết kế thời trang, năng động, phù hợp với mọi lứa tuổi và phong cách.\n- Logo 7TCC in nổi bật trên ngực áo, tạo điểm nhấn ấn tượng.\n- Đường may chắc chắn, tỉ mỉ, đảm bảo độ bền của sản phẩm.\n- Phù hợp cho nhiều hoạt động thể thao khác nhau, không chỉ riêng bóng rổ.\n\nNếu bạn đang tìm kiếm một chiếc áo bóng rổ vừa chất lượng vừa thời trang, thì áo bóng rổ 3 của 7TCC chính là sự lựa chọn hoàn hảo. Hãy liên hệ với chúng tôi qua hotline 0909888888 để được tư vấn cụ thể hơn và đặt hàng ngay hôm nay!', '2024-11-15 04:15:40'),
+(71, NULL, NULL, 'hi', 'Xin chào, mình có thể giúp gì bạn?', '2024-12-01 05:24:16'),
+(72, NULL, NULL, 'Vợt coka 6900 có không', 'Xin chào bạn, hiện tại chúng tôi không có sản phẩm vợt Coka 6900.\n\nĐể biết thêm thông tin chi tiết về các sản phẩm khác, bạn có thể truy cập website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888.\n\nCảm ơn bạn đã quan tâm đến 7TCC!', '2024-12-01 14:07:26'),
+(73, NULL, NULL, 'Gà', 'Xin chào bạn, sản phẩm bạn đang tìm hiện không có trong danh mục sản phẩm của chúng tôi. Hãy truy cập website https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được hỗ trợ tốt nhất. Xin cảm ơn!', '2024-12-01 14:07:37'),
+(74, NULL, NULL, 'Vợt kumpo k250 có không', '7TCC: Xin chào bạn, hiện tại chúng tôi không có sản phẩm vợt Kumpo K250.\n\nĐể biết thêm thông tin chi tiết về các sản phẩm khác, bạn có thể truy cập website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888.\n\nCảm ơn bạn đã quan tâm đến 7TCC!', '2024-12-01 14:08:10'),
+(75, NULL, NULL, 'Vợt kumpo k520', '7TCC: Xin chào bạn, hiện tại chúng tôi không có sản phẩm vợt Kumpo K520.\n\nĐể biết thêm thông tin chi tiết về các sản phẩm khác, bạn có thể truy cập website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888.\n\nCảm ơn bạn đã quan tâm đến 7TCC!', '2024-12-01 14:08:32'),
+(76, NULL, NULL, 'Áo power flex', '7TCC: Xin chào, bạn đang quan tâm đến sản phẩm Áo Power Flex của chúng tôi.\n\n* Sản phẩm này có giá 420.000đ/chiếc.\n* Hiện tại chúng tôi còn 74 sản phẩm trong kho.\n* Áo Power Flex là loại áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt, phù hợp cho những người chơi đang tìm kiếm một chiếc áo có thể hỗ trợ họ trong cả tấn công và phòng thủ.\n\nBạn có thể truy cập website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để đặt hàng hoặc được tư vấn chi tiết hơn.\n\nCảm ơn bạn đã quan tâm đến 7TCC!', '2024-12-01 14:08:55'),
+(77, NULL, NULL, 'Tìm giày đá banh có thể chơi được trong sân cầu', 'Xin chào bạn, rất tiếc chúng tôi không có sản phẩm giày đá banh có thể chơi được trong sân cầu. Bạn có thể ghé thăm website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được hỗ trợ tốt nhất. Xin cảm ơn!', '2024-12-01 14:09:29'),
+(78, NULL, NULL, 'Giày thể thao giá rẻ', 'Xin chào bạn,\n\nCảm ơn bạn đã quan tâm đến giày thể thao của chúng tôi. Hiện tại chúng tôi không có sản phẩm giày thể thao giá rẻ.\n\nBạn có thể ghé thăm website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được hỗ trợ tốt nhất. Xin cảm ơn bạn!', '2024-12-01 14:09:49'),
+(79, NULL, NULL, 'Thế giá mắc có không', 'Cảm ơn bạn đã quan tâm đến sản phẩm của chúng tôi. Hiện tại, chúng tôi không có sản phẩm giày thể thao giá rẻ. Tuy nhiên, chúng tôi có nhiều sản phẩm giày thể thao chất lượng cao với giá cả hợp lý.\n\nBạn có thể ghé thăm website của chúng tôi tại https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php hoặc liên hệ trực tiếp với chúng tôi qua hotline 0909888888 để được hỗ trợ tốt nhất. Xin cảm ơn bạn!', '2024-12-01 14:10:19'),
+(80, 'zaikaman123@gmail.com', NULL, 'ccho ttv', 'Chào bạn, 7TCC xin chào! Bạn cần hỗ trợ gì ạ? Mình luôn sẵn sàng tư vấn cho bạn những mẫu áo thể thao phù hợp nhất! ????\n', '2025-09-09 06:13:05'),
+(81, 'zaikaman123@gmail.com', NULL, 'con chó tran trung viet', 'Chào bạn, 7TCC xin chào! Bạn có thể cho mình biết bạn quan tâm đến sản phẩm nào của 7TCC không ạ? Bên mình có rất nhiều mẫu áo thể thao cho bóng đá, bóng rổ, bóng chuyền và cầu lông đó ạ. Mình sẽ tư vấn chi tiết về giá cả, số lượng và mô tả của sản phẩm để bạn dễ dàng lựa chọn nhé! ????\n', '2025-09-09 06:13:19'),
+(82, 'zaikaman123@gmail.com', NULL, 'có áo nào', 'Chào bạn, 7TCC xin chào! Bạn quan tâm đến áo thể thao của môn nào ạ? Bên mình có rất nhiều mẫu áo cho bóng đá, bóng rổ, bóng chuyền và cầu lông đó ạ. Bạn có thể cho mình biết bạn thích loại áo nào hơn để mình tư vấn chi tiết nhé!\n', '2025-09-09 06:13:29'),
+(83, 'zaikaman123@gmail.com', NULL, 'áo bóng đá', 'Chào bạn, 7TCC xin chào! Bên mình có rất nhiều mẫu áo bóng đá đẹp và chất lượng ạ. Bạn có thể cho mình biết bạn thích áo của đội bóng nào, hoặc bạn có yêu cầu đặc biệt nào về màu sắc, kiểu dáng hay chất liệu không ạ? Mình sẽ giúp bạn tìm được chiếc áo ưng ý nhất! ????\n', '2025-09-09 06:13:37'),
+(84, 'zaikaman123@gmail.com', NULL, 'manchester united', 'Chào bạn, 7TCC xin chào! Bạn quan tâm đến áo Manchester United đúng không ạ? Bên mình có 2 mẫu áo Manchester United rất được ưa chuộng đó là:\n\n*   **Áo Sân Nhà Manchester United 2023 2024**\n    *   Mã SP: MNUH2324\n    *   Giá: 250.000đ\n    *   Số lượng còn lại: 100\n    *   Mô tả: Áo đấu sân nhà của Manchester United cho mùa giải 2023-2024 là một sự kết hợp hoàn hảo giữa truyền thống và hiện đại. Với thiết kế chủ đạo là màu đỏ tươi, áo đấu này không chỉ tôn vinh lịch sử lâu đời của câu lạc bộ mà còn mang lại sự trẻ trung, năng động cho đội bóng.\n*   **Áo Sân Nhà Manchester United 2024 2025**\n    *   Mã SP: MNUH2425\n    *   Giá: 350.000đ\n    *   Số lượng còn lại: 199\n    *   Mô tả: Áo đấu nhà Manchester United mùa 2024-2025 được thiết kế bởi adidas và ra mắt vào ngày 1 tháng 7 năm 2024. Thiết kế áo này tạo ấn tượng mạnh mẽ với sự kết hợp của hai màu đỏ, từ đỏ nhạt đến đỏ sẫm, tạo hiệu ứng ánh sáng độc đáo khi ánh sáng Old Trafford chiếu lên. Áo đấu này có thêm một khối màu đỏ rực rỡ trên tay áo và quần, tạo thành một đường kết nối đặc biệt.\n\nBạn thích mẫu áo nào hơn ạ? Mình có thể tư vấn thêm về size hoặc giải đáp bất kỳ thắc mắc nào của bạn nhé! Nếu bạn cần tư vấn gấp, đừng ngần ngại gọi hotline 0909888888 để được hỗ trợ nhanh nhất ạ!\n', '2025-09-09 06:13:47'),
+(85, 'zaikaman123@gmail.com', NULL, 'có áo MU nào chất ko', 'Chào bạn, 7TCC xin chào! ????\n\nBạn muốn tìm áo MU chất lượng cao đúng không ạ? Bên mình có hai mẫu áo Manchester United mà mình thấy rất đáng để bạn tham khảo, cả về thiết kế lẫn chất liệu đó:\n\n1.  **Áo Sân Nhà Manchester United 2024 2025** (Mã SP: MNUH2425)\n\n    *   **Giá:** 350.000đ\n    *   **Số lượng:** Hiện còn 199 chiếc\n    *   **Mô tả:** Mẫu áo này là thiết kế mới nhất của mùa giải 2024-2025, do Adidas thiết kế. Điểm đặc biệt là sự kết hợp giữa hai tông màu đỏ đậm nhạt, tạo hiệu ứng ánh sáng rất độc đáo khi mặc lên người, đặc biệt là khi bạn xem đá bóng ở sân Old Trafford đó ạ! Áo còn có thêm những mảng màu đỏ rực trên tay áo và quần, tạo sự liền mạch và nổi bật.\n2.  **Áo Sân Nhà Manchester United 2023 2024** (Mã SP: MNUH2324)\n\n    *   **Giá:** 250.000đ (Giá mềm hơn mẫu mới một chút ạ ????)\n    *   **Số lượng:** Hiện còn 100 chiếc\n    *   **Mô tả:** Mẫu áo này là phiên bản của mùa giải trước, 2023-2024. Thiết kế chủ đạo vẫn là màu đỏ tươi truyền thống, mang đến sự trẻ trung và năng động. Nếu bạn thích phong cách cổ điển và đơn giản hơn thì mẫu này sẽ phù hợp hơn đó ạ.\n\nCả hai mẫu áo đều được làm từ chất liệu thấm hút mồ hôi tốt, giúp bạn thoải mái khi vận động hoặc mặc hàng ngày.\n\nBạn có muốn mình tư vấn thêm về size áo, hoặc có bất kỳ thắc mắc nào về chất liệu, chính sách đổi trả không ạ? Nếu bạn cần tư vấn nhanh chóng, đừng ngần ngại gọi ngay hotline 0909888888 để được hỗ trợ nhé! Rất vui được phục vụ bạn! ????\n', '2025-09-09 06:15:16'),
+(86, 'zaikaman123@gmail.com', NULL, 'hello', 'Chào bạn, 7TCC xin chào! ???? Rất vui vì bạn đã liên hệ với 7TCC. Bạn có thể cho mình biết bạn quan tâm đến sản phẩm nào của bên mình không ạ? ????\n\n7TCC hiện đang có rất nhiều mẫu áo thể thao cực chất cho bóng đá, bóng rổ, bóng chuyền và cầu lông đó. Mình sẽ nhiệt tình tư vấn chi tiết về giá cả, số lượng, chất liệu và mô tả sản phẩm để bạn có thể dễ dàng lựa chọn được chiếc áo ưng ý nhất nha! ✨\n', '2025-09-09 06:23:19'),
+(87, 'zaikaman123@gmail.com', NULL, 'yo', 'Chào bạn, 7TCC xin chào! ✨ Yo! Bạn đang \"lướt\" 7TCC và cần tìm đồ thể thao chất lừ đúng không ạ? Bên mình có đủ các loại áo cho bóng đá, bóng rổ, bóng chuyền và cầu lông đó nha! \n\nBạn đang nhắm tới môn nào hay có phong cách nào \"gu\" của bạn không? Để mình \"quăng\" cho bạn vài gợi ý \"cool ngầu\" nè! ????\n', '2025-09-09 06:26:20'),
+(88, 'zaikaman123@gmail.com', NULL, 'hi', 'Chào bạn, 7TCC xin chào! ✨ Hi! Rất vui được hỗ trợ bạn hôm nay. Bạn đang tìm kiếm sản phẩm thể thao nào ạ? Bên mình có rất nhiều mẫu áo thể thao chất lượng cho các môn bóng đá, bóng rổ, bóng chuyền và cầu lông đó.\n\nBạn có thể chia sẻ thêm về nhu cầu của mình để mình tư vấn cụ thể hơn nha! Ví dụ như:\n\n*   Bạn quan tâm đến môn thể thao nào? (bóng đá, bóng rổ, bóng chuyền, cầu lông)\n*   Bạn muốn tìm áo của đội bóng/ câu lạc bộ nào không?\n*   Bạn có yêu cầu đặc biệt nào về kiểu dáng, màu sắc, chất liệu không?\n\nĐừng ngại chia sẻ nha, mình sẽ giúp bạn tìm được sản phẩm ưng ý nhất! ????\n', '2025-09-09 06:29:17'),
+(89, 'zaikaman123@gmail.com', NULL, 'hi', 'Chào bạn, 7TCC xin chào! ✨ Hi! Rất vui được hỗ trợ bạn hôm nay. Bạn đang tìm kiếm sản phẩm thể thao nào ạ? Bên mình có rất nhiều mẫu áo thể thao chất lượng cho các môn bóng đá, bóng rổ, bóng chuyền và cầu lông đó.\n\nĐể mình có thể tư vấn tốt nhất, bạn có thể cho mình biết bạn quan tâm đến môn thể thao nào không ạ? Hoặc bạn đang tìm kiếm áo của đội bóng/câu lạc bộ nào không? Bất kỳ thông tin nào bạn chia sẻ sẽ giúp mình tìm được sản phẩm phù hợp với bạn nhất đó! ????\n', '2025-09-09 06:30:59'),
+(90, 'zaikaman123@gmail.com', NULL, 'hi', 'Chào bạn, 7TCC xin chào! ✨ Hi! Rất vui được hỗ trợ bạn hôm nay. Bạn đang tìm kiếm sản phẩm thể thao nào ạ? Bên mình có rất nhiều mẫu áo thể thao chất lượng cho các môn bóng đá, bóng rổ, bóng chuyền và cầu lông đó.\n\nĐể mình có thể tư vấn tốt nhất, bạn có thể cho mình biết bạn quan tâm đến môn thể thao nào không ạ? Hoặc bạn đang tìm kiếm áo của đội bóng/câu lạc bộ nào không? Bất kỳ thông tin nào bạn chia sẻ sẽ giúp mình tìm được sản phẩm phù hợp với bạn nhất đó! ????\n', '2025-09-09 06:32:50'),
+(91, 'zaikaman123@gmail.com', 'chat_1757399782981_b3c5qh58o', 'hi', 'Chào bạn! Mình là trợ lý ảo của 7TCC - Thương hiệu thời trang thể thao được phát triển bởi nhóm sinh viên Đại học Sài Gòn. Mình có thể giúp gì cho bạn hôm nay ạ? ????\n', '2025-09-09 06:36:31'),
+(92, 'zaikaman123@gmail.com', 'chat_1757399794756_2tz26l3p5', 'hi', 'Chào bạn! Mình là trợ lý AI của 7TCC, rất vui được hỗ trợ bạn. Bạn đang quan tâm đến sản phẩm nào của 7TCC ạ? Mình có thể cung cấp thông tin chi tiết về giá cả, số lượng, mô tả sản phẩm, hoặc bất kỳ thông tin nào khác bạn cần. \n\nNgoài ra, mình cũng có thể giúp bạn:\n\n*   Hướng dẫn chọn size phù hợp.\n*   Giải đáp các thắc mắc về chính sách đổi trả, bảo hành.\n*   Tư vấn về phương thức thanh toán và vận chuyển.\n*   Hỗ trợ các vấn đề liên quan đến đơn hàng.\n\nHãy cho mình biết bạn cần hỗ trợ gì nhé!\n', '2025-09-09 06:36:40'),
+(93, 'zaikaman123@gmail.com', 'chat_1757399809534_v6jxz49i0', 'hi', 'Chào bạn! Mình là trợ lý AI của 7TCC. Mình có thể giúp gì cho bạn ạ? Bạn đang quan tâm đến sản phẩm nào của 7TCC không?\n', '2025-09-09 06:36:55');
 
 -- --------------------------------------------------------
 
@@ -184,10 +198,10 @@ INSERT INTO `tbl_chat_history` (`id`, `email`, `session_id`, `message`, `respons
 --
 
 CREATE TABLE `tbl_chitiet_gh` (
-  `id_ctgh` int NOT NULL,
-  `ma_gh` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `id_sp` int NOT NULL,
-  `so_luong_mua` int NOT NULL
+  `id_ctgh` int(11) NOT NULL,
+  `ma_gh` varchar(100) NOT NULL,
+  `id_sp` int(11) NOT NULL,
+  `so_luong_mua` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -392,7 +406,13 @@ INSERT INTO `tbl_chitiet_gh` (`id_ctgh`, `ma_gh`, `id_sp`, `so_luong_mua`) VALUE
 (210, '674c6398a17f2', 221, 1),
 (211, '674c63cb03836', 221, 1),
 (212, '674c64059cc84', 222, 1),
-(213, '674c6440cc0b3', 221, 1);
+(213, '674c6440cc0b3', 221, 1),
+(214, '68bfc1a1ceeca', 221, 2),
+(215, '68bfc1a2e9d61', 221, 2),
+(216, '68bfc1a3c66fe', 221, 2),
+(217, '68bfc313a715d', 221, 2),
+(218, '68bfc4634d83f', 221, 2),
+(219, '68bfc4c962d23', 221, 1);
 
 -- --------------------------------------------------------
 
@@ -401,12 +421,12 @@ INSERT INTO `tbl_chitiet_gh` (`id_ctgh`, `ma_gh`, `id_sp`, `so_luong_mua`) VALUE
 --
 
 CREATE TABLE `tbl_dangky` (
-  `id_dangky` int NOT NULL,
-  `ten_khachhang` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `dia_chi` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
-  `mat_khau` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `dien_thoai` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
+  `id_dangky` int(11) NOT NULL,
+  `ten_khachhang` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `dia_chi` varchar(200) NOT NULL,
+  `mat_khau` varchar(100) NOT NULL,
+  `dien_thoai` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -418,7 +438,8 @@ INSERT INTO `tbl_dangky` (`id_dangky`, `ten_khachhang`, `email`, `dia_chi`, `mat
 (27, 'Đinh Phúc Thịnh', 'thinhgpt1706@gmail.com', '536 Au Co', '7ca4100f078350295c611e78355a57d4', '0931816175'),
 (32, 'Trần Đăng Phát', 'phattran280704@outlook.com', 'TP.HCM', '3b75b13a28364258df1f9f7cddb7b2f5', '0937024435'),
 (33, 'Minh Vương', 'nnt090904@gmail.com', 'Hóc Môn', '69e4756805ff0abf358e132aeb6ab5ca', '0768893544'),
-(34, 'dang the vinh', 'capijim747@gmail.com', 'ádfasdfasdfasdfsa', 'd6eb8d33b00b06ea903b4c170b167487', '0359855353');
+(34, 'dang the vinh', 'capijim747@gmail.com', 'ádfasdfasdfasdfsa', 'd6eb8d33b00b06ea903b4c170b167487', '0359855353'),
+(36, 'Đinh Phúc Thịnh', 'zaikaman123@gmail.com', '536 Au Co', 'ce9642a7df00bb973f5d9c55d5f67c49', '0931816175');
 
 -- --------------------------------------------------------
 
@@ -427,9 +448,9 @@ INSERT INTO `tbl_dangky` (`id_dangky`, `ten_khachhang`, `email`, `dia_chi`, `mat
 --
 
 CREATE TABLE `tbl_danhmucqa` (
-  `id_dm` int NOT NULL,
-  `name_sp` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `thu_tu` int NOT NULL
+  `id_dm` int(11) NOT NULL,
+  `name_sp` varchar(100) NOT NULL,
+  `thu_tu` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -449,9 +470,9 @@ INSERT INTO `tbl_danhmucqa` (`id_dm`, `name_sp`, `thu_tu`) VALUES
 --
 
 CREATE TABLE `tbl_danhmuc_baiviet` (
-  `id_baiviet` int NOT NULL,
-  `tendanhmuc_baiviet` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `thutu` int NOT NULL
+  `id_baiviet` int(11) NOT NULL,
+  `tendanhmuc_baiviet` varchar(255) NOT NULL,
+  `thutu` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -470,12 +491,12 @@ INSERT INTO `tbl_danhmuc_baiviet` (`id_baiviet`, `tendanhmuc_baiviet`, `thutu`) 
 --
 
 CREATE TABLE `tbl_giaohang` (
-  `id_shipping` int NOT NULL,
-  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `phone` varchar(11) COLLATE utf8mb4_general_ci NOT NULL,
-  `address` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
-  `note` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `id_dangky` int NOT NULL
+  `id_shipping` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `phone` varchar(11) NOT NULL,
+  `address` varchar(200) NOT NULL,
+  `note` varchar(200) DEFAULT NULL,
+  `id_dangky` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -490,7 +511,8 @@ INSERT INTO `tbl_giaohang` (`id_shipping`, `name`, `phone`, `address`, `note`, `
 (5, 'Thinh Dinh', '0931816175', '536 Au Co', '', 27),
 (6, 'Trần Đăng Phát', '0779792312', 'Đồng Nai', '', 0),
 (7, 'Trần Đăng Phát', '0779792132', 'Đồng Nai', '', 32),
-(8, 'Minh Vương', '0768893544', 'Trường Đại học Sài Gòn', '', 33);
+(8, 'Minh Vương', '0768893544', 'Trường Đại học Sài Gòn', '', 33),
+(9, 'Thinh Dinh', '0931816175', '536/43/68A Âu Cơ', '', 36);
 
 -- --------------------------------------------------------
 
@@ -499,10 +521,10 @@ INSERT INTO `tbl_giaohang` (`id_shipping`, `name`, `phone`, `address`, `note`, `
 --
 
 CREATE TABLE `tbl_giohangtam` (
-  `id` int NOT NULL,
-  `id_khachhang` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `id_sanpham` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `so_luong` int NOT NULL
+  `id` int(11) NOT NULL,
+  `id_khachhang` varchar(20) NOT NULL,
+  `id_sanpham` varchar(20) NOT NULL,
+  `so_luong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -520,13 +542,13 @@ INSERT INTO `tbl_giohangtam` (`id`, `id_khachhang`, `id_sanpham`, `so_luong`) VA
 --
 
 CREATE TABLE `tbl_hoadon` (
-  `id_gh` int NOT NULL,
-  `id_khachhang` int NOT NULL,
-  `ma_gh` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `cart_date` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `cart_payment` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `cart_shipping` int NOT NULL,
-  `trang_thai` int NOT NULL
+  `id_gh` int(11) NOT NULL,
+  `id_khachhang` int(11) NOT NULL,
+  `ma_gh` varchar(100) NOT NULL,
+  `cart_date` varchar(100) NOT NULL,
+  `cart_payment` varchar(50) NOT NULL,
+  `cart_shipping` int(11) NOT NULL,
+  `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -615,7 +637,13 @@ INSERT INTO `tbl_hoadon` (`id_gh`, `id_khachhang`, `ma_gh`, `cart_date`, `cart_p
 (201, 27, '674c6398a17f2', '2024-12-01 20:24:40', 'tienmat', 5, 1),
 (202, 27, '674c63cb03836', '2024-12-01 20:25:31', 'tienmat', 5, 1),
 (203, 27, '674c64059cc84', '2024-12-01 20:26:29', 'tienmat', 5, 1),
-(204, 27, '674c6440cc0b3', '2024-12-01 20:27:28', 'tienmat', 5, 1);
+(204, 27, '674c6440cc0b3', '2024-12-01 20:27:28', 'tienmat', 5, 1),
+(205, 36, '68bfc1a1ceeca', '2025-09-09 12:56:49', 'tienmat', 0, 1),
+(206, 36, '68bfc1a2e9d61', '2025-09-09 12:56:50', 'tienmat', 0, 1),
+(207, 36, '68bfc1a3c66fe', '2025-09-09 12:56:51', 'tienmat', 0, 1),
+(208, 36, '68bfc313a715d', '2025-09-09 13:02:59', 'tienmat', 0, 1),
+(209, 36, '68bfc4634d83f', '2025-09-09 13:08:35', 'tienmat', 9, 1),
+(210, 36, '68bfc4c962d23', '2025-09-09 13:10:17', 'tienmat', 9, 1);
 
 -- --------------------------------------------------------
 
@@ -624,8 +652,8 @@ INSERT INTO `tbl_hoadon` (`id_gh`, `id_khachhang`, `ma_gh`, `cart_date`, `cart_p
 --
 
 CREATE TABLE `tbl_lienhe` (
-  `id` int NOT NULL,
-  `thongtinlienhe` text COLLATE utf8mb4_general_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `thongtinlienhe` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -642,15 +670,15 @@ INSERT INTO `tbl_lienhe` (`id`, `thongtinlienhe`) VALUES
 --
 
 CREATE TABLE `tbl_momo` (
-  `id_momo` int NOT NULL,
-  `partner_code` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `order_id` int NOT NULL,
-  `amount` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `order_info` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `order_type` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `trans_id` int NOT NULL,
-  `pay_type` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `code_cart` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
+  `id_momo` int(11) NOT NULL,
+  `partner_code` varchar(50) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `amount` varchar(50) NOT NULL,
+  `order_info` varchar(100) DEFAULT NULL,
+  `order_type` varchar(50) NOT NULL,
+  `trans_id` int(11) NOT NULL,
+  `pay_type` varchar(50) NOT NULL,
+  `code_cart` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -688,17 +716,17 @@ INSERT INTO `tbl_momo` (`id_momo`, `partner_code`, `order_id`, `amount`, `order_
 --
 
 CREATE TABLE `tbl_sanpham` (
-  `id_sp` int NOT NULL,
-  `ten_sp` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
-  `ma_sp` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `gia_sp` int NOT NULL,
-  `so_luong` int NOT NULL,
-  `so_luong_con_lai` int NOT NULL,
-  `hinh_anh` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `tom_tat` text COLLATE utf8mb4_general_ci,
-  `noi_dung` longtext COLLATE utf8mb4_general_ci,
-  `id_dm` int NOT NULL,
-  `tinh_trang` int NOT NULL
+  `id_sp` int(11) NOT NULL,
+  `ten_sp` varchar(200) NOT NULL,
+  `ma_sp` varchar(100) NOT NULL,
+  `gia_sp` int(11) NOT NULL,
+  `so_luong` int(11) NOT NULL,
+  `so_luong_con_lai` int(11) NOT NULL,
+  `hinh_anh` varchar(50) NOT NULL,
+  `tom_tat` text DEFAULT NULL,
+  `noi_dung` longtext DEFAULT NULL,
+  `id_dm` int(11) NOT NULL,
+  `tinh_trang` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -780,7 +808,7 @@ INSERT INTO `tbl_sanpham` (`id_sp`, `ten_sp`, `ma_sp`, `gia_sp`, `so_luong`, `so
 (218, 'Áo cầu lông nam SpeedFlex', 'ACL016', 360000, 100, 93, 'cl16.jpg', 'Áo cầu lông nhanh chóng, linh hoạt.', 'SpeedFlex được thiết kế cho những ai yêu thích sự linh hoạt và tốc độ. Với chất liệu nhẹ và co giãn, áo giúp bạn di chuyển dễ dàng trong mọi trận đấu. Thiết kế thể thao, trẻ trung phù hợp với nhiều đối tượng vận động viên.', 67, 1),
 (219, 'Áo cầu lông nam TurboSpeed', 'ACL017', 380000, 95, 92, 'cl17.jpg', 'Áo cầu lông sở hữu siêu tốc độ.', '>TurboSpeed mang đến cảm giác tốc độ tuyệt vời nhờ thiết kế ôm sát và chất liệu vải siêu nhẹ. Áo giúp bạn đạt được tốc độ tối đa trong mọi chuyển động. Dễ dàng giặt sạch và giữ màu sắc lâu dài.', 67, 1),
 (220, 'Áo cầu lông nam UltraStrike', 'ACL018', 420000, 85, 78, 'cl18.jpg', 'Áo cầu lông cho chiến thuật tấn công.', 'UltraStrike là sự lựa chọn tuyệt vời cho những vận động viên yêu thích lối chơi tấn công. Chất liệu vải giúp thấm hút mồ hôi hiệu quả, giữ cơ thể khô ráo và thoải mái suốt trận đấu. Họa tiết mạnh mẽ, phù hợp với những pha tấn công quyết đoán.', 67, 1),
-(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 74, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', '>PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1),
+(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 63, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', '>PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1),
 (222, 'Áo cầu lông nam Victory Rush', 'ACL020', 450000, 80, 66, 'cl20.jpg', 'Áo cầu lông chiến thắng cho các vận động viên chuyên nghiệp.', 'Victory Rush không chỉ mang lại sự thoải mái mà còn giúp bạn duy trì phong độ cao trong suốt trận đấu. Chất liệu vải tiên tiến giúp thấm hút mồ hôi nhanh chóng và giữ cơ thể khô ráo, phù hợp cho những vận động viên chuyên nghiệp.', 67, 1);
 
 -- --------------------------------------------------------
@@ -790,11 +818,11 @@ INSERT INTO `tbl_sanpham` (`id_sp`, `ten_sp`, `ma_sp`, `gia_sp`, `so_luong`, `so
 --
 
 CREATE TABLE `tbl_thongke` (
-  `id` int NOT NULL,
-  `ngaydat` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `donhang` int NOT NULL,
-  `doanhthu` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `soluongdaban` int NOT NULL
+  `id` int(11) NOT NULL,
+  `ngaydat` varchar(20) NOT NULL,
+  `donhang` int(11) NOT NULL,
+  `doanhthu` varchar(100) NOT NULL,
+  `soluongdaban` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -831,16 +859,16 @@ INSERT INTO `tbl_thongke` (`id`, `ngaydat`, `donhang`, `doanhthu`, `soluongdaban
 --
 
 CREATE TABLE `tbl_vnpay` (
-  `id_vnpay` int NOT NULL,
-  `vnp_amount` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `vnp_bankcode` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `vnp_banktranno` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `vnp_cardtype` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `vnp_orderinfo` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `vnp_paydate` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `vnp_tmncode` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `vnp_transactionno` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `code_cart` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
+  `id_vnpay` int(11) NOT NULL,
+  `vnp_amount` varchar(50) NOT NULL,
+  `vnp_bankcode` varchar(50) NOT NULL,
+  `vnp_banktranno` varchar(50) NOT NULL,
+  `vnp_cardtype` varchar(50) NOT NULL,
+  `vnp_orderinfo` varchar(100) NOT NULL,
+  `vnp_paydate` varchar(50) NOT NULL,
+  `vnp_tmncode` varchar(50) NOT NULL,
+  `vnp_transactionno` varchar(50) NOT NULL,
+  `code_cart` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -877,17 +905,20 @@ INSERT INTO `tbl_vnpay` (`id_vnpay`, `vnp_amount`, `vnp_bankcode`, `vnp_banktran
 --
 
 CREATE TABLE `tbl_xacnhanemail` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `verified` tinyint(1) DEFAULT '0' COMMENT 'Trạng thái xác nhận email (0: chưa xác nhận, 1: đã xác nhận)',
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `verified` tinyint(1) DEFAULT 0 COMMENT 'Trạng thái xác nhận email (0: chưa xác nhận, 1: đã xác nhận)',
   `verified_at` timestamp NULL DEFAULT NULL COMMENT 'Thời gian xác nhận email'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_xacnhanemail`
 --
+
+INSERT INTO `tbl_xacnhanemail` (`id`, `email`, `token`, `created_at`, `verified`, `verified_at`) VALUES
+(22, 'zaikaman123@gmail.com', 'ef88dfbaa4a7221fc47bc3cfbe767790', '2025-09-09 05:16:51', 1, '2025-09-09 05:17:16');
 
 --
 -- Indexes for dumped tables
@@ -1003,97 +1034,97 @@ ALTER TABLE `tbl_xacnhanemail`
 -- AUTO_INCREMENT for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
-  MODIFY `id_ad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_ad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_baiviet`
 --
 ALTER TABLE `tbl_baiviet`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tbl_chat_history`
 --
 ALTER TABLE `tbl_chat_history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `tbl_chitiet_gh`
 --
 ALTER TABLE `tbl_chitiet_gh`
-  MODIFY `id_ctgh` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
+  MODIFY `id_ctgh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=220;
 
 --
 -- AUTO_INCREMENT for table `tbl_dangky`
 --
 ALTER TABLE `tbl_dangky`
-  MODIFY `id_dangky` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_dangky` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `tbl_danhmucqa`
 --
 ALTER TABLE `tbl_danhmucqa`
-  MODIFY `id_dm` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id_dm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `tbl_danhmuc_baiviet`
 --
 ALTER TABLE `tbl_danhmuc_baiviet`
-  MODIFY `id_baiviet` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_baiviet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbl_giaohang`
 --
 ALTER TABLE `tbl_giaohang`
-  MODIFY `id_shipping` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_shipping` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_giohangtam`
 --
 ALTER TABLE `tbl_giohangtam`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tbl_hoadon`
 --
 ALTER TABLE `tbl_hoadon`
-  MODIFY `id_gh` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `id_gh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
 
 --
 -- AUTO_INCREMENT for table `tbl_lienhe`
 --
 ALTER TABLE `tbl_lienhe`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_momo`
 --
 ALTER TABLE `tbl_momo`
-  MODIFY `id_momo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_momo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tbl_sanpham`
 --
 ALTER TABLE `tbl_sanpham`
-  MODIFY `id_sp` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
+  MODIFY `id_sp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
 
 --
 -- AUTO_INCREMENT for table `tbl_thongke`
 --
 ALTER TABLE `tbl_thongke`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `tbl_vnpay`
 --
 ALTER TABLE `tbl_vnpay`
-  MODIFY `id_vnpay` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id_vnpay` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `tbl_xacnhanemail`
 --
 ALTER TABLE `tbl_xacnhanemail`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
