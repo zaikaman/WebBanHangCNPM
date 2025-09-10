@@ -4,7 +4,7 @@
 }
 
 .pagination .page-link {
-    color: #007bff;
+    color: #dc0021;
     border: 1px solid #dee2e6;
     padding: 8px 12px;
     margin: 0 2px;
@@ -13,16 +13,19 @@
 }
 
 .pagination .page-link:hover {
-    color: #0056b3;
-    background-color: #e9ecef;
-    border-color: #adb5bd;
+    color: #fff;
+    background: linear-gradient(135deg, #dc0021 0%, #a90019 100%);
+    border-color: #dc0021;
     text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(220, 0, 33, 0.3);
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #007bff;
-    border-color: #007bff;
+    background: linear-gradient(135deg, #dc0021 0%, #a90019 100%);
+    border-color: #dc0021;
     color: white;
+    box-shadow: 0 2px 8px rgba(220, 0, 33, 0.3);
 }
 
 .pagination .page-item.disabled .page-link {
@@ -67,8 +70,8 @@
 }
 
 .search-form .form-control:focus, .search-form .form-select:focus {
-    border-color: #80bdff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    border-color: #dc0021;
+    box-shadow: 0 0 0 0.2rem rgba(220, 0, 33, 0.25);
 }
 
 /* Table Enhancements */
@@ -80,7 +83,7 @@
 }
 
 .table th {
-    background-color: #343a40;
+    background: linear-gradient(135deg, #dc0021 0%, #a90019 100%);
     color: white;
     font-weight: 600;
     text-align: center;
@@ -158,7 +161,7 @@
     height: 20px;
     margin: -10px 0 0 -10px;
     border: 2px solid #f3f3f3;
-    border-top: 2px solid #007bff;
+    border-top: 2px solid #dc0021;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -177,13 +180,84 @@
 
 /* Clear button */
 .btn-clear {
-    background-color: #6c757d;
-    border-color: #6c757d;
-    color: white;
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: white !important;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .btn-clear:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
-    color: white;
+    background-color: #5a6268 !important;
+    border-color: #545b62 !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3) !important;
+}
+
+/* Search button enhancement */
+.btn-primary {
+    background: linear-gradient(135deg, #dc0021 0%, #a90019 100%) !important;
+    border: none !important;
+    color: #fff !important;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #a90019 0%, #dc0021 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(220, 0, 33, 0.3) !important;
+    color: #fff !important;
+}
+
+/* Action buttons in table */
+.btn-warning {
+    background: linear-gradient(135deg, #ffe300 0%, #ffd700 100%) !important;
+    border: none !important;
+    color: #333 !important;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #ffd700 0%, #ffe300 100%) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(255, 227, 0, 0.3) !important;
+    color: #333 !important;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+    border: none !important;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: #fff !important;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #20c997 0%, #28a745 100%) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3) !important;
+    color: #fff !important;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+    border: none !important;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: #fff !important;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #dc3545 100%) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
+    color: #fff !important;
 }

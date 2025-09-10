@@ -14,8 +14,51 @@ if (!isset($_SESSION['dangNhap'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <link rel="stylesheet" type="text/css" href="css/style_admin.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-override.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <!-- Override Bootstrap button colors -->
+    <style>
+        /* Force override Bootstrap primary button color */
+        .btn-primary,
+        .btn.btn-primary,
+        button.btn-primary,
+        input[type="submit"].btn-primary,
+        .page-link,
+        .pagination .page-link {
+            background: linear-gradient(135deg, #dc0021 0%, #a90019 100%) !important;
+            border-color: #dc0021 !important;
+            color: #fff !important;
+        }
+        
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .btn-primary:active,
+        .btn.btn-primary:hover,
+        .btn.btn-primary:focus,
+        .btn.btn-primary:active,
+        .page-link:hover,
+        .pagination .page-link:hover {
+            background: linear-gradient(135deg, #a90019 0%, #dc0021 100%) !important;
+            border-color: #a90019 !important;
+            color: #fff !important;
+            box-shadow: 0 4px 15px rgba(220, 0, 33, 0.3) !important;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, #dc0021 0%, #a90019 100%) !important;
+            border-color: #dc0021 !important;
+            color: #fff !important;
+        }
+        
+        /* Override focus states that might show blue */
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #dc0021 !important;
+            box-shadow: 0 0 0 0.2rem rgba(220, 0, 33, 0.25) !important;
+        }
+    </style>
     
     <title>7TCC Admin Dashboard</title>
     
