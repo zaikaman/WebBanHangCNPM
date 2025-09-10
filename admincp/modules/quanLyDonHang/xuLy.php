@@ -1,5 +1,12 @@
 <?php
-include('..//..//config/config.php');
+// Authentication check
+session_start();
+if(!isset($_SESSION['admin'])) {
+    header('Location: ../../login.php');
+    exit;
+}
+
+include('../../config/config.php');
 require('../../../Carbon-3.8.0/autoload.php');
 
 use Carbon\Carbon;

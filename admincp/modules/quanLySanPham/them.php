@@ -56,6 +56,32 @@ $danhmuc = mysqli_query($mysqli, $sql_dm);
 ?>
 
 <div class="container-fluid px-4 py-3">
+    <!-- Success Message -->
+    <?php if(isset($_GET['success'])): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <strong>Thành công!</strong> 
+        <?php 
+        switch($_GET['success']) {
+            case 'add': echo 'Sản phẩm đã được thêm thành công!'; break;
+            case 'update': echo 'Sản phẩm đã được cập nhật thành công!'; break;
+            case 'delete': echo 'Sản phẩm đã được xóa thành công!'; break;
+            default: echo 'Thao tác thành công!';
+        }
+        ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <?php endif; ?>
+
+    <!-- Error Message -->
+    <?php if(isset($_GET['error'])): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <strong>Lỗi!</strong> <?php echo htmlspecialchars($_GET['error']); ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <?php endif; ?>
+
     <!-- Header -->
     <div class="row mb-4">
         <div class="col-12">
@@ -245,4 +271,28 @@ document.getElementById('gia_sp').addEventListener('input', function() {
         this.setAttribute('data-value', value);
     }
 });
+
+// Reset form if success parameter exists (after successful add)
+if (window.location.search.includes('success=add')) {
+    // Clear form after a short delay to let user see the success message
+    setTimeout(function() {
+        document.getElementById('productForm').reset();
+        document.getElementById('imagePreview').style.display = 'none';
+        document.getElementById('uploadInfo').innerHTML = '<small>Chưa chọn file nào</small>';
+        
+        // Remove success parameter from URL without reloading
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        window.history.replaceState({}, '', url);
+    }, 2000);
+}
+
+// Auto-hide alerts after 5 seconds
+setTimeout(function() {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(alert) {
+        const bsAlert = new bootstrap.Alert(alert);
+        bsAlert.close();
+    });
+}, 5000);
 </script>

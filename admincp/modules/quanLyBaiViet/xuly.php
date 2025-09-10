@@ -1,5 +1,12 @@
 <?php
-include('..//..//config/config.php');
+// Authentication check
+session_start();
+if(!isset($_SESSION['admin'])) {
+    header('Location: ../../login.php');
+    exit;
+}
+
+include('../../config/config.php');
 
 function validateArticle($data, $mysqli, $isEdit = false) {
     $errors = [];
@@ -34,8 +41,8 @@ function validateArticle($data, $mysqli, $isEdit = false) {
     }
 
     // Validate formats
-    if(!preg_match('/^[a-zA-Z0-9\s\p{L}]{2,200}$/u', trim($data['tenbaiviet']))) {
-        $errors[] = 'Tên bài viết không hợp lệ (2-200 ký tự, chỉ chứa chữ cái, số và khoảng trắng)';
+    if(!empty($data['tenbaiviet']) && !preg_match('/^.{2,200}$/u', trim($data['tenbaiviet']))) {
+        $errors[] = 'Tên bài viết không hợp lệ (2-200 ký tự)';
     }
 
     if(!filter_var($data['link'], FILTER_VALIDATE_URL)) {

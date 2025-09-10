@@ -1,17 +1,34 @@
 <?php
-include('..//..//config/config.php');
+// Authentication check
+session_start();
+if(!isset($_SESSION['admin'])) {
+    header('Location: ../../login.php');
+    exit;
+}
+
+include('../../config/config.php');
 
 function validateCategoryName($name) {
     // Tên danh mục 2-100 ký tự, chỉ chứa chữ cái, số và khoảng trắng
-    return preg_match('/^[a-zA-Z0-9\s\p{L}]{2,100}$/u', trim($name));
+    return preg_match('/^.{2,100}$/u', trim($name));
 }
+
 function isDuplicateCategory($mysqli, $name, $excludeId = null) {
-    $sql = "SELECT COUNT(*) as count FROM tbl_danhmucqa WHERE name_sp = '$name'";
+    $sql = "SELECT COUNT(*) as count FROM tbl_danhmucqa WHERE name_sp = ?";
     if ($excludeId) {
-        $sql .= " AND id_dm != $excludeId";
+        $sql .= " AND id_dm != ?";
+        $stmt = mysqli_prepare($mysqli, $sql);
+        mysqli_stmt_bind_param($stmt, "si", $name, $excludeId);
+    } else {
+        $stmt = mysqli_prepare($mysqli, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $name);
     }
-    $result = mysqli_query($mysqli, $sql);
+    
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_assoc($result);
+    mysqli_stmt_close($stmt);
+    
     return $row['count'] > 0;
 }
 
