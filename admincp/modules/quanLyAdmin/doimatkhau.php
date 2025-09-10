@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get the old and new passwords from the form
     $old_password = $_POST['old_password'];
     $new_password = $_POST['new_password'];
-    $id_admin = $_GET['id'];
+    $id_ad = $_GET['id'];
 
     // Validate new password length
     if (strlen($new_password) <= 3 || strlen($new_password) > 20) {

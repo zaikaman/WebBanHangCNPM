@@ -1,11 +1,12 @@
 <?php
 session_start();
+include('config/config.php');
 if (!isset($_SESSION['dangNhap'])) {
     header('Location:login.php');
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -13,38 +14,63 @@ if (!isset($_SESSION['dangNhap'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <link rel="stylesheet" type="text/css" href="css/style_admin.css">
-        
-    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <title>7TCC Admin Dashboard</title>
+    
+    <!-- Add 7TCC Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark align-items-center">
-            <a class="navbar-brand pl-3" href="#">Admin Dashboard</a>
+    <!-- Enhanced Navbar with 7TCC branding -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="index.php">
+                <img src="../images/image7tcc2removebgpreview11884-0kr5-200h.png" alt="7TCC" height="40" class="mr-2">
+                <span>Admin Dashboard</span>
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto mr-3">
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Welcome Admin</a>
+                        <span class="navbar-text mr-3">
+                            <i class="fas fa-user-circle mr-2"></i>
+                            Xin chào, <strong><?php echo $_SESSION['dangNhap']; ?></strong>
+                        </span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-danger text-white" href="logout.php">Đăng xuất</a>
+                        <a class="btn btn-danger ml-2" href="logout.php">
+                            <i class="fas fa-sign-out-alt mr-1"></i>
+                            Đăng xuất
+                        </a>
                     </li>
                 </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-    <div class="container-fluid mt-3 pt-3 px-3">
+    <!-- Main Content -->
+    <div class="container-fluid mt-4">
         <div class="row">
-            <div class="col-md-3">
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-md-4 mb-4">
                 <?php include("modules/menu.php"); ?>
             </div>
-            <div class="col-md-9">
-                <div class="card">
+            
+            <!-- Main Dashboard Content -->
+            <div class="col-lg-9 col-md-8">
+                <!-- Welcome Card -->
+                <div class="card mb-4">
                     <div class="card-header">
-                        <h3 class="text-center">Dashboard Overview</h3>
+                        <h3 class="mb-0">
+                            <i class="fas fa-tachometer-alt mr-2"></i>
+                            Dashboard Overview - 7TCC
+                        </h3>
                     </div>
                     <div class="card-body">
                         <?php include("modules/main.php"); ?>
@@ -56,18 +82,41 @@ if (!isset($_SESSION['dangNhap'])) {
 
     <?php include("modules/footer.php"); ?>
 
+    <!-- Scripts -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
     <script type="text/javascript">
         $(document).ready(function () {
+            // Add active class to current nav item
+            var currentPath = window.location.search;
+            $('.nav-link').each(function() {
+                if (this.href.indexOf(currentPath) !== -1 && currentPath !== '') {
+                    $(this).addClass('active');
+                }
+            });
+            
+            // If no specific action, highlight dashboard
+            if (!currentPath || currentPath === '') {
+                $('.nav-link[href="index.php"]').addClass('active');
+            }
+            
             thongke();
             var char = new Morris.Line({
                 element: 'chart',
                 xkey: 'date',
                 ykeys: ['order', 'sale', 'quantily'],
-                labels: ['đơn hàng', 'giá', 'số lượng đã bán']
+                labels: ['Đơn hàng', 'Doanh thu (VNĐ)', 'Số lượng bán'],
+                lineColors: ['#dc0021', '#ffe300', '#28a745'],
+                pointFillColors: ['#dc0021', '#ffe300', '#28a745'],
+                pointStrokeColors: ['#a90019', '#ffd700', '#20c997'],
+                gridLineColor: '#eee',
+                gridTextColor: '#666',
+                gridTextSize: 12,
+                hideHover: 'auto',
+                parseTime: false
             });
 
             $('.select_date').change(function () {

@@ -1,8 +1,29 @@
 <?php
 include("config/config.php");
-$code = $_GET['code'];
-$sql_lietke_dh= "SELECT * FROM tbl_chitiet_gh,tbl_sanpham WHERE tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp AND tbl_chitiet_gh.ma_gh='".$code."' ORDER BY tbl_chitiet_gh.id_ctgh DESC ";
-$lietke_dh= mysqli_query($mysqli,$sql_lietke_dh);
+
+// Nhận parameter từ URL - có thể là 'code' hoặc 'id_gh'
+if(isset($_GET['code'])) {
+    $ma_gh = $_GET['code'];
+    // Truy vấn theo mã giỏ hàng
+    $sql_lietke_dh = "SELECT * FROM tbl_chitiet_gh c, tbl_sanpham s WHERE c.id_sp = s.id_sp AND c.ma_gh='".$ma_gh."' ORDER BY c.id_ctgh DESC";
+} elseif(isset($_GET['id_gh'])) {
+    $id_gh = $_GET['id_gh'];
+    // Lấy mã giỏ hàng từ id_gh
+    $sql_get_ma_gh = "SELECT ma_gh FROM tbl_hoadon WHERE id_gh = '$id_gh'";
+    $result_ma_gh = mysqli_query($mysqli, $sql_get_ma_gh);
+    if($row_ma_gh = mysqli_fetch_array($result_ma_gh)) {
+        $ma_gh = $row_ma_gh['ma_gh'];
+        $sql_lietke_dh = "SELECT * FROM tbl_chitiet_gh c, tbl_sanpham s WHERE c.id_sp = s.id_sp AND c.ma_gh='".$ma_gh."' ORDER BY c.id_ctgh DESC";
+    } else {
+        echo "<div class='alert alert-danger'>Không tìm thấy đơn hàng!</div>";
+        exit;
+    }
+} else {
+    echo "<div class='alert alert-danger'>Thiếu thông tin đơn hàng!</div>";
+    exit;
+}
+
+$lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
 ?>
 
 <!-- Link Bootstrap CSS -->
@@ -56,7 +77,7 @@ $lietke_dh= mysqli_query($mysqli,$sql_lietke_dh);
         </div>
         <div class="card-footer text-center">
             <a href="index.php?action=donHang&query=lietke" class="btn btn-secondary">Quay Lại</a>
-            <a href="modules/quanLyDonHang/indonhang.php?code=<?php echo $code ?>" class="btn btn-primary">In Đơn Hàng</a>
+            <a href="modules/quanLyDonHang/indonhang.php?code=<?php echo $ma_gh ?>" class="btn btn-primary">In Đơn Hàng</a>
         </div>
     </div>
 </div>

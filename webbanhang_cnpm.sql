@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 09, 2025 at 03:10 PM
+-- Generation Time: Sep 10, 2025 at 09:20 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -216,204 +216,7 @@ INSERT INTO `tbl_chitiet_gh` (`id_ctgh`, `ma_gh`, `id_sp`, `so_luong_mua`, `size
 (17, '3410', 113, 2, 'L'),
 (18, '3410', 112, 2, 'M'),
 (19, '2870', 113, 2, 'XL'),
-(20, '2870', 112, 2),
-(21, '2870', 110, 3),
-(22, '4500', 104, 10),
-(23, '8654', 114, 2),
-(26, '9405', 115, 5),
-(27, '9886', 115, 1),
-(28, '260', 116, 1),
-(29, '7286', 116, 1),
-(30, '9014', 115, 1),
-(31, '9900', 116, 1),
-(32, '963', 116, 1),
-(33, '1412', 116, 1),
-(34, '4051', 116, 1),
-(35, '7050', 116, 1),
-(36, '7411', 116, 1),
-(37, '4146', 114, 1),
-(38, '9023', 114, 1),
-(39, '7587', 114, 1),
-(40, '478', 114, 2),
-(41, '2100', 128, 2),
-(42, '1773', 128, 1),
-(43, '9875', 128, 1),
-(44, '6212', 128, 1),
-(45, '5743', 128, 1),
-(46, '9191', 128, 1),
-(47, '9151', 128, 1),
-(48, '6486', 126, 1),
-(49, '8436', 136, 2),
-(50, '7340', 137, 1),
-(51, '4302', 136, 1),
-(52, '6632', 136, 1),
-(53, '843', 136, 1),
-(54, '7748', 136, 1),
-(55, '5935', 136, 1),
-(56, '7220', 137, 1),
-(57, '7679', 137, 1),
-(58, '1535', 135, 1),
-(59, '588', 136, 1),
-(60, '5191', 116, 3),
-(61, '5191', 137, 1),
-(62, '3520', 135, 1),
-(63, '8297', 136, 1),
-(64, '2247', 136, 1),
-(65, '8995', 132, 2),
-(66, '7535', 137, 1),
-(67, '8420', 132, 1),
-(68, '5411', 137, 1),
-(69, '5411', 125, 1),
-(70, '8749', 136, 1),
-(71, '8380', 136, 1),
-(72, '7436', 136, 1),
-(73, '4190', 136, 1),
-(74, '6736', 135, 1),
-(75, '5487', 136, 1),
-(76, '7191', 137, 1),
-(77, '8233', 131, 2),
-(78, '45', 131, 1),
-(79, '5781', 130, 1),
-(80, '2948', 135, 1),
-(81, '3494', 114, 2),
-(82, '3494', 137, 1),
-(83, '1839', 137, 1),
-(84, '761', 137, 1),
-(85, '4207', 137, 1),
-(86, '8393', 137, 1),
-(87, '4390', 137, 1),
-(88, '8612', 137, 1),
-(89, '2092', 137, 1),
-(90, '4793', 137, 1),
-(91, '8538', 137, 1),
-(92, '4984', 137, 1),
-(93, '3740', 137, 1),
-(94, '4207', 137, 2),
-(95, '2485', 137, 1),
-(96, '7680', 137, 1),
-(97, '671a414c4c19a', 136, 1),
-(98, '671a4383ecb9b', 132, 1),
-(99, '671a444debad2', 127, 1),
-(100, '671a44cd85c83', 134, 1),
-(101, '671a455319fee', 131, 1),
-(102, '671a7a343d8e3', 137, 1),
-(103, '672c69263562d', 137, 1),
-(104, '7120', 137, 1),
-(105, '4234', 127, 1),
-(106, '9712', 134, 1),
-(107, '7692', 130, 1),
-(108, '672c792dd9fe3', 130, 2),
-(109, '67315037b7010', 137, 1),
-(110, '6736bbf27cf43', 136, 1),
-(111, '3991', 135, 2),
-(112, '6736c7c56edfa', 131, 1),
-(113, '1026', 131, 3),
-(114, '6740a84f28468', 135, 1),
-(115, '6740a9cdb27b9', 131, 1),
-(116, '7255', 133, 1),
-(117, '7550', 135, 1),
-(118, '6743e336b5b7a', 129, 1),
-(119, '67493e0a6b8fb', 129, 2),
-(120, '674b3a347aa4a', 163, 1),
-(121, '6984', 184, 1),
-(122, '674bdaa1966c1', 220, 2),
-(123, '674bdcce68b6a', 222, 1),
-(124, '674bdcfe92da9', 221, 1),
-(125, '674bdd277d116', 220, 1),
-(126, '674bde2d2107d', 218, 5),
-(127, '2841', 217, 4),
-(128, '2841', 215, 1),
-(129, '674bde81f1c4f', 215, 4),
-(130, '674be6ac478ea', 222, 2),
-(131, '674be8a702a18', 197, 1),
-(132, '2769', 199, 1),
-(133, '4457', 153, 1),
-(134, '674bf0628551d', 172, 1),
-(135, '8835', 153, 1),
-(136, '2321', 170, 1),
-(137, '7228', 188, 1),
-(138, '5955', 220, 1),
-(139, '674c077e9976a', 222, 2),
-(140, '674c2ee4c9070', 183, 1),
-(141, '674c2efbc25c4', 150, 1),
-(142, '7511', 154, 1),
-(143, '674c38c81a9b2', 218, 2),
-(144, '674c3952ac6a8', 222, 1),
-(145, '9683', 213, 1),
-(146, '674c3a6d2a95f', 195, 1),
-(147, '674c3a989d199', 181, 2),
-(148, '674c3a9f7cd07', 222, 1),
-(149, '674c3a9f7cd07', 221, 1),
-(150, '674c3c95d3aab', 222, 1),
-(151, '674c3fd0e0d96', 222, 1),
-(152, '674c41589e279', 210, 1),
-(153, '674c56a51a56f', 210, 1),
-(154, '674c57b6c851b', 210, 1),
-(155, '674c57ea8e53c', 221, 1),
-(156, '674c58205f123', 220, 1),
-(157, '674c585775003', 219, 1),
-(158, '674c594ee2732', 198, 1),
-(159, '674c598515f16', 221, 1),
-(160, '674c59b8d2401', 221, 1),
-(161, '636', 219, 1),
-(162, '674c59eca1f9f', 221, 1),
-(163, '674c5a1f34d06', 220, 1),
-(164, '890', 201, 1),
-(165, '890', 162, 1),
-(166, '674c5a5d05930', 222, 1),
-(167, '8704', 202, 1),
-(168, '674c5a8b9e3a2', 221, 1),
-(169, '4192', 182, 1),
-(170, '3557', 196, 1),
-(171, '674c5ae9e854b', 221, 1),
-(172, '674c5ae9e854b', 164, 1),
-(173, '1214', 164, 1),
-(174, '674c5b27ddf1b', 221, 1),
-(175, '8786', 157, 1),
-(176, '7605', 199, 1),
-(177, '674c5b7ab0578', 221, 1),
-(178, '674c5b7ab0578', 222, 1),
-(179, '802', 183, 1),
-(180, '802', 182, 1),
-(181, '674c5bdd3d5f2', 222, 1),
-(182, '674c5bdd3d5f2', 221, 1),
-(183, '74', 180, 2),
-(184, '8810', 151, 1),
-(185, '674c5c361194f', 220, 1),
-(186, '674c5c361194f', 219, 1),
-(187, '1547', 160, 1),
-(188, '4800', 188, 1),
-(189, '674c5c8feda00', 222, 1),
-(190, '674c5c8feda00', 221, 1),
-(191, '4154', 142, 1),
-(192, '5462', 203, 1),
-(193, '1238', 217, 1),
-(194, '8915', 214, 1),
-(195, '1083', 200, 1),
-(196, '3610', 157, 1),
-(197, '2948', 153, 1),
-(198, '6538', 218, 1),
-(199, '438', 190, 1),
-(200, '4723', 184, 1),
-(201, '9424', 215, 1),
-(202, '4597', 179, 1),
-(203, '9620', 189, 1),
-(204, '4746', 161, 1),
-(205, '2851', 205, 1),
-(206, '8314', 176, 1),
-(207, '1708', 222, 1),
-(208, '674c633024694', 184, 1),
-(209, '674c636329b39', 221, 1),
-(210, '674c6398a17f2', 221, 1),
-(211, '674c63cb03836', 221, 1),
-(212, '674c64059cc84', 222, 1),
-(213, '674c6440cc0b3', 221, 1),
-(214, '68bfc1a1ceeca', 221, 2),
-(215, '68bfc1a2e9d61', 221, 2),
-(216, '68bfc1a3c66fe', 221, 2),
-(217, '68bfc313a715d', 221, 2),
-(218, '68bfc4634d83f', 221, 2),
-(219, '68bfc4c962d23', 221, 1);
+(0, '68c125f6a3aa1', 220, 1, 'XXL');
 
 -- --------------------------------------------------------
 
@@ -644,7 +447,19 @@ INSERT INTO `tbl_hoadon` (`id_gh`, `id_khachhang`, `ma_gh`, `cart_date`, `cart_p
 (207, 36, '68bfc1a3c66fe', '2025-09-09 12:56:51', 'tienmat', 0, 1),
 (208, 36, '68bfc313a715d', '2025-09-09 13:02:59', 'tienmat', 0, 1),
 (209, 36, '68bfc4634d83f', '2025-09-09 13:08:35', 'tienmat', 9, 1),
-(210, 36, '68bfc4c962d23', '2025-09-09 13:10:17', 'tienmat', 9, 1);
+(210, 36, '68bfc4c962d23', '2025-09-09 13:10:17', 'tienmat', 9, 1),
+(211, 36, '670', '2025-09-10 12:33:47', 'momo', 9, 1),
+(212, 36, '1323', '2025-09-10 12:39:51', 'momo', 9, 1),
+(213, 36, '1757483270', '2025-09-10 12:48:35', 'momo', 9, 1),
+(214, 36, '1757483675', '2025-09-10 12:55:37', 'momo', 9, 1),
+(215, 36, '1757483976', '2025-09-10 13:00:22', 'momo', 9, 1),
+(216, 36, '1757484202', '2025-09-10 13:04:15', 'momo', 9, 1),
+(217, 36, '1757484202', '2025-09-10 13:06:00', 'momo', 9, 1),
+(218, 36, '1757484374', '2025-09-10 13:06:56', 'momo', 9, 1),
+(219, 36, '68c116b16a364', '2025-09-10 13:12:28', 'vnpay', 9, 1),
+(220, 36, '68c116e973eea', '2025-09-10 13:13:13', 'vnpay', 9, 1),
+(221, 36, '68c11748a7ee9', '2025-09-10 13:14:55', 'vnpay', 9, 1),
+(222, 36, '68c125f6a3aa1', '2025-09-10 14:17:10', 'tienmat', 9, 1);
 
 -- --------------------------------------------------------
 
@@ -708,7 +523,15 @@ INSERT INTO `tbl_momo` (`id_momo`, `partner_code`, `order_id`, `amount`, `order_
 (19, 'MOMOBKUN20180529', 1733058720, '350000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '2543'),
 (20, 'MOMOBKUN20180529', 1733058840, '400000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '2540'),
 (21, 'MOMOBKUN20180529', 1733058920, '350000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '4565'),
-(22, 'MOMOBKUN20180529', 1733058987, '450000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '6922');
+(22, 'MOMOBKUN20180529', 1733058987, '450000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '6922'),
+(23, 'MOMOBKUN20180529', 1757482356, '400000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1181'),
+(24, 'MOMOBKUN20180529', 1757482720, '400000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '2327'),
+(25, 'MOMOBKUN20180529', 1757483270, '200000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1757483270'),
+(26, 'MOMOBKUN20180529', 1757483675, '800000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1757483675'),
+(27, 'MOMOBKUN20180529', 1757483976, '1200000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1757483976'),
+(28, 'MOMOBKUN20180529', 1757484202, '400000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1757484202'),
+(29, 'MOMOBKUN20180529', 1757484202, '400000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1757484202'),
+(30, 'MOMOBKUN20180529', 1757484374, '400000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1757484374');
 
 -- --------------------------------------------------------
 
@@ -808,8 +631,8 @@ INSERT INTO `tbl_sanpham` (`id_sp`, `ten_sp`, `ma_sp`, `gia_sp`, `so_luong`, `so
 (217, 'Áo cầu lông nam Supreme Control', 'ACL015', 450000, 70, 70, 'cl15.jpg', 'Áo cầu lông kiểm soát tối ưu.', 'Supreme Control mang lại khả năng kiểm soát tối ưu trong mọi pha cầu. Với chất liệu co giãn 4 chiều, áo giúp vận động viên dễ dàng thực hiện các động tác kỹ thuật khó. Đây là lựa chọn hoàn hảo cho những ai yêu thích sự chính xác và hiệu suất.', 67, 1),
 (218, 'Áo cầu lông nam SpeedFlex', 'ACL016', 360000, 100, 93, 'cl16.jpg', 'Áo cầu lông nhanh chóng, linh hoạt.', 'SpeedFlex được thiết kế cho những ai yêu thích sự linh hoạt và tốc độ. Với chất liệu nhẹ và co giãn, áo giúp bạn di chuyển dễ dàng trong mọi trận đấu. Thiết kế thể thao, trẻ trung phù hợp với nhiều đối tượng vận động viên.', 67, 1),
 (219, 'Áo cầu lông nam TurboSpeed', 'ACL017', 380000, 95, 92, 'cl17.jpg', 'Áo cầu lông sở hữu siêu tốc độ.', '>TurboSpeed mang đến cảm giác tốc độ tuyệt vời nhờ thiết kế ôm sát và chất liệu vải siêu nhẹ. Áo giúp bạn đạt được tốc độ tối đa trong mọi chuyển động. Dễ dàng giặt sạch và giữ màu sắc lâu dài.', 67, 1),
-(220, 'Áo cầu lông nam UltraStrike', 'ACL018', 420000, 85, 78, 'cl18.jpg', 'Áo cầu lông cho chiến thuật tấn công.', 'UltraStrike là sự lựa chọn tuyệt vời cho những vận động viên yêu thích lối chơi tấn công. Chất liệu vải giúp thấm hút mồ hôi hiệu quả, giữ cơ thể khô ráo và thoải mái suốt trận đấu. Họa tiết mạnh mẽ, phù hợp với những pha tấn công quyết đoán.', 67, 1),
-(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 63, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', '>PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1);
+(220, 'Áo cầu lông nam UltraStrike', 'ACL018', 420000, 85, 75, 'cl18.jpg', 'Áo cầu lông cho chiến thuật tấn công.', 'UltraStrike là sự lựa chọn tuyệt vời cho những vận động viên yêu thích lối chơi tấn công. Chất liệu vải giúp thấm hút mồ hôi hiệu quả, giữ cơ thể khô ráo và thoải mái suốt trận đấu. Họa tiết mạnh mẽ, phù hợp với những pha tấn công quyết đoán.', 67, 1),
+(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 54, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', '>PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1);
 
 -- --------------------------------------------------------
 
@@ -896,7 +719,10 @@ INSERT INTO `tbl_vnpay` (`id_vnpay`, `vnp_amount`, `vnp_bankcode`, `vnp_banktran
 (35, '29900000', 'NCB', 'VNP14711629', 'ATM', 'Thanh toán đơn hàng', '20241201195328', 'IZK6416P', '14711629', '674c5c49bb54a'),
 (36, '35000000', 'NCB', 'VNP14711632', 'ATM', 'Thanh toán đơn hàng', '20241201195422', 'IZK6416P', '14711632', '674c5c80cbd10'),
 (37, '35000000', 'NCB', 'VNP14711633', 'ATM', 'Thanh toán đơn hàng', '20241201195504', 'IZK6416P', '14711633', '674c5caa9f1a1'),
-(38, '35000000', 'NCB', 'VNP14711638', 'ATM', 'Thanh toán đơn hàng', '20241201195553', 'IZK6416P', '14711638', '674c5cdbb8eb6');
+(38, '35000000', 'NCB', 'VNP14711638', 'ATM', 'Thanh toán đơn hàng', '20241201195553', 'IZK6416P', '14711638', '674c5cdbb8eb6'),
+(39, '40000000', 'NCB', 'VNP15163789', 'ATM', 'Thanh toán đơn hàng', '20250910131348', 'IZK6416P', '15163789', '68c116b16a364'),
+(40, '42000000', 'NCB', 'VNP15163790', 'ATM', 'Thanh toán đơn hàng', '20250910131433', 'IZK6416P', '15163790', '68c116e973eea'),
+(41, '42000000', 'NCB', 'VNP15163793', 'ATM', 'Thanh toán đơn hàng', '20250910131615', 'IZK6416P', '15163793', '68c11748a7ee9');
 
 -- --------------------------------------------------------
 
@@ -944,12 +770,6 @@ ALTER TABLE `tbl_chat_history`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_session_id` (`session_id`),
   ADD KEY `idx_email_session` (`email`,`session_id`);
-
---
--- Indexes for table `tbl_chitiet_gh`
---
-ALTER TABLE `tbl_chitiet_gh`
-  ADD PRIMARY KEY (`id_ctgh`);
 
 --
 -- Indexes for table `tbl_dangky`
@@ -1049,12 +869,6 @@ ALTER TABLE `tbl_chat_history`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
--- AUTO_INCREMENT for table `tbl_chitiet_gh`
---
-ALTER TABLE `tbl_chitiet_gh`
-  MODIFY `id_ctgh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=220;
-
---
 -- AUTO_INCREMENT for table `tbl_dangky`
 --
 ALTER TABLE `tbl_dangky`
@@ -1088,7 +902,7 @@ ALTER TABLE `tbl_giohangtam`
 -- AUTO_INCREMENT for table `tbl_hoadon`
 --
 ALTER TABLE `tbl_hoadon`
-  MODIFY `id_gh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
+  MODIFY `id_gh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
 
 --
 -- AUTO_INCREMENT for table `tbl_lienhe`
@@ -1100,7 +914,7 @@ ALTER TABLE `tbl_lienhe`
 -- AUTO_INCREMENT for table `tbl_momo`
 --
 ALTER TABLE `tbl_momo`
-  MODIFY `id_momo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_momo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `tbl_sanpham`
@@ -1118,7 +932,7 @@ ALTER TABLE `tbl_thongke`
 -- AUTO_INCREMENT for table `tbl_vnpay`
 --
 ALTER TABLE `tbl_vnpay`
-  MODIFY `id_vnpay` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id_vnpay` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `tbl_xacnhanemail`
