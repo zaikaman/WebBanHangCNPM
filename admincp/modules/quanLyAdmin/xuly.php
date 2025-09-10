@@ -1,7 +1,7 @@
 <?php
 // Authentication check
 session_start();
-if(!isset($_SESSION['admin'])) {
+if(!isset($_SESSION['dangNhap'])) {
     header('Location: ../../login.php');
     exit;
 }
@@ -129,8 +129,17 @@ if (isset($_POST['themAdmin'])) {
     // Delete admin
     $id = (int)$_GET['id'];
     
+    // Get current admin's ID to prevent self-deletion
+    $current_admin = $_SESSION['dangNhap'];
+    $sql_current = "SELECT id_ad FROM tbl_admin WHERE user_name = ?";
+    $stmt_current = mysqli_prepare($mysqli, $sql_current);
+    mysqli_stmt_bind_param($stmt_current, "s", $current_admin);
+    mysqli_stmt_execute($stmt_current);
+    $result_current = mysqli_stmt_get_result($stmt_current);
+    $current_admin_data = mysqli_fetch_assoc($result_current);
+    
     // Check if trying to delete self
-    if($id == $_SESSION['admin']['id_ad']) {
+    if($id == $current_admin_data['id_ad']) {
         echo "<script>
             alert('Không thể xóa tài khoản của chính mình!');
             window.location.href='../../index.php?action=quanLyAdmin&query=them';

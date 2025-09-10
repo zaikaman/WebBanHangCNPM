@@ -1,4 +1,11 @@
 <?php
+// Authentication check
+session_start();
+if(!isset($_SESSION['dangNhap'])) {
+    header('Location: ../../login.php');
+    exit;
+}
+
 include('..//..//config/config.php');
 
 $thongtinlienhe = $_POST['thongtinlienhe'];

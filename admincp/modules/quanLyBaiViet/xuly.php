@@ -1,7 +1,7 @@
 <?php
 // Authentication check
 session_start();
-if(!isset($_SESSION['admin'])) {
+if(!isset($_SESSION['dangNhap'])) {
     header('Location: ../../login.php');
     exit;
 }
