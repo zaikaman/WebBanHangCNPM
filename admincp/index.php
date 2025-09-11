@@ -67,8 +67,8 @@ if (!isset($_SESSION['dangNhap'])) {
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
 </head>
 
-<body>
-    <!-- Enhanced Navbar with 7TCC branding -->
+<body class="dashboard-page">
+    <!-- Enhanced Navbar with 7TCC branding - Same as management pages -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="index.php">
@@ -99,26 +99,19 @@ if (!isset($_SESSION['dangNhap'])) {
 
     <!-- Main Content -->
     <div class="container-fluid mt-4">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="">
-                <?php include("modules/menu.php"); ?>
+        <!-- Navigation Menu - Horizontal -->
+        <?php include("modules/menu.php"); ?>
+        
+        <!-- Welcome Card -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="mb-0">
+                    <i class="fas fa-tachometer-alt mr-2"></i>
+                    Dashboard Overview - 7TCC
+                </h3>
             </div>
-            
-            <!-- Main Dashboard Content -->
-            <div class="">
-                <!-- Welcome Card -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3 class="mb-0">
-                            <i class="fas fa-tachometer-alt mr-2"></i>
-                            Dashboard Overview - 7TCC
-                        </h3>
-                    </div>
-                    <div class="card-body px-0">
-                        <?php include("modules/main.php"); ?>
-                    </div>
-                </div>
+            <div class="card-body px-0">
+                <?php include("modules/main.php"); ?>
             </div>
         </div>
     </div>
@@ -135,7 +128,7 @@ if (!isset($_SESSION['dangNhap'])) {
         $(document).ready(function () {
             // Add active class to current nav item
             var currentPath = window.location.search;
-            $('.nav-link').each(function() {
+            $('.admin-sidebar .nav-link').each(function() {
                 if (this.href.indexOf(currentPath) !== -1 && currentPath !== '') {
                     $(this).addClass('active');
                 }
@@ -143,7 +136,7 @@ if (!isset($_SESSION['dangNhap'])) {
             
             // If no specific action, highlight dashboard
             if (!currentPath || currentPath === '') {
-                $('.nav-link[href="index.php"]').addClass('active');
+                $('.admin-sidebar .nav-link[href="index.php"]').addClass('active');
             }
             
             thongke();
