@@ -39,6 +39,8 @@
     } elseif ($tam == 'quanLyBaiViet' && $query == 'them') {
         include("modules/quanLyBaiViet/them.php");
         include("modules/quanLyBaiViet/lietke.php");
+    } elseif ($tam == 'quanLyBaiViet' && $query == 'lietke') {
+        include("modules/quanLyBaiViet/lietke.php");
     } elseif ($tam == 'quanLyBaiViet' && $query == 'sua') {
         include("modules/quanLyBaiViet/sua.php");
     } elseif ($tam == 'quanLyBaiViet' && $query == 'timkiem') {
@@ -56,7 +58,8 @@
     } elseif ($tam == 'quanLyTaiKhoanKhachHang' && $query == 'timkiem') {
         include('modules/quanLyTaiKhoanKhachHang/timkiem.php');
     } else {
-        include("dashboard.php");
+        // Default case - redirect to dashboard
+        echo '<script>window.location.href = "index.php";</script>';
     }
     ?>
 </div>

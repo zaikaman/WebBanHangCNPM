@@ -2,6 +2,19 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../../css/bootstrap-override.css" rel="stylesheet">
 
+<style>
+.btn-7tcc { 
+    background-color: #dc0021; 
+    border-color: #dc0021; 
+    color: white;
+}
+.btn-7tcc:hover { 
+    background-color: #a90019; 
+    border-color: #a90019; 
+    color: white;
+}
+</style>
+
 <div class="container mt-5">
     <h3 class="text-center">Thêm Danh Mục Bài Viết</h3>
     <form method="POST" action="modules/quanLyDanhMucBaiViet/xuly.php">
@@ -13,7 +26,7 @@
             <label for="thutu" class="form-label">Thứ Tự</label>
             <input type="text" class="form-control" id="thutu" name="thu_tu">
         </div> -->
-        <button type="submit" name="themDanhMucBaiViet" class="btn btn-success">Thêm Danh Mục Bài Viết</button>
+        <button type="submit" name="themDanhMucBaiViet" class="btn btn-7tcc">Thêm Danh Mục Bài Viết</button>
     </form>
 </div>
 

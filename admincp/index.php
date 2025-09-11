@@ -102,7 +102,14 @@ if (!isset($_SESSION['dangNhap'])) {
         <!-- Navigation Menu - Horizontal -->
         <?php include("modules/menu.php"); ?>
         
-        <!-- Welcome Card -->
+        <!-- Dynamic Content -->
+        <?php 
+        // Check if we should show dashboard or other content
+        $showDashboard = !isset($_GET['action']) || empty($_GET['action']) || ($_GET['action'] == 'dashboard');
+        
+        if ($showDashboard) {
+        ?>
+        <!-- Dashboard Content -->
         <div class="card mb-4">
             <div class="card-header">
                 <h3 class="mb-0">
@@ -110,22 +117,16 @@ if (!isset($_SESSION['dangNhap'])) {
                     Dashboard Overview - 7TCC
                 </h3>
             </div>
-            
-            <!-- Main Dashboard Content -->
-            <div class="container mt-5">
-                <!-- Welcome Card -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3 class="mb-0">
-                            <i class="fas fa-tachometer-alt mr-2"></i>
-                            Dashboard Overview - 7TCC
-                        </h3>
-                    </div>
-                    <div class="card-body px-0">
-                        <?php include("modules/main.php"); ?>
-                    </div>
-                </div>
+            <div class="card-body px-0">
+                <?php include("modules/dashboard.php"); ?>
             </div>
+        </div>
+        <?php 
+        } else {
+            // Include main routing logic for other pages
+            include("modules/main.php");
+        }
+        ?>
         </div>
     </div>
 

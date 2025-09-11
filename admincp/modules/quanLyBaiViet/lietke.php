@@ -56,8 +56,89 @@
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
+<style>
+.text-7tcc { color: #dc0021 !important; }
+.btn-7tcc { 
+    background-color: #dc0021; 
+    border-color: #dc0021; 
+    color: white;
+}
+.btn-7tcc:hover { 
+    background-color: #a90019; 
+    border-color: #a90019; 
+    color: white;
+}
+
+/* FORCE MODAL ABOVE EVERYTHING - NUCLEAR OPTION */
+#addPostModal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 999999 !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    display: none !important;
+}
+
+#addPostModal.show {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#addPostModal .modal-dialog {
+    position: relative !important;
+    z-index: 1000000 !important;
+    margin: 0 !important;
+    max-width: 95vw !important;
+    max-height: 95vh !important;
+    width: 1200px !important;
+}
+
+#addPostModal .modal-content {
+    position: relative !important;
+    z-index: 1000001 !important;
+    max-height: 95vh !important;
+    overflow-y: auto !important;
+}
+
+/* Hide backdrop since we're using our own */
+.modal-backdrop {
+    display: none !important;
+}
+
+/* Force override all other z-indexes when modal is open */
+body.modal-open * {
+    z-index: 1 !important;
+}
+
+body.modal-open #addPostModal,
+body.modal-open #addPostModal * {
+    z-index: 999999 !important;
+}
+
+body.modal-open .navbar,
+body.modal-open .admin-sidebar {
+    z-index: 1 !important;
+    opacity: 1 !important;
+}
+
+/* Ensure modal content is clickable */
+body.modal-open #addPostModal .modal-content,
+body.modal-open #addPostModal .modal-content * {
+    pointer-events: auto !important;
+    z-index: 1000000 !important;
+}
+</style>
+
 <div class="container mt-5">
-    <h3 class="text-center">Liệt Kê Bài Viết</h3>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Liệt Kê Bài Viết</h3>
+        <button type="button" class="btn btn-7tcc" data-bs-toggle="modal" data-bs-target="#addPostModal">
+            <i class="fas fa-plus me-2"></i>Thêm Bài Viết
+        </button>
+    </div>
     
     <!-- Page Size Selector -->
     <?php echo $pagination->renderPageSizeSelector(); ?>
@@ -155,5 +236,97 @@
     <?php echo $pagination->render(); ?>
 </div>
 
+<!-- Modal Thêm Bài Viết -->
+<div class="modal fade" id="addPostModal" tabindex="-1" aria-labelledby="addPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPostModalLabel">
+                    <i class="fas fa-plus me-2"></i>Thêm Bài Viết Mới
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="modules/quanLyBaiViet/xuly.php" enctype="multipart/form-data" id="addPostForm">
+                    <div class="mb-3">
+                        <label for="tenbaiviet" class="form-label">Tên Bài Viết</label>
+                        <input type="text" class="form-control" id="tenbaiviet" name="tenbaiviet" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="hinhanh" class="form-label">Hình Ảnh</label>
+                        <input type="file" class="form-control" id="hinhanh" name="hinhanh" accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tomtat" class="form-label">Tóm Tắt</label>
+                        <textarea rows="3" class="form-control" id="tomtat" name="tomtat" placeholder="Nhập tóm tắt bài viết..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="noidung" class="form-label">Nội Dung</label>
+                        <textarea rows="5" class="form-control" id="noidung" name="noidung" placeholder="Nhập nội dung bài viết..." required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="link" class="form-label">Link</label>
+                        <input type="text" class="form-control" id="link" name="link" placeholder="Nhập link bài viết (nếu có)">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_danhmuc" class="form-label">Danh Mục Bài Viết</label>
+                                <select class="form-select" id="id_danhmuc" name="id_danhmuc" required>
+                                    <option value="">-- Chọn danh mục --</option>
+                                    <?php
+                                    $sql_danhmuc = "SELECT * FROM tbl_danhmuc_baiviet ORDER BY id_baiviet DESC";
+                                    $sql_query = mysqli_query($mysqli, $sql_danhmuc);
+                                    while ($row_danhmuc = mysqli_fetch_array($sql_query)) {
+                                        echo "<option value='" . $row_danhmuc['id_baiviet'] . "'>" . $row_danhmuc['tendanhmuc_baiviet'] . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="tinhtrang" class="form-label">Tình Trạng</label>
+                                <select class="form-select" id="tinhtrang" name="tinhtrang">
+                                    <option value="1">Kích Hoạt</option>
+                                    <option value="0">Ẩn</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Hủy
+                </button>
+                <button type="submit" form="addPostForm" name="thembaiviet" class="btn btn-7tcc">
+                    <i class="fas fa-save me-2"></i>Thêm Bài Viết
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Reset form khi đóng modal
+document.getElementById('addPostModal').addEventListener('hidden.bs.modal', function (event) {
+    document.getElementById('addPostForm').reset();
+});
+
+// Validation form trước khi submit
+document.getElementById('addPostForm').addEventListener('submit', function(e) {
+    const tenbaiviet = document.getElementById('tenbaiviet').value.trim();
+    const noidung = document.getElementById('noidung').value.trim();
+    const id_danhmuc = document.getElementById('id_danhmuc').value;
+    
+    if (!tenbaiviet || !noidung || !id_danhmuc) {
+        e.preventDefault();
+        alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+        return false;
+    }
+});
+</script>

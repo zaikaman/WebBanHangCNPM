@@ -12,7 +12,7 @@
     <a class="nav-link" href="index.php?action=quanLyDanhMucBaiViet&query=them">
         <i class="fas fa-folder-open"></i> Danh mục bài viết
     </a>
-    <a class="nav-link" href="index.php?action=quanLyBaiViet&query=them">
+    <a class="nav-link" href="index.php?action=quanLyBaiViet&query=lietke">
         <i class="fas fa-edit"></i> Bài viết
     </a>
     <a class="nav-link" href="index.php?action=quanLyDonHang&query=lietke">

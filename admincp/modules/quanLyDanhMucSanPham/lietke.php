@@ -43,25 +43,27 @@
     <!-- Search Form -->
     <div class="search-form-container">
         <h6><i class="fas fa-search me-2"></i>Tìm Kiếm Danh Mục Sản Phẩm</h6>
-        <form class="row g-3" method="GET" action="index.php">
+        <form method="GET" action="index.php">
             <input type="hidden" name="action" value="quanLyDanhMucSanPham">
             <input type="hidden" name="query" value="lietke">
             <input type="hidden" name="per_page" value="<?php echo $records_per_page; ?>">
             
-            <div class="col-lg-9 col-md-8">
-                <input type="text" name="search" class="form-control" placeholder="Nhập tên danh mục..." value="<?php echo htmlspecialchars($search); ?>">
-            </div>
-            
-            <div class="col-lg-3 col-md-4">
-                <div class="search-refresh-container">
-                    <button type="submit" class="btn btn-search flex-fill">
-                        <i class="fas fa-search"></i>
-                        <span>Tìm kiếm</span>
-                    </button>
-                    <a href="index.php?action=quanLyDanhMucSanPham&query=lietke" class="btn btn-refresh flex-fill">
-                        <i class="fas fa-sync-alt"></i>
-                        <span>Làm mới</span>
-                    </a>
+            <div class="row g-3 align-items-end">
+                <div class="col-lg-8 col-md-7">
+                    <input type="text" name="search" class="form-control" placeholder="Nhập tên danh mục..." value="<?php echo htmlspecialchars($search); ?>">
+                </div>
+                
+                <div class="col-lg-4 col-md-5">
+                    <div class="search-refresh-container">
+                        <button type="submit" class="btn btn-search">
+                            <i class="fas fa-search"></i>
+                            <span>Tìm kiếm</span>
+                        </button>
+                        <a href="index.php?action=quanLyDanhMucSanPham&query=lietke" class="btn btn-refresh">
+                            <i class="fas fa-sync-alt"></i>
+                            <span>Làm mới</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </form>

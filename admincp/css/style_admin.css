@@ -701,10 +701,11 @@ body {
   display: flex;
   gap: 8px;
   align-items: center;
+  height: 42px;
 }
 
 .search-refresh-container .btn {
-  min-width: 120px;
+  flex: 1;
   height: 42px;
   display: flex;
   align-items: center;
@@ -715,6 +716,7 @@ body {
   transition: all 0.3s ease;
   white-space: nowrap;
   font-size: 14px;
+  min-width: 100px;
 }
 
 .btn-search {
@@ -788,12 +790,14 @@ body {
   .search-refresh-container {
     flex-direction: column;
     width: 100%;
+    height: auto;
+    gap: 10px;
   }
   
   .search-refresh-container .btn {
     width: 100%;
     min-width: auto;
-    margin-bottom: 8px;
+    margin-bottom: 0;
   }
 }
 
@@ -805,6 +809,10 @@ body {
   .search-refresh-container .btn {
     font-size: 13px;
     height: 38px;
+  }
+  
+  .search-refresh-container {
+    height: auto;
   }
 }
 
