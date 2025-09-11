@@ -202,10 +202,12 @@ $today_revenue = $result_doanhthu_today ? $result_doanhthu_today['today_revenue'
                                             <td><?php echo date('d/m/Y H:i', strtotime($row['cart_date'])); ?></td>
                                             <td><strong class="text-danger"><?php echo number_format($row['tongtien'] ? $row['tongtien'] : 0); ?> ₫</strong></td>
                                             <td>
-                                                <?php if ($row['trang_thai'] == 1) { ?>
+                                                <?php if ($row['trang_thai'] == 0) { ?>
                                                     <span class="badge badge-success">Đã xử lý</span>
+                                                <?php } elseif ($row['trang_thai'] == 2) { ?>
+                                                    <span class="badge badge-danger">Đã hủy</span>
                                                 <?php } else { ?>
-                                                    <span class="badge badge-warning">Đang xử lý</span>
+                                                    <span class="badge badge-warning">Chờ xử lý</span>
                                                 <?php } ?>
                                             </td>
                                             <td>
