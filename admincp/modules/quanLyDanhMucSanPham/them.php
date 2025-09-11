@@ -1,22 +1,31 @@
 <!-- Bootstrap CSS -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../../css/bootstrap-override.css" rel="stylesheet">
 
-<div class="container mt-5">
-    <h3 class="text-center">Thêm Danh Mục Sản Phẩm</h3>
-    <form method="POST" action="modules/quanLyDanhMucSanPham/xuly.php" id="categoryForm">
-        <div class="mb-3">
-            <label for="name_sp" class="form-label">Tên Danh Mục</label>
-            <input type="text" class="form-control" id="name_sp" name="name_sp">
+<div class="container mt-5" style="max-width: 100%;">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-center mb-4">Thêm Danh Mục Sản Phẩm</h3>
+            <form method="POST" action="modules/quanLyDanhMucSanPham/xuly.php" id="categoryForm" autocomplete="off">
+                <div class="mb-3">
+                    <label for="name_sp" class="form-label">Tên Danh Mục</label>
+                    <input type="text" class="form-control" id="name_sp" name="name_sp" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" name="themDanhMuc" class="btn btn-primary">Thêm Danh Mục</button>
+                </div>
+            </form>
         </div>
-        <button type="submit" name="themDanhMuc" class="btn btn-success">Thêm Danh Mục</button>
-    </form>
+    </div>
 </div>
 
 <script>
 document.getElementById('categoryForm').addEventListener('submit', function(e) {
-    if (!validateAdminForm('categoryForm', validationRules.categoryForm)) {
-        e.preventDefault();
+    if (typeof validateAdminForm === 'function' && typeof validationRules !== 'undefined') {
+        if (!validateAdminForm('categoryForm', validationRules.categoryForm)) {
+            e.preventDefault();
+        }
     }
 });
 </script>

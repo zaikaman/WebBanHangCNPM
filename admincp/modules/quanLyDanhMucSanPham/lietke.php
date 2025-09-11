@@ -33,67 +33,75 @@
 <link href="../../css/bootstrap-override.css" rel="stylesheet">
 
 <div class="container mt-5">
-    <h3 class="text-center">Liệt Kê Danh Mục Sản Phẩm</h3>
+    <h3 class="text-center mb-4">Liệt Kê Danh Mục Sản Phẩm</h3>
     
     <!-- Page Size Selector -->
-    <?php echo $pagination->renderPageSizeSelector(); ?>
-    
-    <!-- Search Form -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <form class="row g-3" method="GET" action="index.php">
-                <input type="hidden" name="action" value="quanLyDanhMucSanPham">
-                <input type="hidden" name="query" value="lietke">
-                <input type="hidden" name="per_page" value="<?php echo $records_per_page; ?>">
-                
-                <div class="col-md-8">
-                    <input type="text" name="search" class="form-control" placeholder="Nhập tên danh mục..." value="<?php echo htmlspecialchars($search); ?>">
-                </div>
-                
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-search"></i> Tìm kiếm
-                    </button>
-                </div>
-                
-                <div class="col-md-2">
-                    <a href="index.php?action=quanLyDanhMucSanPham&query=lietke" class="btn btn-secondary w-100">
-                        <i class="fas fa-refresh"></i> Làm mới
-                    </a>
-                </div>
-            </form>
-        </div>
+    <div class="mb-3">
+        <?php echo $pagination->renderPageSizeSelector(); ?>
     </div>
     
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Tên Danh Mục</th>
-                <th scope="col">Quản Lý</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $start_number = $pagination->getOffset();
-            $i = $start_number;
-            while ($row = mysqli_fetch_array($lietke)) {
-                $i++;
-            ?>
-            <tr>
-                <td><?php echo $i ?></td>
-                <td><?php echo $row['name_sp'] ?></td>
-                <td>
-                    <a href="modules/quanLyDanhMucSanPham/xuly.php?idsp=<?php echo $row['id_dm'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
-                    <a href="?action=quanLyDanhMucSanPham&query=sua&idsp=<?php echo $row['id_dm'] ?>" class="btn btn-warning btn-sm">Sửa</a>
-                </td>
-            </tr>
-            <?php } ?>
-        </tbody>
-    </table>
+    <!-- Search Form -->
+    <form class="row g-2 align-items-center mb-4" method="GET" action="index.php">
+        <input type="hidden" name="action" value="quanLyDanhMucSanPham">
+        <input type="hidden" name="query" value="lietke">
+        <input type="hidden" name="per_page" value="<?php echo $records_per_page; ?>">
+        
+        <div class="col-12 col-md-7 mb-2 mb-md-0">
+            <input type="text" name="search" class="form-control" placeholder="Nhập tên danh mục..." value="<?php echo htmlspecialchars($search); ?>">
+        </div>
+        
+        <div class="col-6 col-md-2 d-grid mb-2 mb-md-0">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+        </div>
+        
+        <div class="col-6 col-md-2 d-grid">
+            <a href="index.php?action=quanLyDanhMucSanPham&query=lietke" class="btn btn-secondary">
+                <i class="fas fa-refresh"></i> Làm mới
+            </a>
+        </div>
+    </form>
+    
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col" class="text-center">ID</th>
+                    <th scope="col">Tên Danh Mục</th>
+                    <th scope="col" class="text-center">Quản Lý</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $start_number = $pagination->getOffset();
+                $i = $start_number;
+                while ($row = mysqli_fetch_array($lietke)) {
+                    $i++;
+                ?>
+                <tr>
+                    <td class="text-center"><?php echo $i ?></td>
+                    <td><?php echo $row['name_sp'] ?></td>
+                    <td class="text-center">
+                        <div class="d-flex flex-column flex-md-row justify-content-center gap-2">
+                            <a href="modules/quanLyDanhMucSanPham/xuly.php?idsp=<?php echo $row['id_dm'] ?>" class="btn btn-danger btn-sm mb-1 mb-md-0 me-md-2" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                                <i class="fas fa-trash-alt"></i> Xóa
+                            </a>
+                            <a href="?action=quanLyDanhMucSanPham&query=sua&idsp=<?php echo $row['id_dm'] ?>" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Sửa
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
     
     <!-- Pagination -->
-    <?php echo $pagination->render(); ?>
+    <div class="d-flex justify-content-center">
+        <?php echo $pagination->render(); ?>
+    </div>
 </div>
 
 <!-- Bootstrap JS and Popper.js -->

@@ -159,7 +159,6 @@ body {
   background: linear-gradient(135deg, #dc0021 0%, #a90019 100%);
   color: #fff !important;
   border-radius: 8px;
-  transform: translateX(4px);
   box-shadow: 0 4px 15px rgba(220, 0, 33, 0.3);
 }
 
@@ -681,12 +680,12 @@ body {
   text-overflow: unset;
 }
 
-.admin-sidebar .nav-link:hover {
+/* .admin-sidebar .nav-link:hover {
   background-color: #f8f9fa;
   color: #dc0021;
   border-left-color: #dc0021;
   text-decoration: none;
-}
+} */
 
 .admin-sidebar .nav-link.active {
   background-color: rgba(220, 0, 33, 0.1);

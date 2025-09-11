@@ -106,7 +106,7 @@ if (!isset($_SESSION['dangNhap'])) {
             </div>
             
             <!-- Main Dashboard Content -->
-            <div class="">
+            <div class="container mt-5">
                 <!-- Welcome Card -->
                 <div class="card mb-4">
                     <div class="card-header">
