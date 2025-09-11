@@ -150,9 +150,146 @@
 <!-- Link Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../../css/bootstrap-override.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<style>
+.text-7tcc { color: #dc0021 !important; }
+.btn-7tcc { 
+    background-color: #dc0021; 
+    border-color: #dc0021; 
+    color: white;
+}
+.btn-7tcc:hover { 
+    background-color: #a90019; 
+    border-color: #a90019; 
+    color: white;
+}
+.form-section {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #dc0021;
+}
+.image-preview {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    border: 2px dashed #dc0021;
+    padding: 10px;
+    display: none;
+}
+.file-upload-area {
+    border: 2px dashed #dc0021;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.file-upload-area:hover {
+    background-color: #f8f9fa;
+    border-color: #a90019;
+}
+
+/* FORCE MODAL ABOVE EVERYTHING - NUCLEAR OPTION */
+#addProductModal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 999999 !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    display: none !important;
+}
+
+#addProductModal.show {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#addProductModal .modal-dialog {
+    position: relative !important;
+    z-index: 1000000 !important;
+    margin: 0 !important;
+    max-width: 95vw !important;
+    max-height: 95vh !important;
+    width: 1200px !important;
+}
+
+#addProductModal .modal-content {
+    position: relative !important;
+    z-index: 1000001 !important;
+    max-height: 95vh !important;
+    overflow-y: auto !important;
+}
+
+/* Hide backdrop since we're using our own */
+.modal-backdrop {
+    display: none !important;
+}
+
+/* Force override all other z-indexes when modal is open */
+body.modal-open * {
+    z-index: 1 !important;
+}
+
+body.modal-open #addProductModal,
+body.modal-open #addProductModal * {
+    z-index: 999999 !important;
+}
+
+body.modal-open .navbar,
+body.modal-open .admin-sidebar {
+    z-index: 1 !important;
+    opacity: 0.3 !important;
+}
+
+/* Ensure modal content is clickable */
+body.modal-open #addProductModal .modal-content,
+body.modal-open #addProductModal .modal-content * {
+    pointer-events: auto !important;
+    z-index: 1000000 !important;
+}
+</style>
 
 <div class="container mt-5">
-    <h3 class="text-center">Liệt Kê Sản Phẩm</h3>
+    <!-- Header với nút thêm sản phẩm -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-7tcc mb-0">
+            <i class="fas fa-box me-2"></i>Quản Lý Sản Phẩm
+        </h3>
+        <button type="button" class="btn btn-7tcc" data-bs-toggle="modal" data-bs-target="#addProductModal">
+            <i class="fas fa-plus me-2"></i>Thêm Sản Phẩm
+        </button>
+    </div>
+    
+    <!-- Success/Error Messages -->
+    <?php if(isset($_GET['success'])): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <strong>Thành công!</strong> 
+        <?php 
+        switch($_GET['success']) {
+            case 'add': echo 'Sản phẩm đã được thêm thành công!'; break;
+            case 'update': echo 'Sản phẩm đã được cập nhật thành công!'; break;
+            case 'delete': echo 'Sản phẩm đã được xóa thành công!'; break;
+            default: echo 'Thao tác thành công!';
+        }
+        ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <?php endif; ?>
+
+    <?php if(isset($_GET['error'])): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <strong>Lỗi!</strong> <?php echo htmlspecialchars(urldecode($_GET['error'])); ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <?php endif; ?>
     
     <!-- Page Size Selector -->
     <?php echo $pagination->renderPageSizeSelector(); ?>
@@ -260,12 +397,204 @@
     </div>
 </div>
 
+<!-- Modal Thêm Sản Phẩm -->
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-white" style="background-color: #a90019;">
+                <h5 class="modal-title" id="addProductModalLabel">
+                    <i class="fas fa-plus-circle me-2"></i>Thêm Sản Phẩm Mới
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="modules/quanLySanPham/xuly.php" enctype="multipart/form-data" id="productForm">
+                    
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h6 class="text-7tcc mb-3">
+                            <i class="fas fa-info-circle me-2"></i>Thông Tin Cơ Bản
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="ten_sp" class="form-label fw-bold">Tên Sản Phẩm <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="ten_sp" id="ten_sp" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ma_sp" class="form-label fw-bold">Mã Sản Phẩm <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="ma_sp" id="ma_sp" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="gia_sp" class="form-label fw-bold">Giá Sản Phẩm (VND) <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="gia_sp" id="gia_sp" min="0" required>
+                                    <span class="input-group-text">đ</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="so_luong" class="form-label fw-bold">Số Lượng <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="so_luong" id="so_luong" min="0" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_dm" class="form-label fw-bold">Danh Mục <span class="text-danger">*</span></label>
+                                <select class="form-select" name="id_dm" id="id_dm" required>
+                                    <option value="">Chọn danh mục</option>
+                                    <?php
+                                    $sql_dm = "SELECT * FROM tbl_danhmucqa ORDER BY name_sp ASC";
+                                    $danhmuc = mysqli_query($mysqli, $sql_dm);
+                                    while($dm = mysqli_fetch_array($danhmuc)) { 
+                                    ?>
+                                        <option value="<?php echo $dm['id_dm'] ?>"><?php echo $dm['name_sp'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="form-section">
+                        <h6 class="text-7tcc mb-3">
+                            <i class="fas fa-image me-2"></i>Hình Ảnh Sản Phẩm
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="file-upload-area" onclick="document.getElementById('hinh_anh').click()">
+                                    <i class="fas fa-cloud-upload-alt fa-2x text-7tcc mb-2"></i>
+                                    <h6>Nhấp để chọn hình ảnh</h6>
+                                    <p class="text-muted mb-0 small">Hỗ trợ: JPG, PNG, GIF (tối đa 5MB)</p>
+                                </div>
+                                <input type="file" class="d-none" name="hinh_anh" id="hinh_anh" accept="image/*" onchange="previewImage(this)">
+                            </div>
+                            <div class="col-md-6">
+                                <img id="imagePreview" class="image-preview" alt="Preview">
+                                <div id="uploadInfo" class="mt-2 text-muted">
+                                    <small>Chưa chọn file nào</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="form-section">
+                        <h6 class="text-7tcc mb-3">
+                            <i class="fas fa-file-alt me-2"></i>Nội Dung & Mô Tả
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="tom_tat" class="form-label fw-bold">Tóm Tắt</label>
+                                <textarea rows="3" class="form-control" name="tom_tat" id="tom_tat" 
+                                          placeholder="Nhập tóm tắt ngắn gọn về sản phẩm..."></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="noi_dung" class="form-label fw-bold">Nội Dung Chi Tiết</label>
+                                <textarea rows="3" class="form-control" name="noi_dung" id="noi_dung" 
+                                          placeholder="Nhập mô tả chi tiết về sản phẩm..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="form-section">
+                        <h6 class="text-7tcc mb-3">
+                            <i class="fas fa-toggle-on me-2"></i>Trạng Thái
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="tinh_trang" class="form-label fw-bold">Hiển Thị</label>
+                                <select class="form-select" name="tinh_trang" id="tinh_trang">
+                                    <option value="1" selected>Hiển thị</option>
+                                    <option value="0">Ẩn</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Hủy
+                </button>
+                <button type="button" class="btn btn-7tcc" onclick="submitAddForm()">
+                    <i class="fas fa-save me-2"></i>Lưu Sản Phẩm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Link jQuery and Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 $(document).ready(function() {
+    // Custom modal handling - bypass Bootstrap's modal
+    $('[data-bs-toggle="modal"][data-bs-target="#addProductModal"]').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Show modal manually
+        showCustomModal();
+    });
+    
+    // Custom modal show function
+    function showCustomModal() {
+        // Add modal-open class and prevent scrolling
+        $('body').addClass('modal-open').css({
+            'overflow': 'hidden',
+            'padding-right': '0px'
+        });
+        
+        // Show modal
+        $('#addProductModal').addClass('show').css('display', 'flex');
+        
+        // Focus first input
+        setTimeout(function() {
+            $('#ten_sp').focus();
+        }, 100);
+    }
+    
+    // Custom modal hide function
+    function hideCustomModal() {
+        // Hide modal
+        $('#addProductModal').removeClass('show').css('display', 'none');
+        
+        // Reset form
+        document.getElementById('productForm').reset();
+        document.getElementById('imagePreview').style.display = 'none';
+        document.getElementById('uploadInfo').innerHTML = '<small>Chưa chọn file nào</small>';
+        
+        // Remove validation classes
+        $('#addProductModal').find('.is-invalid').removeClass('is-invalid');
+        
+        // Restore body
+        $('body').removeClass('modal-open').css({
+            'overflow': '',
+            'padding-right': ''
+        });
+    }
+    
+    // Close modal on backdrop click
+    $('#addProductModal').on('click', function(e) {
+        if (e.target === this) {
+            hideCustomModal();
+        }
+    });
+    
+    // Close modal on close button click
+    $('#addProductModal .btn-close, #addProductModal [data-bs-dismiss="modal"]').on('click', function(e) {
+        e.preventDefault();
+        hideCustomModal();
+    });
+    
+    // Close modal on Escape key
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape' && $('#addProductModal').hasClass('show')) {
+            hideCustomModal();
+        }
+    });
+    
     function performSearch() {
         var formData = $('#searchForm').serialize();
         
@@ -315,4 +644,91 @@ $(document).ready(function() {
         });
     });
 });
+
+// Image preview function for modal
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+            document.getElementById('imagePreview').src = e.target.result;
+            document.getElementById('imagePreview').style.display = 'block';
+            document.getElementById('uploadInfo').innerHTML = 
+                '<strong>File đã chọn:</strong> ' + input.files[0].name + 
+                ' (' + Math.round(input.files[0].size / 1024) + ' KB)';
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// Auto-generate product code from name
+$(document).on('input', '#ten_sp', function() {
+    var name = this.value;
+    var code = name.toLowerCase()
+                   .replace(/[^\w\s]/gi, '')
+                   .replace(/\s+/g, '-');
+    if (code && !document.getElementById('ma_sp').value) {
+        document.getElementById('ma_sp').value = code.substring(0, 20);
+    }
+});
+
+// Submit form function
+function submitAddForm() {
+    var form = document.getElementById('productForm');
+    var required = form.querySelectorAll('[required]');
+    var valid = true;
+    
+    required.forEach(function(field) {
+        if (!field.value.trim()) {
+            field.classList.add('is-invalid');
+            valid = false;
+        } else {
+            field.classList.remove('is-invalid');
+        }
+    });
+    
+    if (!valid) {
+        alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+        return;
+    }
+    
+    // Submit form
+    form.submit();
+}
+
+// Remove old Bootstrap modal handlers
+$('#addProductModal').off('show.bs.modal shown.bs.modal hidden.bs.modal');
+
+// Show success/error message if redirected with parameters
+<?php if(isset($_GET['success'])): ?>
+$(document).ready(function() {
+    // Auto-hide after 5 seconds
+    setTimeout(function() {
+        $('.alert-success').alert('close');
+    }, 5000);
+    
+    // Remove success parameter from URL
+    const url = new URL(window.location);
+    url.searchParams.delete('success');
+    window.history.replaceState({}, '', url);
+    
+    // Reload the product list
+    performSearch();
+});
+<?php endif; ?>
+
+<?php if(isset($_GET['error'])): ?>
+$(document).ready(function() {
+    // Auto-hide after 10 seconds for errors (longer to read)
+    setTimeout(function() {
+        $('.alert-danger').alert('close');
+    }, 10000);
+    
+    // Remove error parameter from URL
+    const url = new URL(window.location);
+    url.searchParams.delete('error');
+    window.history.replaceState({}, '', url);
+});
+<?php endif; ?>
 </script>

@@ -129,7 +129,7 @@ if(isset($_POST['themsanpham'])) {
     
     if(!empty($errors)) {
         $error_message = urlencode(implode('. ', $errors));
-        header("Location: ../../index.php?action=quanLySanPham&query=them&error=$error_message");
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message");
         exit();
     }
 
@@ -157,7 +157,7 @@ if(isset($_POST['themsanpham'])) {
     
     // Move uploaded file
     if(!move_uploaded_file($hinhanh_tmp, 'uploads/' . $safe_filename)) {
-        header("Location: ../../index.php?action=quanLySanPham&query=them&error=" . urlencode("Không thể upload file ảnh!"));
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=" . urlencode("Không thể upload file ảnh!"));
         exit();
     }
     
@@ -171,11 +171,11 @@ if(isset($_POST['themsanpham'])) {
     mysqli_stmt_bind_param($stmt, "ssiissssii", $tenLoaisp, $masp, $giasp, $soluong, $soluong, $hinhanh, $tomtat, $noidung, $tinhtrang, $iddm);
     
     if(mysqli_stmt_execute($stmt)) {
-        header("Location: ../../index.php?action=quanLySanPham&query=them&success=add");
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&success=add");
         exit();
     } else {
         $error_message = urlencode("Có lỗi xảy ra: " . mysqli_error($mysqli));
-        header("Location: ../../index.php?action=quanLySanPham&query=them&error=$error_message");
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message");
         exit();
     }
 
@@ -242,7 +242,7 @@ if(isset($_POST['themsanpham'])) {
     if(mysqli_stmt_execute($stmt)) {
         echo "<script>
             alert('Cập nhật sản phẩm thành công!');
-            window.location.href='../../index.php?action=quanLySanPham&query=them';
+            window.location.href='../../index.php?action=quanLySanPham&query=lietke';
         </script>";
     } else {
         echo "<script>
@@ -274,12 +274,12 @@ if(isset($_POST['themsanpham'])) {
     if(mysqli_stmt_execute($stmt)) {
         echo "<script>
             alert('Xóa sản phẩm thành công!');
-            window.location.href='../../index.php?action=quanLySanPham&query=them';
+            window.location.href='../../index.php?action=quanLySanPham&query=lietke';
         </script>";
     } else {
         echo "<script>
             alert('Có lỗi xảy ra khi xóa sản phẩm: " . mysqli_error($mysqli) . "');
-            window.location.href='../../index.php?action=quanLySanPham&query=them';
+            window.location.href='../../index.php?action=quanLySanPham&query=lietke';
         </script>";
     }
 }

@@ -68,7 +68,10 @@ $sua_sp= mysqli_query($mysqli,$sql_sua_sp);
                 <option value="0" <?php echo ($row['tinh_trang'] == 0) ? 'selected' : '' ?>>Ẩn</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary" name="suaSanPham">Sửa Sản Phẩm</button>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary" name="suaSanPham">Sửa Sản Phẩm</button>
+            <a href="index.php?action=quanLySanPham&query=lietke" class="btn btn-secondary">Quay lại</a>
+        </div>
         <?php } ?>
     </form>
 </div>

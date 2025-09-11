@@ -84,7 +84,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 
                 <?php if (!empty($search) || !empty($price_min) || !empty($price_max)): ?>
                     <div class="col-md-12 mt-2">
-                        <a href="index.php?action=quanLySanPham&query=them" class="btn btn-secondary">Quay lại</a>
+                        <a href="index.php?action=quanLySanPham&query=lietke" class="btn btn-secondary">Quay lại</a>
                     </div>
                 <?php endif; ?>
             </form>

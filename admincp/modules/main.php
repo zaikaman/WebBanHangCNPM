@@ -16,7 +16,10 @@
     } elseif ($tam == 'quanLyDanhMucSanPham' && $query == 'sua') {
         include("modules/quanLyDanhMucSanPham/sua.php");
     } elseif ($tam == 'quanLySanPham' && $query == 'them') {
-        include("modules/quanLySanPham/them.php");
+        include("modules/quanLySanPham/lietke.php");
+    } elseif ($tam == 'quanLySanPham' && $query == 'lietke') {
+        include("modules/quanLySanPham/lietke.php");
+    } elseif ($tam == 'quanLySanPham' && $query == '') {
         include("modules/quanLySanPham/lietke.php");
     } elseif ($tam == 'quanLySanPham' && $query == 'sua') {
         include("modules/quanLySanPham/sua.php");

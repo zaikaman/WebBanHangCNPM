@@ -12,7 +12,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.php?action=quanLySanPham&query=them">
+            <a class="nav-link" href="index.php?action=quanLySanPham&query=lietke">
                 <i class="fas fa-tshirt"></i> Quản lý sản phẩm
             </a>
         </li>
