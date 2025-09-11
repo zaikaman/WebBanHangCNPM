@@ -1,4 +1,4 @@
-<div class="clear"></div> <!-- gi day ?? -->
+<div class="clear"></div>
 <div class="footer">
     <div class="footer_content">
         <div class="footer_info">

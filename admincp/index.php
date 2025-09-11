@@ -99,14 +99,14 @@ if (!isset($_SESSION['dangNhap'])) {
 
     <!-- Main Content -->
     <div class="container-fluid mt-4">
-        <div class="row">
+        <div class="column">
             <!-- Sidebar -->
             <div class="col-lg-3 col-md-4 mb-4">
                 <?php include("modules/menu.php"); ?>
             </div>
             
             <!-- Main Dashboard Content -->
-            <div class="col-lg-9 col-md-8">
+            <div class="">
                 <!-- Welcome Card -->
                 <div class="card mb-4">
                     <div class="card-header">
@@ -115,7 +115,7 @@ if (!isset($_SESSION['dangNhap'])) {
                             Dashboard Overview - 7TCC
                         </h3>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body px-0">
                         <?php include("modules/main.php"); ?>
                     </div>
                 </div>

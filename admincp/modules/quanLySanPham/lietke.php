@@ -255,9 +255,9 @@ body.modal-open #addProductModal .modal-content * {
 }
 </style>
 
-<div class="container mt-5">
+<div class="container px-0 py-0">
     <!-- Header với nút thêm sản phẩm -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center">
         <h3 class="text-7tcc mb-0">
             <i class="fas fa-box me-2"></i>Quản Lý Sản Phẩm
         </h3>
