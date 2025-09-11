@@ -642,27 +642,43 @@ body {
   background-color: #28a745;
 }
 
-/* Admin Sidebar Styles */
+  /* Admin Sidebar Styles - Row Layout */
 .admin-sidebar {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  padding: 20px 0;
+  padding: 20px;
   margin-bottom: 20px;
   position: relative !important;
   z-index: 100 !important;
   pointer-events: auto !important;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  /* Ensure sidebar takes full width to show all nav content */
+  overflow-x: auto;
 }
 
 .admin-sidebar .nav-link {
   padding: 12px 20px;
   color: #333;
   font-weight: 500;
-  border-radius: 0;
-  border-left: 3px solid transparent;
+  border-radius: 8px;
+  border-top: 3px solid transparent;
   transition: all 0.3s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  flex-direction: row;
+  margin-right: 8px;
+  white-space: nowrap;
+  min-width: 0;
+  /* Remove max-width and overflow to allow full content display */
+  max-width: none;
+  overflow: visible;
+  text-overflow: unset;
 }
 
 .admin-sidebar .nav-link:hover {

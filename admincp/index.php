@@ -99,9 +99,9 @@ if (!isset($_SESSION['dangNhap'])) {
 
     <!-- Main Content -->
     <div class="container-fluid mt-4">
-        <div class="column">
+        <div class="row">
             <!-- Sidebar -->
-            <div class="col-lg-3 col-md-4 mb-4">
+            <div class="">
                 <?php include("modules/menu.php"); ?>
             </div>
             
