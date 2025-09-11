@@ -121,6 +121,61 @@ body {
   min-height: 100vh;
 }
 
+/* Dashboard page specific styles */
+.dashboard-page .admin-sidebar {
+  margin-bottom: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.dashboard-page .admin-sidebar .nav-link {
+  padding: 12px 20px;
+  color: #333;
+  font-weight: 500;
+  border-radius: 8px;
+  border-top: 3px solid transparent;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row;
+  margin: 0 4px;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: none;
+  overflow: visible;
+  text-overflow: unset;
+  text-decoration: none;
+  flex: 0 0 auto;
+}
+
+.dashboard-page .admin-sidebar .nav-link:hover {
+  background-color: #f8f9fa;
+  color: #dc0021;
+  border-left-color: #dc0021;
+  text-decoration: none;
+}
+
+.dashboard-page .admin-sidebar .nav-link.active {
+  background-color: rgba(220, 0, 33, 0.1);
+  color: #dc0021;
+  border-left-color: #dc0021;
+}
+
+.dashboard-page .admin-sidebar .nav-link i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
 /* Sidebar Styles */
 .nav.flex-column {
   background: #fff;
