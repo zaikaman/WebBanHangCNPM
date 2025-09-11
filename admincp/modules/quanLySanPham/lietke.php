@@ -1,8 +1,20 @@
 <?php
-	include("config/config.php");
-    include("includes/pagination.php");
+	// Check if files exist and include accordingly
+	if (file_exists("../../config/config.php")) {
+		// Direct access to this file
+		include("../../config/config.php");
+		include("../../includes/pagination.php");
+	} else {
+		// Access through index.php
+		include("config/config.php");
+		include("includes/pagination.php");
+	}
     
     if(isset($_GET['ajax_search'])) {
+        // Enable error reporting for debugging
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
+        
         $search = isset($_GET['search']) ? $_GET['search'] : '';
         $search_field = isset($_GET['search_field']) ? $_GET['search_field'] : 'all';
         $price_min = isset($_GET['price_min']) ? floatval($_GET['price_min']) : '';
@@ -10,10 +22,15 @@
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $records_per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 10;
         
+        // Ensure minimum values
+        $current_page = max(1, $current_page);
+        $records_per_page = max(1, $records_per_page);
+        
         $where_clause = "WHERE tbl_sanpham.id_dm = tbl_danhmucqa.id_dm";
         
         if (!empty($search) || !empty($price_min) || !empty($price_max)) {
             if (!empty($search)) {
+                $search = mysqli_real_escape_string($mysqli, $search);
                 switch ($search_field) {
                     case 'ten_sp':
                         $where_clause .= " AND tbl_sanpham.ten_sp LIKE '%$search%'";
@@ -44,6 +61,13 @@
         // Đếm tổng số bản ghi cho AJAX
         $sql_count = "SELECT COUNT(*) as total FROM tbl_sanpham, tbl_danhmucqa $where_clause";
         $count_result = mysqli_query($mysqli, $sql_count);
+        
+        if (!$count_result) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Database error: ' . mysqli_error($mysqli)]);
+            exit;
+        }
+        
         $total_records = mysqli_fetch_array($count_result)['total'];
         
         // Tạo pagination object cho AJAX
@@ -53,6 +77,12 @@
         
         $sql_lietke = "SELECT * FROM tbl_sanpham, tbl_danhmucqa $where_clause ORDER BY id_sp DESC LIMIT " . $pagination->getLimit() . " OFFSET " . $pagination->getOffset();
         $lietke = mysqli_query($mysqli, $sql_lietke);
+        
+        if (!$lietke) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Database error: ' . mysqli_error($mysqli)]);
+            exit;
+        }
 
         ob_start();
         $start_number = $pagination->getOffset();
@@ -62,23 +92,23 @@
             ?>
             <tr>
                 <td><?php echo $i ?></td>
-                <td><?php echo $row['ten_sp'] ?></td>
-                <td><img src="modules/quanLySanPham/uploads/<?php echo $row['hinh_anh'] ?>" width="100px"></td>
+                <td><?php echo htmlspecialchars($row['ten_sp']) ?></td>
+                <td><img src="modules/quanLySanPham/uploads/<?php echo htmlspecialchars($row['hinh_anh']) ?>" width="100px" alt="Product Image"></td>
                 <td><?php echo number_format($row['gia_sp'], 0, ',', '.').' VND' ?></td>
                 <td><?php echo $row['so_luong'] ?></td>
                 <td><?php echo $row['so_luong_con_lai'] ?></td>
-                <td><?php echo $row['name_sp'] ?></td>
-                <td><?php echo $row['ma_sp'] ?></td>
+                <td><?php echo htmlspecialchars($row['name_sp']) ?></td>
+                <td><?php echo htmlspecialchars($row['ma_sp']) ?></td>
                 <td>
-                    <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['noi_dung']) ?></textarea>
+                    <textarea class="form-control" rows="3" readonly><?php echo htmlspecialchars(str_replace('\n', "\n", $row['noi_dung'])) ?></textarea>
                 </td>
                 <td>
-                    <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['tom_tat']) ?></textarea>
+                    <textarea class="form-control" rows="3" readonly><?php echo htmlspecialchars(str_replace('\n', "\n", $row['tom_tat'])) ?></textarea>
                 </td>
                 <td><?php echo ($row['tinh_trang'] == 1) ? 'Kích hoạt' : 'Ẩn' ?></td>
                 <td>
-                    <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo $row['ma_sp'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
-                    <a href="?action=quanLySanPham&query=sua&idsp=<?php echo $row['ma_sp'] ?>" class="btn btn-warning btn-sm">Sửa</a>
+                    <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo urlencode($row['ma_sp']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+                    <a href="?action=quanLySanPham&query=sua&idsp=<?php echo urlencode($row['ma_sp']) ?>" class="btn btn-warning btn-sm">Sửa</a>
                 </td>
             </tr>
             <?php
@@ -86,10 +116,18 @@
         $table_content = ob_get_clean();
         
         // Trả về JSON response với cả table content và pagination
+        header('Content-Type: application/json');
         echo json_encode([
+            'success' => true,
             'table_content' => $table_content,
             'pagination' => $pagination->render(),
-            'total_records' => $total_records
+            'total_records' => $total_records,
+            'current_page' => $current_page,
+            'debug_info' => [
+                'sql_count' => $sql_count,
+                'sql_lietke' => $sql_lietke,
+                'where_clause' => $where_clause
+            ]
         ]);
         exit;
     }
@@ -252,6 +290,33 @@ body.modal-open #addProductModal .modal-content,
 body.modal-open #addProductModal .modal-content * {
     pointer-events: auto !important;
     z-index: 1000000 !important;
+}
+
+/* Loading state for table */
+.loading {
+    position: relative;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #dc0021;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 1000;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 </style>
 
@@ -529,6 +594,13 @@ body.modal-open #addProductModal .modal-content * {
 
 <script>
 $(document).ready(function() {
+    // Debug function
+    function debugLog(message, data) {
+        console.log('[Pagination Debug]', message, data || '');
+    }
+    
+    debugLog('Pagination script loaded');
+    
     // Custom modal handling - bypass Bootstrap's modal
     $('[data-bs-toggle="modal"][data-bs-target="#addProductModal"]').on('click', function(e) {
         e.preventDefault();
@@ -597,18 +669,34 @@ $(document).ready(function() {
     
     function performSearch() {
         var formData = $('#searchForm').serialize();
+        debugLog('Performing search with data:', formData);
         
         $.ajax({
             url: 'modules/quanLySanPham/lietke.php',
             type: 'GET',
             data: formData + '&ajax_search=1',
             dataType: 'json',
+            beforeSend: function() {
+                $('#productTableBody').addClass('loading');
+            },
             success: function(response) {
-                $('#productTableBody').html(response.table_content);
-                $('#paginationContainer').html(response.pagination);
+                debugLog('Search response received:', response);
+                if (response && response.success && response.table_content && response.pagination) {
+                    $('#productTableBody').html(response.table_content);
+                    $('#paginationContainer').html(response.pagination);
+                } else if (response && response.error) {
+                    debugLog('Server error:', response.error);
+                    alert('Lỗi server: ' + response.error);
+                } else {
+                    debugLog('Invalid search response format:', response);
+                    alert('Phản hồi từ server không hợp lệ');
+                }
             },
             error: function(xhr, status, error) {
-                console.error('Error:', error);
+                debugLog('Search AJAX error:', {status, error, response: xhr.responseText});
+            },
+            complete: function() {
+                $('#productTableBody').removeClass('loading');
             }
         });
     }
@@ -619,30 +707,85 @@ $(document).ready(function() {
         window.searchTimeout = setTimeout(performSearch, 300);
     });
     
-    // Handle pagination clicks
-    $(document).on('click', '#paginationContainer a', function(e) {
+    // Handle pagination clicks - Fixed version with better error handling
+    $(document).on('click', '#paginationContainer .page-link', function(e) {
         e.preventDefault();
-        var url = $(this).attr('href');
-        var params = new URLSearchParams(url.split('?')[1]);
-        var page = params.get('page');
+        e.stopPropagation();
         
-        // Update form with new page
-        var formData = $('#searchForm').serialize() + '&page=' + page + '&ajax_search=1';
+        var $link = $(this);
+        var page = $link.data('page');
+        
+        debugLog('Pagination click detected:', {
+            href: $link.attr('href'),
+            dataPage: page,
+            text: $link.text()
+        });
+        
+        if (!page || $link.closest('.page-item').hasClass('disabled') || $link.closest('.page-item').hasClass('active')) {
+            debugLog('Invalid pagination link, disabled, or already active');
+            return false;
+        }
+        
+        debugLog('Loading page:', page);
+        
+        // Get current form data
+        var formData = $('#searchForm').serialize();
+        
+        // Add page and ajax parameters
+        var finalData = formData + '&page=' + page + '&ajax_search=1';
+        
+        debugLog('Request data:', finalData);
         
         $.ajax({
             url: 'modules/quanLySanPham/lietke.php',
             type: 'GET',
-            data: formData,
+            data: finalData,
             dataType: 'json',
+            beforeSend: function() {
+                $('#productTableBody').addClass('loading');
+                $link.addClass('loading');
+            },
             success: function(response) {
-                $('#productTableBody').html(response.table_content);
-                $('#paginationContainer').html(response.pagination);
+                debugLog('Pagination response received:', response);
+                if (response && response.success && response.table_content && response.pagination) {
+                    $('#productTableBody').html(response.table_content);
+                    $('#paginationContainer').html(response.pagination);
+                    debugLog('Page loaded successfully');
+                } else if (response && response.error) {
+                    debugLog('Server error:', response.error);
+                    alert('Lỗi server: ' + response.error);
+                } else {
+                    debugLog('Invalid pagination response format:', response);
+                    alert('Có lỗi xảy ra khi tải trang. Vui lòng thử lại.');
+                }
             },
             error: function(xhr, status, error) {
-                console.error('Error:', error);
+                debugLog('Pagination AJAX error:', {status, error, response: xhr.responseText});
+                alert('Không thể tải trang. Vui lòng kiểm tra kết nối và thử lại.');
+            },
+            complete: function() {
+                $('#productTableBody').removeClass('loading');
+                $link.removeClass('loading');
             }
         });
+        
+        return false;
     });
+    
+    // Make performSearch available globally for debugging
+    window.performSearch = performSearch;
+    
+    // Add click event listener to debug all pagination links
+    $(document).on('click', '.pagination a', function(e) {
+        debugLog('Pagination link clicked:', {
+            href: $(this).attr('href'),
+            text: $(this).text(),
+            hasClass: $(this).attr('class')
+        });
+    });
+    
+    // Debug pagination container
+    debugLog('Initial pagination container content:', $('#paginationContainer').html());
 });
 
 // Image preview function for modal

@@ -37,7 +37,29 @@ class Pagination {
     private function buildQueryString($page) {
         $params = $this->query_params;
         $params['page'] = $page;
-        return '?' . http_build_query($params);
+        
+        // Make sure we maintain the current action and query parameters
+        if (!isset($params['action'])) {
+            $params['action'] = 'quanLySanPham';
+        }
+        if (!isset($params['query'])) {
+            $params['query'] = 'lietke';
+        }
+        
+        return 'index.php?' . http_build_query($params);
+    }
+    
+    private function buildPaginationLink($page, $text, $is_active = false, $is_disabled = false) {
+        if ($is_disabled) {
+            return '<li class="page-item disabled"><span class="page-link">' . $text . '</span></li>';
+        }
+        
+        if ($is_active) {
+            return '<li class="page-item active"><span class="page-link">' . $text . '</span></li>';
+        }
+        
+        $url = $this->buildQueryString($page);
+        return '<li class="page-item"><a class="page-link" href="' . $url . '" data-page="' . $page . '">' . $text . '</a></li>';
     }
     
     public function render() {
@@ -50,13 +72,9 @@ class Pagination {
         
         // Nút Previous
         if ($this->current_page > 1) {
-            $html .= '<li class="page-item">';
-            $html .= '<a class="page-link" href="' . $this->buildQueryString($this->current_page - 1) . '">&laquo; Trước</a>';
-            $html .= '</li>';
+            $html .= $this->buildPaginationLink($this->current_page - 1, '&laquo; Trước');
         } else {
-            $html .= '<li class="page-item disabled">';
-            $html .= '<span class="page-link">&laquo; Trước</span>';
-            $html .= '</li>';
+            $html .= $this->buildPaginationLink(0, '&laquo; Trước', false, true);
         }
         
         // Tính toán range của pages để hiển thị
@@ -75,52 +93,36 @@ class Pagination {
         
         // Hiển thị page đầu và ... nếu cần
         if ($start_page > 1) {
-            $html .= '<li class="page-item">';
-            $html .= '<a class="page-link" href="' . $this->buildQueryString(1) . '">1</a>';
-            $html .= '</li>';
+            $html .= $this->buildPaginationLink(1, '1');
             
             if ($start_page > 2) {
-                $html .= '<li class="page-item disabled">';
-                $html .= '<span class="page-link">...</span>';
-                $html .= '</li>';
+                $html .= $this->buildPaginationLink(0, '...', false, true);
             }
         }
         
         // Hiển thị các page numbers
         for ($page = $start_page; $page <= $end_page; $page++) {
             if ($page == $this->current_page) {
-                $html .= '<li class="page-item active">';
-                $html .= '<span class="page-link">' . $page . '</span>';
-                $html .= '</li>';
+                $html .= $this->buildPaginationLink($page, $page, true);
             } else {
-                $html .= '<li class="page-item">';
-                $html .= '<a class="page-link" href="' . $this->buildQueryString($page) . '">' . $page . '</a>';
-                $html .= '</li>';
+                $html .= $this->buildPaginationLink($page, $page);
             }
         }
         
         // Hiển thị ... và page cuối nếu cần
         if ($end_page < $this->total_pages) {
             if ($end_page < $this->total_pages - 1) {
-                $html .= '<li class="page-item disabled">';
-                $html .= '<span class="page-link">...</span>';
-                $html .= '</li>';
+                $html .= $this->buildPaginationLink(0, '...', false, true);
             }
             
-            $html .= '<li class="page-item">';
-            $html .= '<a class="page-link" href="' . $this->buildQueryString($this->total_pages) . '">' . $this->total_pages . '</a>';
-            $html .= '</li>';
+            $html .= $this->buildPaginationLink($this->total_pages, $this->total_pages);
         }
         
         // Nút Next
         if ($this->current_page < $this->total_pages) {
-            $html .= '<li class="page-item">';
-            $html .= '<a class="page-link" href="' . $this->buildQueryString($this->current_page + 1) . '">Sau &raquo;</a>';
-            $html .= '</li>';
+            $html .= $this->buildPaginationLink($this->current_page + 1, 'Sau &raquo;');
         } else {
-            $html .= '<li class="page-item disabled">';
-            $html .= '<span class="page-link">Sau &raquo;</span>';
-            $html .= '</li>';
+            $html .= $this->buildPaginationLink(0, 'Sau &raquo;', false, true);
         }
         
         $html .= '</ul>';
