@@ -360,47 +360,47 @@ body.modal-open #addProductModal .modal-content * {
     <?php echo $pagination->renderPageSizeSelector(); ?>
     
     <!-- Search Form -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <form class="row g-3" method="GET" action="index.php" id="searchForm">
-                <input type="hidden" name="action" value="quanLySanPham">
-                <input type="hidden" name="query" value="lietke">
-                <input type="hidden" name="per_page" value="<?php echo $records_per_page; ?>">
-                
-                <div class="col-md-4">
-                    <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="<?php echo htmlspecialchars($search); ?>">
-                </div>
-                
-                <div class="col-md-2">
-                    <select name="search_field" class="form-select">
-                        <option value="all" <?php echo ($search_field == 'all') ? 'selected' : ''; ?>>Tất cả</option>
-                        <option value="ten_sp" <?php echo ($search_field == 'ten_sp') ? 'selected' : ''; ?>>Tên sản phẩm</option>
-                        <option value="ma_sp" <?php echo ($search_field == 'ma_sp') ? 'selected' : ''; ?>>Mã sản phẩm</option>
-                        <option value="tinh_trang" <?php echo ($search_field == 'tinh_trang') ? 'selected' : ''; ?>>Trạng thái</option>
-                    </select>
-                </div>
-                
-                <div class="col-md-2">
-                    <input type="number" name="price_min" class="form-control" placeholder="Giá tối thiểu" value="<?php echo $price_min; ?>">
-                </div>
-                
-                <div class="col-md-2">
-                    <input type="number" name="price_max" class="form-control" placeholder="Giá tối đa" value="<?php echo $price_max; ?>">
-                </div>
-                
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-primary w-100">
+    <div class="search-form-container">
+        <h6><i class="fas fa-search me-2"></i>Tìm Kiếm & Lọc Sản Phẩm</h6>
+        <form class="row g-3" method="GET" action="index.php" id="searchForm">
+            <input type="hidden" name="action" value="quanLySanPham">
+            <input type="hidden" name="query" value="lietke">
+            <input type="hidden" name="per_page" value="<?php echo $records_per_page; ?>">
+            
+            <div class="col-lg-3 col-md-6">
+                <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="<?php echo htmlspecialchars($search); ?>">
+            </div>
+            
+            <div class="col-lg-2 col-md-6">
+                <select name="search_field" class="form-select">
+                    <option value="all" <?php echo ($search_field == 'all') ? 'selected' : ''; ?>>Tất cả</option>
+                    <option value="ten_sp" <?php echo ($search_field == 'ten_sp') ? 'selected' : ''; ?>>Tên sản phẩm</option>
+                    <option value="ma_sp" <?php echo ($search_field == 'ma_sp') ? 'selected' : ''; ?>>Mã sản phẩm</option>
+                    <option value="tinh_trang" <?php echo ($search_field == 'tinh_trang') ? 'selected' : ''; ?>>Trạng thái</option>
+                </select>
+            </div>
+            
+            <div class="col-lg-2 col-md-6">
+                <input type="number" name="price_min" class="form-control" placeholder="Giá tối thiểu" value="<?php echo $price_min; ?>">
+            </div>
+            
+            <div class="col-lg-2 col-md-6">
+                <input type="number" name="price_max" class="form-control" placeholder="Giá tối đa" value="<?php echo $price_max; ?>">
+            </div>
+            
+            <div class="col-lg-3 col-md-12">
+                <div class="search-refresh-container">
+                    <button type="submit" class="btn btn-search flex-fill">
                         <i class="fas fa-search"></i>
+                        <span>Tìm kiếm</span>
                     </button>
-                </div>
-                
-                <div class="col-md-1">
-                    <a href="index.php?action=quanLySanPham&query=lietke" class="btn btn-secondary w-100">
-                        <i class="fas fa-refresh"></i>
+                    <a href="index.php?action=quanLySanPham&query=lietke" class="btn btn-refresh flex-fill">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Làm mới</span>
                     </a>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
     <div class="table-responsive">

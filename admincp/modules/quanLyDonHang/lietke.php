@@ -71,41 +71,41 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
     <?php echo $pagination->renderPageSizeSelector(); ?>
     
     <!-- Search Form -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <form class="row g-3" method="GET" action="index.php">
-                <input type="hidden" name="action" value="quanLyDonHang">
-                <input type="hidden" name="query" value="lietke">
-                <input type="hidden" name="per_page" value="<?php echo $records_per_page; ?>">
-                
-                <div class="col-md-4">
-                    <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="<?php echo htmlspecialchars($search); ?>">
-                </div>
-                
-                <div class="col-md-4">
-                    <select name="search_field" class="form-select">
-                        <option value="all" <?php echo ($search_field == 'all') ? 'selected' : ''; ?>>Tất cả</option>
-                        <option value="ma_gh" <?php echo ($search_field == 'ma_gh') ? 'selected' : ''; ?>>Mã đơn hàng</option>
-                        <option value="ten_khachhang" <?php echo ($search_field == 'ten_khachhang') ? 'selected' : ''; ?>>Tên khách hàng</option>
-                        <option value="dien_thoai" <?php echo ($search_field == 'dien_thoai') ? 'selected' : ''; ?>>Số điện thoại</option>
-                        <option value="dia_chi" <?php echo ($search_field == 'dia_chi') ? 'selected' : ''; ?>>Địa chỉ</option>
-                        <option value="trang_thai" <?php echo ($search_field == 'trang_thai') ? 'selected' : ''; ?>>Trạng thái</option>
-                    </select>
-                </div>
-                
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-search"></i> Tìm kiếm
+    <div class="search-form-container">
+        <h6><i class="fas fa-search me-2"></i>Tìm Kiếm & Lọc Đơn Hàng</h6>
+        <form class="row g-3" method="GET" action="index.php">
+            <input type="hidden" name="action" value="quanLyDonHang">
+            <input type="hidden" name="query" value="lietke">
+            <input type="hidden" name="per_page" value="<?php echo $records_per_page; ?>">
+            
+            <div class="col-lg-4 col-md-6">
+                <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="<?php echo htmlspecialchars($search); ?>">
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <select name="search_field" class="form-select">
+                    <option value="all" <?php echo ($search_field == 'all') ? 'selected' : ''; ?>>Tất cả</option>
+                    <option value="ma_gh" <?php echo ($search_field == 'ma_gh') ? 'selected' : ''; ?>>Mã đơn hàng</option>
+                    <option value="ten_khachhang" <?php echo ($search_field == 'ten_khachhang') ? 'selected' : ''; ?>>Tên khách hàng</option>
+                    <option value="dien_thoai" <?php echo ($search_field == 'dien_thoai') ? 'selected' : ''; ?>>Số điện thoại</option>
+                    <option value="dia_chi" <?php echo ($search_field == 'dia_chi') ? 'selected' : ''; ?>>Địa chỉ</option>
+                    <option value="trang_thai" <?php echo ($search_field == 'trang_thai') ? 'selected' : ''; ?>>Trạng thái</option>
+                </select>
+            </div>
+            
+            <div class="col-lg-4 col-md-12">
+                <div class="search-refresh-container">
+                    <button type="submit" class="btn btn-search flex-fill">
+                        <i class="fas fa-search"></i>
+                        <span>Tìm kiếm</span>
                     </button>
-                </div>
-                
-                <div class="col-md-2">
-                    <a href="index.php?action=quanLyDonHang&query=lietke" class="btn btn-secondary w-100">
-                        <i class="fas fa-refresh"></i> Làm mới
+                    <a href="index.php?action=quanLyDonHang&query=lietke" class="btn btn-refresh flex-fill">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Làm mới</span>
                     </a>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
     <div class="table-responsive">

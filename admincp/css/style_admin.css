@@ -641,6 +641,118 @@ body {
   background-color: #28a745;
 }
 
+/* Search and Refresh Button Standardization */
+.search-refresh-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.search-refresh-container .btn {
+  min-width: 120px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.btn-search {
+  background: linear-gradient(135deg, #dc0021 0%, #a90019 100%) !important;
+  border-color: #dc0021 !important;
+  color: #fff !important;
+}
+
+.btn-search:hover {
+  background: linear-gradient(135deg, #a90019 0%, #dc0021 100%) !important;
+  border-color: #a90019 !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(220, 0, 33, 0.3) !important;
+}
+
+.btn-refresh {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%) !important;
+  border-color: #6c757d !important;
+  color: #fff !important;
+}
+
+.btn-refresh:hover {
+  background: linear-gradient(135deg, #495057 0%, #6c757d 100%) !important;
+  border-color: #495057 !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3) !important;
+}
+
+.btn-search i, .btn-refresh i {
+  font-size: 14px;
+}
+
+/* Search Form Styling */
+.search-form-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #dc0021;
+}
+
+.search-form-container h6 {
+  color: #dc0021;
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.search-form-container .form-control,
+.search-form-container .form-select {
+  height: 42px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 0 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.search-form-container .form-control:focus,
+.search-form-container .form-select:focus {
+  border-color: #dc0021;
+  box-shadow: 0 0 0 0.2rem rgba(220, 0, 33, 0.25);
+  outline: none;
+}
+
+/* Responsive Search Buttons */
+@media (max-width: 768px) {
+  .search-refresh-container {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .search-refresh-container .btn {
+    width: 100%;
+    min-width: auto;
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 576px) {
+  .search-form-container {
+    padding: 15px;
+  }
+  
+  .search-refresh-container .btn {
+    font-size: 13px;
+    height: 38px;
+  }
+}
+
   /* Admin Sidebar Styles - Row Layout */
 .admin-sidebar {
   background: #fff;

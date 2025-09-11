@@ -41,27 +41,31 @@
     </div>
     
     <!-- Search Form -->
-    <form class="row g-2 align-items-center mb-4" method="GET" action="index.php">
-        <input type="hidden" name="action" value="quanLyDanhMucSanPham">
-        <input type="hidden" name="query" value="lietke">
-        <input type="hidden" name="per_page" value="<?php echo $records_per_page; ?>">
-        
-        <div class="col-12 col-md-7 mb-2 mb-md-0">
-            <input type="text" name="search" class="form-control" placeholder="Nhập tên danh mục..." value="<?php echo htmlspecialchars($search); ?>">
-        </div>
-        
-        <div class="col-6 col-md-2 d-grid mb-2 mb-md-0">
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i> Tìm kiếm
-            </button>
-        </div>
-        
-        <div class="col-6 col-md-2 d-grid">
-            <a href="index.php?action=quanLyDanhMucSanPham&query=lietke" class="btn btn-secondary">
-                <i class="fas fa-refresh"></i> Làm mới
-            </a>
-        </div>
-    </form>
+    <div class="search-form-container">
+        <h6><i class="fas fa-search me-2"></i>Tìm Kiếm Danh Mục Sản Phẩm</h6>
+        <form class="row g-3" method="GET" action="index.php">
+            <input type="hidden" name="action" value="quanLyDanhMucSanPham">
+            <input type="hidden" name="query" value="lietke">
+            <input type="hidden" name="per_page" value="<?php echo $records_per_page; ?>">
+            
+            <div class="col-lg-9 col-md-8">
+                <input type="text" name="search" class="form-control" placeholder="Nhập tên danh mục..." value="<?php echo htmlspecialchars($search); ?>">
+            </div>
+            
+            <div class="col-lg-3 col-md-4">
+                <div class="search-refresh-container">
+                    <button type="submit" class="btn btn-search flex-fill">
+                        <i class="fas fa-search"></i>
+                        <span>Tìm kiếm</span>
+                    </button>
+                    <a href="index.php?action=quanLyDanhMucSanPham&query=lietke" class="btn btn-refresh flex-fill">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Làm mới</span>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
     
     <div class="table-responsive">
         <table class="table table-bordered align-middle">
