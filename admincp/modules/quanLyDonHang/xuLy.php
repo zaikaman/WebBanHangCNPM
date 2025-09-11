@@ -22,6 +22,10 @@ if(isset($_GET['code'])) {
             $sql = "UPDATE tbl_hoadon SET trang_thai = 0 WHERE ma_gh = '$code_cart'";
             $query = mysqli_query($mysqli, $sql);
             
+            if(!$query) {
+                die("Error updating order status: " . mysqli_error($mysqli));
+            }
+            
             // Thống kê doanh thu
             $sql_lietke_dh = "SELECT tbl_chitiet_gh.so_luong_mua, tbl_sanpham.gia_sp 
                              FROM tbl_chitiet_gh 
@@ -76,6 +80,30 @@ if(isset($_GET['code'])) {
             }
             $stmt_check->close();
 
+            header('Location: ../../index.php?action=quanLyDonHang&query=lietke');
+            break;
+
+        case 'cancel':
+            // Update order status to cancelled (trạng thái = 2)
+            $sql = "UPDATE tbl_hoadon SET trang_thai = 2 WHERE ma_gh = '$code_cart'";
+            $query = mysqli_query($mysqli, $sql);
+            
+            if(!$query) {
+                die("Error cancelling order: " . mysqli_error($mysqli));
+            }
+            
+            header('Location: ../../index.php?action=quanLyDonHang&query=lietke');
+            break;
+
+        case 'reopen':
+            // Reopen cancelled order (trạng thái = 1)
+            $sql = "UPDATE tbl_hoadon SET trang_thai = 1 WHERE ma_gh = '$code_cart'";
+            $query = mysqli_query($mysqli, $sql);
+            
+            if(!$query) {
+                die("Error reopening order: " . mysqli_error($mysqli));
+            }
+            
             header('Location: ../../index.php?action=quanLyDonHang&query=lietke');
             break;
 

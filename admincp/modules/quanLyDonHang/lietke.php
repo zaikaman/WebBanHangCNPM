@@ -28,7 +28,13 @@ if (!empty($search)) {
             $where_clause = " AND tbl_dangky.dia_chi LIKE '%$search%'";
             break;
         case 'trang_thai':
-            $status = ($search == 'đã xử lý' || $search == '0') ? 0 : 1;
+            if ($search == 'đã xử lý' || $search == '0') {
+                $status = 0;
+            } elseif ($search == 'đã hủy' || $search == '2') {
+                $status = 2;
+            } else {
+                $status = 1; // chờ xử lý
+            }
             $where_clause = " AND tbl_hoadon.trang_thai = $status";
             break;
         default:
@@ -108,6 +114,18 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
         </form>
     </div>
 
+    <!-- Hướng dẫn sử dụng -->
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <i class="fas fa-info-circle me-2"></i>
+        <strong>Hướng dẫn:</strong> 
+        <ul class="mb-0 mt-2">
+            <li><strong>Chờ xử lý:</strong> Đơn hàng mới cần xử lý. Click "Xử lý đơn" để hoàn thành hoặc "Hủy đơn" để hủy.</li>
+            <li><strong>Đã xử lý:</strong> Đơn hàng đã được xử lý thành công.</li>
+            <li><strong>Đã hủy:</strong> Đơn hàng đã bị hủy. Có thể "Mở lại" nếu cần thiết.</li>
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <div class="table-responsive">
         <table class="table table-striped table-hover text-center align-middle">
             <thead class="table-dark">
@@ -118,7 +136,7 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                     <th>Địa chỉ</th>
                     <th>Email</th>
                     <th>Số điện thoại</th>
-                    <th>Trạng thái</th>
+                    <th class="status-column">Trạng thái & Thao tác</th>
                     <th>Ngày đặt</th>
                     <th>Thanh toán</th>
                     <th colspan="2">Quản lý</th>
@@ -139,11 +157,33 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                         <td><?php echo $row['email'] ?></td>
                         <td><?php echo $row['dien_thoai'] ?></td>
                         <td>
-                            <?php if($row['trang_thai'] == 0) { ?>
-                                <span class="badge bg-success">Đã xử lý</span>
-                            <?php } else { ?>
-                                <a href="modules/quanLyDonHang/xuLy.php?code=<?php echo $row['ma_gh'] ?>&action=process" class="btn btn-warning btn-sm">Đơn hàng mới</a>
-                            <?php } ?>
+                            <div class="status-actions">
+                                <?php if($row['trang_thai'] == 0) { ?>
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle me-1"></i>Đã xử lý
+                                    </span>
+                                    <small class="text-muted text-center">Đã hoàn thành</small>
+                                <?php } elseif($row['trang_thai'] == 2) { ?>
+                                    <span class="badge bg-danger">
+                                        <i class="fas fa-times-circle me-1"></i>Đã hủy
+                                    </span>
+                                    <button class="btn btn-outline-primary btn-sm" onclick="reopenOrder('<?php echo $row['ma_gh'] ?>')" title="Mở lại đơn hàng">
+                                        <i class="fas fa-undo me-1"></i>Mở lại
+                                    </button>
+                                <?php } else { ?>
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="fas fa-clock me-1"></i>Chờ xử lý
+                                    </span>
+                                    <div class="d-flex flex-column gap-1 mt-2">
+                                        <button class="btn btn-success btn-sm" onclick="processOrder('<?php echo $row['ma_gh'] ?>')" title="Xác nhận đã xử lý đơn hàng">
+                                            <i class="fas fa-check me-1"></i>Xử lý đơn
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="cancelOrder('<?php echo $row['ma_gh'] ?>')" title="Hủy đơn hàng">
+                                            <i class="fas fa-times me-1"></i>Hủy đơn
+                                        </button>
+                                    </div>
+                                <?php } ?>
+                            </div>
                         </td>
                         <td><?php echo $row['cart_date'] ?></td>
                         <td><?php echo $row['cart_payment'] ?></td>
@@ -167,3 +207,204 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
 
 <!-- Link Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+.status-column {
+    min-width: 180px;
+    max-width: 200px;
+}
+.badge {
+    font-size: 0.85em;
+    padding: 0.5em 0.75em;
+}
+.btn-group-vertical .btn {
+    margin-bottom: 2px;
+}
+.btn-group-vertical .btn:last-child {
+    margin-bottom: 0;
+}
+.table td {
+    vertical-align: middle;
+}
+.btn-sm {
+    font-size: 0.8rem;
+    padding: 0.375rem 0.75rem;
+}
+.status-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.text-muted {
+    font-size: 0.75rem;
+    font-style: italic;
+}
+
+/* Hover effects */
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+/* Animation for status badges */
+.badge {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+<script>
+function processOrder(orderCode) {
+    Swal.fire({
+        title: 'Xác nhận xử lý đơn hàng',
+        text: `Bạn có chắc chắn muốn đánh dấu đơn hàng ${orderCode} là đã xử lý?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '<i class="fas fa-check"></i> Xác nhận xử lý',
+        cancelButtonText: '<i class="fas fa-times"></i> Hủy bỏ',
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            return fetch(`modules/quanLyDonHang/xuLy.php?code=${orderCode}&action=process`, {
+                method: 'GET',
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response;
+            })
+            .catch(error => {
+                Swal.showValidationMessage(`Lỗi: ${error}`);
+            });
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Thành công!',
+                text: `Đơn hàng ${orderCode} đã được xử lý thành công.`,
+                icon: 'success',
+                confirmButtonColor: '#28a745',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.reload();
+            });
+        }
+    });
+}
+
+function cancelOrder(orderCode) {
+    Swal.fire({
+        title: 'Xác nhận hủy đơn hàng',
+        html: `
+            <p>Bạn có chắc chắn muốn <strong style="color: #dc3545;">hủy</strong> đơn hàng ${orderCode}?</p>
+            <div class="alert alert-warning mt-3">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Thao tác này sẽ đánh dấu đơn hàng là đã hủy và có thể được mở lại sau.
+            </div>
+        `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '<i class="fas fa-times"></i> Hủy đơn hàng',
+        cancelButtonText: '<i class="fas fa-arrow-left"></i> Quay lại',
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            return fetch(`modules/quanLyDonHang/xuLy.php?code=${orderCode}&action=cancel`, {
+                method: 'GET',
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response;
+            })
+            .catch(error => {
+                Swal.showValidationMessage(`Lỗi: ${error}`);
+            });
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Đã hủy!',
+                text: `Đơn hàng ${orderCode} đã được hủy thành công.`,
+                icon: 'success',
+                confirmButtonColor: '#28a745',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.reload();
+            });
+        }
+    });
+}
+
+function reopenOrder(orderCode) {
+    Swal.fire({
+        title: 'Xác nhận mở lại đơn hàng',
+        text: `Bạn có muốn mở lại đơn hàng ${orderCode}?`,
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#17a2b8',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '<i class="fas fa-undo"></i> Mở lại đơn hàng',
+        cancelButtonText: '<i class="fas fa-times"></i> Hủy bỏ',
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            return fetch(`modules/quanLyDonHang/xuLy.php?code=${orderCode}&action=reopen`, {
+                method: 'GET',
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response;
+            })
+            .catch(error => {
+                Swal.showValidationMessage(`Lỗi: ${error}`);
+            });
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Thành công!',
+                text: `Đơn hàng ${orderCode} đã được mở lại và chờ xử lý.`,
+                icon: 'success',
+                confirmButtonColor: '#28a745',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.reload();
+            });
+        }
+    });
+}
+
+// Thêm tooltip cho các nút
+document.addEventListener('DOMContentLoaded', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
