@@ -54,7 +54,12 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
 <link href="../../css/bootstrap-override.css" rel="stylesheet">
 
 <div class="container mt-5">
-    <h3 class="text-center">Danh Sách Tài Khoản Khách Hàng</h3>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="text-center mb-0">Danh Sách Tài Khoản Khách Hàng</h3>
+        <button type="button" class="btn btn-success" onclick="exportCustomers()">
+            <i class="fas fa-file-excel me-2"></i>Xuất Excel
+        </button>
+    </div>
     
     <!-- Page Size Selector -->
     <?php echo $pagination->renderPageSizeSelector(); ?>
@@ -138,3 +143,20 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
 
 <!-- Link Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Function to export customers to Excel
+function exportCustomers() {
+    // Get current search parameters
+    var search = $('input[name="search"]').val() || '';
+    var search_field = $('select[name="search_field"]').val() || 'all';
+    
+    // Build export URL with current filters
+    var exportUrl = 'modules/quanLyTaiKhoanKhachHang/export.php?action=export';
+    if (search) exportUrl += '&search=' + encodeURIComponent(search);
+    if (search_field) exportUrl += '&search_field=' + encodeURIComponent(search_field);
+    
+    // Download file
+    window.open(exportUrl, '_blank');
+}
+</script>

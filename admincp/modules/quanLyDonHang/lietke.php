@@ -71,7 +71,12 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
 <link href="../../css/bootstrap-override.css" rel="stylesheet">
 
 <div class="container mt-5">
-    <h3 class="text-center">Danh Sách Đơn Hàng</h3>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="text-center mb-0">Danh Sách Đơn Hàng</h3>
+        <button type="button" class="btn btn-success" onclick="exportOrders()">
+            <i class="fas fa-file-excel me-2"></i>Xuất Excel
+        </button>
+    </div>
     
     <!-- Page Size Selector -->
     <?php echo $pagination->renderPageSizeSelector(); ?>
@@ -407,4 +412,19 @@ document.addEventListener('DOMContentLoaded', function() {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 });
+
+// Function to export orders to Excel
+function exportOrders() {
+    // Get current search parameters
+    var search = $('input[name="search"]').val() || '';
+    var search_field = $('select[name="search_field"]').val() || 'all';
+    
+    // Build export URL with current filters
+    var exportUrl = 'modules/quanLyDonHang/export.php?action=export';
+    if (search) exportUrl += '&search=' + encodeURIComponent(search);
+    if (search_field) exportUrl += '&search_field=' + encodeURIComponent(search_field);
+    
+    // Download file
+    window.open(exportUrl, '_blank');
+}
 </script>

@@ -122,12 +122,7 @@
             'table_content' => $table_content,
             'pagination' => $pagination->render(),
             'total_records' => $total_records,
-            'current_page' => $current_page,
-            'debug_info' => [
-                'sql_count' => $sql_count,
-                'sql_lietke' => $sql_lietke,
-                'where_clause' => $where_clause
-            ]
+            'current_page' => $current_page
         ]);
         exit;
     }
@@ -321,14 +316,19 @@ body.modal-open #addProductModal .modal-content * {
 </style>
 
 <div class="container px-0 py-0">
-    <!-- Header với nút thêm sản phẩm -->
+    <!-- Header với nút thêm sản phẩm và export -->
     <div class="d-flex justify-content-between align-items-center">
         <h3 class="text-7tcc mb-0">
             <i class="fas fa-box me-2"></i>Quản Lý Sản Phẩm
         </h3>
-        <button type="button" class="btn btn-7tcc" data-bs-toggle="modal" data-bs-target="#addProductModal">
-            <i class="fas fa-plus me-2"></i>Thêm Sản Phẩm
-        </button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-success" onclick="exportProducts()">
+                <i class="fas fa-file-excel me-2"></i>Xuất Excel
+            </button>
+            <button type="button" class="btn btn-7tcc" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                <i class="fas fa-plus me-2"></i>Thêm Sản Phẩm
+            </button>
+        </div>
     </div>
     
     <!-- Success/Error Messages -->
@@ -594,12 +594,6 @@ body.modal-open #addProductModal .modal-content * {
 
 <script>
 $(document).ready(function() {
-    // Debug function
-    function debugLog(message, data) {
-        console.log('[Pagination Debug]', message, data || '');
-    }
-    
-    debugLog('Pagination script loaded');
     
     // Custom modal handling - bypass Bootstrap's modal
     $('[data-bs-toggle="modal"][data-bs-target="#addProductModal"]').on('click', function(e) {
@@ -669,7 +663,6 @@ $(document).ready(function() {
     
     function performSearch() {
         var formData = $('#searchForm').serialize();
-        debugLog('Performing search with data:', formData);
         
         $.ajax({
             url: 'modules/quanLySanPham/lietke.php',
@@ -680,20 +673,17 @@ $(document).ready(function() {
                 $('#productTableBody').addClass('loading');
             },
             success: function(response) {
-                debugLog('Search response received:', response);
                 if (response && response.success && response.table_content && response.pagination) {
                     $('#productTableBody').html(response.table_content);
                     $('#paginationContainer').html(response.pagination);
                 } else if (response && response.error) {
-                    debugLog('Server error:', response.error);
                     alert('Lỗi server: ' + response.error);
                 } else {
-                    debugLog('Invalid search response format:', response);
                     alert('Phản hồi từ server không hợp lệ');
                 }
             },
             error: function(xhr, status, error) {
-                debugLog('Search AJAX error:', {status, error, response: xhr.responseText});
+                alert('Có lỗi xảy ra khi tìm kiếm');
             },
             complete: function() {
                 $('#productTableBody').removeClass('loading');
@@ -707,7 +697,7 @@ $(document).ready(function() {
         window.searchTimeout = setTimeout(performSearch, 300);
     });
     
-    // Handle pagination clicks - Fixed version with better error handling
+    // Handle pagination clicks
     $(document).on('click', '#paginationContainer .page-link', function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -715,26 +705,15 @@ $(document).ready(function() {
         var $link = $(this);
         var page = $link.data('page');
         
-        debugLog('Pagination click detected:', {
-            href: $link.attr('href'),
-            dataPage: page,
-            text: $link.text()
-        });
-        
         if (!page || $link.closest('.page-item').hasClass('disabled') || $link.closest('.page-item').hasClass('active')) {
-            debugLog('Invalid pagination link, disabled, or already active');
             return false;
         }
-        
-        debugLog('Loading page:', page);
         
         // Get current form data
         var formData = $('#searchForm').serialize();
         
         // Add page and ajax parameters
         var finalData = formData + '&page=' + page + '&ajax_search=1';
-        
-        debugLog('Request data:', finalData);
         
         $.ajax({
             url: 'modules/quanLySanPham/lietke.php',
@@ -746,21 +725,16 @@ $(document).ready(function() {
                 $link.addClass('loading');
             },
             success: function(response) {
-                debugLog('Pagination response received:', response);
                 if (response && response.success && response.table_content && response.pagination) {
                     $('#productTableBody').html(response.table_content);
                     $('#paginationContainer').html(response.pagination);
-                    debugLog('Page loaded successfully');
                 } else if (response && response.error) {
-                    debugLog('Server error:', response.error);
                     alert('Lỗi server: ' + response.error);
                 } else {
-                    debugLog('Invalid pagination response format:', response);
                     alert('Có lỗi xảy ra khi tải trang. Vui lòng thử lại.');
                 }
             },
             error: function(xhr, status, error) {
-                debugLog('Pagination AJAX error:', {status, error, response: xhr.responseText});
                 alert('Không thể tải trang. Vui lòng kiểm tra kết nối và thử lại.');
             },
             complete: function() {
@@ -771,21 +745,7 @@ $(document).ready(function() {
         
         return false;
     });
-    
-    // Make performSearch available globally for debugging
-    window.performSearch = performSearch;
-    
-    // Add click event listener to debug all pagination links
-    $(document).on('click', '.pagination a', function(e) {
-        debugLog('Pagination link clicked:', {
-            href: $(this).attr('href'),
-            text: $(this).text(),
-            hasClass: $(this).attr('class')
-        });
-    });
-    
-    // Debug pagination container
-    debugLog('Initial pagination container content:', $('#paginationContainer').html());
+
 });
 
 // Image preview function for modal
@@ -874,4 +834,28 @@ $(document).ready(function() {
     window.history.replaceState({}, '', url);
 });
 <?php endif; ?>
+
+// Function to export products to Excel
+function exportProducts() {
+    // Get current search parameters
+    var search = $('#searchForm input[name="search"]').val() || '';
+    var search_field = $('#searchForm select[name="search_field"]').val() || 'all';
+    var price_min = $('#searchForm input[name="price_min"]').val() || '';
+    var price_max = $('#searchForm input[name="price_max"]').val() || '';
+    
+    // Build export URL with current filters
+    var exportUrl = 'modules/quanLySanPham/export.php?action=export';
+    if (search) exportUrl += '&search=' + encodeURIComponent(search);
+    if (search_field) exportUrl += '&search_field=' + encodeURIComponent(search_field);
+    if (price_min) exportUrl += '&price_min=' + encodeURIComponent(price_min);
+    if (price_max) exportUrl += '&price_max=' + encodeURIComponent(price_max);
+    
+    // Download file
+    window.open(exportUrl, '_blank');
+}
+
+
 </script>
+
+<!-- Thêm SweetAlert2 cho thông báo -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

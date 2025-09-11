@@ -135,9 +135,14 @@ body.modal-open #addPostModal .modal-content * {
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3>Liệt Kê Bài Viết</h3>
-        <button type="button" class="btn btn-7tcc" data-bs-toggle="modal" data-bs-target="#addPostModal">
-            <i class="fas fa-plus me-2"></i>Thêm Bài Viết
-        </button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-success" onclick="exportPosts()">
+                <i class="fas fa-file-excel me-2"></i>Xuất Excel
+            </button>
+            <button type="button" class="btn btn-7tcc" data-bs-toggle="modal" data-bs-target="#addPostModal">
+                <i class="fas fa-plus me-2"></i>Thêm Bài Viết
+            </button>
+        </div>
     </div>
     
     <!-- Page Size Selector -->
@@ -329,4 +334,19 @@ document.getElementById('addPostForm').addEventListener('submit', function(e) {
         return false;
     }
 });
+
+// Function to export posts to Excel
+function exportPosts() {
+    // Get current search parameters
+    var search = $('input[name="search"]').val() || '';
+    var search_field = $('select[name="search_field"]').val() || 'all';
+    
+    // Build export URL with current filters
+    var exportUrl = 'modules/quanLyBaiViet/export.php?action=export';
+    if (search) exportUrl += '&search=' + encodeURIComponent(search);
+    if (search_field) exportUrl += '&search_field=' + encodeURIComponent(search_field);
+    
+    // Download file
+    window.open(exportUrl, '_blank');
+}
 </script>
