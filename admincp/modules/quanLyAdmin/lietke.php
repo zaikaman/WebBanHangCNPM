@@ -34,7 +34,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <div class="container mt-2">
-    <h2 class="text-center mb-4">Quản Lý Người Dùng</h2>
+    <h2 class="text-center mb-4">Quản Lý Admin</h2>
     
     <!-- Page Size Selector -->
     <?php echo $pagination->renderPageSizeSelector([6, 12, 18, 24]); ?>

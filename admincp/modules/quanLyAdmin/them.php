@@ -13,7 +13,7 @@
             <label for="matkhau" class="form-label">Mật khẩu : </label>
             <input type="password" class="form-control" id="matkhau" name="matkhau">
         </div>
-        <button type="submit" name="themAdmin" class="btn btn-success">Tạo tài khoaanr</button>
+        <button type="submit" name="themAdmin" class="btn btn-7tcc">Tạo tài khoản</button>
     </form>
 </div>
 

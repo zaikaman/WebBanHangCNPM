@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 10, 2025 at 02:44 PM
+-- Generation Time: Sep 11, 2025 at 05:54 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,7 +39,8 @@ CREATE TABLE `tbl_admin` (
 --
 
 INSERT INTO `tbl_admin` (`id_ad`, `user_name`, `password`, `admin_status`) VALUES
-(4, 'admin', '202cb962ac59075b964b07152d234b70', 1);
+(4, 'admin', '202cb962ac59075b964b07152d234b70', 1),
+(15, 'admin2', 'dc9417f67e802695ecb86dab88899c6d', 1);
 
 -- --------------------------------------------------------
 
@@ -631,11 +632,11 @@ INSERT INTO `tbl_hoadon` (`id_gh`, `id_khachhang`, `ma_gh`, `cart_date`, `cart_p
 (198, 32, '1708', '2024-12-01 20:17:10', 'momo', 7, 1),
 (199, 27, '674c633024694', '2024-12-01 20:22:56', 'tienmat', 5, 1),
 (200, 27, '674c636329b39', '2024-12-01 20:23:47', 'tienmat', 5, 1),
-(201, 27, '674c6398a17f2', '2024-12-01 20:24:40', 'tienmat', 5, 1),
+(201, 27, '674c6398a17f2', '2024-12-01 20:24:40', 'tienmat', 5, 0),
 (202, 27, '674c63cb03836', '2024-12-01 20:25:31', 'tienmat', 5, 1),
-(204, 27, '674c6440cc0b3', '2024-12-01 20:27:28', 'tienmat', 5, 1),
-(222, 36, '68c125f6a3aa1', '2025-09-10 14:17:10', 'tienmat', 9, 1),
-(223, 36, '1757507613', '2025-09-10 19:35:02', 'momo', 9, 1);
+(204, 27, '674c6440cc0b3', '2024-12-01 20:27:28', 'tienmat', 5, 0),
+(222, 36, '68c125f6a3aa1', '2025-09-10 14:17:10', 'tienmat', 9, 0),
+(223, 36, '1757507613', '2025-09-10 19:35:02', 'momo', 9, 0);
 
 -- --------------------------------------------------------
 
@@ -850,7 +851,9 @@ INSERT INTO `tbl_thongke` (`id`, `ngaydat`, `donhang`, `doanhthu`, `soluongdaban
 (26, '2024-11-30', 1, '1000000', 5),
 (27, '2024-11-11', 5, '3000000', 10),
 (28, '2024-11-19', 2, '2000000', 8),
-(29, '2024-12-01', 22, '10270000', 27);
+(29, '2024-12-01', 22, '10270000', 27),
+(30, '2025-09-10', 1, '1200000', 3),
+(31, '2025-09-11', 3, '1220000', 3);
 
 -- --------------------------------------------------------
 
@@ -1031,13 +1034,13 @@ ALTER TABLE `tbl_xacnhanemail`
 -- AUTO_INCREMENT for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
-  MODIFY `id_ad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_ad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbl_baiviet`
 --
 ALTER TABLE `tbl_baiviet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tbl_chat_history`
@@ -1055,7 +1058,7 @@ ALTER TABLE `tbl_dangky`
 -- AUTO_INCREMENT for table `tbl_danhmucqa`
 --
 ALTER TABLE `tbl_danhmucqa`
-  MODIFY `id_dm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id_dm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `tbl_danhmuc_baiviet`
@@ -1097,13 +1100,13 @@ ALTER TABLE `tbl_momo`
 -- AUTO_INCREMENT for table `tbl_sanpham`
 --
 ALTER TABLE `tbl_sanpham`
-  MODIFY `id_sp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
+  MODIFY `id_sp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
 
 --
 -- AUTO_INCREMENT for table `tbl_thongke`
 --
 ALTER TABLE `tbl_thongke`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `tbl_vnpay`
