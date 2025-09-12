@@ -23,19 +23,16 @@ $info_don_hang = mysqli_fetch_array($don_hang);
     <div class="cart_content">
         <div class="row">
             <div class="col-md-12">
-                <!-- Thông tin đơn hàng -->
-                <div class="card mb-4">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-receipt me-2"></i>Thông Tin Đơn Hàng #<?php echo $code; ?></h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6><i class="fas fa-calendar me-2"></i>Ngày đặt hàng:</h6>
-                                <p><?php echo isset($info_don_hang['cart_date']) ? date('d/m/Y H:i:s', strtotime($info_don_hang['cart_date'])) : 'N/A'; ?></p>
-                                
-                                <h6><i class="fas fa-credit-card me-2"></i>Phương thức thanh toán:</h6>
-                                <p>
+                <!-- Thông tin đơn hàng (responsive cards) -->
+                <div class="order-cards mb-4">
+                    <div class="order-cards-row d-flex flex-column flex-md-row gap-3">
+                        <div class="card flex-fill shadow-sm">
+                            <div class="card-body py-3">
+                                <h6 class="card-title text-primary mb-2"><i class="fas fa-calendar me-2"></i>Ngày đặt hàng</h6>
+                                <p class="mb-2 small text-muted"><?php echo isset($info_don_hang['cart_date']) ? date('d/m/Y H:i:s', strtotime($info_don_hang['cart_date'])) : 'N/A'; ?></p>
+
+                                <h6 class="card-title text-primary mb-2"><i class="fas fa-credit-card me-2"></i>Phương thức thanh toán</h6>
+                                <p class="mb-0">
                                     <?php
                                     if (isset($info_don_hang['cart_payment'])) {
                                         switch($info_don_hang['cart_payment']) {
@@ -60,9 +57,12 @@ $info_don_hang = mysqli_fetch_array($don_hang);
                                     ?>
                                 </p>
                             </div>
-                            <div class="col-md-6">
-                                <h6><i class="fas fa-info-circle me-2"></i>Trạng thái:</h6>
-                                <p>
+                        </div>
+
+                        <div class="card flex-fill shadow-sm">
+                            <div class="card-body py-3">
+                                <h6 class="card-title text-primary mb-2"><i class="fas fa-info-circle me-2"></i>Trạng thái</h6>
+                                <p class="mb-2">
                                     <?php
                                     if (isset($info_don_hang['trang_thai'])) {
                                         if ($info_don_hang['trang_thai'] == 1) {
@@ -75,13 +75,13 @@ $info_don_hang = mysqli_fetch_array($don_hang);
                                     }
                                     ?>
                                 </p>
-                                
-                                <h6><i class="fas fa-truck me-2"></i>Địa chỉ giao hàng:</h6>
-                                <p><?php echo isset($info_don_hang['address']) ? $info_don_hang['address'] : 'N/A'; ?></p>
-                                
+
+                                <h6 class="card-title text-primary mb-2"><i class="fas fa-truck me-2"></i>Địa chỉ giao hàng</h6>
+                                <p class="mb-2 small text-muted"><?php echo isset($info_don_hang['address']) ? $info_don_hang['address'] : 'N/A'; ?></p>
+
                                 <?php if (isset($info_don_hang['ten_nguoi_nhan']) && $info_don_hang['ten_nguoi_nhan']): ?>
-                                <h6><i class="fas fa-user me-2"></i>Người nhận:</h6>
-                                <p><?php echo $info_don_hang['ten_nguoi_nhan'] . ' - ' . $info_don_hang['sdt_nguoi_nhan']; ?></p>
+                                <h6 class="card-title text-primary mb-2"><i class="fas fa-user me-2"></i>Người nhận</h6>
+                                <p class="mb-0 small text-muted"><?php echo $info_don_hang['ten_nguoi_nhan'] . ' - ' . $info_don_hang['sdt_nguoi_nhan']; ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -144,6 +144,40 @@ $info_don_hang = mysqli_fetch_array($don_hang);
                             <i class="fas fa-print me-2"></i>In Đơn Hàng
                         </a>
                     </div>
+                        /* Responsive order cards */
+                        .order-cards .order-cards-row {
+                            align-items: stretch;
+                        }
+                        .order-cards .card {
+                            border-radius: 0.5rem;
+                            overflow: visible;
+                        }
+                        .order-cards .card .card-body {
+                            min-height: 110px;
+                        }
+                        .order-cards .card-title {
+                            font-weight: 600;
+                            font-size: 0.95rem;
+                        }
+
+                        /* Improve table spacing on smaller screens */
+                        @media (max-width: 767.98px) {
+                            .table thead {
+                                display: none;
+                            }
+                            .table tbody td {
+                                display: block;
+                                text-align: left;
+                                padding: 0.5rem;
+                            }
+                            .table tbody tr {
+                                margin-bottom: 0.75rem;
+                                display: block;
+                                border: 1px solid #eee;
+                                border-radius: 0.4rem;
+                                background: #fff;
+                            }
+                        }
                 </div>
             </div>
         </div>
