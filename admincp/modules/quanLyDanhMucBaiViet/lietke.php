@@ -25,7 +25,11 @@
     unset($query_params['page']);
     $pagination = new Pagination($current_page, $total_records, $records_per_page, $query_params);
 
-    $sql_lietke_danhmucbv = "SELECT * FROM tbl_danhmuc_baiviet $where_clause ORDER BY thutu DESC LIMIT " . $pagination->getLimit() . " OFFSET " . $pagination->getOffset();
+    $sql_lietke_danhmucbv = "SELECT dm.*, (SELECT COUNT(*) FROM tbl_baiviet bv WHERE bv.id_danhmuc = dm.id_baiviet) AS post_count
+                             FROM tbl_danhmuc_baiviet dm
+                             " . ($where_clause ? str_replace('tbl_danhmuc_baiviet', 'dm', $where_clause) : '') . "
+                             ORDER BY dm.thutu DESC
+                             LIMIT " . $pagination->getLimit() . " OFFSET " . $pagination->getOffset();
     $lietke_danhmucbv = mysqli_query($mysqli, $sql_lietke_danhmucbv);
 ?>
 <!-- Bootstrap CSS -->
@@ -95,6 +99,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Tên Danh Mục Bài Viết</th>
+                <th scope="col" class="text-center">Số bài viết</th>
                 <th scope="col">Quản Lý</th>
             </tr>
         </thead>
@@ -108,8 +113,9 @@
             <tr>
                 <td><?php echo $i ?></td>
                 <td><?php echo $row['tendanhmuc_baiviet'] ?></td>
+                <td class="text-center"><span class="badge bg-secondary"><?php echo (int)$row['post_count']; ?></span></td>
                 <td>
-                    <a href="modules/quanLyDanhMucBaiViet/xuly.php?idbaiviet=<?php echo $row['id_baiviet'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+                    <a href="modules/quanLyDanhMucBaiViet/xuly.php?idbaiviet=<?php echo $row['id_baiviet'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('<?php echo (int)$row['post_count'] > 0 ? 'Danh mục còn bài viết (' . (int)$row['post_count'] . '). Không thể xóa!' : 'Bạn có chắc chắn muốn xóa?'; ?>'); return <?php echo (int)$row['post_count'] > 0 ? 'false' : 'true'; ?>;">Xóa</a>
                     <a href="?action=quanLyDanhMucBaiViet&query=sua&idbaiviet=<?php echo $row['id_baiviet'] ?>" class="btn btn-warning btn-sm">Sửa</a>
                 </td>
             </tr>

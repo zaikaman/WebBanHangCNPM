@@ -25,6 +25,8 @@
         include("modules/quanLySanPham/sua.php");
     } elseif ($tam == 'quanLySanPham' && $query == 'timkiem') {
         include("modules/quanLySanPham/timkiem.php");
+    } elseif ($tam == 'quanLySanPham' && $query == 'chitiet') {
+        include("modules/quanLySanPham/chitiet.php");
     } elseif ($tam == 'quanLyDonHang' && $query == 'lietke') {
         include("modules/quanLyDonHang/lietke.php");
     } elseif ($tam == 'quanLyDonHang' && $query == 'timkiem') {
@@ -45,6 +47,8 @@
         include("modules/quanLyBaiViet/sua.php");
     } elseif ($tam == 'quanLyBaiViet' && $query == 'timkiem') {
         include("modules/quanLyBaiViet/timkiem.php");
+    } elseif ($tam == 'quanLyBaiViet' && $query == 'chitiet') {
+        include("modules/quanLyBaiViet/chitiet.php");
     } elseif ($tam == 'quanLyWeb') {
         include("modules/thongTinWeb/quanly.php");
     } elseif ($tam == 'quanLyAdmin' && $query == 'lietke') {

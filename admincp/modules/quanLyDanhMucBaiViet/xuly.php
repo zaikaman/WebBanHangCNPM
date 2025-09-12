@@ -122,18 +122,28 @@ if(isset($_POST['themDanhMucBaiViet'])) {
 } else {
     // Delete category
     $id = $_GET['idbaiviet'];
-    
-    // Update articles to "no category" (id_danhmuc = 0)
-    $sql_update_articles = "UPDATE tbl_baiviet SET id_danhmuc = 0 WHERE id_danhmuc = ?";
-    $stmt = mysqli_prepare($mysqli, $sql_update_articles);
+
+    // Kiểm tra còn bài viết thuộc danh mục không
+    $sql_check = "SELECT COUNT(*) as count FROM tbl_baiviet WHERE id_danhmuc = ?";
+    $stmt = mysqli_prepare($mysqli, $sql_check);
     mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);
-    
-    // Delete the category
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+
+    if ($row && (int)$row['count'] > 0) {
+        echo "<script>
+            alert('Không thể xóa danh mục bài viết vì đang có " . (int)$row['count'] . " bài viết thuộc danh mục này!');
+            window.location.href='../../index.php?action=quanLyDanhMucBaiViet&query=them';
+        </script>";
+        exit;
+    }
+
+    // Không còn bài viết, tiến hành xóa danh mục
     $sql_xoa = "DELETE FROM tbl_danhmuc_baiviet WHERE id_baiviet = ?";
     $stmt = mysqli_prepare($mysqli, $sql_xoa);
     mysqli_stmt_bind_param($stmt, "i", $id);
-    
+
     if(mysqli_stmt_execute($stmt)) {
         echo "<script>
             alert('Xóa danh mục thành công!');

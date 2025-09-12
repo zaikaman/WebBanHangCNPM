@@ -192,8 +192,6 @@ body.modal-open #addPostModal .modal-content * {
                     <th>Tên bài viết</th>
                     <th>Hình ảnh</th>
                     <th>Danh mục</th>
-                    <th>Tóm tắt</th>
-                    <th>Nội dung</th>
                     <th>Trạng thái</th>
                     <th>Quản lý</th>
                 </tr>
@@ -205,17 +203,12 @@ body.modal-open #addPostModal .modal-content * {
                 while ($row = mysqli_fetch_array($lietke)) {
                     $i++;
                 ?>
-                    <tr>
+                    <tr class="post-row" data-id="<?php echo (int)$row['id']; ?>">
                         <td><?php echo $i ?></td>
                         <td><?php echo $row['tenbaiviet'] ?></td>
                         <td><img src="modules/quanLyBaiViet/uploads/<?php echo $row['hinhanh'] ?>" width="150px"></td>
-                        <td><?php echo $row['id_danhmuc'] ?></td>
-                        <td>
-                            <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['tomtat']) ?></textarea>
-                        </td>
-                        <td>
-                            <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['noidung']) ?></textarea>
-                        </td>
+                        <td><?php echo isset($row['tendanhmuc_baiviet']) ? $row['tendanhmuc_baiviet'] : $row['id_danhmuc'] ?></td>
+                        
                         <td>
                             <?php if($row['tinhtrang'] == 1) { ?>
                                 <span class="badge bg-success">Kích hoạt</span>
@@ -349,4 +342,17 @@ function exportPosts() {
     // Download file
     window.open(exportUrl, '_blank');
 }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+// Click row to view detail (delegate for list)
+$(document).on('click', '.post-row', function(e) {
+    if ($(e.target).closest('a, button, .btn, input, textarea, select, label, img').length) {
+        return;
+    }
+    var id = $(this).data('id');
+    if (id) {
+        window.location.href = '?action=quanLyBaiViet&query=chitiet&id=' + id;
+    }
+});
 </script>

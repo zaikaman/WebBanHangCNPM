@@ -90,7 +90,7 @@
         while ($row = mysqli_fetch_array($lietke)) {
             $i++;
             ?>
-            <tr>
+            <tr class="product-row" data-id="<?php echo (int)$row['id_sp']; ?>">
                 <td><?php echo $i ?></td>
                 <td><?php echo htmlspecialchars($row['ten_sp']) ?></td>
                 <td><img src="modules/quanLySanPham/uploads/<?php echo htmlspecialchars($row['hinh_anh']) ?>" width="100px" alt="Product Image"></td>
@@ -415,8 +415,6 @@ body.modal-open #addProductModal .modal-content * {
                     <th>Còn lại</th>
                     <th>Danh Mục</th>
                     <th>Mã SP</th>
-                    <th>Nội Dung</th>
-                    <th>Tóm Tắt</th>
                     <th>Trạng Thái</th>
                     <th>Hành Động</th>
                 </tr>
@@ -428,7 +426,7 @@ body.modal-open #addProductModal .modal-content * {
                 while ($row = mysqli_fetch_array($lietke)) {
                     $i++;
                 ?>
-                    <tr>
+                    <tr class="product-row" data-id="<?php echo (int)$row['id_sp']; ?>">
                         <td><?php echo $i ?></td>
                         <td><?php echo $row['ten_sp'] ?></td>
                         <td><img src="modules/quanLySanPham/uploads/<?php echo $row['hinh_anh'] ?>" width="100px"></td>
@@ -437,12 +435,7 @@ body.modal-open #addProductModal .modal-content * {
                         <td><?php echo $row['so_luong_con_lai'] ?></td>
                         <td><?php echo $row['name_sp'] ?></td>
                         <td><?php echo $row['ma_sp'] ?></td>
-                        <td>
-                            <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['noi_dung']) ?></textarea>
-                        </td>
-                        <td>
-                            <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['tom_tat']) ?></textarea>
-                        </td>
+                        
                         <td><?php echo ($row['tinh_trang'] == 1) ? 'Kích hoạt' : 'Ẩn' ?></td>
                         <td>
                             <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo $row['ma_sp'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
@@ -695,6 +688,18 @@ $(document).ready(function() {
     $('#searchForm input, #searchForm select').on('input change', function() {
         clearTimeout(window.searchTimeout);
         window.searchTimeout = setTimeout(performSearch, 300);
+    });
+
+    // Click row to view detail (delegate for both initial and AJAX content)
+    $(document).on('click', '.product-row', function(e) {
+        // Ignore clicks on buttons/links/inputs inside the row
+        if ($(e.target).closest('a, button, .btn, input, textarea, select, label').length) {
+            return;
+        }
+        var id = $(this).data('id');
+        if (id) {
+            window.location.href = '?action=quanLySanPham&query=chitiet&id=' + id;
+        }
     });
     
     // Handle pagination clicks
