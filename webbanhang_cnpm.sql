@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 12, 2025 at 01:42 PM
+-- Generation Time: Sep 12, 2025 at 01:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -410,7 +410,8 @@ INSERT INTO `tbl_chitiet_gh` (`id_ctgh`, `ma_gh`, `id_sp`, `so_luong_mua`, `size
 (210, '674c6398a17f2', 221, 1, 'S'),
 (211, '674c63cb03836', 221, 1, 'M'),
 (212, '674c64059cc84', 222, 1, 'XL'),
-(213, '674c6440cc0b3', 221, 1, 'XXL');
+(213, '674c6440cc0b3', 221, 1, 'XXL'),
+(0, '68c40966246ad', 221, 10, 'XL');
 
 -- --------------------------------------------------------
 
@@ -636,7 +637,8 @@ INSERT INTO `tbl_hoadon` (`id_gh`, `id_khachhang`, `ma_gh`, `cart_date`, `cart_p
 (202, 27, '674c63cb03836', '2024-12-01 20:25:31', 'tienmat', 5, 1),
 (204, 27, '674c6440cc0b3', '2024-12-01 20:27:28', 'tienmat', 5, 0),
 (222, 36, '68c125f6a3aa1', '2025-09-10 14:17:10', 'tienmat', 9, 0),
-(223, 36, '1757507613', '2025-09-10 19:35:02', 'momo', 9, 0);
+(223, 36, '1757507613', '2025-09-10 19:35:02', 'momo', 9, 0),
+(224, 36, '68c40966246ad', '2025-09-12 18:52:10', 'tienmat', 9, 1);
 
 -- --------------------------------------------------------
 
@@ -810,7 +812,7 @@ INSERT INTO `tbl_sanpham` (`id_sp`, `ten_sp`, `ma_sp`, `gia_sp`, `so_luong`, `so
 (218, 'Áo cầu lông nam SpeedFlex', 'ACL016', 360000, 100, 93, 'cl16.jpg', 'Áo cầu lông nhanh chóng, linh hoạt.', 'SpeedFlex được thiết kế cho những ai yêu thích sự linh hoạt và tốc độ. Với chất liệu nhẹ và co giãn, áo giúp bạn di chuyển dễ dàng trong mọi trận đấu. Thiết kế thể thao, trẻ trung phù hợp với nhiều đối tượng vận động viên.', 67, 1),
 (219, 'Áo cầu lông nam TurboSpeed', 'ACL017', 380000, 95, 92, 'cl17.jpg', 'Áo cầu lông sở hữu siêu tốc độ.', '>TurboSpeed mang đến cảm giác tốc độ tuyệt vời nhờ thiết kế ôm sát và chất liệu vải siêu nhẹ. Áo giúp bạn đạt được tốc độ tối đa trong mọi chuyển động. Dễ dàng giặt sạch và giữ màu sắc lâu dài.', 67, 1),
 (220, 'Áo cầu lông nam UltraStrike', 'ACL018', 420000, 85, 75, 'cl18.jpg', 'Áo cầu lông cho chiến thuật tấn công.', 'UltraStrike là sự lựa chọn tuyệt vời cho những vận động viên yêu thích lối chơi tấn công. Chất liệu vải giúp thấm hút mồ hôi hiệu quả, giữ cơ thể khô ráo và thoải mái suốt trận đấu. Họa tiết mạnh mẽ, phù hợp với những pha tấn công quyết đoán.', 67, 1),
-(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 51, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', '>PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1);
+(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 41, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', '>PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1);
 
 -- --------------------------------------------------------
 
@@ -1198,7 +1200,7 @@ INSERT INTO `tbl_sanpham_sizes` (`id`, `id_sp`, `size`, `so_luong`) VALUES
 (366, 221, 'S', 10),
 (367, 221, 'M', 11),
 (368, 221, 'L', 10),
-(369, 221, 'XL', 10),
+(369, 221, 'XL', 0),
 (370, 221, 'XXL', 10);
 
 -- --------------------------------------------------------
@@ -1478,7 +1480,7 @@ ALTER TABLE `tbl_giohangtam`
 -- AUTO_INCREMENT for table `tbl_hoadon`
 --
 ALTER TABLE `tbl_hoadon`
-  MODIFY `id_gh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
+  MODIFY `id_gh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
 
 --
 -- AUTO_INCREMENT for table `tbl_lienhe`
