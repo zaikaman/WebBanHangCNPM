@@ -25,6 +25,8 @@
         include("modules/quanLySanPham/sua.php");
     } elseif ($tam == 'quanLySanPham' && $query == 'timkiem') {
         include("modules/quanLySanPham/timkiem.php");
+    } elseif ($tam == 'quanLySanPham' && $query == 'chitiet') {
+        include("modules/quanLySanPham/chitiet.php");
     } elseif ($tam == 'quanLyDonHang' && $query == 'lietke') {
         include("modules/quanLyDonHang/lietke.php");
     } elseif ($tam == 'quanLyDonHang' && $query == 'timkiem') {

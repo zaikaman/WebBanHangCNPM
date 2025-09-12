@@ -90,7 +90,7 @@
         while ($row = mysqli_fetch_array($lietke)) {
             $i++;
             ?>
-            <tr>
+            <tr class="product-row" data-id="<?php echo (int)$row['id_sp']; ?>">
                 <td><?php echo $i ?></td>
                 <td><?php echo htmlspecialchars($row['ten_sp']) ?></td>
                 <td><img src="modules/quanLySanPham/uploads/<?php echo htmlspecialchars($row['hinh_anh']) ?>" width="100px" alt="Product Image"></td>
@@ -109,6 +109,7 @@
                 <td>
                     <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo urlencode($row['ma_sp']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
                     <a href="?action=quanLySanPham&query=sua&idsp=<?php echo urlencode($row['ma_sp']) ?>" class="btn btn-warning btn-sm">Sửa</a>
+                    <a href="?action=quanLySanPham&query=chitiet&id=<?php echo (int)$row['id_sp'] ?>" class="btn btn-info btn-sm">Chi tiết</a>
                 </td>
             </tr>
             <?php
@@ -428,7 +429,7 @@ body.modal-open #addProductModal .modal-content * {
                 while ($row = mysqli_fetch_array($lietke)) {
                     $i++;
                 ?>
-                    <tr>
+                    <tr class="product-row" data-id="<?php echo (int)$row['id_sp']; ?>">
                         <td><?php echo $i ?></td>
                         <td><?php echo $row['ten_sp'] ?></td>
                         <td><img src="modules/quanLySanPham/uploads/<?php echo $row['hinh_anh'] ?>" width="100px"></td>
@@ -695,6 +696,18 @@ $(document).ready(function() {
     $('#searchForm input, #searchForm select').on('input change', function() {
         clearTimeout(window.searchTimeout);
         window.searchTimeout = setTimeout(performSearch, 300);
+    });
+
+    // Click row to view detail (delegate for both initial and AJAX content)
+    $(document).on('click', '.product-row', function(e) {
+        // Ignore clicks on buttons/links/inputs inside the row
+        if ($(e.target).closest('a, button, .btn, input, textarea, select, label').length) {
+            return;
+        }
+        var id = $(this).data('id');
+        if (id) {
+            window.location.href = '?action=quanLySanPham&query=chitiet&id=' + id;
+        }
     });
     
     // Handle pagination clicks
