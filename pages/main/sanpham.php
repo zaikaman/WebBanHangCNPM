@@ -105,6 +105,189 @@ $is_in_stock = !empty($available_sizes);
     </form>
 </div>
 
+<!-- Related Products -->
+<div class="related-products">
+    <div class="related-products-container">
+        <h3 class="related-products-title">Sản phẩm liên quan</h3>
+        <ul class="related-product-list">
+            <?php
+            $id_dm = $info['id_dm'];
+            $sql_related = "SELECT * FROM tbl_sanpham WHERE id_dm = '$id_dm' AND id_sp != '$_GET[id]' ORDER BY RAND() LIMIT 5";
+            $query_related = mysqli_query($mysqli, $sql_related);
+            while ($row_related = mysqli_fetch_array($query_related)) {
+            ?>
+                <li>
+                    <a href="index.php?quanly=sanpham&id=<?php echo $row_related['id_sp'] ?>">
+                        <div class="product-image-container">
+                            <img src="admincp/modules/quanLySanPham/uploads/<?php echo $row_related['hinh_anh'] ?>" alt="<?php echo $row_related['ten_sp'] ?>">
+                        </div>
+                        <div class="product-info">
+                            <p class="title_product"><?php echo $row_related['ten_sp'] ?></p>
+                            <p class="price_product"><?php echo number_format($row_related['gia_sp'],0,',','.').'đ' ?></p>
+                        </div>
+                    </a>
+                    <a href="index.php?quanly=sanpham&id=<?php echo $row_related['id_sp'] ?>" class="view-details-btn">Xem chi tiết</a>
+                </li>
+            <?php
+            }
+            ?>
+        </ul>
+    </div>
+</div>
+
+<style>
+/* --- Related Products --- */
+.related-products {
+    width: 100%;
+    margin-top: 50px;
+    padding: 30px 0;
+    background-color: #f9f9f9; /* A very light grey background for the section */
+}
+
+.related-products-container {
+    width: 90%; /* Or your site's main container width */
+    margin: 0 auto;
+}
+
+.related-products-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+/* Creates a decorative line under the title */
+.related-products-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: #d42333; /* Accent color */
+}
+
+.related-product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the products */
+    margin: 0 -15px;
+    padding: 0;
+    list-style: none;
+}
+
+.related-product-list li {
+    flex: 0 0 calc(20% - 30px);
+    max-width: calc(20% - 30px);
+    margin: 15px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative; /* For positioning the hover button */
+}
+
+.related-product-list li:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+}
+
+.related-product-list li a {
+    display: block;
+    text-decoration: none;
+}
+
+.product-image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.related-product-list li img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.related-product-list li:hover img {
+    transform: scale(1.05); /* Zoom effect on hover */
+}
+
+.product-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.related-product-list li .title_product {
+    font-weight: 600;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    /* Clamp text to 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 45px; /* 16px * 1.4 * 2 lines */
+}
+
+.related-product-list li .price_product {
+    font-size: 18px;
+    font-weight: 700;
+    color: #d42333;
+}
+
+.view-details-btn {
+    position: absolute;
+    bottom: 20px; /* Adjusted position */
+    left: 50%;
+    transform: translate(-50%, 10px);
+    opacity: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px; /* Made button larger */
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600; /* Bolder text */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    white-space: nowrap;
+    pointer-events: none; /* Button is for visual only */
+}
+
+.related-product-list li:hover .view-details-btn {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* Hide original product info on hover to show button */
+.related-product-list li:hover .product-info {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .related-product-list li { flex-basis: calc(25% - 30px); max-width: calc(25% - 30px); }
+}
+@media (max-width: 992px) {
+    .related-product-list li { flex-basis: calc(33.333% - 30px); max-width: calc(33.333% - 30px); }
+}
+@media (max-width: 768px) {
+    .related-product-list li { flex-basis: calc(50% - 30px); max-width: calc(50% - 30px); }
+}
+@media (max-width: 576px) {
+    .related-product-list li { flex-basis: calc(100% - 30px); max-width: calc(100% - 30px); }
+}
+</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const sizeQuantities = <?php echo json_encode($size_quantities); ?>;
