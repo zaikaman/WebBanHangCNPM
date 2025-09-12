@@ -39,30 +39,67 @@ if (isset($_GET['token']) && !empty($_GET['token'])) {
                 $update_stmt->bind_param("s", $token);
                 
                 if ($update_stmt->execute()) {
-                    // Lấy thông tin user từ session (nếu có) để insert vào tbl_dangky
-                    if (isset($_SESSION['user_info']) && $_SESSION['user_info']['email'] == $email) {
-                        $user_info = $_SESSION['user_info'];
-                        
-                        // Insert user vào bảng tbl_dangky
-                        $insert_user = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dien_thoai, mat_khau, dia_chi) VALUES (?, ?, ?, ?, ?)");
-                        $insert_user->bind_param("sssss", 
-                            $user_info['ten_khachhang'], 
-                            $user_info['email'], 
-                            $user_info['dien_thoai'], 
-                            $user_info['mat_khau'], 
-                            $user_info['dia_chi']
-                        );
-                        
-                        if ($insert_user->execute()) {
-                            // Xóa thông tin user khỏi session sau khi đăng ký thành công
-                            unset($_SESSION['user_info']);
-                            $verification_message = "Xác nhận email thành công! Tài khoản của bạn đã được tạo.";
+                        // Lấy thông tin user từ session (nếu có) để insert vào tbl_dangky
+                        if (isset($_SESSION['user_info']) && $_SESSION['user_info']['email'] == $email) {
+                            $user_info = $_SESSION['user_info'];
+
+                            // Insert user vào bảng tbl_dangky
+                            $insert_user = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dia_chi, mat_khau, dien_thoai) VALUES (?, ?, ?, ?, ?)");
+                            $insert_user->bind_param("sssss",
+                                $user_info['ten_khachhang'],
+                                $user_info['email'],
+                                $user_info['dia_chi'],
+                                $user_info['mat_khau'],
+                                $user_info['dien_thoai']
+                            );
+
+                            if ($insert_user->execute()) {
+                                // Xóa thông tin user khỏi session sau khi đăng ký thành công
+                                unset($_SESSION['user_info']);
+                                $verification_message = "Xác nhận email thành công! Tài khoản của bạn đã được tạo.";
+                            } else {
+                                $verification_message = "Xác nhận email thành công nhưng có lỗi khi tạo tài khoản.";
+                            }
                         } else {
-                            $verification_message = "Xác nhận email thành công nhưng có lỗi khi tạo tài khoản.";
+                            // Nếu session không có thông tin user, cố gắng lấy từ bảng tạm tbl_dangky_temp
+                            $temp_stmt = $mysqli->prepare("SELECT ten_khachhang, email, dien_thoai, mat_khau, dia_chi FROM tbl_dangky_temp WHERE token = ?");
+                            if ($temp_stmt) {
+                                $temp_stmt->bind_param("s", $token);
+                                $temp_stmt->execute();
+                                $temp_res = $temp_stmt->get_result();
+                                if ($temp_res && $temp_res->num_rows > 0) {
+                                    $temp_user = $temp_res->fetch_assoc();
+
+                                    // Insert into tbl_dangky
+                                    $insert_user = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dia_chi, mat_khau, dien_thoai) VALUES (?, ?, ?, ?, ?)");
+                                    $insert_user->bind_param("sssss",
+                                        $temp_user['ten_khachhang'],
+                                        $temp_user['email'],
+                                        $temp_user['dia_chi'],
+                                        $temp_user['mat_khau'],
+                                        $temp_user['dien_thoai']
+                                    );
+
+                                    if ($insert_user->execute()) {
+                                        // Xóa bản ghi tạm sau khi tạo tài khoản
+                                        $delete_temp = $mysqli->prepare("DELETE FROM tbl_dangky_temp WHERE token = ?");
+                                        $delete_temp->bind_param("s", $token);
+                                        $delete_temp->execute();
+
+                                        $verification_message = "Xác nhận email thành công! Tài khoản của bạn đã được tạo.";
+                                    } else {
+                                        error_log('Lỗi khi chèn tbl_dangky từ tbl_dangky_temp: ' . $mysqli->error);
+                                        $verification_message = "Xác nhận email thành công nhưng có lỗi khi tạo tài khoản.";
+                                    }
+                                } else {
+                                    // Không tìm thấy dữ liệu tạm; chỉ xác nhận email
+                                    $verification_message = "Xác nhận email thành công!";
+                                }
+                            } else {
+                                error_log('Không thể chuẩn bị câu lệnh truy vấn tbl_dangky_temp: ' . $mysqli->error);
+                                $verification_message = "Xác nhận email thành công!";
+                            }
                         }
-                    } else {
-                        $verification_message = "Xác nhận email thành công!";
-                    }
                     
                     $is_verification_success = true;
                 } else {

@@ -49,6 +49,16 @@
             $insert_token_stmt->bind_param("ss", $email, $token);
             $insert_token_result = $insert_token_stmt->execute();
 
+            // Also persist registration data in temporary table so verification works across browsers
+            $insert_temp_stmt = $mysqli->prepare("INSERT INTO tbl_dangky_temp (ten_khachhang, email, dien_thoai, mat_khau, dia_chi, token, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW()) ON DUPLICATE KEY UPDATE ten_khachhang=VALUES(ten_khachhang), dien_thoai=VALUES(dien_thoai), mat_khau=VALUES(mat_khau), dia_chi=VALUES(dia_chi), token=VALUES(token), created_at=VALUES(created_at)");
+            if ($insert_temp_stmt) {
+                $insert_temp_stmt->bind_param("ssssss", $ten_khachhang, $email, $dien_thoai, $hashed_password, $dia_chi, $token);
+                $insert_temp_result = $insert_temp_stmt->execute();
+            } else {
+                error_log('Không thể chuẩn bị câu lệnh chèn tbl_dangky_temp: ' . $mysqli->error);
+                $insert_temp_result = false;
+            }
+
             if ($insert_token_result) {
                 // Send email using PHPMailer
                 $mailer = new Mailer();

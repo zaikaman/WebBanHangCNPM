@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 12, 2025 at 02:00 PM
+-- Generation Time: Sep 12, 2025 at 06:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -438,7 +438,25 @@ INSERT INTO `tbl_dangky` (`id_dangky`, `ten_khachhang`, `email`, `dia_chi`, `mat
 (32, 'Trần Đăng Phát', 'phattran280704@outlook.com', 'TP.HCM', '3b75b13a28364258df1f9f7cddb7b2f5', '0937024435'),
 (33, 'Minh Vương', 'nnt090904@gmail.com', 'Hóc Môn', '69e4756805ff0abf358e132aeb6ab5ca', '0768893544'),
 (34, 'dang the vinh', 'capijim747@gmail.com', 'ádfasdfasdfasdfsa', 'd6eb8d33b00b06ea903b4c170b167487', '0359855353'),
-(36, 'Đinh Phúc Thịnh', 'zaikaman123@gmail.com', '536 Au Co', 'ce9642a7df00bb973f5d9c55d5f67c49', '0931816175');
+(36, 'Đinh Phúc Thịnh', 'zaikaman123@gmail.com', '536 Au Co', 'ce9642a7df00bb973f5d9c55d5f67c49', '0931816175'),
+(38, 'Đinh Phúc Thịnh', 'subthinh18@gmail.com', '536 Au Co', 'ce9642a7df00bb973f5d9c55d5f67c49', '0931816175');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_dangky_temp`
+--
+
+CREATE TABLE `tbl_dangky_temp` (
+  `id` int(11) NOT NULL,
+  `ten_khachhang` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `dien_thoai` varchar(50) DEFAULT NULL,
+  `mat_khau` varchar(255) NOT NULL,
+  `dia_chi` text DEFAULT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1315,7 +1333,8 @@ CREATE TABLE `tbl_xacnhanemail` (
 --
 
 INSERT INTO `tbl_xacnhanemail` (`id`, `email`, `token`, `created_at`, `verified`, `verified_at`) VALUES
-(22, 'zaikaman123@gmail.com', 'ef88dfbaa4a7221fc47bc3cfbe767790', '2025-09-09 05:16:51', 1, '2025-09-09 05:17:16');
+(22, 'zaikaman123@gmail.com', 'ef88dfbaa4a7221fc47bc3cfbe767790', '2025-09-09 05:16:51', 1, '2025-09-09 05:17:16'),
+(28, 'subthinh18@gmail.com', 'c5e2f55a24f783f4672befe4e0cae55f', '2025-09-12 16:58:37', 1, '2025-09-12 16:58:48');
 
 --
 -- Indexes for dumped tables
@@ -1347,6 +1366,14 @@ ALTER TABLE `tbl_chat_history`
 --
 ALTER TABLE `tbl_dangky`
   ADD PRIMARY KEY (`id_dangky`);
+
+--
+-- Indexes for table `tbl_dangky_temp`
+--
+ALTER TABLE `tbl_dangky_temp`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email_unique` (`email`),
+  ADD UNIQUE KEY `token_unique` (`token`);
 
 --
 -- Indexes for table `tbl_danhmucqa`
@@ -1450,7 +1477,13 @@ ALTER TABLE `tbl_chat_history`
 -- AUTO_INCREMENT for table `tbl_dangky`
 --
 ALTER TABLE `tbl_dangky`
-  MODIFY `id_dangky` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_dangky` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT for table `tbl_dangky_temp`
+--
+ALTER TABLE `tbl_dangky_temp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_danhmucqa`
@@ -1522,7 +1555,7 @@ ALTER TABLE `tbl_vnpay`
 -- AUTO_INCREMENT for table `tbl_xacnhanemail`
 --
 ALTER TABLE `tbl_xacnhanemail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables
