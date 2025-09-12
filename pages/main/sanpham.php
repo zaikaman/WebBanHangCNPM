@@ -55,7 +55,7 @@ $is_in_stock = !empty($available_sizes);
 
             <?php if($is_in_stock): ?>
                 <div class="size_selection">
-                    <label for="size_select" style="color : #55595C; font-size : 16px; margin-top: 5px">Kích cỡ :</label>
+                    <label for="size_select" style="color : #55595C; font-size : 16px">Kích cỡ :</label>
                     <select name="size" id="size_select" class="size_select" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
                         <?php foreach ($available_sizes as $size_data): ?>
                             <option value="<?php echo htmlspecialchars($size_data['size']); ?>">
@@ -66,7 +66,7 @@ $is_in_stock = !empty($available_sizes);
                 </div>
 
                 <div class="soluong">
-                    <label for="soluong_input" style="color : #55595C; font-size : 16px;">Số lượng :</label>
+                    <label for="soluong_input" style="color : #55595C; font-size : 16px; margin-top: 10px;">Số lượng :</label>
                     <div style="display : block">
                         <button type="button" id="giam" class="soluong_btn">-</button>
                         <input class="soluong_input" id="soluong_input" name="so_luong" type="number" value="1" min="1">
