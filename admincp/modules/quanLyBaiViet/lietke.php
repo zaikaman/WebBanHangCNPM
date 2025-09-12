@@ -205,7 +205,7 @@ body.modal-open #addPostModal .modal-content * {
                 while ($row = mysqli_fetch_array($lietke)) {
                     $i++;
                 ?>
-                    <tr>
+                    <tr class="post-row" data-id="<?php echo (int)$row['id']; ?>">
                         <td><?php echo $i ?></td>
                         <td><?php echo $row['tenbaiviet'] ?></td>
                         <td><img src="modules/quanLyBaiViet/uploads/<?php echo $row['hinhanh'] ?>" width="150px"></td>
@@ -349,4 +349,17 @@ function exportPosts() {
     // Download file
     window.open(exportUrl, '_blank');
 }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+// Click row to view detail (delegate for list)
+$(document).on('click', '.post-row', function(e) {
+    if ($(e.target).closest('a, button, .btn, input, textarea, select, label, img').length) {
+        return;
+    }
+    var id = $(this).data('id');
+    if (id) {
+        window.location.href = '?action=quanLyBaiViet&query=chitiet&id=' + id;
+    }
+});
 </script>
