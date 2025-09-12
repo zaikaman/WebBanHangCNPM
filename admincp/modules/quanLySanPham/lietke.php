@@ -109,7 +109,6 @@
                 <td>
                     <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo urlencode($row['ma_sp']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
                     <a href="?action=quanLySanPham&query=sua&idsp=<?php echo urlencode($row['ma_sp']) ?>" class="btn btn-warning btn-sm">Sửa</a>
-                    <a href="?action=quanLySanPham&query=chitiet&id=<?php echo (int)$row['id_sp'] ?>" class="btn btn-info btn-sm">Chi tiết</a>
                 </td>
             </tr>
             <?php
@@ -416,7 +415,6 @@ body.modal-open #addProductModal .modal-content * {
                     <th>Còn lại</th>
                     <th>Danh Mục</th>
                     <th>Mã SP</th>
-                    
                     <th>Trạng Thái</th>
                     <th>Hành Động</th>
                 </tr>

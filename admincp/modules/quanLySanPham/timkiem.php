@@ -3,13 +3,14 @@ include("config/config.php");
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $search_field = isset($_GET['search_field']) ? $_GET['search_field'] : 'all';
+$status_filter = isset($_GET['status']) ? $_GET['status'] : '';
 $price_min = isset($_GET['price_min']) ? floatval($_GET['price_min']) : '';
 $price_max = isset($_GET['price_max']) ? floatval($_GET['price_max']) : '';
 
 $where_clause = "WHERE tbl_sanpham.id_dm = tbl_danhmucqa.id_dm";
 
 if (!empty($search) || !empty($price_min) || !empty($price_max)) {
-    if (!empty($search)) {
+    if (!empty($search) || ($search_field === 'tinh_trang' && ($status_filter === '0' || $status_filter === '1'))) {
         switch ($search_field) {
             case 'ten_sp':
                 $where_clause .= " AND tbl_sanpham.ten_sp LIKE '%$search%'";
@@ -18,7 +19,11 @@ if (!empty($search) || !empty($price_min) || !empty($price_max)) {
                 $where_clause .= " AND tbl_sanpham.ma_sp LIKE '%$search%'";
                 break;
             case 'tinh_trang':
-                $status = ($search == 'kích hoạt' || $search == '1') ? 1 : 0;
+                if ($status_filter === '1' || $status_filter === '0') {
+                    $status = (int)$status_filter;
+                } else {
+                    $status = ($search == 'kích hoạt' || $search == '1') ? 1 : 0;
+                }
                 $where_clause .= " AND tbl_sanpham.tinh_trang = $status";
                 break;
             default:
@@ -61,10 +66,14 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 
                 <div class="col-md-2">
                     <select name="search_field" class="form-select">
-                        <option value="all" <?php echo $search_field == 'all' ? 'selected' : ''; ?>>Tất cả</option>
-                        <option value="ten_sp" <?php echo $search_field == 'ten_sp' ? 'selected' : ''; ?>>Tên sản phẩm</option>
-                        <option value="ma_sp" <?php echo $search_field == 'ma_sp' ? 'selected' : ''; ?>>Mã sản phẩm</option>
                         <option value="tinh_trang" <?php echo $search_field == 'tinh_trang' ? 'selected' : ''; ?>>Trạng thái</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="status" class="form-select">
+                        <option value="" <?php echo $status_filter === '' ? 'selected' : ''; ?>>Tất cả</option>
+                        <option value="1" <?php echo $status_filter === '1' ? 'selected' : ''; ?>>Kích hoạt</option>
+                        <option value="0" <?php echo $status_filter === '0' ? 'selected' : ''; ?>>Ẩn</option>
                     </select>
                 </div>
                 
@@ -103,10 +112,8 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                     <th>Còn lại</th>
                     <th>Danh Mục</th>
                     <th>Mã SP</th>
-                    <th>Nội Dung</th>
-                    <th>Tóm Tắt</th>
                     <th>Trạng Thái</th>
-                    <th>Hành Động</th>
+                    <th>Hành Động</th>SSS
                 </tr>
             </thead>
             <tbody>
@@ -124,12 +131,6 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                         <td><?php echo $row['so_luong_con_lai'] ?></td>
                         <td><?php echo $row['name_sp'] ?></td>
                         <td><?php echo $row['ma_sp'] ?></td>
-                        <td>
-                            <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['noi_dung']) ?></textarea>
-                        </td>
-                        <td>
-                            <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['tom_tat']) ?></textarea>
-                        </td>
                         <td><?php echo ($row['tinh_trang'] == 1) ? 'Kích hoạt' : 'Ẩn' ?></td>
                         <td>
                             <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo $row['ma_sp'] ?>" class="btn btn-danger btn-sm">Xóa</a>
