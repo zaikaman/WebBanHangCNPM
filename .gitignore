@@ -33,13 +33,6 @@ Thumbs.db
 *.temp
 *.cache
 
-# Ignore uploads (nếu có)
-uploads/*
-!uploads/.gitkeep
-
-# Ignore composer files
-composer.phar
-
 # Ignore backup files
 *.bak
 *.backup
