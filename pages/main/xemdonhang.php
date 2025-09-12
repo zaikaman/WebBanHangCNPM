@@ -21,11 +21,12 @@ $info_don_hang = mysqli_fetch_array($don_hang);
 
 <div class="main_content">
     <div class="cart_content">
-        <div class="row">
-            <div class="col-md-12">
-                <!-- Thông tin đơn hàng (responsive cards) -->
-                <div class="order-cards mb-4">
-                    <div class="order-cards-row d-flex flex-column flex-md-row gap-3">
+        <div class="container-fluid px-3">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Thông tin đơn hàng (responsive cards) -->
+                    <div class="order-cards mb-4">
+                        <div class="order-cards-row d-flex flex-column flex-lg-row gap-3">
                         <div class="card flex-fill shadow-sm">
                             <div class="card-body py-3">
                                 <h6 class="card-title text-primary mb-2"><i class="fas fa-calendar me-2"></i>Ngày đặt hàng</h6>
@@ -89,8 +90,8 @@ $info_don_hang = mysqli_fetch_array($don_hang);
                 </div>
 
                 <!-- Chi tiết sản phẩm -->
-                <div class="card">
-                    <div class="card-header bg-secondary text-white">
+                <div class="card product-details-card">
+                    <div class="card-header">
                         <h5 class="mb-0"><i class="fas fa-list me-2"></i>Chi Tiết Sản Phẩm</h5>
                     </div>
                     <div class="card-body">
@@ -144,40 +145,6 @@ $info_don_hang = mysqli_fetch_array($don_hang);
                             <i class="fas fa-print me-2"></i>In Đơn Hàng
                         </a>
                     </div>
-                        /* Responsive order cards */
-                        .order-cards .order-cards-row {
-                            align-items: stretch;
-                        }
-                        .order-cards .card {
-                            border-radius: 0.5rem;
-                            overflow: visible;
-                        }
-                        .order-cards .card .card-body {
-                            min-height: 110px;
-                        }
-                        .order-cards .card-title {
-                            font-weight: 600;
-                            font-size: 0.95rem;
-                        }
-
-                        /* Improve table spacing on smaller screens */
-                        @media (max-width: 767.98px) {
-                            .table thead {
-                                display: none;
-                            }
-                            .table tbody td {
-                                display: block;
-                                text-align: left;
-                                padding: 0.5rem;
-                            }
-                            .table tbody tr {
-                                margin-bottom: 0.75rem;
-                                display: block;
-                                border: 1px solid #eee;
-                                border-radius: 0.4rem;
-                                background: #fff;
-                            }
-                        }
                 </div>
             </div>
         </div>
@@ -185,13 +152,293 @@ $info_don_hang = mysqli_fetch_array($don_hang);
 </div>
 
 <style>
+/* Main layout with red and white theme */
 .main_content {
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    background: linear-gradient(135deg, #fff 0%, #fef7f7 100%);
+    min-height: 100vh;
 }
 .cart_content {
     margin-bottom: 0 !important;
-    padding-bottom: 10px !important;
+    padding: 20px 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Full width container */
+.container-fluid {
+    max-width: 100% !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+/* Page title */
+.page-title {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    padding: 20px;
+    margin: -20px -15px 25px -15px;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+.page-title h2 {
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Order info cards with red theme */
+.order-cards {
+    margin-bottom: 25px !important;
+}
+.order-cards .order-cards-row {
+    align-items: stretch;
+    gap: 20px !important;
+}
+.order-cards .card {
+    border: 2px solid #dc3545;
+    border-radius: 12px !important;
+    overflow: hidden;
+    flex: 1;
+    min-width: 0;
+    background: white;
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.15);
+    transition: all 0.3s ease;
+}
+.order-cards .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(220, 53, 69, 0.25);
+}
+.order-cards .card .card-body {
+    min-height: 140px;
+    padding: 20px !important;
+    background: linear-gradient(135deg, #fff 0%, #fef9f9 100%);
+}
+.order-cards .card-title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 10px !important;
+    color: #dc3545;
+    display: flex;
+    align-items: center;
+}
+.order-cards .card-title i {
+    color: #dc3545;
+    margin-right: 8px;
+    font-size: 1.1em;
+}
+
+/* Status badges with theme colors */
+.badge.bg-success {
+    background-color: #28a745 !important;
+}
+.badge.bg-warning {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+.badge.bg-info {
+    background-color: #6c757d !important;
+}
+.badge.bg-primary {
+    background-color: #dc3545 !important;
+}
+
+/* Product details card */
+.product-details-card {
+    border: 2px solid #dc3545;
+    border-radius: 12px !important;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.15);
+}
+.product-details-card .card-header {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+    color: white !important;
+    padding: 18px 25px !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+.product-details-card .card-header h5 {
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Table with red theme */
+.table {
+    margin-bottom: 0 !important;
+    font-size: 0.95rem;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.table th {
+    background: linear-gradient(135deg, #343a40 0%, #23272b 100%) !important;
+    color: white !important;
+    font-weight: 700;
+    border: none !important;
+    padding: 15px 12px !important;
+    text-align: center;
+    position: relative;
+}
+.table th:first-child {
+    border-radius: 8px 0 0 0;
+}
+.table th:last-child {
+    border-radius: 0 8px 0 0;
+}
+.table td {
+    padding: 15px 12px !important;
+    vertical-align: middle !important;
+    border-bottom: 1px solid #dee2e6;
+    background: white;
+}
+.table tbody tr:hover {
+    background-color: #fef9f9 !important;
+}
+.table tbody tr:hover td {
+    background-color: #fef9f9 !important;
+}
+
+/* Total row with red accent */
+.table tfoot tr {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+}
+.table tfoot td {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    font-weight: 700;
+    border: 2px solid #dc3545;
+    padding: 18px 12px !important;
+}
+.table tfoot td:first-child {
+    border-radius: 0 0 0 8px;
+    color: #343a40;
+}
+.table tfoot td:last-child {
+    border-radius: 0 0 8px 0;
+    color: #dc3545;
+    font-size: 1.2em;
+}
+
+/* Card body and footer */
+.product-details-card .card-body {
+    padding: 0 !important;
+    background: white;
+}
+.product-details-card .card-footer {
+    padding: 20px 25px !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-top: 2px solid #dc3545;
+    border-radius: 0 !important;
+}
+
+/* Buttons with theme colors */
+.btn-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%) !important;
+    border: none !important;
+    font-weight: 600;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease;
+}
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+}
+.btn-outline-primary {
+    color: #dc3545 !important;
+    border: 2px solid #dc3545 !important;
+    background: white !important;
+    font-weight: 600;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease;
+}
+.btn-outline-primary:hover {
+    background: #dc3545 !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+
+/* Quantity badge */
+.badge.bg-primary {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+    color: white !important;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+/* Reduce excessive spacing */
+.mb-4 {
+    margin-bottom: 25px !important;
+}
+.mb-2 {
+    margin-bottom: 10px !important;
+}
+
+/* Better responsive layout */
+@media (min-width: 992px) {
+    .order-cards .order-cards-row {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+    }
+    .order-cards .card {
+        flex: 1 1 50% !important;
+        max-width: 50% !important;
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 767.98px) {
+    .container-fluid {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    .page-title {
+        margin: -20px -10px 20px -10px;
+        padding: 15px;
+    }
+    .order-cards .order-cards-row {
+        gap: 15px !important;
+    }
+    .order-cards .card .card-body {
+        min-height: auto;
+        padding: 15px !important;
+    }
+    .table-responsive {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .table th, .table td {
+        padding: 10px 8px !important;
+        font-size: 0.9rem;
+    }
+}
+
+/* Remove default Bootstrap container constraints */
+@media (min-width: 1200px) {
+    .container-fluid {
+        max-width: none !important;
+    }
+}
+
+/* Animation for cards */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.order-cards .card, .product-details-card {
+    animation: fadeInUp 0.6s ease-out;
 }
 </style>
 

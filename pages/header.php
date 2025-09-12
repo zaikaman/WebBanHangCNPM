@@ -59,9 +59,10 @@ if (isset($_GET['dangXuat']) && $_GET['dangXuat'] == 1) {
                         <p style="margin : 0; font-size : 14px; font-style : italic;"><?php print_r($_SESSION['dang_ky']); ?></p>
                     </div>
                     <div class="logout_content" id="logout_content">
+                        <a id="logout_button" href="index.php?quanly=thongtinnguoidung" class="logout_button">Thông tin</a>
                         <a id="logout_button" href="index.php?quanly=lichSuDonHang" class="logout_button">Lịch sử đơn hàng</a>
                         <a id="logout_button" href="index.php?quanly=doimatkhau" class="logout_button">Đổi mật khẩu</a>
-                        <a id="logout_button" href="index.php?dangXuat=1" class="logout_button">Đăng Xuất</a>
+                        <a id="logout_button" href="index.php?dangXuat=1" class="logout_button">Đăng xuất</a>
                     </div>
                 </div>
             <?php

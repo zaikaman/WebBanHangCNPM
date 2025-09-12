@@ -121,6 +121,8 @@
         include("pages/main/doimatkhau.php");
     } elseif ($des == 'camon') {
         include("pages/main/camon.php");
+    } elseif ($des == 'thongtinnguoidung') {
+        include("main/thongtinnguoidung.php");
     } else {
         include("slideimg.php");
         include("main/index.php");
