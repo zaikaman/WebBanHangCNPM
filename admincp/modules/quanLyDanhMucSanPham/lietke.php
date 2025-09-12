@@ -25,7 +25,11 @@
     unset($query_params['page']);
     $pagination = new Pagination($current_page, $total_records, $records_per_page, $query_params);
 
-    $sql_lietke = "SELECT * FROM tbl_danhmucqa $where_clause ORDER BY thu_tu LIMIT " . $pagination->getLimit() . " OFFSET " . $pagination->getOffset();
+    $sql_lietke = "SELECT dm.*, (SELECT COUNT(*) FROM tbl_sanpham sp WHERE sp.id_dm = dm.id_dm) AS product_count
+                   FROM tbl_danhmucqa dm
+                   " . ($where_clause ? str_replace('tbl_danhmucqa', 'dm', $where_clause) : '') . "
+                   ORDER BY dm.thu_tu
+                   LIMIT " . $pagination->getLimit() . " OFFSET " . $pagination->getOffset();
     $lietke = mysqli_query($mysqli, $sql_lietke);
 ?>
 <!-- Bootstrap CSS -->
@@ -75,6 +79,7 @@
                 <tr>
                     <th scope="col" class="text-center">ID</th>
                     <th scope="col">Tên Danh Mục</th>
+                    <th scope="col" class="text-center">Số SP</th>
                     <th scope="col" class="text-center">Quản Lý</th>
                 </tr>
             </thead>
@@ -88,9 +93,10 @@
                 <tr>
                     <td class="text-center"><?php echo $i ?></td>
                     <td><?php echo $row['name_sp'] ?></td>
+                    <td class="text-center"><span class="badge bg-secondary"><?php echo (int)$row['product_count']; ?></span></td>
                     <td class="text-center">
                         <div class="d-flex flex-column flex-md-row justify-content-center gap-2">
-                            <a href="modules/quanLyDanhMucSanPham/xuly.php?idsp=<?php echo $row['id_dm'] ?>" class="btn btn-danger btn-sm mb-1 mb-md-0 me-md-2" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                            <a href="modules/quanLyDanhMucSanPham/xuly.php?idsp=<?php echo $row['id_dm'] ?>" class="btn btn-danger btn-sm mb-1 mb-md-0 me-md-2" onclick="return confirm('<?php echo (int)$row['product_count'] > 0 ? 'Danh mục còn sản phẩm (' . (int)$row['product_count'] . '). Không thể xóa!' : 'Bạn có chắc chắn muốn xóa?'; ?>'); return <?php echo (int)$row['product_count'] > 0 ? 'false' : 'true'; ?>;">
                                 <i class="fas fa-trash-alt"></i> Xóa
                             </a>
                             <a href="?action=quanLyDanhMucSanPham&query=sua&idsp=<?php echo $row['id_dm'] ?>" class="btn btn-warning btn-sm">
