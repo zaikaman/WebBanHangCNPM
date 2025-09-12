@@ -81,9 +81,11 @@ $pdf->Ln(10);
 $pdf->SetFont('DejaVuSans','B',13);
 $pdf->Write(10, 'CHI TIẾT SẢN PHẨM:');
 $pdf->Ln(8);
-$pdf->SetFont('DejaVuSans','',10);
+$pdf->Ln(8);
+// Use a slightly smaller font for the table so numbers fit
+$pdf->SetFont('DejaVuSans','',9);
 
-$width_cell = array(5, 35, 80, 20, 30, 40);
+$width_cell = array(6, 24, 64, 16, 28, 48); // give more room for 'Tổng tiền'
 
 // Header
 $pdf->Cell($width_cell[0], 10, 'ID', 1, 0, 'C', true);
@@ -99,17 +101,83 @@ $i = 0;
 
 // Nội dung và tính tổng tiền
 $tongtien = 0;
+// Helper to estimate number of lines a MultiCell will take using GetStringWidth
+function nbLines($pdf, $w, $txt) {
+    $s = str_replace("\r", '', trim($txt));
+    if ($s === '') return 1;
+
+    // available width inside the cell (MultiCell uses the given width directly)
+    $maxw = $w;
+
+    // Split by existing newlines first
+    $lines = explode("\n", $s);
+    $nl = 0;
+
+    foreach ($lines as $line) {
+        $words = preg_split('/(\s+)/u', $line, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $curw = 0.0;
+        foreach ($words as $word) {
+            $wordw = $pdf->GetStringWidth($word);
+            if ($curw + $wordw <= $maxw) {
+                $curw += $wordw;
+            } else {
+                if ($wordw > $maxw) {
+                    // long word: split by characters
+                    $chars = preg_split('//u', $word, -1, PREG_SPLIT_NO_EMPTY);
+                    $partw = 0.0;
+                    foreach ($chars as $ch) {
+                        $chw = $pdf->GetStringWidth($ch);
+                        if ($partw + $chw > $maxw) {
+                            $nl++;
+                            $partw = $chw;
+                        } else {
+                            $partw += $chw;
+                        }
+                    }
+                    $curw = $partw;
+                } else {
+                    // move to next line
+                    $nl++;
+                    $curw = $wordw;
+                }
+            }
+        }
+        // finish current line
+        $nl++;
+    }
+
+    return max(1, $nl);
+}
+
 while ($row = mysqli_fetch_array($lietke_dh)) {
     $i++;
     $thanhtien = $row['so_luong_mua'] * $row['gia_sp'];
     $tongtien += $thanhtien;
-    
-    $pdf->Cell($width_cell[0], 10, $i, 1, 0, 'C', $fill);
-    $pdf->Cell($width_cell[1], 10, $row['ma_gh'], 1, 0, 'C', $fill);
-    $pdf->Cell($width_cell[2], 10, $row['ten_sp'], 1, 0, 'C', $fill);
-    $pdf->Cell($width_cell[3], 10, $row['so_luong_mua'], 1, 0, 'C', $fill);
-    $pdf->Cell($width_cell[4], 10, number_format($row['gia_sp']), 1, 0, 'C', $fill);
-    $pdf->Cell($width_cell[5], 10, number_format($thanhtien), 1, 1, 'C', $fill);
+
+    // Determine how many lines the product name will need
+    $lineHeight = 5; // smaller line height to keep rows compact
+    $nb = nbLines($pdf, $width_cell[2], $row['ten_sp']);
+    $h = $lineHeight * $nb;
+
+    // Save current position
+    $x = $pdf->GetX();
+    $y = $pdf->GetY();
+
+    // ID
+    $pdf->Cell($width_cell[0], $h, $i, 1, 0, 'C', $fill);
+    // Mã hàng
+    $pdf->Cell($width_cell[1], $h, $row['ma_gh'], 1, 0, 'C', $fill);
+
+    // Tên sản phẩm (use MultiCell so it wraps)
+    $pdf->SetXY($x + $width_cell[0] + $width_cell[1], $y);
+    $pdf->MultiCell($width_cell[2], $lineHeight, $row['ten_sp'], 1, 'L', $fill);
+
+    // Move to the right of the name cell for the remaining columns
+    $pdf->SetXY($x + $width_cell[0] + $width_cell[1] + $width_cell[2], $y);
+    $pdf->Cell($width_cell[3], $h, $row['so_luong_mua'], 1, 0, 'C', $fill);
+    $pdf->Cell($width_cell[4], $h, number_format($row['gia_sp']), 1, 0, 'R', $fill);
+    $pdf->Cell($width_cell[5], $h, number_format($thanhtien), 1, 1, 'R', $fill);
+
     $fill = !$fill;
 }
 
@@ -117,7 +185,9 @@ while ($row = mysqli_fetch_array($lietke_dh)) {
 $pdf->SetFillColor(193,229,253);
 $pdf->Cell($width_cell[0] + $width_cell[1] + $width_cell[2] + $width_cell[3] + $width_cell[4], 10, 'TỔNG TIỀN:', 1, 0, 'R', true);
 $pdf->SetFont('DejaVuSans','B',12);
-$pdf->Cell($width_cell[5], 10, number_format($tongtien) . ' VND', 1, 1, 'C', true);
+$pdf->Cell($width_cell[5], 10, number_format($tongtien) . ' VND', 1, 1, 'R', true);
+
+// Restore font for the rest of the document
 $pdf->SetFont('DejaVuSans','',11);
 
 $pdf->Ln(10);
