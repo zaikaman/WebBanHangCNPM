@@ -114,18 +114,14 @@ $danhmuc = mysqli_query($mysqli, $sql_dm);
                         <label for="ma_sp" class="form-label fw-bold">Mã Sản Phẩm <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="ma_sp" id="ma_sp" required>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label for="gia_sp" class="form-label fw-bold">Giá Sản Phẩm (VND) <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <input type="number" class="form-control" name="gia_sp" id="gia_sp" min="0" required>
                             <span class="input-group-text">đ</span>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <label for="so_luong" class="form-label fw-bold">Số Lượng <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" name="so_luong" id="so_luong" min="0" required>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label for="id_dm" class="form-label fw-bold">Danh Mục <span class="text-danger">*</span></label>
                         <select class="form-select" name="id_dm" id="id_dm" required>
                             <option value="">Chọn danh mục</option>
@@ -133,6 +129,36 @@ $danhmuc = mysqli_query($mysqli, $sql_dm);
                                 <option value="<?php echo $dm['id_dm'] ?>"><?php echo $dm['name_sp'] ?></option>
                             <?php } ?>
                         </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Size & Quantity -->
+            <div class="form-section">
+                <h5 class="text-7tcc mb-3">
+                    <i class="fas fa-ruler-combined me-2"></i>Số Lượng Theo Size
+                </h5>
+                <p class="text-muted">Nhập số lượng cho các size có sẵn. Để trống hoặc nhập 0 nếu không có size đó.</p>
+                <div class="row g-3">
+                    <div class="col">
+                        <label for="so_luong_s" class="form-label fw-bold">Size S</label>
+                        <input type="number" class="form-control" name="so_luong_s" id="so_luong_s" min="0" value="0">
+                    </div>
+                    <div class="col">
+                        <label for="so_luong_m" class="form-label fw-bold">Size M</label>
+                        <input type="number" class="form-control" name="so_luong_m" id="so_luong_m" min="0" value="0">
+                    </div>
+                    <div class="col">
+                        <label for="so_luong_l" class="form-label fw-bold">Size L</label>
+                        <input type="number" class="form-control" name="so_luong_l" id="so_luong_l" min="0" value="0">
+                    </div>
+                    <div class="col">
+                        <label for="so_luong_xl" class="form-label fw-bold">Size XL</label>
+                        <input type="number" class="form-control" name="so_luong_xl" id="so_luong_xl" min="0" value="0">
+                    </div>
+                    <div class="col">
+                        <label for="so_luong_xxl" class="form-label fw-bold">Size XXL</label>
+                        <input type="number" class="form-control" name="so_luong_xxl" id="so_luong_xxl" min="0" value="0">
                     </div>
                 </div>
             </div>

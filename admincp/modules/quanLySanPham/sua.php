@@ -24,13 +24,44 @@ $sua_sp= mysqli_query($mysqli,$sql_sua_sp);
             <label for="gia_sp" class="form-label">Giá Sản Phẩm</label>
             <input type="text" class="form-control" value="<?php echo $row['gia_sp'] ?>" name="gia_sp">
         </div>
+        <?php
+        // Fetch existing sizes for the product
+        $product_id = $row['id_sp'];
+        $sql_sizes = "SELECT size, so_luong FROM tbl_sanpham_sizes WHERE id_sp = '$product_id'";
+        $query_sizes = mysqli_query($mysqli, $sql_sizes);
+        $sizes = ['S' => 0, 'M' => 0, 'L' => 0, 'XL' => 0, 'XXL' => 0];
+        if ($query_sizes) {
+            while ($row_size = mysqli_fetch_assoc($query_sizes)) {
+                if (isset($sizes[$row_size['size']])) {
+                    $sizes[$row_size['size']] = $row_size['so_luong'];
+                }
+            }
+        }
+        ?>
         <div class="mb-3">
-            <label for="so_luong" class="form-label">Số Lượng</label>
-            <input type="text" class="form-control" value="<?php echo $row['so_luong'] ?>" name="so_luong">
-        </div>
-        <div class="mb-3">
-            <label for="so_luong" class="form-label">Số Lượng còn lại</label>
-            <input type="text" class="form-control" value="<?php echo $row['so_luong_con_lai'] ?>" name="so_luong_con_lai">
+            <label class="form-label fw-bold">Số Lượng Theo Size</label>
+            <div class="row g-2">
+                <div class="col">
+                    <label for="so_luong_s" class="form-label">Size S</label>
+                    <input type="number" class="form-control" name="so_luong_s" id="so_luong_s" min="0" value="<?php echo $sizes['S']; ?>">
+                </div>
+                <div class="col">
+                    <label for="so_luong_m" class="form-label">Size M</label>
+                    <input type="number" class="form-control" name="so_luong_m" id="so_luong_m" min="0" value="<?php echo $sizes['M']; ?>">
+                </div>
+                <div class="col">
+                    <label for="so_luong_l" class="form-label">Size L</label>
+                    <input type="number" class="form-control" name="so_luong_l" id="so_luong_l" min="0" value="<?php echo $sizes['L']; ?>">
+                </div>
+                <div class="col">
+                    <label for="so_luong_xl" class="form-label">Size XL</label>
+                    <input type="number" class="form-control" name="so_luong_xl" id="so_luong_xl" min="0" value="<?php echo $sizes['XL']; ?>">
+                </div>
+                <div class="col">
+                    <label for="so_luong_xxl" class="form-label">Size XXL</label>
+                    <input type="number" class="form-control" name="so_luong_xxl" id="so_luong_xxl" min="0" value="<?php echo $sizes['XXL']; ?>">
+                </div>
+            </div>
         </div>
         <div class="mb-3">
             <label for="hinh_anh" class="form-label">Hình Ảnh</label>

@@ -137,10 +137,25 @@ if(isset($_POST['themsanpham'])) {
     $tenLoaisp = mysqli_real_escape_string($mysqli, trim($_POST['ten_sp']));
     $masp = mysqli_real_escape_string($mysqli, trim($_POST['ma_sp']));
     $giasp = (int)trim($_POST['gia_sp']);
-    $soluong = (int)trim($_POST['so_luong']);
+    
+    // Get quantities for each size
+    $sizes = [
+        'S' => (int)($_POST['so_luong_s'] ?? 0),
+        'M' => (int)($_POST['so_luong_m'] ?? 0),
+        'L' => (int)($_POST['so_luong_l'] ?? 0),
+        'XL' => (int)($_POST['so_luong_xl'] ?? 0),
+        'XXL' => (int)($_POST['so_luong_xxl'] ?? 0)
+    ];
+    $total_quantity = array_sum($sizes);
+
+    if ($total_quantity <= 0) {
+        $error_message = urlencode("Tổng số lượng sản phẩm phải lớn hơn 0.");
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message");
+        exit();
+    }
+
     $hinhanh = $_FILES['hinh_anh']['name'];
     $hinhanh_tmp = $_FILES['hinh_anh']['tmp_name'];
-    // Thay thế các ký tự xuống dòng Windows thành Unix style trước khi escape
     $tomtat = mysqli_real_escape_string($mysqli, str_replace("\r\n", "\n", trim($_POST['tom_tat'])));
     $noidung = mysqli_real_escape_string($mysqli, str_replace("\r\n", "\n", trim($_POST['noi_dung'])));
     $tinhtrang = (int)$_POST['tinh_trang'];
@@ -161,16 +176,29 @@ if(isset($_POST['themsanpham'])) {
         exit();
     }
     
-    // Use safe filename for database
     $hinhanh = $safe_filename;
     
     $sql_them = "INSERT INTO tbl_sanpham(ten_sp, ma_sp, gia_sp, so_luong, so_luong_con_lai, hinh_anh, tom_tat, noi_dung, tinh_trang, id_dm) 
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                  
     $stmt = mysqli_prepare($mysqli, $sql_them);
-    mysqli_stmt_bind_param($stmt, "ssiissssii", $tenLoaisp, $masp, $giasp, $soluong, $soluong, $hinhanh, $tomtat, $noidung, $tinhtrang, $iddm);
+    mysqli_stmt_bind_param($stmt, "ssiissssii", $tenLoaisp, $masp, $giasp, $total_quantity, $total_quantity, $hinhanh, $tomtat, $noidung, $tinhtrang, $iddm);
     
     if(mysqli_stmt_execute($stmt)) {
+        $new_product_id = mysqli_insert_id($mysqli);
+
+        // Insert into tbl_sanpham_sizes
+        $sql_size_insert = "INSERT INTO tbl_sanpham_sizes (id_sp, size, so_luong) VALUES (?, ?, ?)";
+        $stmt_size = mysqli_prepare($mysqli, $sql_size_insert);
+
+        foreach ($sizes as $size => $quantity) {
+            if ($quantity > 0) {
+                mysqli_stmt_bind_param($stmt_size, "isi", $new_product_id, $size, $quantity);
+                mysqli_stmt_execute($stmt_size);
+            }
+        }
+        mysqli_stmt_close($stmt_size);
+
         header("Location: ../../index.php?action=quanLySanPham&query=lietke&success=add");
         exit();
     } else {
@@ -180,6 +208,7 @@ if(isset($_POST['themsanpham'])) {
     }
 
 } elseif(isset($_POST['suaSanPham'])) {
+    // Validation logic can be improved, but for now, we focus on the update mechanism.
     $errors = validateProduct($_POST, $mysqli, true, $_GET['idsp']);
     
     if(!empty($errors)) {
@@ -193,65 +222,90 @@ if(isset($_POST['themsanpham'])) {
 
     $tenLoaisp = mysqli_real_escape_string($mysqli, trim($_POST['ten_sp']));
     $masp = mysqli_real_escape_string($mysqli, trim($_POST['ma_sp']));
-    $giasp = mysqli_real_escape_string($mysqli, trim($_POST['gia_sp']));
-    $soluong = mysqli_real_escape_string($mysqli, trim($_POST['so_luong']));
-    $soluongconlai = mysqli_real_escape_string($mysqli, trim($_POST['so_luong_con_lai']));
+    $giasp = (int)trim($_POST['gia_sp']);
     $tomtat = mysqli_real_escape_string($mysqli, trim($_POST['tom_tat']));
     $noidung = mysqli_real_escape_string($mysqli, trim($_POST['noi_dung']));
-    $tinhtrang = $_POST['tinh_trang'];
-    $iddm = $_POST['id_dm'];
+    $tinhtrang = (int)$_POST['tinh_trang'];
+    $iddm = (int)$_POST['id_dm'];
 
-    if(!empty($_FILES['hinh_anh']['name'])) {
-        $hinhanh = $_FILES['hinh_anh']['name'];
-        $hinhanh_tmp = $_FILES['hinh_anh']['tmp_name'];
-        
-        // Delete old image
-        $sql = "SELECT hinh_anh FROM tbl_sanpham WHERE ma_sp = ?";
-        $stmt = mysqli_prepare($mysqli, $sql);
-        mysqli_stmt_bind_param($stmt, "s", $_GET['idsp']);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $row = mysqli_fetch_array($result);
-        if($row['hinh_anh']) {
-            unlink('uploads/' . $row['hinh_anh']);
-        }
-        
-        move_uploaded_file($hinhanh_tmp, 'uploads/' . $hinhanh);
-        
-        $sql_update = "UPDATE tbl_sanpham SET 
-            ten_sp=?, ma_sp=?, gia_sp=?, so_luong=?, so_luong_con_lai=?,
-            hinh_anh=?, tom_tat=?, noi_dung=?, tinh_trang=?, id_dm=? 
-            WHERE ma_sp=?";
-            
-        $stmt = mysqli_prepare($mysqli, $sql_update);
-        mysqli_stmt_bind_param($stmt, "ssdddsssiis", 
-            $tenLoaisp, $masp, $giasp, $soluong, $soluongconlai,
-            $hinhanh, $tomtat, $noidung, $tinhtrang, $iddm, $_GET['idsp']);
-    } else {
-        $sql_update = "UPDATE tbl_sanpham SET 
-            ten_sp=?, ma_sp=?, gia_sp=?, so_luong=?, so_luong_con_lai=?,
-            tom_tat=?, noi_dung=?, tinh_trang=?, id_dm=? 
-            WHERE ma_sp=?";
-            
-        $stmt = mysqli_prepare($mysqli, $sql_update);
-        mysqli_stmt_bind_param($stmt, "ssdddssiis", 
-            $tenLoaisp, $masp, $giasp, $soluong, $soluongconlai,
-            $tomtat, $noidung, $tinhtrang, $iddm, $_GET['idsp']);
+    // Get quantities for each size
+    $sizes = [
+        'S' => (int)($_POST['so_luong_s'] ?? 0),
+        'M' => (int)($_POST['so_luong_m'] ?? 0),
+        'L' => (int)($_POST['so_luong_l'] ?? 0),
+        'XL' => (int)($_POST['so_luong_xl'] ?? 0),
+        'XXL' => (int)($_POST['so_luong_xxl'] ?? 0)
+    ];
+    $total_quantity = array_sum($sizes);
+
+    // Get product ID from ma_sp
+    $sql_get_id = "SELECT id_sp, hinh_anh FROM tbl_sanpham WHERE ma_sp = ? LIMIT 1";
+    $stmt_get_id = mysqli_prepare($mysqli, $sql_get_id);
+    mysqli_stmt_bind_param($stmt_get_id, "s", $_GET['idsp']);
+    mysqli_stmt_execute($stmt_get_id);
+    $result_get_id = mysqli_stmt_get_result($stmt_get_id);
+    $product_row = mysqli_fetch_assoc($result_get_id);
+    $product_id = $product_row['id_sp'];
+    $old_hinhanh = $product_row['hinh_anh'];
+    mysqli_stmt_close($stmt_get_id);
+
+    if (!$product_id) {
+        echo "<script>alert('Lỗi: Không tìm thấy sản phẩm.'); window.history.back();</script>";
+        exit();
     }
-    
-    if(mysqli_stmt_execute($stmt)) {
+
+    $hinhanh_to_update = $old_hinhanh;
+    if(!empty($_FILES['hinh_anh']['name'])) {
+        $hinhanh_tmp = $_FILES['hinh_anh']['tmp_name'];
+        if ($old_hinhanh && file_exists('uploads/' . $old_hinhanh)) {
+            unlink('uploads/' . $old_hinhanh);
+        }
+        $file_extension = strtolower(pathinfo($_FILES['hinh_anh']['name'], PATHINFO_EXTENSION));
+        $hinhanh_to_update = $masp . '_' . time() . '.' . $file_extension;
+        move_uploaded_file($hinhanh_tmp, 'uploads/' . $hinhanh_to_update);
+    }
+
+    // Update main product table
+    $sql_update = "UPDATE tbl_sanpham SET 
+        ten_sp=?, ma_sp=?, gia_sp=?, so_luong=?, so_luong_con_lai=?,
+        hinh_anh=?, tom_tat=?, noi_dung=?, tinh_trang=?, id_dm=? 
+        WHERE id_sp=?";
+    $stmt_update = mysqli_prepare($mysqli, $sql_update);
+    mysqli_stmt_bind_param($stmt_update, "ssiissssiii", 
+        $tenLoaisp, $masp, $giasp, $total_quantity, $total_quantity,
+        $hinhanh_to_update, $tomtat, $noidung, $tinhtrang, $iddm, $product_id);
+
+    if(mysqli_stmt_execute($stmt_update)) {
+        // Update sizes table: delete old entries and insert new ones
+        $sql_delete_sizes = "DELETE FROM tbl_sanpham_sizes WHERE id_sp = ?";
+        $stmt_delete = mysqli_prepare($mysqli, $sql_delete_sizes);
+        mysqli_stmt_bind_param($stmt_delete, "i", $product_id);
+        mysqli_stmt_execute($stmt_delete);
+        mysqli_stmt_close($stmt_delete);
+
+        $sql_size_insert = "INSERT INTO tbl_sanpham_sizes (id_sp, size, so_luong) VALUES (?, ?, ?)";
+        $stmt_size = mysqli_prepare($mysqli, $sql_size_insert);
+        foreach ($sizes as $size => $quantity) {
+            if ($quantity >= 0) { // Also save sizes with 0 quantity
+                mysqli_stmt_bind_param($stmt_size, "isi", $product_id, $size, $quantity);
+                mysqli_stmt_execute($stmt_size);
+            }
+        }
+        mysqli_stmt_close($stmt_size);
+
         echo "<script>
             alert('Cập nhật sản phẩm thành công!');
             window.location.href='../../index.php?action=quanLySanPham&query=lietke';
         </script>";
     } else {
         echo "<script>
-            alert('Có lỗi xảy ra: " . mysqli_error($mysqli) . "');
+            alert('Có lỗi xảy ra khi cập nhật: " . mysqli_error($mysqli) . "');
             window.location.href='../../index.php?action=quanLySanPham&query=sua&idsp=" . $_GET['idsp'] . "';
         </script>";
     }
-
-} else {
+    mysqli_stmt_close($stmt_update);
+}
+ else {
     // Delete product
     $id = $_GET['idsp'];
     

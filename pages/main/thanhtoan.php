@@ -100,9 +100,23 @@ if ($cart_payment == 'tienmat' || $cart_payment == 'chuyenkhoan') {
                               VALUES ('$ma_gh', '$id_sp', '$so_luong', '$size')";
       mysqli_query($mysqli, $insert_order_details);
 
-      // Update stock
-      $update_stock = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - $so_luong WHERE id_sp = $id_sp";
-      mysqli_query($mysqli, $update_stock);
+      // --- START: New stock update logic ---
+
+      // 1. Update the specific size's stock in tbl_sanpham_sizes
+      $update_size_stock_sql = "UPDATE tbl_sanpham_sizes SET so_luong = so_luong - ? WHERE id_sp = ? AND size = ?";
+      $stmt_size = mysqli_prepare($mysqli, $update_size_stock_sql);
+      mysqli_stmt_bind_param($stmt_size, "iis", $so_luong, $id_sp, $size);
+      mysqli_stmt_execute($stmt_size);
+      mysqli_stmt_close($stmt_size);
+
+      // 2. Update the total stock in tbl_sanpham (for consistency)
+      $update_total_stock_sql = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - ? WHERE id_sp = ?";
+      $stmt_total = mysqli_prepare($mysqli, $update_total_stock_sql);
+      mysqli_stmt_bind_param($stmt_total, "ii", $so_luong, $id_sp);
+      mysqli_stmt_execute($stmt_total);
+      mysqli_stmt_close($stmt_total);
+      
+      // --- END: New stock update logic ---
     }
     header('Location:../../index.php?quanly=camon');
 } elseif ($cart_payment === 'vnpay') {
