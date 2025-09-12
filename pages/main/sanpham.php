@@ -21,7 +21,21 @@ $pro_info = mysqli_query($mysqli, $sql_pro_info);
                         <p class="quantity">Tình trạng : <span style="color : red; font-weight : 500;">Hết hàng</span></p>
                     <?php } ?>
                     <p class="gia_sp"><?php echo number_format($info['gia_sp'], 0, ',', ',') . 'đ' ?></p>
-                    <p>Danh mục : </p>
+                    <?php
+                    $id_dm = isset($info['id_dm']) ? intval($info['id_dm']) : 0;
+                    $category_name = 'Không rõ';
+                    if ($id_dm > 0) {
+                        $sql_cat = "SELECT name_sp FROM tbl_danhmucqa WHERE id_dm = '" . $id_dm . "' LIMIT 1";
+                        $res_cat = mysqli_query($mysqli, $sql_cat);
+                        if ($res_cat && mysqli_num_rows($res_cat) > 0) {
+                            $row_cat = mysqli_fetch_assoc($res_cat);
+                            if (!empty($row_cat['name_sp'])) {
+                                $category_name = htmlspecialchars($row_cat['name_sp'], ENT_QUOTES, 'UTF-8');
+                            }
+                        }
+                    }
+                    ?>
+                    <p>Danh mục : <strong><?php echo $category_name; ?></strong></p>
                 </div>
                 <div class="soluong">
                     <label for="" style="color : #55595C; font-size : 16px;">Số lượng :</label>
