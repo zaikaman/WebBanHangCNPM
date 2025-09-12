@@ -9,9 +9,6 @@ deployment_infinityfree/
 infinityfree_deployment.zip
 env_check.php
 
-# Ignore vendor folder
-/vendor/
-
 # Ignore logs
 *.log
 error_log
