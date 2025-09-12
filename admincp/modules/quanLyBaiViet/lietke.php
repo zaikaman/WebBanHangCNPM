@@ -209,7 +209,7 @@ body.modal-open #addPostModal .modal-content * {
                         <td><?php echo $i ?></td>
                         <td><?php echo $row['tenbaiviet'] ?></td>
                         <td><img src="modules/quanLyBaiViet/uploads/<?php echo $row['hinhanh'] ?>" width="150px"></td>
-                        <td><?php echo $row['id_danhmuc'] ?></td>
+                        <td><?php echo isset($row['tendanhmuc_baiviet']) ? $row['tendanhmuc_baiviet'] : $row['id_danhmuc'] ?></td>
                         <td>
                             <textarea class="form-control" rows="3" readonly><?php echo str_replace('\n', "\n", $row['tomtat']) ?></textarea>
                         </td>
