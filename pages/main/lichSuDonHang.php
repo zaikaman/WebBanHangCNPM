@@ -85,97 +85,99 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
         </div>
         
         <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
-            <h4><i class="fas fa-history me-2"></i>LỊCH SỬ ĐƠN HÀNG</h4>
+            <h4 class="page-title"><i class="fas fa-history me-2"></i>LỊCH SỬ ĐƠN HÀNG</h4>
         </div>
         
         <?php if ($count_orders == 0): ?>
-            <div class="text-center py-5">
-                <i class="fas fa-shopping-cart fa-5x text-muted mb-3"></i>
+            <div class="text-center py-5 empty-history-card">
+                <i class="fas fa-shopping-cart fa-5x text-muted mb-4"></i>
                 <h5 class="text-muted">Bạn chưa có đơn hàng nào</h5>
-                <p class="text-muted">Hãy bắt đầu mua sắm để tạo đơn hàng đầu tiên của bạn!</p>
-                <a href="index.php" class="btn btn-primary">
+                <p class="text-muted mb-4">Hãy bắt đầu mua sắm để tạo đơn hàng đầu tiên của bạn!</p>
+                <a href="index.php" class="btn btn-start-shopping">
                     <i class="fas fa-shopping-bag me-2"></i>Bắt đầu mua sắm
                 </a>
             </div>
         <?php else: ?>
-            <table class="table table-bordered table-hover text-center" style="margin-top : 20px">
-                <thead class="table-dark">
-                    <tr>
-                        <th><i class="fas fa-calendar me-2"></i>Ngày Đặt</th>
-                        <th><i class="fas fa-receipt me-2"></i>Mã Đơn Hàng</th>
-                        <th><i class="fas fa-map-marker-alt me-2"></i>Địa Chỉ</th>
-                        <th><i class="fas fa-credit-card me-2"></i>Thanh Toán</th>
-                        <th><i class="fas fa-info-circle me-2"></i>Trạng Thái</th>
-                        <th><i class="fas fa-eye me-2"></i>Chi tiết</th>
-                        <th><i class="fas fa-print me-2"></i>In Đơn Hàng</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
-                $i = 0;
-                while ($row = mysqli_fetch_array($lietke_dh)) {
-                    $i++;
-                ?>
-                    <tr>
-                        <td><?php echo date('d/m/Y H:i', strtotime($row['cart_date'])) ?></td>
-                        <td><strong>#<?php echo $row['ma_gh'] ?></strong></td>
-                        <td> 
-                            <i class="fas fa-map-marker-alt text-danger me-1"></i>
-                            <?php echo $row['dia_chi'] ?>
-                        </td>
-                        <td>
-                            <?php
-                            $payment_method = '';
-                            $payment_class = '';
-                            switch($row['cart_payment']) {
-                                case 'tienmat':
-                                    $payment_method = '<i class="fas fa-money-bill-wave me-1"></i>Tiền mặt';
-                                    $payment_class = 'success';
-                                    break;
-                                case 'chuyenkhoan':
-                                    $payment_method = '<i class="fas fa-university me-1"></i>Chuyển khoản';
-                                    $payment_class = 'info';
-                                    break;
-                                case 'momo':
-                                    $payment_method = '<i class="fas fa-mobile-alt me-1"></i>MoMo';
-                                    $payment_class = 'warning';
-                                    break;
-                                case 'vnpay':
-                                    $payment_method = '<i class="fas fa-credit-card me-1"></i>VNPay';
-                                    $payment_class = 'primary';
-                                    break;
-                                default:
-                                    $payment_method = '<i class="fas fa-question-circle me-1"></i>Khác';
-                                    $payment_class = 'secondary';
-                            }
-                            echo '<span class="badge bg-' . $payment_class . '">' . $payment_method . '</span>';
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                            if ($row['trang_thai'] == 1) {
-                                echo '<span class="badge bg-warning"><i class="fas fa-clock me-1"></i>Đang xử lý</span>';
-                            } else {
-                                echo '<span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Đã giao hàng</span>';
-                            }
-                            ?>
-                        </td>
-                        <td>
-                            <a href="index.php?quanly=xemDonHang&code=<?php echo $row['ma_gh'] ?>" class="btn btn-info btn-sm">
-                                <i class="fas fa-eye me-1"></i>Xem Chi Tiết
-                            </a>
-                        </td>
-                        <td>
-                            <a href="pages/main/indonhang.php?&code=<?php echo $row['ma_gh'] ?>" class="btn btn-outline-primary btn-sm" target="_blank" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
-                                <i class="fas fa-print me-1"></i>In Đơn Hàng
-                            </a>
-                        </td>
-                    </tr>
-                <?php
-                }
-                ?>
-            </tbody>
-        </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover text-center" style="margin-top : 20px">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-calendar me-2"></i>Ngày Đặt</th>
+                            <th><i class="fas fa-receipt me-2"></i>Mã Đơn Hàng</th>
+                            <th><i class="fas fa-map-marker-alt me-2"></i>Địa Chỉ</th>
+                            <th><i class="fas fa-credit-card me-2"></i>Thanh Toán</th>
+                            <th><i class="fas fa-info-circle me-2"></i>Trạng Thái</th>
+                            <th><i class="fas fa-eye me-2"></i>Chi tiết</th>
+                            <th><i class="fas fa-print me-2"></i>In Đơn Hàng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $i = 0;
+                    while ($row = mysqli_fetch_array($lietke_dh)) {
+                        $i++;
+                    ?>
+                        <tr>
+                            <td><?php echo date('d/m/Y H:i', strtotime($row['cart_date'])) ?></td>
+                            <td><strong>#<?php echo $row['ma_gh'] ?></strong></td>
+                            <td> 
+                                <i class="fas fa-map-marker-alt text-danger me-1"></i>
+                                <?php echo $row['dia_chi'] ?>
+                            </td>
+                            <td>
+                                <?php
+                                $payment_method = '';
+                                $payment_class = '';
+                                switch($row['cart_payment']) {
+                                    case 'tienmat':
+                                        $payment_method = '<i class="fas fa-money-bill-wave me-1"></i>Tiền mặt';
+                                        $payment_class = 'success';
+                                        break;
+                                    case 'chuyenkhoan':
+                                        $payment_method = '<i class="fas fa-university me-1"></i>Chuyển khoản';
+                                        $payment_class = 'info';
+                                        break;
+                                    case 'momo':
+                                        $payment_method = '<i class="fas fa-mobile-alt me-1"></i>MoMo';
+                                        $payment_class = 'warning';
+                                        break;
+                                    case 'vnpay':
+                                        $payment_method = '<i class="fas fa-credit-card me-1"></i>VNPay';
+                                        $payment_class = 'primary';
+                                        break;
+                                    default:
+                                        $payment_method = '<i class="fas fa-question-circle me-1"></i>Khác';
+                                        $payment_class = 'secondary';
+                                }
+                                echo '<span class="badge bg-' . $payment_class . '">' . $payment_method . '</span>';
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                if ($row['trang_thai'] == 1) {
+                                    echo '<span class="badge bg-status-processing"><i class="fas fa-clock me-1"></i>Đang xử lý</span>';
+                                } else {
+                                    echo '<span class="badge bg-status-delivered"><i class="fas fa-check-circle me-1"></i>Đã giao hàng</span>';
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <a href="index.php?quanly=xemDonHang&code=<?php echo $row['ma_gh'] ?>" class="btn btn-view-order btn-sm">
+                                    <i class="fas fa-eye me-1"></i>Xem
+                                </a>
+                            </td>
+                            <td>
+                                <a href="pages/main/indonhang.php?&code=<?php echo $row['ma_gh'] ?>" class="btn btn-print-order btn-sm" target="_blank">
+                                    <i class="fas fa-print me-1"></i>In
+                                </a>
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+            </table>
+            </div>
         
         <!-- Phân trang -->
         <?php if ($total_pages > 1): ?>
@@ -185,12 +187,12 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                     <?php if ($page > 1): ?>
                         <li class="page-item">
                             <a class="page-link" href="index.php?quanly=lichSuDonHang&page=<?php echo $page - 1; ?>">
-                                <i class="fas fa-chevron-left"></i> Trước
+                                <i class="fas fa-chevron-left"></i>
                             </a>
                         </li>
                     <?php else: ?>
                         <li class="page-item disabled">
-                            <span class="page-link"><i class="fas fa-chevron-left"></i> Trước</span>
+                            <span class="page-link"><i class="fas fa-chevron-left"></i></span>
                         </li>
                     <?php endif; ?>
                     
@@ -231,12 +233,12 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                     <?php if ($page < $total_pages): ?>
                         <li class="page-item">
                             <a class="page-link" href="index.php?quanly=lichSuDonHang&page=<?php echo $page + 1; ?>">
-                                Sau <i class="fas fa-chevron-right"></i>
+                                <i class="fas fa-chevron-right"></i>
                             </a>
                         </li>
                     <?php else: ?>
                         <li class="page-item disabled">
-                            <span class="page-link">Sau <i class="fas fa-chevron-right"></i></span>
+                            <span class="page-link"><i class="fas fa-chevron-right"></i></span>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -256,53 +258,138 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
 </div>
 
 <style>
-.main_content {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-}
-.cart_content {
-    margin-bottom: 0 !important;
-    padding-bottom: 20px !important;
-}
+    :root {
+        --primary-red: #d70018;
+        --light-red: #fdeeee;
+        --dark-red: #a70013;
+        --text-white: #ffffff;
+        --text-dark: #333333;
+        --border-color: #dee2e6;
+    }
 
-/* Custom pagination styles */
-.pagination {
-    --bs-pagination-padding-x: 0.75rem;
-    --bs-pagination-padding-y: 0.375rem;
-    --bs-pagination-font-size: 0.875rem;
-    --bs-pagination-color: #007bff;
-    --bs-pagination-bg: #fff;
-    --bs-pagination-border-width: 1px;
-    --bs-pagination-border-color: #dee2e6;
-    --bs-pagination-border-radius: 0.375rem;
-    --bs-pagination-hover-color: #0056b3;
-    --bs-pagination-hover-bg: #e9ecef;
-    --bs-pagination-hover-border-color: #dee2e6;
-    --bs-pagination-focus-color: #0056b3;
-    --bs-pagination-focus-bg: #e9ecef;
-    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-    --bs-pagination-active-color: #fff;
-    --bs-pagination-active-bg: #007bff;
-    --bs-pagination-active-border-color: #007bff;
-    --bs-pagination-disabled-color: #6c757d;
-    --bs-pagination-disabled-bg: #fff;
-    --bs-pagination-disabled-border-color: #dee2e6;
-}
+    .main_content {
+        background-color: #f9f9f9;
+        padding-bottom: 20px !important;
+        margin-bottom: 0 !important;
+    }
 
-.page-link {
-    transition: all 0.3s ease;
-}
+    .cart_content {
+        padding-bottom: 20px !important;
+        margin-bottom: 0 !important;
+    }
 
-.page-item.active .page-link {
-    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-    border-color: #0056b3;
-    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
-}
+    .arrow-steps .step.done {
+        background-color: #f0f0f0 !important;
+        color: #555 !important;
+    }
+    .arrow-steps .step.done a {
+        color: #555 !important;
+    }
+    .arrow-steps .step.done:after {
+        border-left-color: #f0f0f0 !important;
+    }
+    .arrow-steps .step.done span:before {
+        color: var(--primary-red) !important;
+    }
 
-.page-link:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    .arrow-steps .step.current {
+        background-color: var(--primary-red) !important;
+        color: var(--text-white) !important;
+    }
+    .arrow-steps .step.current a {
+        color: var(--text-white) !important;
+    }
+    .arrow-steps .step.current:after {
+        border-left-color: var(--primary-red) !important;
+    }
+
+    .page-title {
+        color: var(--primary-red);
+        font-weight: bold;
+    }
+
+    .table thead {
+        background-color: var(--primary-red);
+        color: var(--text-white);
+    }
+    
+    .table-hover tbody tr:hover {
+        background-color: var(--light-red);
+    }
+
+    .btn-view-order {
+        background-color: var(--primary-red);
+        border-color: var(--primary-red);
+        color: var(--text-white);
+    }
+
+    .btn-view-order:hover {
+        background-color: var(--dark-red);
+        border-color: var(--dark-red);
+        color: var(--text-white);
+    }
+
+    .btn-print-order {
+        color: var(--primary-red);
+        border-color: var(--primary-red);
+    }
+
+    .btn-print-order:hover {
+        color: var(--text-white);
+        background-color: var(--primary-red);
+        border-color: var(--primary-red);
+    }
+
+    .badge.bg-status-processing {
+        background-color: #ffc107 !important;
+        color: #000;
+    }
+
+    .badge.bg-status-delivered {
+        background-color: #28a745 !important;
+        color: #fff;
+    }
+    
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary-red);
+        border-color: var(--primary-red);
+        color: var(--text-white);
+        z-index: 1;
+    }
+
+    .pagination .page-link {
+        color: var(--primary-red);
+    }
+
+    .pagination .page-link:hover {
+        color: var(--dark-red);
+        background-color: var(--light-red);
+    }
+    
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
+    }
+
+    .empty-history-card {
+        background-color: var(--text-white);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 40px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    
+    .btn-start-shopping {
+        background-color: var(--primary-red);
+        border-color: var(--primary-red);
+        color: var(--text-white);
+        padding: 10px 20px;
+        font-size: 1.1rem;
+    }
+    .btn-start-shopping:hover {
+        background-color: var(--dark-red);
+        border-color: var(--dark-red);
+        color: var(--text-white);
+    }
 </style>
 
 <!-- Link Bootstrap JS and Popper -->
