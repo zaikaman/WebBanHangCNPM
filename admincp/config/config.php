@@ -43,8 +43,14 @@ if ($mysqli->connect_errno) {
 // Set charset to UTF-8
 $mysqli->set_charset("utf8");
 
+// Define APP_ENV based on domain
+$appEnv = 'local'; // Default to local
+if (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'great-site.net') !== false) {
+    $appEnv = 'production';
+}
+if (!defined('APP_ENV')) define('APP_ENV', $appEnv);
+
 // Define other environment variables (chỉ define nếu chưa tồn tại)
-if (!defined('APP_ENV')) define('APP_ENV', env('APP_ENV', 'local'));
 if (!defined('APP_DEBUG')) define('APP_DEBUG', env('APP_DEBUG', true));
 if (!defined('APP_URL')) define('APP_URL', env('APP_URL', 'http://localhost'));
 if (!defined('TIMEZONE')) define('TIMEZONE', env('TIMEZONE', 'Asia/Ho_Chi_Minh'));

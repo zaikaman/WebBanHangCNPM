@@ -123,6 +123,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
+    <?php if (APP_ENV === 'local') { ?>
     <div class="chat-toggle">
         <ion-icon name="chatbubbles-outline" style="font-size: 24px;"></ion-icon>
     </div>
@@ -144,6 +145,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <button id="send-message">Gửi</button>
         </div>
     </div>
+<?php } ?>
 
     <!-- Custom Scripts -->
     <script src="js/script.js"></script>
