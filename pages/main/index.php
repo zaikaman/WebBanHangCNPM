@@ -11,17 +11,17 @@ if ($page == '' || $page == 1) {
 }
 $sql_pro = "SELECT * FROM tbl_sanpham,tbl_danhmucqa WHERE tbl_sanpham.id_dm=tbl_danhmucqa.id_dm ORDER BY tbl_sanpham.id_sp DESC LIMIT $begin,12";
 $new_pro = mysqli_query($mysqli, $sql_pro);
-// DEBUGGING CODE START
-if (!$new_pro) {
-    echo "<p style='color:red; text-align:center;'>SQL Error: " . mysqli_error($mysqli) . "</p>";
-} else {
-    $num_rows = mysqli_num_rows($new_pro);
-    echo "<p style='text-align:center;'>DEBUG: Found " . $num_rows . " products.</p>";
-    if ($num_rows == 0) {
-        echo "<p style='color:orange; text-align:center;'>The product query returned 0 results. Is the production database empty?</p>";
-    }
-}
-// DEBUGGING CODE END
+// // DEBUGGING CODE START
+// if (!$new_pro) {
+//     echo "<p style='color:red; text-align:center;'>SQL Error: " . mysqli_error($mysqli) . "</p>";
+// } else {
+//     $num_rows = mysqli_num_rows($new_pro);
+//     echo "<p style='text-align:center;'>DEBUG: Found " . $num_rows . " products.</p>";
+//     if ($num_rows == 0) {
+//         echo "<p style='color:orange; text-align:center;'>The product query returned 0 results. Is the production database empty?</p>";
+//     }
+// }
+// // DEBUGGING CODE END
 ?>
 <div class="main_with_sidebar">
     <?php
