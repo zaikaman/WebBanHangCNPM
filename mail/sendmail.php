@@ -276,5 +276,93 @@ class Mailer {
         </body>
         </html>";
     }
+
+    public function sendPasswordResetEmail($email, $name, $token) {
+        $mail = new PHPMailer(true);
+        $config = $this->getMailConfig();
+        
+        try {
+            $this->setupSMTP($mail);
+            
+            // Recipients
+            $mail->setFrom($config['from_address'], $config['from_name']);
+            $mail->addAddress($email, $name);
+            
+            // Create dynamic reset link based on APP_URL
+            if (function_exists('app_url')) {
+                $baseUrl = app_url();
+            } else {
+                $baseUrl = rtrim(getenv('APP_URL') ?: 'http://localhost/WebBanHangCNPM', '/');
+            }
+            $resetLink = $baseUrl . '/index.php?quanly=datlaimatkhau&token=' . $token;
+            
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Yêu cầu đặt lại mật khẩu - 7TCC Store';
+            
+            $mail->Body = $this->getPasswordResetTemplate($name, $resetLink);
+            
+            $mail->send();
+            return true;
+            
+        } catch(Exception $e) {
+            error_log('Password Reset Email Error: ' . $mail->ErrorInfo);
+            return false;
+        }
+    }
+
+    private function getPasswordResetTemplate($name, $resetLink) {
+        return "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+            <title>Đặt lại mật khẩu</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .header { background: #dc0521; color: white; padding: 20px; text-align: center; }
+                .content { padding: 20px; background: #f9f9f9; }
+                .button { 
+                    display: inline-block; 
+                    background: #dc0521; 
+                    color: white !important; 
+                    padding: 12px 30px; 
+                    text-decoration: none; 
+                    border-radius: 5px; 
+                    margin: 20px 0;
+                }
+                .footer { text-align: center; font-size: 12px; color: #666; margin-top: 20px; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>7TCC Store</h1>
+                    <p>Yêu cầu đặt lại mật khẩu</p>
+                </div>
+                <div class='content'>
+                    <h2>Xin chào $name,</h2>
+                    <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn.</p>
+                    <p>Để đặt lại mật khẩu, vui lòng nhấn vào nút bên dưới:</p>
+                    
+                    <center>
+                        <a href='$resetLink' class='button'>Đặt lại mật khẩu</a>
+                    </center>
+                    
+                    <p>Hoặc copy và paste đường link sau vào trình duyệt:</p>
+                    <p><a href='$resetLink'>$resetLink</a></p>
+                    
+                    <p><strong>Lưu ý:</strong> Link này chỉ có hiệu lực trong 15 phút. Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.</p>
+                </div>
+                <div class='footer'>
+                    <p>© ".date("Y")." 7TCC Store - Thời trang thể thao chất lượng</p>
+                    <p>Địa chỉ: 273 An Dương Vương – Phường 3 – Quận 5, TP.HCM</p>
+                    <p>Hotline: 0909888888</p>
+                </div>
+            </div>
+        </body>
+        </html>";
+    }
 }
 ?>

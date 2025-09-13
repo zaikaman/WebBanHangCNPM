@@ -935,7 +935,7 @@ ul#tabs-nav li.active a {
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 .login_content {
-  width: 40%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -943,41 +943,35 @@ ul#tabs-nav li.active a {
 .input-box {
   position: relative;
   width: 100%;
-  height: 50px;
-  margin: 0;
+  height: auto; /* Changed from 50px */
+  margin-bottom: 20px; /* Added for spacing */
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: end;
+  flex-direction: column; /* Changed from row */
+  justify-content: start; /* Changed from center */
+  align-items: start; /* Changed from end */
 }
 .input-box label {
-  /* position: absolute;
-  top: 50%;
-  left: -70px; */
-  /* transform: translateY(-10%); */
-  font-size: 13px;
-  font-weight: 300;
+  font-size: 14px; /* Increased font size slightly */
+  font-weight: 500; /* Made it bolder */
   color: #162938;
-  pointer-events: none;
-  width: 20%;
-  margin-bottom: 10px;
-  /* transition: 0.3s; */
+  width: 100%; /* Changed from 20% */
+  margin-bottom: 5px; /* Changed from 10px */
 }
 /* .input-box input:focus ~ label,
 .input-box input:valid ~ label {
   top: 5px;
 } */
 .input-box input {
-  width: 80%;
+  width: 100%; /* Changed from 80% */
   background: transparent;
   border: none;
   outline: none;
-  height: 70%;
-  margin-top: 10px;
-  font-size: 14px;
+  height: 40px; /* Set a fixed height */
+  margin-top: 0; /* Removed margin-top */
+  font-size: 15px; /* Increased font size */
   font-weight: 300;
   color: #162938;
-  padding: 0 0 0 5px;
+  padding: 0 5px; /* Adjusted padding */
   border-bottom: 2px solid black;
 }
 .input-box .icon {

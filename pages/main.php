@@ -119,6 +119,10 @@
         include("main/timKiemNangCao.php");
     } elseif ($des == 'doimatkhau') {
         include("pages/main/doimatkhau.php");
+    } elseif ($des == 'quenmatkhau') {
+        include("pages/main/quenmatkhau.php");
+    } elseif ($des == 'datlaimatkhau') {
+        include("pages/main/datlaimatkhau.php");
     } elseif ($des == 'camon') {
         include("pages/main/camon.php");
     } elseif ($des == 'thongtinnguoidung') {
