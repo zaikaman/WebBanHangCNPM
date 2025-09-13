@@ -459,20 +459,22 @@ input[type="text"]::-ms-clear {
   background-color: rgb(255, 255, 255);
   width: 100%;
   height: auto;
-  border-radius: 5px;
-  padding: 10px 8px;
+  border-radius: 12px;
+  padding: 1rem;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 }
 .filter_title {
-  padding: 5px 5px;
+  padding: 1rem;
   margin: 0;
-  height: auto;
-  border-bottom: 1px solid rgba(221, 221, 221, 1);
-  font-size: 12px;
+  border-bottom: 1px solid #e9ecef;
+  background-color: #f8f9fa;
 }
 .filter_title .title {
-  font-weight: bold;
-  font-size: 17px;
-  margin: 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0;
 }
 .cate_content {
   background-color: rgb(255, 255, 255);
@@ -1572,6 +1574,9 @@ color: #999;
   .sidebar {
     flex-direction: row;
     width: 100%;
+    padding: 0;
+    background-color: transparent;
+    border: none;
   }
   .footer_content {
     justify-content: center;
