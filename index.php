@@ -147,6 +147,17 @@ if (session_status() == PHP_SESSION_NONE) {
 
     <!-- Custom Scripts -->
     <script src="js/script.js"></script>
+    <?php
+    // Xác định endpoint cho chat dựa trên môi trường
+    $chatApiEndpoint = 'api/chat.php'; // Mặc định là local
+    if (defined('APP_ENV') && APP_ENV === 'production') {
+        $chatApiEndpoint = 'https://crimson-forest-1a02.zaikaman123.workers.dev';
+    }
+    ?>
+    <script>
+        // Truyền endpoint từ PHP sang JavaScript
+        window.CHAT_API_ENDPOINT = '<?php echo $chatApiEndpoint; ?>';
+    </script>
     <script src="js/chat_new.js"></script>
 </body>
 
