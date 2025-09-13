@@ -38,7 +38,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="css/style-v1.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" type="text/css" href="css/chat.css?v=<?php echo time(); ?>">
     
     <!-- Force center navigation -->
     <style>
