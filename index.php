@@ -148,17 +148,18 @@ if (session_status() == PHP_SESSION_NONE) {
     <!-- Custom Scripts -->
     <script src="js/script.js"></script>
     <?php
-    // Xác định endpoint cho chat dựa trên môi trường
-    $chatApiEndpoint = 'api/chat.php'; // Mặc định là local
-    if (defined('APP_ENV') && APP_ENV === 'production') {
-        $chatApiEndpoint = 'https://seventcc-proxy.onrender.com/chat';
-    }
+    if (defined('APP_ENV') && APP_ENV === 'local') {
+        // Chỉ định endpoint cho môi trường local
+        $chatApiEndpoint = 'api/chat.php';
     ?>
     <script>
         // Truyền endpoint từ PHP sang JavaScript
         window.CHAT_API_ENDPOINT = '<?php echo $chatApiEndpoint; ?>';
     </script>
     <script src="js/chat_new.js"></script>
+    <?php
+    } // End if local
+    ?>
 </body>
 
 </html>
