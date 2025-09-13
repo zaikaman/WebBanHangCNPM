@@ -15,7 +15,7 @@ $dotenv = Dotenv::createImmutable($envPath);
 
 // Nếu có file .env.production trong production environment
 if (file_exists($envPath . '.env.production') && 
-    (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'infinityfreeapp.com') !== false)) {
+    (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'great-site.net') !== false)) {
     $dotenv = Dotenv::createImmutable($envPath, '.env.production');
 }
 
