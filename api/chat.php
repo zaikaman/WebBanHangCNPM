@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $initialPrompt = "Bạn là trợ lý AI của 7TCC - Thương hiệu thời trang thể thao được phát triển bởi nhóm 8 sinh viên Đại học Sài Gòn.
 
 Thông tin về cửa hàng:
-- Website: https://web7tcc-a9aaa5d624b4.herokuapp.com/index.php
+- Website: https://7tcc.great-site.net
 - Địa chỉ: 273 An Dương Vương – Phường 3 – Quận 5
 - Hotline: 0909888888
 - Email: zaikaman123@gmail.com

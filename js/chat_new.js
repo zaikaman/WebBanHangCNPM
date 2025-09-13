@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         saveChatHistory();
 
         try {
-            const response = await fetch('api/chat.php', {
+                        const response = await fetch('https://crimson-forest-1a02.zaikaman123.workers.dev', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
