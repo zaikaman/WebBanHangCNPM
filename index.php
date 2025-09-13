@@ -151,7 +151,7 @@ if (session_status() == PHP_SESSION_NONE) {
     // Xác định endpoint cho chat dựa trên môi trường
     $chatApiEndpoint = 'api/chat.php'; // Mặc định là local
     if (defined('APP_ENV') && APP_ENV === 'production') {
-        $chatApiEndpoint = 'https://crimson-forest-1a02.zaikaman123.workers.dev';
+        $chatApiEndpoint = 'https://seventcc-proxy.onrender.com/chat';
     }
     ?>
     <script>
