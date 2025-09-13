@@ -118,13 +118,13 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                         $i++;
                     ?>
                         <tr>
-                            <td><?php echo date('d/m/Y H:i', strtotime($row['cart_date'])) ?></td>
-                            <td><strong>#<?php echo $row['ma_gh'] ?></strong></td>
-                            <td> 
+                            <td data-label="Ngày Đặt"><?php echo date('d/m/Y H:i', strtotime($row['cart_date'])) ?></td>
+                            <td data-label="Mã Đơn Hàng"><strong>#<?php echo $row['ma_gh'] ?></strong></td>
+                            <td data-label="Địa Chỉ"> 
                                 <i class="fas fa-map-marker-alt text-danger me-1"></i>
                                 <?php echo $row['dia_chi'] ?>
                             </td>
-                            <td>
+                            <td data-label="Thanh Toán">
                                 <?php
                                 $payment_method = '';
                                 $payment_class = '';
@@ -152,7 +152,7 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                                 echo '<span class="badge bg-' . $payment_class . '">' . $payment_method . '</span>';
                                 ?>
                             </td>
-                            <td>
+                            <td data-label="Trạng Thái">
                                 <?php
                                 if ($row['trang_thai'] == 1) {
                                     echo '<span class="badge bg-status-processing"><i class="fas fa-clock me-1"></i>Đang xử lý</span>';
@@ -161,12 +161,12 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                                 }
                                 ?>
                             </td>
-                            <td>
+                            <td data-label="Chi tiết">
                                 <a href="index.php?quanly=xemDonHang&code=<?php echo $row['ma_gh'] ?>" class="btn btn-view-order btn-sm">
                                     <i class="fas fa-eye me-1"></i>Xem
                                 </a>
                             </td>
-                            <td>
+                            <td data-label="In Đơn Hàng">
                                 <a href="pages/main/indonhang.php?&code=<?php echo $row['ma_gh'] ?>" class="btn btn-print-order btn-sm" target="_blank">
                                     <i class="fas fa-print me-1"></i>In
                                 </a>
@@ -389,6 +389,50 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
         background-color: var(--dark-red);
         border-color: var(--dark-red);
         color: var(--text-white);
+    }
+
+    @media screen and (max-width: 992px) {
+        .table-responsive .table thead {
+            display: none;
+        }
+        .table-responsive .table tbody,
+        .table-responsive .table tr,
+        .table-responsive .table td {
+            display: block;
+            width: 100%;
+        }
+        .table-responsive .table tr {
+            margin-bottom: 1.5rem;
+            border: 1px solid #dee2e6;
+            border-radius: .35rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .table-responsive .table td {
+            text-align: right;
+            padding-left: 50%;
+            position: relative;
+            border: none;
+            border-bottom: 1px solid #eee;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .table-responsive .table td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 45%;
+            padding-left: 1rem;
+            font-weight: bold;
+            text-align: left;
+            color: var(--primary-red);
+        }
+        .table-responsive .table td:last-child {
+            border-bottom: 0;
+        }
+        .table-responsive .table td .btn {
+            width: auto;
+            padding: .375rem .75rem;
+        }
     }
 </style>
 
