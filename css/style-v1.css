@@ -1747,7 +1747,7 @@ color: #999;
   }
   .hamburger {
     display: block;
-    margin: 0 0px 0 35px;
+    margin: 0;
   }
   .menu_content {
     justify-content: center;
