@@ -50,6 +50,27 @@ $today_revenue = $result_doanhthu_today ? $result_doanhthu_today['today_revenue'
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../../css/bootstrap-override.css" rel="stylesheet">
+<style>
+    /* Custom scrollbar for recent orders table */
+    .table-responsive::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 8px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #dc0021 0%, #a90019 100%);
+        border-radius: 8px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #a90019 0%, #dc0021 100%);
+    }
+</style>
 <!-- Statistics Cards Row -->
     <div class="row mb-4">
         <div class="col-xl-3 col-md-6 mb-4">
@@ -151,7 +172,9 @@ $today_revenue = $result_doanhthu_today ? $result_doanhthu_today['today_revenue'
                     </div>
                 </div>
                 <div class="card-body">
-                    <div id="chart" style="height: 350px;"></div>
+                    <div class="chart-container" style="position: relative; width: 100%; height: 350px; min-width: 300px;">
+                        <div id="chart" style="height: 100%; width: 100%;"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -182,7 +205,7 @@ $today_revenue = $result_doanhthu_today ? $result_doanhthu_today['today_revenue'
 
                     if (mysqli_num_rows($query_recent_orders) > 0) {
                     ?>
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>

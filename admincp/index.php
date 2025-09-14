@@ -67,35 +67,257 @@ if (!isset($_SESSION['dangNhap'])) {
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
 </head>
 
-<body class="dashboard-page">
-    <!-- Enhanced Navbar with 7TCC branding - Same as management pages -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center" href="index.php">
-                <img src="../images/image7tcc2removebgpreview11884-0kr5-200h.png" alt="7TCC" height="40" class="mr-2">
-                <span>Admin Dashboard</span>
+<body class="dashboard-page" style="padding:0 !important; margin:0 !important;">
+    <!-- Responsive Navbar with 7TCC branding -->
+    <header class="admin-header admin-navbar" style="height:70px; min-height:70px; max-height:70px;">
+        <div class="container-fluid px-3 py-0 d-flex flex-nowrap align-items-center justify-content-between" style="height:70px; min-height:70px; max-height:70px;">
+            <a class="navbar-brand d-flex align-items-center gap-2 flex-shrink-0 text-white" href="index.php" style="height:70px; min-height:70px; max-height:70px;">
+                <span class="fw-bold ms-2 admin-navbar-title">Admin Dashboard</span>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <span class="navbar-text mr-3">
-                            <i class="fas fa-user-circle mr-2"></i>
-                            Xin chào, <strong><?php echo $_SESSION['dangNhap']; ?></strong>
-                        </span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-danger ml-2" href="logout.php">
-                            <i class="fas fa-sign-out-alt mr-1"></i>
-                            Đăng xuất
-                        </a>
-                    </li>
-                </ul>
+            <!-- Always keep user-info and logout in a row, let them shrink/resize responsively -->
+            <div class="d-flex align-items-center gap-2 flex-nowrap admin-navbar-block" style="height:70px; min-height:70px; max-height:70px;">
+                <div class="user-info-block flex-shrink-1" style="min-width:0;">
+                    <span class="navbar-text d-flex align-items-center gap-2 px-2 py-1 rounded user-info flex-nowrap" style="min-width:0;">
+                        <i class="fas fa-user-circle fs-4"></i>
+                        <span class="d-none d-md-inline">Xin chào,</span>
+                        <strong style="min-width:0; word-break:break-word;"><?php echo $_SESSION['dangNhap']; ?></strong>
+                    </span>
+                </div>
+                <div class="logout-block flex-shrink-0 ms-3" style="min-width:0;">
+                    <a class="btn btn-danger px-3 py-2 fw-semibold shadow-sm" href="logout.php" style="white-space:nowrap;">
+                        <i class="fas fa-sign-out-alt me-1"></i>
+                        <span class="d-none d-sm-inline">Đăng xuất</span>
+                        <span class="d-inline d-sm-none"><i class="fas fa-sign-out-alt"></i></span>
+                    </a>
+                </div>
             </div>
         </div>
-    </nav>
+        <style>
+            html, body.dashboard-page {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .admin-header {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .admin-navbar {
+                background: linear-gradient(90deg, #dc0021 0%, #a90019 100%);
+                box-shadow: 0 2px 8px rgba(220,0,33,0.08);
+                border-bottom: 2px solid #a90019;
+                width: 100%;
+                height: 70px;
+                min-height: 70px;
+                max-height: 70px;
+                padding: 0 !important;
+            }
+            .admin-navbar .navbar-brand {
+                color: #fff !important;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                min-width: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 1.25rem;
+                height: 70px;
+                min-height: 70px;
+                max-height: 70px;
+                display: flex;
+                align-items: center;
+            }
+            .admin-navbar-title {
+                font-size: 1.3rem;
+            }
+            .admin-navbar .navbar-text.user-info {
+                background: rgba(255,255,255,0.08);
+                color: #fff;
+                font-size: 1rem;
+                font-weight: 500;
+                transition: background 0.2s;
+                min-width: 0;
+                flex-wrap: nowrap;
+                word-break: break-word;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                height: 40px;
+                align-items: center;
+                display: flex;
+            }
+            .admin-navbar .navbar-text.user-info strong {
+                color: #fff;
+                font-weight: 700;
+                min-width: 0;
+                word-break: break-word;
+            }
+            .admin-navbar .btn-danger {
+                background: linear-gradient(135deg, #dc0021 0%, #a90019 100%) !important;
+                border: none;
+                color: #fff !important;
+                font-size: 1rem;
+                border-radius: 6px;
+                transition: background 0.2s, box-shadow 0.2s;
+                min-width: 0;
+                white-space: nowrap;
+                padding-top: 8px;
+                padding-bottom: 8px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+            }
+            .admin-navbar .btn-danger:hover, .admin-navbar .btn-danger:focus {
+                background: linear-gradient(135deg, #a90019 0%, #dc0021 100%) !important;
+                box-shadow: 0 4px 15px rgba(220,0,33,0.18) !important;
+            }
+            .admin-navbar-block {
+                min-width: 0;
+                gap: 1.5rem;
+                height: 70px;
+                min-height: 70px;
+                max-height: 70px;
+                align-items: center;
+                flex-wrap: nowrap !important;
+                flex-direction: row !important; /* Always row, never column */
+                width: auto;
+            }
+            .logout-block {
+                margin-top: 0 !important;
+            }
+            @media (max-width: 1200px) {
+                .admin-navbar-block {
+                    gap: 1rem !important;
+                }
+            }
+            /* Remove flex-direction: column for all breakpoints, always row */
+            @media (max-width: 991.98px) {
+                .admin-navbar-block {
+                    /* flex-direction: row !important; */
+                    gap: 0.5rem !important;
+                    width: auto;
+                    height: auto;
+                    min-height: unset;
+                    max-height: unset;
+                }
+                .logout-block, .user-info-block {
+                    width: auto;
+                }
+                .admin-navbar .btn-danger {
+                    width: auto;
+                    margin-top: 0;
+                }
+                .admin-navbar .navbar-text.user-info {
+                    justify-content: flex-start;
+                    width: auto;
+                    margin-bottom: 0;
+                }
+                .admin-navbar, .admin-navbar .navbar-brand, .admin-navbar-block {
+                    height: auto !important;
+                    min-height: unset !important;
+                    max-height: unset !important;
+                }
+            }
+            @media (max-width: 768px) {
+                .admin-navbar-title {
+                    font-size: 1.3rem;
+                }
+                .admin-navbar .navbar-text.user-info {
+                    font-size: 0.95rem;
+                }
+                .admin-navbar .btn-danger {
+                    font-size: 0.95rem;
+                    padding: 8px 12px;
+                }
+            }
+            @media (max-width: 576px) {
+                .admin-header .container-fluid {
+                    flex-direction: row !important;
+                    align-items: center !important;
+                    justify-content: space-between !important;
+                    gap: 0.75rem !important;
+                }
+                .admin-navbar-title {
+                    font-size: 0.9rem !important;
+                    margin-bottom: 0 !important;
+                    margin-right: 0.75rem !important;
+                }
+                .admin-navbar-block {
+                    align-items: center !important;
+                    gap: 0.2rem !important;
+                    height: auto !important;
+                    min-height: unset !important;
+                    max-height: unset !important;
+                    width: auto;
+                    margin-left: auto !important;
+                }
+                .user-info-block {
+                    width: auto;
+                    margin-right: 0.5rem !important;
+                }
+                .logout-block {
+                    width: auto;
+                }
+                .admin-navbar .navbar-text.user-info {
+                    font-size: 0.9rem;
+                    margin-bottom: 0 !important;
+                }
+                .admin-navbar .btn-danger {
+                    font-size: 0.9rem;
+                    padding: 7px 10px;
+                    min-width: 36px;
+                    width: 36px;
+                    height: 36px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .admin-navbar .btn-danger span,
+                .admin-navbar .btn-danger .logout-text {
+                    display: none !important;
+                }
+                .admin-navbar .btn-danger i {
+                    margin-right: 0 !important;
+                    font-size: 1.1rem;
+                }
+                .admin-navbar, .admin-navbar .navbar-brand {
+                    height: auto !important;
+                    min-height: unset !important;
+                    max-height: unset !important;
+                    
+                }
+            }
+            @media (max-width: 400px) {
+                .admin-navbar-title {
+                    font-size: 0.9rem;
+                }
+                .admin-navbar .navbar-text.user-info {
+                    font-size: 0.85rem;
+                }
+                .admin-navbar .btn-danger {
+                    font-size: 0.85rem;
+                    padding: 6px 8px;
+                }
+            }
+        </style>
+    </header>
+    <style>
+        @media (max-width: 576px) {
+            .navbar-brand span {
+                font-size: 15px;
+            }
+            .navbar-text strong {
+                font-size: 15px;
+            }
+            .navbar .btn {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+        }
+        @media (max-width: 400px) {
+            .navbar-brand img {
+                height: 32px;
+            }
+        }
+    </style>
 
     <!-- Main Content -->
     <div class="container-fluid mt-4">
@@ -110,27 +332,31 @@ if (!isset($_SESSION['dangNhap'])) {
         if ($showDashboard) {
         ?>
         <!-- Dashboard Content -->
-        <div class="card mb-4">
+        <div class="card mb-4" style="margin-left:1.5rem; margin-right:1.5rem;">
             <div class="card-header">
-                <h3 class="mb-0">
-                    <i class="fas fa-tachometer-alt mr-2"></i>
-                    Dashboard Overview - 7TCC
-                </h3>
             </div>
-            <div class="card-body px-0">
+            <div class="card-body px-0 ">
                 <?php include("modules/dashboard.php"); ?>
             </div>
         </div>
         <?php 
         } else {
             // Include main routing logic for other pages
-            include("modules/main.php");
+            ?>
+              <div class="card mb-4" style="margin-left:1.5rem; margin-right:1.5rem;">
+                <div class="card-header">
+                    <!-- You can add a dynamic title here if needed -->
+                </div>
+                <div class="card-body px-0 ">
+                    <?php include("modules/main.php"); ?>
+                </div>
+            </div>
+            <?php
         }
         ?>
-        </div>
     </div>
 
-    <?php include("modules/footer.php"); ?>
+
 
     <!-- Scripts -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -166,7 +392,27 @@ if (!isset($_SESSION['dangNhap'])) {
                 gridTextColor: '#666',
                 gridTextSize: 12,
                 hideHover: 'auto',
-                parseTime: false
+                parseTime: false,
+                resize: true
+            });
+
+            // Thêm event listener để chart tự động resize khi cửa sổ thay đổi kích thước
+            var resizeTimeout;
+            $(window).on('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function() {
+                    // Lấy kích thước container hiện tại
+                    var containerWidth = $('#chart').parent().width();
+                    var containerHeight = $('#chart').height();
+                    
+                    // Redraw chart với kích thước mới
+                    char.redraw();
+                    
+                    // Đảm bảo chart fit với container
+                    if (containerWidth > 0) {
+                        $('#chart svg').attr('width', containerWidth - 40); // Trừ padding
+                    }
+                }, 150);
             });
 
             $('.select_date').change(function () {

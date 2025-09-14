@@ -130,14 +130,183 @@ body.modal-open #addPostModal .modal-content * {
     pointer-events: auto !important;
     z-index: 1000000 !important;
 }
+
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    /* Header responsive */
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn-group {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-group .btn {
+        width: 100%;
+    }
+    
+    /* Pagination responsive */
+    .pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .pagination .page-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Search form responsive */
+    .search-form-container {
+        padding: 15px;
+    }
+    
+    .search-form-container .row.g-3 {
+        gap: 10px;
+    }
+    
+    .search-form-container .col-lg-3,
+    .search-form-container .col-lg-2,
+    .search-form-container .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* Table responsive */
+    .table th, .table td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .table img {
+        width: 60px !important;
+        height: 60px;
+        object-fit: cover;
+    }
+    
+    /* Modal responsive */
+    #addProductModal .modal-dialog {
+        max-width: 95vw !important;
+        width: 95vw !important;
+        margin: 10px !important;
+    }
+    
+    #addProductModal .modal-content {
+        max-height: 90vh !important;
+    }
+    
+    .form-section {
+        padding: 15px;
+    }
+    
+    .form-section .row.g-3 {
+        gap: 10px;
+    }
+    
+    .form-section .col-md-6,
+    .form-section .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* File upload responsive */
+    .file-upload-area {
+        padding: 15px;
+    }
+    
+    .image-preview {
+        max-width: 150px;
+        max-height: 150px;
+    }
+}
+
+@media (max-width: 576px) {
+    h3 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    
+    .table th, .table td {
+        padding: 0.4rem;
+        font-size: 0.8rem;
+    }
+    
+    .table img {
+        width: 50px !important;
+        height: 50px;
+    }
+    
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    .search-form-container {
+        padding: 10px;
+    }
+    
+    .form-section {
+        padding: 10px;
+    }
+    
+    .file-upload-area {
+        padding: 10px;
+    }
+    
+    .image-preview {
+        max-width: 120px;
+        max-height: 120px;
+    }
+    
+    /* Hide some columns on very small screens */
+    .table th:nth-child(6),
+    .table td:nth-child(6),
+    .table th:nth-child(7),
+    .table td:nth-child(7) {
+        display: none;
+    }
+    
+    /* Pagination responsive for mobile */
+    .pagination {
+        font-size: 0.8rem;
+    }
+    
+    .pagination .page-link {
+        padding: 0.4rem 0.6rem;
+    }
+    
+    /* Page size selector responsive */
+    .page-size-selector {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .page-size-selector select {
+        width: auto;
+        min-width: 80px;
+    }
+}
 </style>
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3>Liệt Kê Bài Viết</h3>
-        <div class="btn-group">
+<div class="container px-0 py-0">
+    <!-- Header với nút thêm sản phẩm và export -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-3 ">
+        <h3 class="text-7tcc mb-0 fw-bold">
+            <i class="fas fa-newspaper me-2"></i>Quản Lý Bài Viết
+        </h3>
+        <div class="btn-group d-flex flex-wrap">
             <button type="button" class="btn btn-success" onclick="exportPosts()">
-                <i class="fas fa-file-excel me-2"></i>Xuất Excel
+            <i class="fas fa-file-excel me-2"></i><span class="d-none d-md-inline">Xuất Excel </span><span class="d-md-none">Excel</span>
             </button>
             <button type="button" class="btn btn-7tcc" data-bs-toggle="modal" data-bs-target="#addPostModal">
                 <i class="fas fa-plus me-2"></i>Thêm Bài Viết

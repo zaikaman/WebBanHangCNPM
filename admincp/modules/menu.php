@@ -1,5 +1,5 @@
 <!-- Admin Sidebar Menu -->
-<div class="admin-sidebar" style="display: flex; flex-direction: row; gap: 6px; overflow-x: auto; padding: 15px 10px;">
+<div class="admin-sidebar">
     <a class="nav-link compact" href="index.php">
         <i class="fas fa-chart-line"></i> <span>Dashboard</span>
     </a>

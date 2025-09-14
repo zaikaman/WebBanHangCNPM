@@ -259,6 +259,44 @@
     overflow-y: auto !important;
 }
 
+/* Modal responsive improvements */
+@media (max-width: 1200px) {
+    #addProductModal .modal-dialog {
+        width: 95vw !important;
+        max-width: 95vw !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #addProductModal .modal-dialog {
+        width: 98vw !important;
+        max-width: 98vw !important;
+        margin: 1vh !important;
+    }
+    
+    #addProductModal .modal-content {
+        max-height: 98vh !important;
+    }
+    
+    #addProductModal .modal-header {
+        padding: 15px;
+    }
+    
+    #addProductModal .modal-body {
+        padding: 15px;
+    }
+    
+    #addProductModal .modal-footer {
+        padding: 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    #addProductModal .modal-footer .btn {
+        width: 100%;
+    }
+}
+
 /* Hide backdrop since we're using our own */
 .modal-backdrop {
     display: none !important;
@@ -313,20 +351,205 @@ body.modal-open #addProductModal .modal-content * {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
+
+/* Custom scrollbar for product table */
+.table-responsive::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #dc0021 0%, #a90019 100%);
+    border-radius: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #a90019 0%, #dc0021 100%);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    /* Header responsive */
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn-group {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-group .btn {
+        width: 100%;
+    }
+    
+    /* Pagination responsive */
+    .pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .pagination .page-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Search form responsive */
+    .search-form-container {
+        padding: 15px;
+    }
+    
+    .search-form-container .row.g-3 {
+        gap: 10px;
+    }
+    
+    .search-form-container .col-lg-3,
+    .search-form-container .col-lg-2,
+    .search-form-container .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* Table responsive */
+    .table th, .table td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .table img {
+        width: 60px !important;
+        height: 60px;
+        object-fit: cover;
+    }
+    
+    /* Modal responsive */
+    #addProductModal .modal-dialog {
+        max-width: 95vw !important;
+        width: 95vw !important;
+        margin: 10px !important;
+    }
+    
+    #addProductModal .modal-content {
+        max-height: 90vh !important;
+    }
+    
+    .form-section {
+        padding: 15px;
+    }
+    
+    .form-section .row.g-3 {
+        gap: 10px;
+    }
+    
+    .form-section .col-md-6,
+    .form-section .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* File upload responsive */
+    .file-upload-area {
+        padding: 15px;
+    }
+    
+    .image-preview {
+        max-width: 150px;
+        max-height: 150px;
+    }
+}
+
+@media (max-width: 576px) {
+    h3 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    
+    .table th, .table td {
+        padding: 0.4rem;
+        font-size: 0.8rem;
+    }
+    
+    .table img {
+        width: 50px !important;
+        height: 50px;
+    }
+    
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    .search-form-container {
+        padding: 10px;
+    }
+    
+    .form-section {
+        padding: 10px;
+    }
+    
+    .file-upload-area {
+        padding: 10px;
+    }
+    
+    .image-preview {
+        max-width: 120px;
+        max-height: 120px;
+    }
+    
+    /* Hide some columns on very small screens */
+    .table th:nth-child(6),
+    .table td:nth-child(6),
+    .table th:nth-child(7),
+    .table td:nth-child(7) {
+        display: none;
+    }
+    
+    /* Pagination responsive for mobile */
+    .pagination {
+        font-size: 0.8rem;
+    }
+    
+    .pagination .page-link {
+        padding: 0.4rem 0.6rem;
+    }
+    
+    /* Page size selector responsive */
+    .page-size-selector {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .page-size-selector select {
+        width: auto;
+        min-width: 80px;
+    }
+}
 </style>
 
 <div class="container px-0 py-0">
     <!-- Header với nút thêm sản phẩm và export -->
-    <div class="d-flex justify-content-between align-items-center">
-        <h3 class="text-7tcc mb-0">
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+        <h3 class="text-7tcc mb-0 fw-bold">
             <i class="fas fa-box me-2"></i>Quản Lý Sản Phẩm
         </h3>
-        <div class="btn-group">
+        <div class="btn-group d-flex flex-wrap">
             <button type="button" class="btn btn-success" onclick="exportProducts()">
-                <i class="fas fa-file-excel me-2"></i>Xuất Excel
+                <i class="fas fa-file-excel me-2"></i><span class="d-none d-md-inline">Xuất Excel</span><span class="d-md-none">Excel</span>
             </button>
             <button type="button" class="btn btn-7tcc" data-bs-toggle="modal" data-bs-target="#addProductModal">
-                <i class="fas fa-plus me-2"></i>Thêm Sản Phẩm
+                <i class="fas fa-plus me-2"></i><span class="d-none d-md-inline">Thêm Sản Phẩm</span><span class="d-md-none">Thêm</span>
             </button>
         </div>
     </div>
@@ -367,11 +590,13 @@ body.modal-open #addProductModal .modal-content * {
             <input type="hidden" name="query" value="lietke">
             <input type="hidden" name="per_page" value="<?php echo $records_per_page; ?>">
             
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-3 col-md-6 col-12">
+                <label class="form-label fw-bold">Từ khóa tìm kiếm</label>
                 <input type="text" name="search" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="<?php echo htmlspecialchars($search); ?>">
             </div>
             
-            <div class="col-lg-2 col-md-6">
+            <div class="col-lg-2 col-md-6 col-12">
+                <label class="form-label fw-bold">Tìm theo</label>
                 <select name="search_field" class="form-select">
                     <option value="all" <?php echo ($search_field == 'all') ? 'selected' : ''; ?>>Tất cả</option>
                     <option value="ten_sp" <?php echo ($search_field == 'ten_sp') ? 'selected' : ''; ?>>Tên sản phẩm</option>
@@ -380,15 +605,18 @@ body.modal-open #addProductModal .modal-content * {
                 </select>
             </div>
             
-            <div class="col-lg-2 col-md-6">
-                <input type="number" name="price_min" class="form-control" placeholder="Giá tối thiểu" value="<?php echo $price_min; ?>">
+            <div class="col-lg-2 col-md-6 col-12">
+                <label class="form-label fw-bold">Giá tối thiểu</label>
+                <input type="number" name="price_min" class="form-control" placeholder="0" value="<?php echo $price_min; ?>">
             </div>
             
-            <div class="col-lg-2 col-md-6">
-                <input type="number" name="price_max" class="form-control" placeholder="Giá tối đa" value="<?php echo $price_max; ?>">
+            <div class="col-lg-2 col-md-6 col-12">
+                <label class="form-label fw-bold">Giá tối đa</label>
+                <input type="number" name="price_max" class="form-control" placeholder="999999999" value="<?php echo $price_max; ?>">
             </div>
             
-            <div class="col-lg-3 col-md-12">
+            <div class="col-lg-3 col-md-12 col-12">
+                <label class="form-label fw-bold d-block">&nbsp;</label>
                 <div class="search-refresh-container">
                     <button type="submit" class="btn btn-search flex-fill">
                         <i class="fas fa-search"></i>
@@ -403,7 +631,7 @@ body.modal-open #addProductModal .modal-content * {
         </form>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive mb-3" style="max-height: 500px; overflow-y: auto;">
         <table class="table table-striped table-hover text-center align-middle">
             <thead class="table-dark">
                 <tr>
