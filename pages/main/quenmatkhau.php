@@ -52,7 +52,7 @@ if (isset($_POST['submit_email'])) {
     $mysqli->close();
 }
 ?>
-
+<link rel="stylesheet" type="text/css" href="css/quenmatkhau.css?v=<?php echo time(); ?>">
 <div class="container" style="margin-top: 40px; margin-bottom: 40px;">
     <div class="card mx-auto" style="max-width: 700px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
         <div class="card-body" style="padding: 40px;">
@@ -76,24 +76,3 @@ if (isset($_POST['submit_email'])) {
         </div>
     </div>
 </div>
-
-<style>
-    .alert {
-        padding: 15px;
-        margin-bottom: 20px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    .alert-success {
-        color: #155724;
-        background-color: #d4edda;
-        border-color: #c3e6cb;
-    }
-    .alert-danger {
-        color: #721c24;
-        background-color: #f8d7da;
-        border-color: #f5c6cb;
-    }
-</style>
