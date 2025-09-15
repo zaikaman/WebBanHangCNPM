@@ -182,89 +182,14 @@ if (isset($_POST['resend_email'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xác minh địa chỉ email</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .verification-container {
-            background-color: white;
-            text-align: center;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-        }
-        .verification-container img {
-            width: 60px;
-            height: 60px;
-        }
-        .verification-container h1 {
-            font-size: 24px;
-            margin-top: 20px;
-        }
-        .verification-container p {
-            font-size: 16px;
-            color: #666;
-            margin: 10px 0;
-        }
-        .verification-container .highlight {
-            font-weight: bold;
-            color: #4a4a4a;
-        }
-        .verification-container .buttons {
-            margin-top: 20px;
-        }
-        .verification-container .buttons form {
-            display: inline-block;
-        }
-        .verification-container .buttons input {
-            text-decoration: none;
-            background-color: #ff4d4d; /* Màu đỏ */
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            margin: 5px;
-        }
-        .verification-container .buttons a {
-            text-decoration: none;
-            background-color: #ff4d4d; /* Màu đỏ */
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin: 5px;
-            display: inline-block;
-        }
-        .verification-container .buttons input:hover,
-        .verification-container .buttons a:hover {
-            background-color: #e04343; /* Màu đỏ đậm hơn khi hover */
-        }
-        .footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #888;
-        }
-        .resend-message {
-            margin-top: 15px;
-            color: green;
-            font-size: 14px;
-        }
-    </style>
+    <link rel="stylesheet" href="../../css/xacnhanemail.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <div class="verification-container">
         <?php if (isset($_GET['token'])): ?>
             <!-- Trang xác nhận token -->
             <?php if ($is_verification_success): ?>
-                <img src="../../images/anchor.svg" alt="Biểu tượng thành công" style="width: 60px; height: 60px; filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);">
+                <img src="../../images/anchor.svg" alt="Biểu tượng thành công" class="icon-success">
                 <h1>Xác nhận thành công!</h1>
                 <p><?php echo $verification_message; ?></p>
                 <div class="buttons">
@@ -274,7 +199,7 @@ if (isset($_POST['resend_email'])) {
             <?php else: ?>
                 <img src="../../images/email.png" alt="Biểu tượng lỗi">
                 <h1>Xác nhận thất bại</h1>
-                <p style="color: red;"><?php echo $verification_message; ?></p>
+                <p class="text-error"><?php echo $verification_message; ?></p>
                 <div class="buttons">
                     <a href="../../index.php">Về trang chủ</a>
                 </div>
