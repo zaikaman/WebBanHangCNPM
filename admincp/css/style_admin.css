@@ -535,7 +535,7 @@ body {
 }
 
 .alert-info {
-  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+  background: white;
   color: #fff;
 }
 
@@ -1112,4 +1112,171 @@ button.btn-danger {
   background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
   border-color: #dc3545 !important;
   color: #fff !important;
+}
+
+/* Enhanced Table Responsive Styles */
+.table-responsive {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #dc0021 #f1f1f1;
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #dc0021 0%, #a90019 100%);
+  border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #a90019 0%, #dc0021 100%);
+}
+
+/* Ensure table maintains minimum width for all columns */
+.table-responsive table {
+  min-width: 800px;
+  width: 100%;
+}
+
+/* Column width constraints for better mobile experience */
+.table-responsive th:nth-child(1),
+.table-responsive td:nth-child(1) {
+  min-width: 60px;
+  width: 60px;
+}
+
+.table-responsive th:nth-child(2),
+.table-responsive td:nth-child(2) {
+  min-width: 200px;
+  max-width: 300px;
+  word-wrap: break-word;
+}
+
+.table-responsive th:nth-child(3),
+.table-responsive td:nth-child(3) {
+  min-width: 150px;
+  width: 150px;
+}
+
+.table-responsive th:nth-child(4),
+.table-responsive td:nth-child(4) {
+  min-width: 120px;
+  max-width: 200px;
+  word-wrap: break-word;
+}
+
+.table-responsive th:nth-child(5),
+.table-responsive td:nth-child(5) {
+  min-width: 100px;
+  width: 100px;
+}
+
+.table-responsive th:nth-child(6),
+.table-responsive td:nth-child(6) {
+  min-width: 150px;
+  width: 150px;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .table-responsive {
+    margin: 0 -15px;
+    border-radius: 0;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .table-responsive table {
+    min-width: 700px !important;
+    width: 100% !important;
+  }
+  
+  .table-responsive th,
+  .table-responsive td {
+    padding: 8px 6px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  
+  .table-responsive th:nth-child(2),
+  .table-responsive td:nth-child(2) {
+    min-width: 150px;
+    max-width: 200px;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+  
+  .table-responsive th:nth-child(3),
+  .table-responsive td:nth-child(3) {
+    min-width: 120px;
+    width: 120px;
+  }
+  
+  .table-responsive th:nth-child(3) img,
+  .table-responsive td:nth-child(3) img {
+    width: 100px !important;
+    height: auto;
+  }
+  
+  /* Ensure management column is always visible */
+  .table-responsive th:nth-child(6),
+  .table-responsive td:nth-child(6) {
+    min-width: 150px !important;
+    width: 150px !important;
+    position: sticky;
+    right: 0;
+    background-color: #fff;
+    z-index: 10;
+  }
+  
+  .table-responsive thead th:nth-child(6) {
+    background-color: #212529 !important;
+    color: #fff !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .table-responsive table {
+    min-width: 600px;
+  }
+  
+  .table-responsive th,
+  .table-responsive td {
+    padding: 6px 4px;
+    font-size: 12px;
+  }
+  
+  .table-responsive th:nth-child(2),
+  .table-responsive td:nth-child(2) {
+    min-width: 120px;
+    max-width: 150px;
+  }
+  
+  .table-responsive th:nth-child(3),
+  .table-responsive td:nth-child(3) {
+    min-width: 100px;
+    width: 100px;
+  }
+  
+  .table-responsive th:nth-child(3) img,
+  .table-responsive td:nth-child(3) img {
+    width: 80px !important;
+    height: auto;
+  }
+  
+  .table-responsive .btn-sm {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
 }

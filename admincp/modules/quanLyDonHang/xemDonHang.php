@@ -164,7 +164,7 @@ $hoadon = mysqli_fetch_array($result_hoadon);
     }
 </style>
 
-<div class="container ">
+<div class="container">
     <div class="flex column justify-center align-center">
         <h3 style="align-items: center; justify-content:center; text-align:center; font-weight:bold; margin-bottom : 20px;"> Đơn Hàng #<?php echo isset($hoadon['id_gh']) ? $hoadon['id_gh'] : ''; ?></h3>
 

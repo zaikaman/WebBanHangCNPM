@@ -44,9 +44,103 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../../css/bootstrap-override.css" rel="stylesheet">
+<style>
+    .text-7tcc {
+        color: #dc0021 !important;
+    }
 
-<div class="container mt-5">
-    <h3 class="text-center">Đổi mật khẩu</h3>
+    .btn-7tcc {
+        background-color: #dc0021;
+        border-color: #dc0021;
+        color: white;
+    }
+
+    .btn-7tcc:hover {
+        background-color: #a90019;
+        border-color: #a90019;
+        color: white;
+    }
+
+    .form-section {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 4px solid #dc0021;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+
+        /* Header responsive */
+        .d-flex.justify-content-between {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .form-section {
+            padding: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Button group responsive */
+        .d-flex.flex-column.flex-md-row {
+            flex-direction: column;
+        }
+
+        .d-flex.flex-column.flex-md-row .btn {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 576px) {
+        h3 {
+            font-size: 1.3rem;
+        }
+
+        .form-section {
+            padding: 10px;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            font-size: 0.9rem;
+        }
+
+        /* Button responsive for mobile */
+        .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Header responsive for mobile */
+        .d-flex.justify-content-between {
+            text-align: center;
+        }
+    }
+</style>
+<div class="container">
+    <!-- Header -->
+    <div class="d-flex justify-content-center align-items-center mb-4">
+        <h3 class="text-7tcc mb-0 fw-bold">
+            Đổi Mật Khẩu
+        </h3>
+    </div>
 
     <!-- Display error or success messages -->
     <?php if (!empty($error_message)) { ?>
@@ -61,20 +155,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql_sua_danhmucbv = "SELECT * FROM tbl_admin WHERE id_ad='$_GET[id]' LIMIT 1";
     $sua_danhmucbv = mysqli_query($mysqli, $sql_sua_danhmucbv);
     while ($dong = mysqli_fetch_array($sua_danhmucbv)) { ?>
-        <!-- The form is moved outside the password check -->
-        <form method="POST" action="" onsubmit="return validatePassword()">
-            <div class="mb-3">
-                <label for="old_password" class="form-label">Mật khẩu cũ :</label>
-                <input type="password" class="form-control" id="old_password" name="old_password" required>
-            </div>
-            <div class="mb-3">
-                <label for="new_password" class="form-label">Mật khẩu mới :</label>
-                <input type="password" class="form-control" id="new_password" name="new_password" required>
-                <div class="form-text">Mật khẩu phải có độ dài từ 4 đến 20 ký tự.</div>
-            </div>
-            <button type="submit" name="suaTen" class="btn btn-primary">Sửa</button>
-            <a href="index.php?action=quanLyAdmin&query=them" class="btn btn-primary">Quay lại</a>
-        </form>
+        <div class="form-section">
+            <!-- The form is moved outside the password check -->
+            <form method="POST" action="" onsubmit="return validatePassword()">
+                <div class="mb-3">
+                    <label for="old_password" class="form-label fw-bold">Mật khẩu cũ :</label>
+                    <input type="password" class="form-control" id="old_password" name="old_password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="new_password" class="form-label fw-bold">Mật khẩu mới :</label>
+                    <input type="password" class="form-control" id="new_password" name="new_password" required>
+                    <div class="form-text">Mật khẩu phải có độ dài từ 4 đến 20 ký tự.</div>
+                </div>
+                <div class="d-flex flex-column flex-md-row gap-2 justify-content-center">
+                <button type="submit" name="suaTen" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Sửa
+                </button>
+                <a href="index.php?action=quanLyAdmin&query=them" class="btn btn-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Quay lại
+                </a>
+                </div>
+            </form>
+        </div>
     <?php } ?>
 </div>
 

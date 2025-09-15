@@ -104,19 +104,15 @@
         </h3>
     </div>
     <div class="form-section">
-    <form method="POST" action="modules/quanLyDanhMucBaiViet/xuly.php">
-        <div class="mb-3">
-            <label for="name_sp" class="form-label fw-bold">Tên Danh Mục Sản Phẩm:</label>
-            <input type="text" class="form-control" id="name_sp" name="name_sp" placeholder="Nhập tên danh mục sản phẩm..." required>
-        </div>
-        <!--         <div class="mb-3">
-            <label for="thutu" class="form-label">Thứ Tự</label>
-            <input type="text" class="form-control" id="thutu" name="thu_tu">
-        </div> -->
-        <button type="submit" name="themDanhMucBaiViet" class="btn btn-7tcc">
-            <i class="fas fa-save me-2"></i>Thêm Danh Mục
-        </button>
-    </form>
+        <form method="POST" action="modules/quanLyDanhMucBaiViet/xuly.php">
+            <div class="mb-3">
+                <label for="name_sp" class="form-label fw-bold">Tên Danh Mục Bài Viết:</label>
+                <input type="text" class="form-control" id="name_sp" name="name_sp" placeholder="Nhập tên danh mục bài viết..." required>
+            </div>
+            <button type="submit" name="themDanhMucBaiViet" class="btn btn-7tcc">
+                <i class="fas fa-save me-2"></i>Thêm Danh Mục
+            </button>
+        </form>
     </div>
 </div>
 

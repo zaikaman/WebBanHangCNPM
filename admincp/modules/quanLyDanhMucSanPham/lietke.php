@@ -60,7 +60,7 @@
 }
 
 /* Custom scrollbar for table */
-.table-responsive::-webkit-scrollbar {
+/* .table-responsive::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
@@ -77,7 +77,7 @@
 
 .table-responsive::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, #a90019 0%, #dc0021 100%);
-}
+} */
 
 /* Responsive styles */
 @media (max-width: 768px) {
@@ -188,7 +188,7 @@
 <div class="container px-0 py-0">
     <!-- Header với nút thêm danh mục sản phẩm -->
     <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
-        <h3 class="text-7tcc mb-0">
+        <h3 class="text-7tcc mb-0 fw-bold">
             <i class="fas fa-layer-group me-2"></i>Quản Lý Danh Mục Sản Phẩm
         </h3>
 

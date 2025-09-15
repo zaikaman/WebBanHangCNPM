@@ -69,6 +69,37 @@
     color: white;
 }
 
+.form-section {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #dc0021;
+}
+
+.image-preview {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    border: 2px dashed #dc0021;
+    padding: 10px;
+    display: none;
+}
+
+.file-upload-area {
+    border: 2px dashed #dc0021;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.file-upload-area:hover {
+    background-color: #f8f9fa;
+    border-color: #a90019;
+}
+
 /* FORCE MODAL ABOVE EVERYTHING - NUCLEAR OPTION */
 #addPostModal {
     position: fixed !important;
@@ -268,14 +299,6 @@ body.modal-open #addPostModal .modal-content * {
         max-height: 120px;
     }
     
-    /* Hide some columns on very small screens */
-    .table th:nth-child(6),
-    .table td:nth-child(6),
-    .table th:nth-child(7),
-    .table td:nth-child(7) {
-        display: none;
-    }
-    
     /* Pagination responsive for mobile */
     .pagination {
         font-size: 0.8rem;
@@ -353,7 +376,7 @@ body.modal-open #addPostModal .modal-content * {
         </form>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive mb-3" style="max-height: 500px; overflow-y: auto;">
         <table class="table table-striped table-hover text-center align-middle">
             <thead class="table-dark">
                 <tr>
@@ -387,8 +410,8 @@ body.modal-open #addPostModal .modal-content * {
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a href="modules/quanLyBaiViet/xuly.php?idbv=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
-                                <a href="?action=quanLyBaiViet&query=sua&idbv=<?php echo $row['id'] ?>" class="btn btn-warning btn-sm">Sửa</a>
+                                <a href="modules/quanLyBaiViet/xuly.php?idbv=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i class="fas fa-trash-alt"></i> Xóa</a>
+                                <a href="?action=quanLyBaiViet&query=sua&idbv=<?php echo $row['id'] ?>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Sửa</a>
                             </div>
                         </td>
                     </tr>
@@ -405,40 +428,33 @@ body.modal-open #addPostModal .modal-content * {
 
 <!-- Modal Thêm Bài Viết -->
 <div class="modal fade" id="addPostModal" tabindex="-1" aria-labelledby="addPostModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header text-white" style="background-color: #a90019;">
                 <h5 class="modal-title" id="addPostModalLabel">
-                    <i class="fas fa-plus me-2"></i>Thêm Bài Viết Mới
+                    <i class="fas fa-plus-circle me-2"></i>Thêm Bài Viết Mới
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form method="POST" action="modules/quanLyBaiViet/xuly.php" enctype="multipart/form-data" id="addPostForm">
-                    <div class="mb-3">
-                        <label for="tenbaiviet" class="form-label">Tên Bài Viết</label>
-                        <input type="text" class="form-control" id="tenbaiviet" name="tenbaiviet" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="hinhanh" class="form-label">Hình Ảnh</label>
-                        <input type="file" class="form-control" id="hinhanh" name="hinhanh" accept="image/*">
-                    </div>
-                    <div class="mb-3">
-                        <label for="tomtat" class="form-label">Tóm Tắt</label>
-                        <textarea rows="3" class="form-control" id="tomtat" name="tomtat" placeholder="Nhập tóm tắt bài viết..."></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="noidung" class="form-label">Nội Dung</label>
-                        <textarea rows="5" class="form-control" id="noidung" name="noidung" placeholder="Nhập nội dung bài viết..." required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="link" class="form-label">Link</label>
-                        <input type="text" class="form-control" id="link" name="link" placeholder="Nhập link bài viết (nếu có)">
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="id_danhmuc" class="form-label">Danh Mục Bài Viết</label>
+
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h6 class="text-7tcc mb-3">
+                            <i class="fas fa-info-circle me-2"></i>Thông Tin Cơ Bản
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="tenbaiviet" class="form-label fw-bold">Tên Bài Viết <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="tenbaiviet" name="tenbaiviet" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="link" class="form-label fw-bold">Link Bài Viết</label>
+                                <input type="text" class="form-control" id="link" name="link" placeholder="Nhập link bài viết (nếu có)">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_danhmuc" class="form-label fw-bold">Danh Mục Bài Viết <span class="text-danger">*</span></label>
                                 <select class="form-select" id="id_danhmuc" name="id_danhmuc" required>
                                     <option value="">-- Chọn danh mục --</option>
                                     <?php
@@ -450,25 +466,64 @@ body.modal-open #addPostModal .modal-content * {
                                     ?>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="tinhtrang" class="form-label">Tình Trạng</label>
+                            <div class="col-md-6">
+                                <label for="tinhtrang" class="form-label fw-bold">Trạng Thái</label>
                                 <select class="form-select" id="tinhtrang" name="tinhtrang">
-                                    <option value="1">Kích Hoạt</option>
+                                    <option value="1" selected>Kích Hoạt</option>
                                     <option value="0">Ẩn</option>
                                 </select>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Image Upload -->
+                    <div class="form-section">
+                        <h6 class="text-7tcc mb-3">
+                            <i class="fas fa-image me-2"></i>Hình Ảnh Bài Viết
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="file-upload-area" onclick="document.getElementById('hinhanh').click()">
+                                    <i class="fas fa-cloud-upload-alt fa-2x text-7tcc mb-2"></i>
+                                    <h6>Nhấp để chọn hình ảnh</h6>
+                                    <p class="text-muted mb-0 small">Hỗ trợ: JPG, PNG, GIF (tối đa 5MB)</p>
+                                </div>
+                                <input type="file" class="d-none" name="hinhanh" id="hinhanh" accept="image/*" onchange="previewImage(this)">
+                            </div>
+                            <div class="col-md-6">
+                                <img id="imagePreview" class="image-preview" alt="Preview">
+                                <div id="uploadInfo" class="mt-2 text-muted">
+                                    <small>Chưa chọn file nào</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="form-section">
+                        <h6 class="text-7tcc mb-3">
+                            <i class="fas fa-file-alt me-2"></i>Nội Dung & Mô Tả
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="tomtat" class="form-label fw-bold">Tóm Tắt</label>
+                                <textarea rows="4" class="form-control" id="tomtat" name="tomtat" placeholder="Nhập tóm tắt ngắn gọn về bài viết..."></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="noidung" class="form-label fw-bold">Nội Dung Chi Tiết <span class="text-danger">*</span></label>
+                                <textarea rows="4" class="form-control" id="noidung" name="noidung" placeholder="Nhập nội dung chi tiết của bài viết..." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times me-2"></i>Hủy
                 </button>
-                <button type="submit" form="addPostForm" name="thembaiviet" class="btn btn-7tcc">
-                    <i class="fas fa-save me-2"></i>Thêm Bài Viết
+                <button type="button" class="btn btn-7tcc" onclick="submitAddPostForm()">
+                    <i class="fas fa-save me-2"></i>Lưu Bài Viết
                 </button>
             </div>
         </div>
@@ -482,6 +537,11 @@ body.modal-open #addPostModal .modal-content * {
 // Reset form khi đóng modal
 document.getElementById('addPostModal').addEventListener('hidden.bs.modal', function (event) {
     document.getElementById('addPostForm').reset();
+    document.getElementById('imagePreview').style.display = 'none';
+    document.getElementById('uploadInfo').innerHTML = '<small>Chưa chọn file nào</small>';
+    
+    // Remove validation classes
+    $('#addPostModal').find('.is-invalid').removeClass('is-invalid');
 });
 
 // Validation form trước khi submit
@@ -496,6 +556,47 @@ document.getElementById('addPostForm').addEventListener('submit', function(e) {
         return false;
     }
 });
+
+// Image preview function for modal
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            document.getElementById('imagePreview').src = e.target.result;
+            document.getElementById('imagePreview').style.display = 'block';
+            document.getElementById('uploadInfo').innerHTML =
+                '<strong>File đã chọn:</strong> ' + input.files[0].name +
+                ' (' + Math.round(input.files[0].size / 1024) + ' KB)';
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// Submit form function
+function submitAddPostForm() {
+    var form = document.getElementById('addPostForm');
+    var required = form.querySelectorAll('[required]');
+    var valid = true;
+
+    required.forEach(function(field) {
+        if (!field.value.trim()) {
+            field.classList.add('is-invalid');
+            valid = false;
+        } else {
+            field.classList.remove('is-invalid');
+        }
+    });
+
+    if (!valid) {
+        alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+        return;
+    }
+
+    // Submit form
+    form.submit();
+}
 
 // Function to export posts to Excel
 function exportPosts() {

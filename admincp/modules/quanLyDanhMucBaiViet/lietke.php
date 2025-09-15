@@ -187,14 +187,9 @@
 <div class="container px-0 py-0">
     <!-- Header với nút thêm danh mục bài viết -->
     <div class="d-flex justify-content-between align-items-center flex-wrap">
-        <h3 class="text-7tcc mb-0">
+        <h3 class="text-7tcc mb-0 fw-bold">
             <i class="fas fa-list me-2"></i>Quản Lý Danh Mục Bài Viết
         </h3>
-        <div class="btn-group d-flex flex-wrap">
-            <a href="?action=quanLyDanhMucBaiViet&query=them" class="btn btn-7tcc">
-                <i class="fas fa-plus me-2"></i><span class="d-none d-md-inline">Thêm Danh Mục</span><span class="d-md-none">Thêm</span>
-            </a>
-        </div>
     </div>
     
     <!-- Page Size Selector -->
