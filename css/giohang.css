@@ -1,0 +1,213 @@
+@media (min-width: 1025px) {
+    .h-custom {
+        height: 100vh !important;
+    }
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+}
+
+.card-registration .select-arrow {
+    top: 13px;
+}
+
+.size-selector {
+    margin-top: 5px;
+}
+
+/* Enhanced Quantity Controls */
+.quantity-controls {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 2px;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    width: fit-content;
+}
+
+.quantity-controls:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    border-color: #dc3545;
+}
+
+.quantity-btn {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    color: #dc3545;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 11px;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.quantity-btn:hover {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+    transform: translateY(-1px);
+    box-shadow: 0 1px 3px rgba(220, 53, 69, 0.3);
+}
+
+.quantity-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(220, 53, 69, 0.3);
+}
+
+.quantity-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.quantity-btn:disabled:hover {
+    background: #fff;
+    color: #dc3545;
+    border-color: #e9ecef;
+}
+
+.quantity-input {
+    width: 35px;
+    height: 28px;
+    text-align: center;
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    font-size: 14px;
+    color: #495057;
+    margin: 0 3px;
+    padding: 0;
+    outline: none;
+    flex-shrink: 0;
+}
+
+.quantity-input:focus {
+    outline: none;
+    box-shadow: none;
+    background: rgba(220, 53, 69, 0.1);
+    border-radius: 3px;
+}
+
+/* Remove number input arrows */
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.quantity-input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* Animation for loading state */
+.quantity-controls.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.quantity-controls.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid #dc3545;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .quantity-controls {
+        padding: 2px;
+    }
+    
+    .quantity-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+    }
+    
+    .quantity-input {
+        width: 40px;
+        height: 28px;
+        font-size: 13px;
+        margin: 0 4px;
+    }
+}
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* --- Inline Style Cleanup from giohang.php --- */
+.card-cart-custom {
+  border-radius: 15px;
+  padding: 0;
+}
+.hr-bold {
+  border-width: 2px !important;
+}
+.p-0 {
+  padding: 0 !important;
+}
+.size-select-inline {
+  width: auto;
+  display: inline-block;
+}
+.btn-remove-item {
+  padding: 0;
+  border: none;
+  background: none;
+}
+.icon-danger {
+  font-size: 22px;
+  color: red;
+}
+.empty-cart-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.mt-0 {
+  margin-top: 0px;
+}
+.empty-cart-text {
+  font-style: italic;
+  margin: 0 0 20px 0;
+}
+.back-home-container {
+  display: flex;
+  margin-top: 20px;
+}
+.summary-panel-custom {
+  border-radius: 15px;
+}
