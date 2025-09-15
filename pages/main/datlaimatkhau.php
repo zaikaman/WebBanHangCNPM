@@ -52,7 +52,7 @@ if (empty($token)) {
     $stmt->close();
 }
 ?>
-
+<link rel="stylesheet" type="text/css" href="css/datlaimatkhau.css?v=<?php echo time(); ?>">
 <div class="main_content">
     <div class="login_container" style="max-width: 500px; margin: 0 auto;">
         <p style="font-weight: bold; font-size: 20px; margin: 20px 0 10px 0;">Đặt Lại Mật Khẩu</p>
@@ -75,23 +75,3 @@ if (empty($token)) {
         <?php endif; ?>
     </div>
 </div>
-<style>
-    .alert {
-        padding: 15px;
-        margin-bottom: 20px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    .alert-success {
-        color: #155724;
-        background-color: #d4edda;
-        border-color: #c3e6cb;
-    }
-    .alert-danger {
-        color: #721c24;
-        background-color: #f8d7da;
-        border-color: #f5c6cb;
-    }
-</style>
