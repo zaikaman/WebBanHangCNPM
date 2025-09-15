@@ -40,72 +40,11 @@ if (session_status() == PHP_SESSION_NONE) {
     <link rel="stylesheet" type="text/css" href="css/style-v1.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="css/chat.css?v=<?php echo time(); ?>">
     
-    <!-- Force center navigation -->
-    <style>
-        .menu_content {
-            justify-content: center !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 5px !important;
-        }
-        
-        .menu .menu_content {
-            justify-content: center !important;
-        }
-        
-        .menu_items {
-            min-width: 80px !important;
-            flex: 0 0 auto !important;
-            width: auto !important;
-            margin: 0 5px !important;
-        }
-        
-        .menu_items * {
-            font-size: 16px !important;
-            font-weight: 600 !important;
-        }
-        
-        .item {
-            padding: 0 15px !important;
-        }
-        
-        /* Improve banner quality */
-        .carousel {
-            height: 400px !important;
-            overflow: hidden !important;
-        }
-        
-        .carousel-inner img {
-            height: 400px !important;
-            width: 100% !important;
-            object-fit: cover !important;
-            object-position: center !important;
-        }
-        
-        .slide img {
-            height: 400px !important;
-            width: 100% !important;
-            object-fit: cover !important;
-            object-position: center !important;
-        }
-        
-        @media (max-width: 768px) {
-            .carousel {
-                height: 280px !important;
-            }
-            
-            .carousel-inner img,
-            .slide img {
-                height: 280px !important;
-            }
-        }
-    </style>
 </head>
 
 <body>
     <div class="wrapper">
         <?php
-        include("admincp/config/config.php");
         include("pages/header.php");
         include("pages/menu.php");
         include("pages/main.php");
@@ -123,29 +62,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <?php if (APP_ENV === 'local') { ?>
-    <div class="chat-toggle">
-        <ion-icon name="chatbubbles-outline" style="font-size: 24px;"></ion-icon>
-    </div>
-
-    <div class="chat-container">
-        <div class="chat-header">
-            <span>Chat với AI</span>
-            <div class="chat-header-buttons">
-                <button id="new-chat" title="Cuộc trò chuyện mới">
-                    <ion-icon name="add-outline" style="font-size: 18px;"></ion-icon>
-                </button>
-                <ion-icon name="close-outline" style="cursor: pointer; font-size: 20px;" id="close-chat"></ion-icon>
-            </div>
-        </div>
-        <div class="chat-messages" id="chat-messages">
-        </div>
-        <div class="chat-input">
-            <input type="text" id="user-input" placeholder="Nhập tin nhắn...">
-            <button id="send-message">Gửi</button>
-        </div>
-    </div>
-<?php } ?>
+    <?php include("pages/main/chat_widget.php"); ?>
 
     <!-- Custom Scripts -->
     <script src="js/script.js"></script>
