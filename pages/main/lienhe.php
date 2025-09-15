@@ -5,30 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông Tin Liên Hệ - 7TCC</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .container {
-            max-width: 800px;
-        }
-        .contact-info ul {
-            padding-left: 1.2em;
-        }
-        .card-header h2 {
-            font-size: 1.75rem;
-        }
-        .card-header {
-            background-color: #FF0000; /* Màu đỏ */
-            color: #FFFFFF; /* Màu trắng */
-        }
-        .btn-primary {
-            background-color: #FF0000; /* Màu đỏ */
-            border-color: #FF0000; /* Màu đỏ */
-        }
-        .btn-primary {
-            background-color: #FF0000 !important; /* Màu đỏ */
-            border-color: #FF0000 !important; /* Màu đỏ */
-            color: #FFFFFF !important; /* Màu chữ trắng */
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/lienhe.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
