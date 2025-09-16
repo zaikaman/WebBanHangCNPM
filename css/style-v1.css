@@ -1999,17 +1999,18 @@ color: #999;
 }
 
 .related-product-list li .title_product {
-    font-weight: 600;
-    color: #333;
-    font-size: 16px;
-    line-height: 1.4;
-    margin-bottom: 10px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 45px;
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 45px;
 }
 
 .related-product-list li .price_product {
