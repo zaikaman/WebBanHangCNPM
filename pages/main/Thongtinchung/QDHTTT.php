@@ -1,36 +1,63 @@
-<div class="main_content">
-    <div class="infor">
-        <p class="ChinhsachQuydinh">Quy định và hình thức thanh toán</p>
-        <p class="Muclon">CÁC BƯỚC MUA HÀNG TẠI NHỆN VN:</p>
-        <p><span class="Buoc">Bước 1:</span>Khách hàng đặt hàng, cung cấp thông tin và xác thực đầy đủ (thông qua website, điện thoại, mail, SMS,..)</p>
-        <p> <span class="Buoc">Bước 2:</span>7TCC.vn xác nhận đơn hàng</p>
-        <p> <span class="Buoc">Bước 3:</span>Nhân viên xác nhận thông tin khách hàng (điện thoại, tin nhắn, mail..)</p>
-        <p> <span class="Buoc">Bước 4:</span>Nhân viên đóng gói hàng và chuyển đi</p>
-        <p> <span class="Buoc">Bước 5:</span>Khách hàng nhận hàng và thanh toán (trong trường hợp thanh toán sau)</p>
-        <p> <span class="Buoc">Bước 6:</span>7TCC.vn luôn chờ những phản hồi của khách hàng (nếu có) sau khi hoàn tất giao dịch.</p>
-        <p class="Muclon">PHƯƠNG THỨC THANH TOÁN:</p>
-        <p class="Demuc">1. Phương thức trả sau: thanh toán khi nhận hàng.</p>
-        <p>
-        <ul>
-            <p>- Khách hàng có thể đặt hàng qua website 7TCC.vn. Nhân viên cg ủa chúng tôi sẽ gọi điện xác nhận với khách hàng về sản phẩm và phương thức vận chuyển.</p>
-            <p>- Quý khách có trách nhiệm thanh toán đầy đủ toàn bộ giá trị đơn hàng cho nhân viên giao nhận ngay sau khi hoàn tất kiểm tra sản phẩm (kiểm tra đúng sản phẩm đã đặt, đầy đủ phụ kiện đi kèm, phiếu bảo hành).</p>
-        </ul>
-        </p>
-        <p class="Demuc">2. Phương thức trả trước: thanh toán trước khi nhận hàng.
-        <p>
-        <ul>
-            <p>A. Thanh toán trực tuyến : thanh toán trực tiếp trên website 7TCC.vn khi đặt đơn hàng bằng các loại thẻ Visa/Master/thẻ nội địa/ thẻ ghi nợ của tất cả các ngân hàng..</p>
-            <p>B. Thanh toán chuyển khoản hoặc bằng máy ATM (qua ngân hàng): đã đặt xong đơn hàng hoặc đã xác nhận với cửa hàng về sản phẩm cần mua.</p>
-        </ul>
-        </p>
-        </p>
-        <p class="Muclon">CÁC BƯỚC CHUYỂN KHOẢN:</p>
-        <p><span class="Buoc">Bước 1:</span>Chuyển tiền đến tài khoản sau:</p>
-        <p>Ngân hàng MBBANK</p>
-        <p>Số tài khoản: 0768893544</p>
-        <p>Tên : Nguyễn Ngọc Tuấn</p>
-        <p><span class="Buoc">Bước 2:</span>Khách hàng thông báo cho cửa hàng (điện thoại, email, SMS,…) khi quý khách đã thực hiện chuyển khoản thành công hoặc liên hệ trực tiếp với bộ phận bán hàng trực tuyến.</p>
-        <p><span class="Buoc">Bước 3:</span>Ngay sau khi nhận được thông báo xác nhận từ phía ngân hàng, nhân viên sẽ xác nhận lại với khách hàng đồng thời tiến hành giao hàng cho quý khách.:</p>
-        <p class="Space_top"><u><em><strong>Lưu ý:</em></u></strong>Cửa hàng sẽ không chịu trách nhiệm về vấn đề sai sót trong quá trình chuyển khoản sai thông tin. Xin quý khách vui lòng làm việc trực tiếp với ngân hàng để giải quyết sai sót trên.</p>
+
+<style>
+/* --- Theme Override: Red/White/Black (Blue override only) --- */
+
+/* 1. General Site Elements (Blue overrides) */
+.news_content_burger a:hover { color: #a90019 !important; }
+.remember-forgot a, .registerlink { color: #dc0021 !important; }
+.input-box label, .input-box input, .input-box .icon, .remember-forgot { color: #333 !important; }
+.remember-forgot label input { background-color: #333 !important; accent-color: #dc0021 !important; }
+.btn.btn-primary { background-color: #dc0021 !important; }
+
+/* 2. Policy Page Card Styles */
+.card-header { background-color: #dc0021 !important; color: white !important; }
+.card-title { color: #dc0021 !important; }
+
+/* 3. Fix for specific pages */
+/* CSBH Page: check icon */
+.fa-check-circle.text-dark { color: #333 !important; }
+.fa-check-circle.text-success { color: #333 !important; }
+/* QDHTTT Page: hover effect */
+.list-group-item-action:hover, .list-group-item-action:focus { background-color: #f5f5f5 !important; color: #212529 !important; }
+
+</style>
+
+<div class="container mt-5 mb-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h2 class="mb-0">Quy định & Hình thức thanh toán</h2>
+        </div>
+        <div class="card-body">
+            <p>Chúng tôi hỗ trợ đa dạng các hình thức thanh toán để mang lại sự tiện lợi tối đa cho khách hàng:</p>
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Thanh toán khi nhận hàng (COD)</h5>
+                    </div>
+                    <p class="mb-1">Quý khách thanh toán tiền mặt trực tiếp cho nhân viên giao hàng sau khi đã nhận và kiểm tra sản phẩm.</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Chuyển khoản ngân hàng</h5>
+                    </div>
+                    <p class="mb-1">Quý khách có thể chuyển khoản vào tài khoản ngân hàng của chúng tôi. Vui lòng ghi rõ mã đơn hàng trong nội dung chuyển khoản.</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Ví điện tử MoMo</h5>
+                    </div>
+                    <p class="mb-1">Thanh toán nhanh chóng và tiện lợi thông qua ứng dụng ví điện tử MoMo.</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Cổng thanh toán VNPAY</h5>
+                    </div>
+                    <p class="mb-1">Hỗ trợ thanh toán bằng thẻ ATM nội địa, thẻ quốc tế (Visa, Master, JCB) qua cổng VNPAY an toàn.</p>
+                </a>
+            </div>
+        </div>
+        <div class="card-footer text-muted text-center">
+            Cập nhật lần cuối: 16/09/2025
+        </div>
     </div>
 </div>
