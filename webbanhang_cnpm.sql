@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 12, 2025 at 06:59 PM
+-- Generation Time: Sep 16, 2025 at 05:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,7 +40,7 @@ CREATE TABLE `tbl_admin` (
 
 INSERT INTO `tbl_admin` (`id_ad`, `user_name`, `password`, `admin_status`) VALUES
 (4, 'admin', '202cb962ac59075b964b07152d234b70', 1),
-(15, 'admin2', 'dc9417f67e802695ecb86dab88899c6d', 1);
+(15, 'admin2', 'ce9642a7df00bb973f5d9c55d5f67c49', 1);
 
 -- --------------------------------------------------------
 
@@ -190,7 +190,12 @@ INSERT INTO `tbl_chat_history` (`id`, `email`, `session_id`, `message`, `respons
 (90, 'zaikaman123@gmail.com', NULL, 'hi', 'Chào bạn, 7TCC xin chào! ✨ Hi! Rất vui được hỗ trợ bạn hôm nay. Bạn đang tìm kiếm sản phẩm thể thao nào ạ? Bên mình có rất nhiều mẫu áo thể thao chất lượng cho các môn bóng đá, bóng rổ, bóng chuyền và cầu lông đó.\n\nĐể mình có thể tư vấn tốt nhất, bạn có thể cho mình biết bạn quan tâm đến môn thể thao nào không ạ? Hoặc bạn đang tìm kiếm áo của đội bóng/câu lạc bộ nào không? Bất kỳ thông tin nào bạn chia sẻ sẽ giúp mình tìm được sản phẩm phù hợp với bạn nhất đó! ????\n', '2025-09-09 06:32:50'),
 (91, 'zaikaman123@gmail.com', 'chat_1757399782981_b3c5qh58o', 'hi', 'Chào bạn! Mình là trợ lý ảo của 7TCC - Thương hiệu thời trang thể thao được phát triển bởi nhóm sinh viên Đại học Sài Gòn. Mình có thể giúp gì cho bạn hôm nay ạ? ????\n', '2025-09-09 06:36:31'),
 (92, 'zaikaman123@gmail.com', 'chat_1757399794756_2tz26l3p5', 'hi', 'Chào bạn! Mình là trợ lý AI của 7TCC, rất vui được hỗ trợ bạn. Bạn đang quan tâm đến sản phẩm nào của 7TCC ạ? Mình có thể cung cấp thông tin chi tiết về giá cả, số lượng, mô tả sản phẩm, hoặc bất kỳ thông tin nào khác bạn cần. \n\nNgoài ra, mình cũng có thể giúp bạn:\n\n*   Hướng dẫn chọn size phù hợp.\n*   Giải đáp các thắc mắc về chính sách đổi trả, bảo hành.\n*   Tư vấn về phương thức thanh toán và vận chuyển.\n*   Hỗ trợ các vấn đề liên quan đến đơn hàng.\n\nHãy cho mình biết bạn cần hỗ trợ gì nhé!\n', '2025-09-09 06:36:40'),
-(93, 'zaikaman123@gmail.com', 'chat_1757399809534_v6jxz49i0', 'hi', 'Chào bạn! Mình là trợ lý AI của 7TCC. Mình có thể giúp gì cho bạn ạ? Bạn đang quan tâm đến sản phẩm nào của 7TCC không?\n', '2025-09-09 06:36:55');
+(93, 'zaikaman123@gmail.com', 'chat_1757399809534_v6jxz49i0', 'hi', 'Chào bạn! Mình là trợ lý AI của 7TCC. Mình có thể giúp gì cho bạn ạ? Bạn đang quan tâm đến sản phẩm nào của 7TCC không?\n', '2025-09-09 06:36:55'),
+(94, 'zaikaman123@gmail.com', 'chat_1757399865407_bw92k4aam', 'hi', 'Chào bạn! Mình là trợ lý AI của 7TCC, rất vui được hỗ trợ bạn. Bạn đang quan tâm đến sản phẩm nào của 7TCC ạ? Mình có thể giúp bạn tìm hiểu thông tin chi tiết về sản phẩm, tư vấn chọn size, giải đáp thắc mắc về chính sách của cửa hàng hoặc hỗ trợ bất cứ vấn đề gì liên quan đến đơn hàng. ????\n', '2025-09-13 07:57:40'),
+(95, 'zaikaman123@gmail.com', 'chat_1757399865407_bw92k4aam', 'xin địa chỉ', 'Dạ chào bạn! Địa chỉ cửa hàng 7TCC của tụi mình là 273 An Dương Vương – Phường 3 – Quận 5 ạ. Bạn có cần mình hỗ trợ thêm thông tin gì nữa không ạ? ????\n', '2025-09-13 07:58:33'),
+(96, 'zaikaman123@gmail.com', 'chat_1757399865407_bw92k4aam', 'xin địa chỉ web', 'Chào bạn! Địa chỉ website chính thức của 7TCC là: https://7tcc.great-site.net ạ. Bạn có cần mình hỗ trợ thêm thông tin gì về sản phẩm hay chính sách của cửa hàng không ạ? Mình luôn sẵn sàng giúp đỡ! ????\n', '2025-09-13 08:01:31'),
+(97, 'zaikaman123@gmail.com', 'chat_1757755656160_2psxiq0st', 'hi', 'Chào bạn! 7TCC rất vui được hỗ trợ bạn. Bạn đang quan tâm đến sản phẩm nào của chúng mình ạ? Hãy cho mình biết để mình tư vấn chi tiết hơn nhé! ????\n', '2025-09-13 09:27:39'),
+(98, 'zaikaman123@gmail.com', 'chat_1757759592013_x2jdnzq7s', 'hi', 'Chào bạn! Mình là trợ lý AI của 7TCC, rất vui được hỗ trợ bạn. Bạn đang quan tâm đến sản phẩm nào của 7TCC bên mình ạ? Mình có thể cung cấp thông tin chi tiết về sản phẩm, hướng dẫn chọn size, giải đáp thắc mắc về chính sách, hoặc hỗ trợ bất kỳ vấn đề nào khác liên quan đến đơn hàng. Bạn cứ thoải mái chia sẻ nhé! ????\n', '2025-09-13 10:34:07');
 
 -- --------------------------------------------------------
 
@@ -411,7 +416,8 @@ INSERT INTO `tbl_chitiet_gh` (`id_ctgh`, `ma_gh`, `id_sp`, `so_luong_mua`, `size
 (211, '674c63cb03836', 221, 1, 'M'),
 (212, '674c64059cc84', 222, 1, 'XL'),
 (213, '674c6440cc0b3', 221, 1, 'XXL'),
-(0, '68c40966246ad', 221, 10, 'XL');
+(0, '68c40966246ad', 221, 10, 'XL'),
+(0, '68c82da16256e', 221, 1, 'S');
 
 -- --------------------------------------------------------
 
@@ -425,6 +431,8 @@ CREATE TABLE `tbl_dangky` (
   `email` varchar(100) NOT NULL,
   `dia_chi` varchar(200) NOT NULL,
   `mat_khau` varchar(100) NOT NULL,
+  `reset_token` varchar(255) DEFAULT NULL,
+  `reset_token_expires` datetime DEFAULT NULL,
   `dien_thoai` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -432,14 +440,14 @@ CREATE TABLE `tbl_dangky` (
 -- Dumping data for table `tbl_dangky`
 --
 
-INSERT INTO `tbl_dangky` (`id_dangky`, `ten_khachhang`, `email`, `dia_chi`, `mat_khau`, `dien_thoai`) VALUES
-(14, 'ngọc tuấn', 'ngoctuan090904@gmail.com', 'Hóc Môn', '202cb962ac59075b964b07152d234b70', '0768893544'),
-(27, 'Đinh Phúc Thịnh', 'thinhgpt1706@gmail.com', '536 Au Co', '7ca4100f078350295c611e78355a57d4', '0931816175'),
-(32, 'Trần Đăng Phát', 'phattran280704@outlook.com', 'TP.HCM', '3b75b13a28364258df1f9f7cddb7b2f5', '0937024435'),
-(33, 'Minh Vương', 'nnt090904@gmail.com', 'Hóc Môn', '69e4756805ff0abf358e132aeb6ab5ca', '0768893544'),
-(34, 'dang the vinh', 'capijim747@gmail.com', 'ádfasdfasdfasdfsa', 'd6eb8d33b00b06ea903b4c170b167487', '0359855353'),
-(36, 'Đinh Phúc Thịnh', 'zaikaman123@gmail.com', '536 Au Co', 'ce9642a7df00bb973f5d9c55d5f67c49', '0931816175'),
-(38, 'Đinh Phúc Thịnh', 'subthinh18@gmail.com', '536 Au Co', 'ce9642a7df00bb973f5d9c55d5f67c49', '0931816175');
+INSERT INTO `tbl_dangky` (`id_dangky`, `ten_khachhang`, `email`, `dia_chi`, `mat_khau`, `reset_token`, `reset_token_expires`, `dien_thoai`) VALUES
+(14, 'ngọc tuấn', 'ngoctuan090904@gmail.com', 'Hóc Môn', '202cb962ac59075b964b07152d234b70', NULL, NULL, '0768893544'),
+(27, 'Đinh Phúc Thịnh', 'thinhgpt1706@gmail.com', '536 Au Co', '7ca4100f078350295c611e78355a57d4', NULL, NULL, '0931816175'),
+(32, 'Trần Đăng Phát', 'phattran280704@outlook.com', 'TP.HCM', '3b75b13a28364258df1f9f7cddb7b2f5', NULL, NULL, '0937024435'),
+(33, 'Minh Vương', 'nnt090904@gmail.com', 'Hóc Môn', '69e4756805ff0abf358e132aeb6ab5ca', NULL, NULL, '0768893544'),
+(34, 'dang the vinh', 'capijim747@gmail.com', 'ádfasdfasdfasdfsa', 'd6eb8d33b00b06ea903b4c170b167487', NULL, NULL, '0359855353'),
+(36, 'Đinh Phúc Thịnh', 'zaikaman123@gmail.com', '536 Au Co', 'dc9417f67e802695ecb86dab88899c6d', NULL, NULL, '0931816175'),
+(38, 'Đinh Phúc Thịnh', 'subthinh18@gmail.com', '536 Au Co', 'ce9642a7df00bb973f5d9c55d5f67c49', NULL, NULL, '0931816175');
 
 -- --------------------------------------------------------
 
@@ -656,7 +664,8 @@ INSERT INTO `tbl_hoadon` (`id_gh`, `id_khachhang`, `ma_gh`, `cart_date`, `cart_p
 (204, 27, '674c6440cc0b3', '2024-12-01 20:27:28', 'tienmat', 5, 0),
 (222, 36, '68c125f6a3aa1', '2025-09-10 14:17:10', 'tienmat', 9, 0),
 (223, 36, '1757507613', '2025-09-10 19:35:02', 'momo', 9, 0),
-(224, 36, '68c40966246ad', '2025-09-12 18:52:10', 'tienmat', 9, 1);
+(224, 36, '68c40966246ad', '2025-09-12 18:52:10', 'tienmat', 9, 1),
+(225, 36, '68c82da16256e', '2025-09-15 22:15:45', 'tienmat', 9, 2);
 
 -- --------------------------------------------------------
 
@@ -830,7 +839,7 @@ INSERT INTO `tbl_sanpham` (`id_sp`, `ten_sp`, `ma_sp`, `gia_sp`, `so_luong`, `so
 (218, 'Áo cầu lông nam SpeedFlex', 'ACL016', 360000, 100, 93, 'cl16.jpg', 'Áo cầu lông nhanh chóng, linh hoạt.', 'SpeedFlex được thiết kế cho những ai yêu thích sự linh hoạt và tốc độ. Với chất liệu nhẹ và co giãn, áo giúp bạn di chuyển dễ dàng trong mọi trận đấu. Thiết kế thể thao, trẻ trung phù hợp với nhiều đối tượng vận động viên.', 67, 1),
 (219, 'Áo cầu lông nam TurboSpeed', 'ACL017', 380000, 95, 92, 'cl17.jpg', 'Áo cầu lông sở hữu siêu tốc độ.', 'TurboSpeed mang đến cảm giác tốc độ tuyệt vời nhờ thiết kế ôm sát và chất liệu vải siêu nhẹ. Áo giúp bạn đạt được tốc độ tối đa trong mọi chuyển động. Dễ dàng giặt sạch và giữ màu sắc lâu dài.', 67, 1),
 (220, 'Áo cầu lông nam UltraStrike', 'ACL018', 420000, 85, 75, 'cl18.jpg', 'Áo cầu lông cho chiến thuật tấn công.', 'UltraStrike là sự lựa chọn tuyệt vời cho những vận động viên yêu thích lối chơi tấn công. Chất liệu vải giúp thấm hút mồ hôi hiệu quả, giữ cơ thể khô ráo và thoải mái suốt trận đấu. Họa tiết mạnh mẽ, phù hợp với những pha tấn công quyết đoán.', 67, 1),
-(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 41, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', 'PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1);
+(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 40, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', 'PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1);
 
 -- --------------------------------------------------------
 
@@ -1215,7 +1224,7 @@ INSERT INTO `tbl_sanpham_sizes` (`id`, `id_sp`, `size`, `so_luong`) VALUES
 (363, 220, 'L', 15),
 (364, 220, 'XL', 15),
 (365, 220, 'XXL', 15),
-(366, 221, 'S', 10),
+(366, 221, 'S', 9),
 (367, 221, 'M', 11),
 (368, 221, 'L', 10),
 (369, 221, 'XL', 0),
@@ -1471,7 +1480,7 @@ ALTER TABLE `tbl_baiviet`
 -- AUTO_INCREMENT for table `tbl_chat_history`
 --
 ALTER TABLE `tbl_chat_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `tbl_dangky`
@@ -1489,7 +1498,7 @@ ALTER TABLE `tbl_dangky_temp`
 -- AUTO_INCREMENT for table `tbl_danhmucqa`
 --
 ALTER TABLE `tbl_danhmucqa`
-  MODIFY `id_dm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id_dm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `tbl_danhmuc_baiviet`
@@ -1513,7 +1522,7 @@ ALTER TABLE `tbl_giohangtam`
 -- AUTO_INCREMENT for table `tbl_hoadon`
 --
 ALTER TABLE `tbl_hoadon`
-  MODIFY `id_gh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
+  MODIFY `id_gh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
 
 --
 -- AUTO_INCREMENT for table `tbl_lienhe`
