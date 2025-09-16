@@ -100,7 +100,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     showMessage(result.message, 'success');
                     // Cập nhật dataset cho các thao tác tiếp theo
                     this.dataset.currentSize = newSize;
-                    const quantityControls = this.closest('.row').querySelectorAll('[data-size]');
+                    const productRow = this.closest('.product-item');
+                    productRow.dataset.maxStock = result.new_stock;
+
+                    const quantityControls = productRow.querySelectorAll('[data-size]');
                     quantityControls.forEach(control => {
                         control.dataset.size = newSize;
                     });
@@ -159,8 +162,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const action = this.dataset.action === 'increase' ? 'increase_quantity' : 'decrease_quantity';
             const id = this.dataset.id;
             const size = this.dataset.size;
+            const productItem = this.closest('.product-item');
             const quantityInput = this.parentElement.querySelector('.quantity-input');
             const currentQuantity = parseInt(quantityInput.value);
+
+            if (action === 'increase_quantity') {
+                const maxStock = parseInt(productItem.dataset.maxStock);
+                if (currentQuantity >= maxStock) {
+                    showMessage('Số lượng sản phẩm trong kho không đủ.', 'error');
+                    return; // Dừng thực thi
+                }
+            }
             
             this.disabled = true;
             

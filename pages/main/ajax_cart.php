@@ -20,17 +20,7 @@ switch ($action) {
             echo json_encode(['success' => false, 'message' => 'Số lượng phải lớn hơn 0']);
             exit;
         }
-        
-        // Kiểm tra số lượng tồn kho
-        $sql_pro = "SELECT so_luong_con_lai FROM tbl_sanpham WHERE id_sp = '" . $id . "' LIMIT 1";
-        $pro = mysqli_query($mysqli, $sql_pro);
-        $row = mysqli_fetch_array($pro);
-        
-        if ($new_quantity > $row['so_luong_con_lai']) {
-            echo json_encode(['success' => false, 'message' => 'Số lượng vượt quá tồn kho (' . $row['so_luong_con_lai'] . ')']);
-            exit;
-        }
-        
+
         $product = array();
         $updated = false;
         foreach ($_SESSION['cart'] as $cart_item) {
@@ -128,37 +118,34 @@ switch ($action) {
         
         if ($updated) {
             $_SESSION['cart'] = $product;
-            echo json_encode(['success' => true, 'message' => 'Cập nhật size thành công']);
+            
+            // Lấy số lượng tồn kho mới
+            $sql_get_stock = "SELECT so_luong FROM tbl_sanpham_sizes WHERE id_sp = '$id' AND size = '$new_size'";
+            $query_get_stock = mysqli_query($connect, $sql_get_stock);
+            $row_stock = mysqli_fetch_array($query_get_stock);
+            $new_stock_quantity = $row_stock ? $row_stock['so_luong'] : 0;
+
+            echo json_encode(['success' => true, 'message' => 'Cập nhật size thành công', 'new_stock' => $new_stock_quantity]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Không tìm thấy sản phẩm']);
         }
         break;
         
     case 'increase_quantity':
-        $sql_pro = "SELECT so_luong_con_lai FROM tbl_sanpham WHERE id_sp = '" . $id . "' LIMIT 1";
-        $pro = mysqli_query($mysqli, $sql_pro);
-        $row = mysqli_fetch_array($pro);
-        
         $product = array();
         $updated = false;
         foreach ($_SESSION['cart'] as $cart_item) {
             if ($cart_item['id'] == $id && $cart_item['size'] == $size) {
-                if ($cart_item['so_luong'] < $row['so_luong_con_lai']) {
-                    $product[] = array(
-                        'ten_sp' => $cart_item['ten_sp'],
-                        'id' => $cart_item['id'],
-                        'so_luong' => $cart_item['so_luong'] + 1,
-                        'gia_sp' => $cart_item['gia_sp'],
-                        'hinh_anh' => $cart_item['hinh_anh'],
-                        'ma_sp' => $cart_item['ma_sp'],
-                        'size' => $cart_item['size']
-                    );
-                    $updated = true;
-                } else {
-                    $product[] = $cart_item;
-                    echo json_encode(['success' => false, 'message' => 'Đã đạt số lượng tối đa']);
-                    exit;
-                }
+                $product[] = array(
+                    'ten_sp' => $cart_item['ten_sp'],
+                    'id' => $cart_item['id'],
+                    'so_luong' => $cart_item['so_luong'] + 1,
+                    'gia_sp' => $cart_item['gia_sp'],
+                    'hinh_anh' => $cart_item['hinh_anh'],
+                    'ma_sp' => $cart_item['ma_sp'],
+                    'size' => $cart_item['size']
+                );
+                $updated = true;
             } else {
                 $product[] = $cart_item;
             }

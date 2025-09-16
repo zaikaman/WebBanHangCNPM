@@ -49,13 +49,28 @@
                                             $count = 0;
                                             $tongtien = 0;
                                             if (isset($_SESSION['cart'])) {
+                                                $host = 'localhost';
+                                                $user = 'root';
+                                                $pass = '';
+                                                $db = 'webbanhang_cnpm';
+                                                $connect_giohang = mysqli_connect($host, $user, $pass, $db);
+                                                mysqli_set_charset($connect_giohang, 'utf8');
+
                                                 foreach ($_SESSION['cart'] as $cart_item) {
                                                     $count++;
                                                     $thanhtien = $cart_item['gia_sp'] * $cart_item['so_luong'];
                                                     $tongtien += $thanhtien;
+                                                    
+                                                    // Get stock quantity
+                                                    $id_sanpham = $cart_item['id'];
+                                                    $size = isset($cart_item['size']) ? $cart_item['size'] : 'M';
+                                                    $sql_get_stock = "SELECT so_luong FROM tbl_sanpham_sizes WHERE id_sp = '$id_sanpham' AND size = '$size'";
+                                                    $query_get_stock = mysqli_query($connect_giohang, $sql_get_stock);
+                                                    $row_stock = mysqli_fetch_array($query_get_stock);
+                                                    $stock_quantity = $row_stock ? $row_stock['so_luong'] : 0;
                                             ?>
                                                     <hr class="my-4 hr-bold">
-                                                    <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                                    <div class="row mb-4 d-flex justify-content-between align-items-center product-item" data-max-stock="<?php echo $stock_quantity; ?>">
                                                         <div class="col-md-2 col-lg-2 col-xl-2">
                                                             <img src="admincp/modules/quanLySanPham/uploads/<?php echo $cart_item['hinh_anh']; ?>" class="img-fluid rounded-3" alt="Product Image">
                                                         </div>
@@ -110,6 +125,7 @@
                                                     </div>
                                             <?php
                                                 }
+                                                mysqli_close($connect_giohang);
                                             }
                                             ?>
                                             <?php
