@@ -28,7 +28,8 @@ if (isset($_POST['themgiohang'])) {
     }
 
     if (($qty_in_cart + $so_luong_to_add) > $available_qty) {
-        header('Location:/WebBanHangCNPM/index.php?quanly=sanpham&id=' . $id . '&error=quantity_exceeded');
+        $remaining_qty = $available_qty - $qty_in_cart;
+        header('Location:/WebBanHangCNPM/index.php?quanly=sanpham&id=' . $id . '&error=quantity_exceeded&remaining=' . $remaining_qty);
         exit();
     }
     // --- END NEW VALIDATION ---

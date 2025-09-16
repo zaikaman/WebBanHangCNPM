@@ -95,6 +95,24 @@ $is_in_stock = !empty($available_sizes);
                 </div>
             </div>
 
+            <?php 
+            // Hiển thị thông báo lỗi nếu có
+            if (isset($_GET['error']) && $_GET['error'] == 'quantity_exceeded') {
+                $remaining_qty = isset($_GET['remaining']) ? (int)$_GET['remaining'] : 0;
+                $error_message = "Số lượng bạn yêu cầu vượt quá số lượng còn lại trong kho.";
+                if ($remaining_qty > 0) {
+                    $error_message .= " Chỉ có thể thêm tối đa <strong>" . $remaining_qty . "</strong> sản phẩm nữa.";
+                } else {
+                    $error_message = "Bạn đã có tất cả sản phẩm với size này trong giỏ hàng. Không thể thêm nữa.";
+                }
+                echo '<div class="alert alert-danger">' . $error_message . '</div>';
+            }
+            // Hiển thị thông báo thành công nếu có
+            if (isset($_GET['additem_success']) && $_GET['additem_success'] == 1) {
+                 echo '<div class="alert alert-success">Đã thêm sản phẩm vào giỏ hàng thành công!</div>';
+            }
+            ?>
+
             <?php if ($is_in_stock):
             ?>
                 <?php if (isset($_SESSION['id_khachhang']) && isset($_SESSION['dang_ky'])):
