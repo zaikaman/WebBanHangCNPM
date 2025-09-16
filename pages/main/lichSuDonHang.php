@@ -169,7 +169,7 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                             </td>
                             <td data-label="In Đơn Hàng">
                                 <a href="pages/main/indonhang.php?&code=<?php echo $row['ma_gh'] ?>" class="btn btn-print-order btn-sm" target="_blank">
-                                    <i class="fas fa-print me-1"></i>In
+                                    <i class="fas fa-print me-1"></i>In Đơn Hàng
                                 </a>
                             </td>
                         </tr>
