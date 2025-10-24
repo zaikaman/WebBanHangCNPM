@@ -41,6 +41,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <link rel="stylesheet" type="text/css" href="css/chat.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="css/premium-overrides.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="css/header-fixes.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="css/newsletter-premium.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="css/footer-premium.css?v=<?php echo time(); ?>">
     
 </head>
@@ -53,12 +54,13 @@ if (session_status() == PHP_SESSION_NONE) {
         include("pages/menu.php");
         include("pages/main.php");
         
-        // Sử dụng footer premium cho trang chủ
+        // Sử dụng newsletter chỉ cho trang chủ
         if (!isset($_GET['quanly']) || $_GET['quanly'] == '') {
-            include("pages/footer-premium.php");
-        } else {
-            include("pages/footer.php");
+            include("pages/newsletter-premium.php");
         }
+        
+        // Sử dụng footer premium cho tất cả trang
+        include("pages/footer-premium.php");
         
         include("pages/anchor.php");
         ?>

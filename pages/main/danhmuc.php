@@ -1,4 +1,12 @@
 <?php
+// Kiểm tra và lấy tham số id từ URL
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    echo "<div class='alert alert-warning'>Không tìm thấy danh mục sản phẩm.</div>";
+    exit();
+}
+
+$id_dm = mysqli_real_escape_string($mysqli, $_GET['id']);
+
 if (isset($_GET['trang'])) {
     $page = $_GET['trang'];
 } else {
@@ -10,10 +18,11 @@ if ($page == '' || $page == 1) {
     $begin = ($page * 8) - 8;
 }
 
-$sql_pro = "SELECT * FROM tbl_sanpham WHERE tbl_sanpham.id_dm = '$_GET[id]' ORDER BY tbl_sanpham.id_sp DESC LIMIT $begin,8";
-$sql_cate = "SELECT * FROM tbl_danhmucqa WHERE tbl_danhmucqa.id_dm = '$_GET[id]' ORDER BY tbl_danhmucqa.id_dm DESC";
+$sql_pro = "SELECT * FROM tbl_sanpham WHERE tbl_sanpham.id_dm = '$id_dm' ORDER BY tbl_sanpham.id_sp DESC LIMIT $begin,8";
+$sql_cate = "SELECT * FROM tbl_danhmucqa WHERE tbl_danhmucqa.id_dm = '$id_dm' ORDER BY tbl_danhmucqa.id_dm DESC";
 $query_cate = mysqli_query($mysqli, $sql_cate);
 $query_pro = mysqli_query($mysqli, $sql_pro);
+$row_title = null;
 if ($query_cate) {
     $row_title = mysqli_fetch_array($query_cate);
 }
@@ -24,7 +33,7 @@ if ($query_cate) {
     ?>
     <div class="main_content main_content_with_sidebar">
         <div class="cate_title">
-            <h3><?php echo $row_title['name_sp'] ?></h3>
+            <h3><?php echo ($row_title && isset($row_title['name_sp'])) ? $row_title['name_sp'] : 'Danh mục sản phẩm' ?></h3>
         </div>
         <div class="container mt-3">
             <div class="row">
@@ -55,7 +64,7 @@ if ($query_cate) {
 
         <div style="clear:both;"></div>
         <?php
-        $sql_page = mysqli_query($mysqli, "SELECT * FROM tbl_sanpham WHERE id_dm = '$_GET[id]'");
+        $sql_page = mysqli_query($mysqli, "SELECT * FROM tbl_sanpham WHERE id_dm = '$id_dm'");
         $row_count = mysqli_num_rows($sql_page);
         $trang = ceil($row_count / 8);
         ?>
@@ -68,7 +77,7 @@ if ($query_cate) {
                             echo 'style="background: #FFFFFF;"';
                         } else {
                             echo '';
-                        } ?>><a href="index.php?quanly=danhmucsanpham&id=<?php echo $_GET['id'] ?>&trang=<?php echo $i ?>"><?php echo $i ?></a></div>
+                        } ?>><a href="index.php?quanly=danhmucsanpham&id=<?php echo $id_dm ?>&trang=<?php echo $i ?>"><?php echo $i ?></a></div>
                 </div>
             <?php
             }
