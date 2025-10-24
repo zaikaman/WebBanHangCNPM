@@ -3,7 +3,9 @@ if(isset($_GET['quanly'])) {
     $des = $_GET['quanly'];
     switch($des) {
         case 'danhmucsanpham':
-            include("danhmuc.php");
+            // Force clear any output buffers
+            if (ob_get_level()) ob_end_clean();
+            include("danhmuc-premium.php");
             break;
         case 'giohang':
             include("giohang.php");

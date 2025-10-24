@@ -51,7 +51,7 @@ if (isset($_GET['dangXuat']) && $_GET['dangXuat'] == 1) {
                 <a href="index.php" style="display: flex !important; height: 100%; align-items: center;">
                     <img src="images/logo.png" 
                          alt="7TCC Logo" 
-                         style="display: block !important; visibility: visible !important; height: 120px !important; width: auto !important; max-width: 280px; object-fit: contain;"
+                         style="display: block !important; visibility: visible !important; height: 70px !important; width: auto !important; max-width: 200px; object-fit: contain;"
                          loading="eager"
                          onerror="console.error('Logo failed to load:', this.src); this.style.border='2px solid red';">
                 </a>
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     if (logoImg) {
-        logoImg.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important; height: 100px !important; width: auto !important; max-width: 180px; object-fit: contain;';
+        logoImg.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important; height: 70px !important; width: auto !important; max-width: 200px; object-fit: contain;';
         console.log('Logo image found:', logoImg.src);
         console.log('Logo image dimensions:', logoImg.offsetWidth, 'x', logoImg.offsetHeight);
         

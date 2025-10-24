@@ -43,6 +43,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <link rel="stylesheet" type="text/css" href="css/header-fixes.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="css/newsletter-premium.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="css/footer-premium.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="css/danhmuc-premium.css?v=<?php echo time(); ?>">
     
 </head>
 

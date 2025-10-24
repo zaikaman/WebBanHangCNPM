@@ -15,9 +15,10 @@
    =================================== */
 .menu {
     background: var(--menu-white);
-    border-bottom: 1px solid #E5E5E5;
+    border-bottom: 1px solid #ECECEC;
     position: relative;
     z-index: 99;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 .menu_content {
@@ -26,8 +27,8 @@
     padding: 0 60px;
     display: flex;
     align-items: center;
-    gap: 5px;
-    height: 60px;
+    gap: 0;
+    height: 56px;
 }
 
 .menu_items {
@@ -37,14 +38,14 @@
 .menu_items .item {
     display: flex;
     align-items: center;
-    padding: 20px 20px;
-    color: var(--menu-black);
-    font-size: 15px;
+    padding: 18px 22px;
+    color: #333;
+    font-size: 14px;
     font-weight: 600;
     text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+    letter-spacing: 0.6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
 }
 
@@ -52,16 +53,19 @@
     content: '';
     position: absolute;
     bottom: 0;
-    left: 20px;
-    right: 20px;
+    left: 22px;
+    right: 22px;
     height: 3px;
     background: var(--menu-red);
     transform: scaleX(0);
-    transition: transform 0.3s ease;
+    transform-origin: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2px 2px 0 0;
 }
 
 .menu_items .item:hover {
     color: var(--menu-red);
+    background: rgba(220, 0, 33, 0.03);
 }
 
 .menu_items .item:hover::before {
@@ -70,6 +74,7 @@
 
 .menu_items .item.active {
     color: var(--menu-red);
+    background: rgba(220, 0, 33, 0.05);
 }
 
 .menu_items .item.active::before {
@@ -89,16 +94,17 @@
     top: 100%;
     left: 0;
     background: var(--menu-white);
-    min-width: 250px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    min-width: 240px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
-    transition: all 0.3s ease;
-    padding: 12px 0;
-    margin-top: 1px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 8px 0;
+    margin-top: 0;
     z-index: 100;
+    border: 1px solid #F0F0F0;
 }
 
 .menu_items:hover .news_content {
@@ -109,20 +115,20 @@
 
 .news_content a {
     display: block;
-    padding: 12px 24px;
-    color: var(--menu-black);
-    font-size: 14px;
+    padding: 11px 20px;
+    color: #333;
+    font-size: 13px;
     font-weight: 500;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 3px solid transparent;
 }
 
 .news_content a:hover {
-    background: #F8F8F8;
+    background: rgba(220, 0, 33, 0.05);
     color: var(--menu-red);
     border-left-color: var(--menu-red);
-    padding-left: 28px;
+    padding-left: 24px;
 }
 
 /* ===================================

@@ -6,7 +6,7 @@
         $des = '';
     }
     if ($des == 'danhmucsanpham') {
-        include("main/danhmuc.php");
+        include("main/danhmuc-premium.php");
     } elseif ($des == 'giohang') {
         include("main/giohang.php");
     } elseif ($des == 'vanChuyen') {
