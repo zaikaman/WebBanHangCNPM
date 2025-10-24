@@ -1,0 +1,236 @@
+/* ===================================
+   PREMIUM LAYOUT OVERRIDES
+   Đảm bảo trang premium hoạt động tốt với layout hiện tại
+   =================================== */
+
+/* Ẩn sidebar khi ở trang chủ premium */
+body.premium-home .sidebar {
+    display: none !important;
+}
+
+body.premium-home .main_content_with_sidebar {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.premium-home .main_with_sidebar {
+    display: block !important;
+}
+
+/* Reset container cho trang premium */
+body.premium-home #main {
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+/* Đảm bảo wrapper không can thiệp */
+body.premium-home .wrapper {
+    background: #FFFFFF !important;
+}
+
+/* Override cho menu khi ở trang premium */
+.menu {
+    position: relative;
+    z-index: 100;
+}
+
+/* Smooth transitions */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+    transition: all 0.3s ease;
+}
+
+/* Premium button styles */
+.btn-premium {
+    display: inline-block;
+    padding: 16px 40px;
+    background: #DC0021;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-premium:hover {
+    background: #A90019;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(220, 0, 33, 0.3);
+}
+
+.btn-premium-outline {
+    display: inline-block;
+    padding: 16px 40px;
+    background: transparent;
+    color: #DC0021;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border: 2px solid #DC0021;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-premium-outline:hover {
+    background: #DC0021;
+    color: #FFFFFF;
+}
+
+/* Responsive images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Premium typography */
+.premium-homepage h1,
+.premium-homepage h2,
+.premium-homepage h3,
+.premium-homepage h4 {
+    font-family: 'Inter', sans-serif;
+}
+
+.premium-homepage p,
+.premium-homepage a,
+.premium-homepage span {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Loading state */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Focus states for accessibility */
+button:focus,
+a:focus,
+input:focus {
+    outline: 2px solid #DC0021;
+    outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+    background: #DC0021;
+    color: #FFFFFF;
+}
+
+::-moz-selection {
+    background: #DC0021;
+    color: #FFFFFF;
+}
+
+/* Scrollbar styling for webkit browsers */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F8F8F8;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #DC0021;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #A90019;
+}
+
+/* Hide old pagination when using premium */
+body.premium-home .phantrang {
+    display: none !important;
+}
+
+/* Premium page indicator */
+.premium-page-indicator {
+    position: fixed;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.premium-page-indicator span {
+    width: 12px;
+    height: 12px;
+    background: rgba(220, 0, 33, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.premium-page-indicator span.active,
+.premium-page-indicator span:hover {
+    background: #DC0021;
+    transform: scale(1.3);
+}
+
+/* Mobile menu adjustments */
+@media (max-width: 768px) {
+    .premium-page-indicator {
+        display: none;
+    }
+    
+    body.premium-home .wrapper {
+        background: #FFFFFF;
+    }
+}
+
+/* Print styles */
+@media print {
+    .premium-hero,
+    .newsletter-section,
+    .product-actions,
+    .menu,
+    .header {
+        display: none !important;
+    }
+    
+    .product-card-premium {
+        break-inside: avoid;
+    }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    /* Giữ nguyên light mode cho trang premium */
+    body.premium-home {
+        color-scheme: light;
+    }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .btn-hero-primary,
+    .btn-premium {
+        border: 3px solid #000000;
+    }
+}

@@ -21,13 +21,7 @@ class Mailer {
         } else {
             // Fallback nếu không có env helper
             return [
-                'host' => 'smtp.gmail.com',
-                'username' => 'luutrithon1996@gmail.com',
-                'password' => 'xwxx lyju spew lpvg',
-                'port' => 587,
-                'encryption' => 'tls',
-                'from_address' => 'luutrithon1996@gmail.com',
-                'from_name' => '7TCC Store'
+                
             ];
         }
     }
@@ -62,8 +56,8 @@ class Mailer {
     
             //recipients
             $mail->setFrom($config['from_address'], $config['from_name']);
-            $mail->addAddress($maildathang,'Wolfdabest'); //Add a recipient
-            $mail->addAddress('nnt090904@gmail.com'); //Name is optional 
+            $mail->addAddress($maildathang,'7TCC'); //Add a recipient
+            $mail->addAddress('zaikaman123@gmail.com'); //Name is optional 
             $mail->addCC($config['from_address']);
     
             //content 

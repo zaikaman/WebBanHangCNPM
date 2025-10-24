@@ -1,0 +1,387 @@
+/* ===================================
+   PREMIUM MENU DESIGN
+   Menu điều hướng cao cấp, hiện đại
+   =================================== */
+
+:root {
+    --menu-red: #DC0021;
+    --menu-dark-red: #A90019;
+    --menu-black: #1a1a1a;
+    --menu-white: #FFFFFF;
+}
+
+/* ===================================
+   MAIN MENU
+   =================================== */
+.menu {
+    background: var(--menu-white);
+    border-bottom: 1px solid #E5E5E5;
+    position: relative;
+    z-index: 99;
+}
+
+.menu_content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 60px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 60px;
+}
+
+.menu_items {
+    position: relative;
+}
+
+.menu_items .item {
+    display: flex;
+    align-items: center;
+    padding: 20px 20px;
+    color: var(--menu-black);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.menu_items .item::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    right: 20px;
+    height: 3px;
+    background: var(--menu-red);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.menu_items .item:hover {
+    color: var(--menu-red);
+}
+
+.menu_items .item:hover::before {
+    transform: scaleX(1);
+}
+
+.menu_items .item.active {
+    color: var(--menu-red);
+}
+
+.menu_items .item.active::before {
+    transform: scaleX(1);
+}
+
+/* Arrow Icon */
+.arrow_menu {
+    display: none; /* Ẩn mũi tên trong menu desktop */
+}
+
+/* ===================================
+   DROPDOWN MENU
+   =================================== */
+.news_content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--menu-white);
+    min-width: 250px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    padding: 12px 0;
+    margin-top: 1px;
+    z-index: 100;
+}
+
+.menu_items:hover .news_content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.news_content a {
+    display: block;
+    padding: 12px 24px;
+    color: var(--menu-black);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.news_content a:hover {
+    background: #F8F8F8;
+    color: var(--menu-red);
+    border-left-color: var(--menu-red);
+    padding-left: 28px;
+}
+
+/* ===================================
+   MOBILE DRAWER
+   =================================== */
+.drawer {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--menu-white);
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+    padding-top: 0;
+    z-index: 1001;
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0);
+}
+
+.drawer.active {
+    width: 320px;
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.drawer .close-btn {
+    position: sticky;
+    top: 0;
+    background: var(--menu-red);
+    color: var(--menu-white);
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.drawer .close-btn span {
+    font-size: 32px;
+    line-height: 1;
+}
+
+.drawer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.drawer li {
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.drawer li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    color: var(--menu-black);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.drawer li a:hover {
+    background: var(--menu-red);
+    color: var(--menu-white);
+    padding-left: 28px;
+}
+
+.drawer .arrow_menu {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.drawer .arrow_menu img {
+    width: 100%;
+    height: 100%;
+    filter: brightness(0);
+    transition: filter 0.3s ease;
+}
+
+.drawer li a:hover .arrow_menu img {
+    filter: brightness(0) invert(1);
+}
+
+/* Search trong drawer */
+.search_container_menubar {
+    padding: 20px;
+    background: #F8F8F8;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.search_container_menubar .search_form {
+    display: flex;
+    border: 2px solid #E5E5E5;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--menu-white);
+    height: 48px;
+}
+
+.search_container_menubar .search_input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0 16px;
+    font-size: 14px;
+}
+
+.search_container_menubar .search_btn {
+    width: 48px;
+    height: 100%;
+    border: none;
+    background: var(--menu-red);
+    color: var(--menu-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search_container_menubar .search_btn img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+}
+
+/* Dropdown trong drawer */
+.news_content_burger {
+    background: #F8F8F8;
+    padding: 8px 0 8px 20px;
+    display: none;
+    border-left: 3px solid var(--menu-red);
+}
+
+.news_content_burger.active {
+    display: block;
+}
+
+.news_content_burger a {
+    display: block;
+    padding: 10px 20px;
+    color: #666;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.news_content_burger a:hover {
+    color: var(--menu-red);
+    padding-left: 28px;
+}
+
+/* Overlay khi mở drawer */
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.drawer-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+
+@media (max-width: 1200px) {
+    .menu_content {
+        padding: 0 40px;
+    }
+    
+    .menu_items .item {
+        padding: 20px 15px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 992px) {
+    .menu_items .item {
+        padding: 20px 12px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 768px) {
+    .menu {
+        display: none; /* Ẩn menu desktop trên mobile */
+    }
+}
+
+/* ===================================
+   SPECIAL EFFECTS
+   =================================== */
+
+/* Mega menu effect (có thể dùng sau) */
+.menu_items.mega-menu .news_content {
+    min-width: 600px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 24px;
+}
+
+/* Active page indicator */
+body[data-page="home"] .menu_items:nth-child(1) .item,
+body[data-page="products"] .menu_items:nth-child(2) .item,
+body[data-page="cart"] .menu_items:nth-child(3) .item,
+body[data-page="news"] .menu_items:nth-child(4) .item,
+body[data-page="contact"] .menu_items:nth-child(5) .item {
+    color: var(--menu-red);
+}
+
+body[data-page="home"] .menu_items:nth-child(1) .item::before,
+body[data-page="products"] .menu_items:nth-child(2) .item::before,
+body[data-page="cart"] .menu_items:nth-child(3) .item::before,
+body[data-page="news"] .menu_items:nth-child(4) .item::before,
+body[data-page="contact"] .menu_items:nth-child(5) .item::before {
+    transform: scaleX(1);
+}
+
+/* Animation cho menu items */
+@keyframes menuSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.drawer.active li {
+    animation: menuSlideIn 0.3s ease forwards;
+}
+
+.drawer.active li:nth-child(1) { animation-delay: 0.05s; }
+.drawer.active li:nth-child(2) { animation-delay: 0.1s; }
+.drawer.active li:nth-child(3) { animation-delay: 0.15s; }
+.drawer.active li:nth-child(4) { animation-delay: 0.2s; }
+.drawer.active li:nth-child(5) { animation-delay: 0.25s; }
+.drawer.active li:nth-child(6) { animation-delay: 0.3s; }
+.drawer.active li:nth-child(7) { animation-delay: 0.35s; }
+.drawer.active li:nth-child(8) { animation-delay: 0.4s; }

@@ -3,6 +3,7 @@
     // Include Mailer class for email sending
     require_once(__DIR__ . '/../../mail/sendmail.php');
     $registration_error = '';
+    $registration_success = '';
 
     if (isset($_POST['dang_ky'])) {
         $ten_khachhang = $_POST['ten_khachhang'];
@@ -61,17 +62,23 @@
 
             if ($insert_token_result) {
                 // Send email using PHPMailer
-                $mailer = new Mailer();
-                $emailSent = $mailer->sendVerificationEmail($email, $ten_khachhang, $token);
+                try {
+                    $mailer = new Mailer();
+                    $emailSent = $mailer->sendVerificationEmail($email, $ten_khachhang, $token);
 
-                if ($emailSent) {
-                    echo "Email xác nhận đã được gửi. Vui lòng kiểm tra email để hoàn tất đăng ký!";
-                } else {
-                    echo "Lỗi gửi email. Vui lòng thử lại sau.";
-                    unset($_SESSION['user_info']); // Clear session if email sending fails
+                    if ($emailSent) {
+                        $registration_success = "Email xác nhận đã được gửi. Vui lòng kiểm tra email để hoàn tất đăng ký!";
+                    } else {
+                        $registration_error = "Lỗi gửi email. Vui lòng thử lại sau.";
+                        unset($_SESSION['user_info']); // Clear session if email sending fails
+                    }
+                } catch (Exception $e) {
+                    error_log('Exception khi gửi email: ' . $e->getMessage());
+                    $registration_error = "Lỗi hệ thống khi gửi email. Vui lòng thử lại sau.";
+                    unset($_SESSION['user_info']);
                 }
             } else {
-                echo "Lỗi: Không thể lưu thông tin xác nhận email.";
+                $registration_error = "Lỗi: Không thể lưu thông tin xác nhận email.";
             }
         }
     }
@@ -120,6 +127,9 @@
             <p>Đã có tài khoản?<a class="registerlink" href="index.php?quanly=dangnhap">Đăng nhập</a></p>
             <?php if (!empty($registration_error)) { ?>
                 <div id="registration_error" style="display : flex; width : 100%; color :red; padding : 4px 8px; justify-content : center; align-items : center;"><?php echo $registration_error; ?></div>
+            <?php } ?>
+            <?php if (!empty($registration_success)) { ?>
+                <div id="registration_success" style="display : flex; width : 100%; color : green; padding : 4px 8px; justify-content : center; align-items : center;"><?php echo $registration_success; ?></div>
             <?php } ?>
         </form>
     </div>

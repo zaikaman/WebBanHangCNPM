@@ -1,0 +1,44 @@
+@startwbs
+title Website bán quần áo thể thao
+
+* Quản lý dự án
+** Lập kế hoạch dự án
+** Kick-off & phân công
+** Báo cáo tiến độ
+
+* Phân tích & Thiết kế
+** Phân tích yêu cầu (tham khảo `webbanhang_cnpm.sql`)
+** Thiết kế kiến trúc & DB
+** Thiết kế UI/UX
+
+* Phát triển Backend
+** Thiết lập môi trường & cấu hình
+** Đăng nhập / Quản lý người dùng
+** Giỏ hàng & Hoá đơn
+** Thanh toán (MoMo, VNPAY)
+** Chat & hỗ trợ khách hàng
+** Email (xác nhận, reset mật khẩu)
+
+* Phát triển Frontend
+** Trang sản phẩm & catalog
+** Giỏ hàng & Checkout
+** Trang thông tin người dùng
+
+* Kiểm thử
+** Unit & Integration tests
+** Kiểm thử thanh toán (callback/success/fail)
+** UI/UX + responsive
+
+* Triển khai
+** Chuẩn bị script deploy (`deploy.sh`, `deploy.ps1`)
+** Import DB (`webbanhang_cnpm.sql`)
+
+* Tài liệu & Bảo trì
+** README vận hành
+** Hướng dẫn dev & test
+
+note right
+ Mapping nhanh tới codebase: `pages/`, `admincp/`, `js/`, `mail/`, `api/`, `webbanhang_cnpm.sql`.
+end note
+
+@endwbs

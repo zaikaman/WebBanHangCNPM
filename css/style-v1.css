@@ -316,9 +316,8 @@ input[type="text"]::-ms-clear {
   line-height: 35px;
   text-align: center;
   font-size: 16px;
-  background-color: #a90019;
+  background-color: transparent;
   float: left;
-  margin-right: 4px;
 }
 .number_item_cart {
   position: absolute;

@@ -87,13 +87,13 @@ if(isset($_GET['quanly'])) {
             include("camon.php");
             break;
         default:
-            include("../slideimg.php");
-            include("index.php");
+            include("../slideimg-premium.php");
+            include("index-premium.php");
             break;
     }
 } else {
-    // Trang chủ mặc định
-    include("../slideimg.php");
-    include("index.php");
+    // Trang chủ mặc định - Premium Design
+    include("../slideimg-premium.php");
+    include("index-premium.php");
 }
 ?> 

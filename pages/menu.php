@@ -1,6 +1,13 @@
 <?php $sql_lietke = "SELECT * FROM tbl_danhmucqa ORDER BY id_dm DESC ";
 $lietke = mysqli_query($mysqli, $sql_lietke);
 ?>
+
+<!-- Premium Menu CSS -->
+<link rel="stylesheet" href="css/menu-premium.css?v=<?php echo time(); ?>">
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawer-overlay"></div>
+
 <div class="menu">
     <div class="menu_content">
         <div class="menu_items">
@@ -54,8 +61,11 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
         </div>
         <!-- Ngăn kéo (Drawer) -->
         <div class="drawer" id="drawer">
-            <a href="#" class="close-btn" id="close-btn">&times;</a>
-            <ul style="margin-top : 20px; padding-left : 10px">
+            <button class="close-btn" id="close-btn">
+                Menu
+                <span>&times;</span>
+            </button>
+            <ul style="margin-top: 0; padding-left: 0">
                 <li>
                     <div class="search_container_menubar">
                         <form class="search_form" action="index.php?quanly=timKiem" method="POST" data-ajax="true">
@@ -130,86 +140,70 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
 document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.getElementById('hamburger');
     const drawer = document.getElementById('drawer');
+    const drawerOverlay = document.getElementById('drawer-overlay');
     const closeBtn = document.getElementById('close-btn');
-    const newsMenuItem = document.getElementById('newsMenuItem'); // Thêm ID cho mục tin tức
+    const newsMenuItem = document.getElementById('newsMenuItem');
     const newsContentBurger = document.getElementById('news_content_burger');
-    const newsMenuItem1 = document.getElementById('newsMenuItem1'); // Thêm ID cho mục tin tức
+    const newsMenuItem1 = document.getElementById('newsMenuItem1');
     const newsContentBurger1 = document.getElementById('news_content_burger1');
 
-    // Kiểm tra kích thước màn hình và cập nhật width của Drawer
-    function checkScreenWidth() {
-        if (window.innerWidth > 750) {
-            drawer.style.width = '0';
+    // Toggle drawer function
+    function toggleDrawer(show) {
+        if (show) {
+            drawer.classList.add('active');
+            drawerOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        } else {
+            drawer.classList.remove('active');
+            drawerOverlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
     }
 
-    // Gọi hàm kiểm tra khi tải trang và khi thay đổi kích thước màn hình
-    checkScreenWidth();
-    window.addEventListener('resize', checkScreenWidth);
+    // Open drawer
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            toggleDrawer(true);
+        });
+    }
 
-    // Mở ngăn kéo
-    hamburger.addEventListener('click', function() {
-        drawer.style.width = '250px';
-    });
+    // Close drawer
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            toggleDrawer(false);
+        });
+    }
 
-    // Đóng ngăn kéo
-    closeBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        drawer.style.width = '0';
-    });
+    // Close drawer when clicking overlay
+    if (drawerOverlay) {
+        drawerOverlay.addEventListener('click', function() {
+            toggleDrawer(false);
+        });
+    }
 
-    // Đóng ngăn kéo khi nhấp ngoài
-    window.addEventListener('click', function(e) {
-        if (e.target == drawer) {
-            drawer.style.width = '0';
+    // Close drawer on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            toggleDrawer(false);
         }
     });
 
-    // Hiện danh mục khi di chuột vào mục "Tin tức"
-    newsMenuItem.addEventListener('mouseover', function() {
-        newsContentBurger.style.display = 'block';
-    });
+    // Toggle submenu in drawer
+    if (newsMenuItem) {
+        newsMenuItem.addEventListener('click', function(e) {
+            e.preventDefault();
+            newsContentBurger.classList.toggle('active');
+        });
+    }
 
-    // Ẩn danh mục khi di chuột ra ngoài "Tin tức" và danh mục
-    newsMenuItem.addEventListener('mouseleave', function() {
-        if (!newsContentBurger.matches(':hover')) {
-            newsContentBurger.style.display = 'none';
-        }
-    });
-
-    // Giữ danh mục hiển thị khi di chuột vào danh mục
-    newsContentBurger.addEventListener('mouseenter', function() {
-        newsContentBurger.style.display = 'block';
-    });
-
-    // Ẩn danh mục khi di chuột ra ngoài danh mục
-    newsContentBurger.addEventListener('mouseleave', function() {
-        newsContentBurger.style.display = 'none';
-    });
-
-    // Hiện danh mục khi di chuột vào mục "Tin tức"
-    newsMenuItem1.addEventListener('mouseover', function() {
-        newsContentBurger1.style.display = 'block';
-    });
-
-    // Ẩn danh mục khi di chuột ra ngoài "Tin tức" và danh mục
-    newsMenuItem1.addEventListener('mouseleave', function() {
-        if (!newsContentBurger1.matches(':hover')) {
-            newsContentBurger1.style.display = 'none';
-        }
-    });
-
-    // Giữ danh mục hiển thị khi di chuột vào danh mục
-    newsContentBurger1.addEventListener('mouseenter', function() {
-        newsContentBurger1.style.display = 'block';
-    });
-
-    // Ẩn danh mục khi di chuột ra ngoài danh mục
-    newsContentBurger1.addEventListener('mouseleave', function() {
-        newsContentBurger1.style.display = 'none';
-    });
+    if (newsMenuItem1) {
+        newsMenuItem1.addEventListener('click', function(e) {
+            e.preventDefault();
+            newsContentBurger1.classList.toggle('active');
+        });
+    }
 });
-
 </script>
 
 <style>

@@ -1,0 +1,199 @@
+/* ===================================
+   HEADER FIXES & IMPROVEMENTS
+   Fix các vấn đề về logo, contrast, icons
+   =================================== */
+
+/* FORCE LOGO TO DISPLAY - HIGHEST PRIORITY */
+.header .logo,
+.header_content .logo,
+div.logo {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: 100% !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 0 10px !important;
+    min-width: 180px !important;
+    flex-shrink: 0 !important;
+}
+
+.header .logo a,
+.header_content .logo a,
+div.logo a {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: 100% !important;
+    align-items: center !important;
+}
+
+.header .logo img,
+.header_content .logo img,
+div.logo img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    max-height: 120px !important;
+    height: 120px !important;
+    width: auto !important;
+    max-width: 280px !important;
+    object-fit: contain !important;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Fix contrast cho hotline button */
+.hotline {
+    background: #FFFFFF !important;
+    border: 2px solid #E5E5E5 !important;
+}
+
+.hotline .phone {
+    background: #DC0021 !important;
+}
+
+.hotline .phone img,
+.hotline .phone i {
+    filter: brightness(0) invert(1) !important;
+    color: #FFFFFF !important;
+}
+
+.hotline:hover .phone {
+    background: #FFFFFF !important;
+}
+
+.hotline:hover .phone img,
+.hotline:hover .phone i {
+    filter: brightness(0) !important;
+    color: #DC0021 !important;
+}
+
+/* Fix icon giỏ hàng đẹp hơn */
+.shopping_cart {
+    background: linear-gradient(135deg, #DC0021 0%, #A90019 100%) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(220, 0, 33, 0.25) !important;
+}
+
+.shopping_cart:hover {
+    box-shadow: 0 6px 20px rgba(220, 0, 33, 0.4) !important;
+    transform: translateY(-2px) scale(1.02) !important;
+}
+
+.shopping_cart i {
+    color: #FFFFFF !important;
+    font-size: 22px !important;
+}
+
+.number_item_cart {
+    background: #1a1a1a !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    border: 3px solid #FFFFFF !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Fix login button */
+.login_button {
+    background: #FFFFFF !important;
+    border: 2px solid #DC0021 !important;
+    color: #DC0021 !important;
+}
+
+.login_button:hover {
+    background: #DC0021 !important;
+    color: #FFFFFF !important;
+}
+
+.login_button i {
+    font-size: 16px !important;
+}
+
+/* Fix user dropdown */
+.hotline.logout {
+    background: #FFFFFF !important;
+    border: 2px solid #E5E5E5 !important;
+}
+
+.hotline.logout:hover {
+    background: #DC0021 !important;
+    border-color: #DC0021 !important;
+}
+
+/* Smooth transitions */
+.logo a,
+.hotline,
+.login_button,
+.shopping_cart {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Fix overflow issues */
+.header_content {
+    overflow: visible !important;
+}
+
+.header_actions {
+    overflow: visible !important;
+}
+
+/* Đảm bảo z-index đúng */
+.header {
+    position: relative;
+    z-index: 999;
+}
+
+.header_content_container {
+    position: relative;
+    z-index: 999;
+}
+
+/* Fix cho Safari */
+@supports (-webkit-appearance: none) {
+    .logo img {
+        -webkit-backface-visibility: hidden;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+}
+
+/* Fix cho Firefox */
+@-moz-document url-prefix() {
+    .logo img {
+        image-rendering: -moz-crisp-edges;
+    }
+}
+
+/* Ensure icons are visible */
+.fa,
+.fas,
+.far,
+.fab {
+    display: inline-block !important;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Better focus states */
+.shopping_cart:focus,
+.login_button:focus,
+.hotline:focus {
+    outline: 3px solid rgba(220, 0, 33, 0.3);
+    outline-offset: 2px;
+}
+
+/* Print-friendly */
+@media print {
+    .shopping_cart,
+    .login_button,
+    .hamburger {
+        display: none !important;
+    }
+    
+    .logo img {
+        max-height: 40px;
+    }
+}

@@ -1,0 +1,848 @@
+/* ===================================
+   PREMIUM HEADER DESIGN
+   Thiết kế header cao cấp, hiện đại
+   =================================== */
+
+:root {
+    --header-red: #DC0021;
+    --header-dark-red: #A90019;
+    --header-black: #1a1a1a;
+    --header-white: #FFFFFF;
+    --header-gray: #666666;
+}
+
+/* ===================================
+   TOP BAR - Thanh thông tin trên cùng
+   =================================== */
+.header_info_container {
+    background: var(--header-black);
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header_info {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.header_info_left {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.header_info_item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.header_info_item i {
+    font-size: 12px;
+    color: var(--header-red);
+}
+
+.header_info_item a {
+    color: var(--header-white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
+}
+
+.header_info_item a:hover {
+    color: var(--header-red);
+}
+
+.header_info_right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.language-selector,
+.currency-selector {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.language-selector:hover,
+.currency-selector:hover {
+    color: var(--header-white);
+}
+
+/* ===================================
+   MAIN HEADER - Header chính
+   =================================== */
+.header_content_container {
+    background: var(--header-white);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    transition: all 0.3s ease;
+    overflow: visible;
+}
+
+.header_content_container.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header_content {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 60px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    overflow: visible;
+}
+
+/* ===================================
+   LOGO
+   =================================== */
+.logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    min-width: 180px;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.logo a:hover {
+    transform: scale(1.05);
+}
+
+.logo img {
+    height: 120px;
+    width: auto;
+    max-width: 280px;
+    object-fit: contain;
+    display: block;
+}
+
+/* ===================================
+   SEARCH BAR - Thanh tìm kiếm
+   =================================== */
+.search_container {
+    flex: 1;
+    max-width: 600px;
+    height: 48px;
+    position: relative;
+}
+
+.search_form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    border: 2px solid #E5E5E5;
+    border-radius: 24px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: #F8F8F8;
+}
+
+.search_form:hover,
+.search_form:focus-within {
+    border-color: var(--header-red);
+    background: var(--header-white);
+    box-shadow: 0 4px 12px rgba(220, 0, 33, 0.1);
+}
+
+.search_input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0 24px;
+    font-size: 15px;
+    background: transparent;
+    color: #333;
+}
+
+.search_input::placeholder {
+    color: #999;
+}
+
+.search_btn {
+    width: 56px;
+    height: 100%;
+    border: none;
+    background: var(--header-red);
+    color: var(--header-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.search_btn:hover {
+    background: var(--header-dark-red);
+}
+
+.search_btn img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}
+
+/* ===================================
+   HEADER ACTIONS - Các nút hành động
+   =================================== */
+.header_actions {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    position: relative;
+    z-index: 100;
+}
+
+/* Hotline */
+.hotline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px;
+    background: var(--header-white);
+    border: 2px solid #E5E5E5;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--header-black);
+}
+
+.hotline:hover {
+    background: var(--header-red);
+    color: var(--header-white);
+    border-color: var(--header-red);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 0, 33, 0.2);
+}
+
+.hotline .phone {
+    width: 40px;
+    height: 40px;
+    background: var(--header-red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.hotline:hover .phone {
+    background: var(--header-white);
+    transform: rotate(15deg);
+}
+
+.hotline .phone img {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    filter: brightness(0) invert(1);
+}
+
+.hotline:hover .phone img {
+    filter: brightness(0);
+}
+
+.hotline_info {
+    display: flex;
+    flex-direction: column;
+}
+
+.hotline_info p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.hotline_info p:first-child {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #999;
+}
+
+.hotline:hover .hotline_info p:first-child {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.hotline_info p:last-child {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--header-black);
+}
+
+.hotline:hover .hotline_info p:last-child {
+    color: var(--header-white);
+}
+
+/* User Menu */
+.login_button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: var(--header-white);
+    border: 2px solid var(--header-red);
+    color: var(--header-red);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.login_button:hover {
+    background: var(--header-red);
+    color: var(--header-white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 0, 33, 0.3);
+}
+
+.login_button i {
+    font-size: 16px;
+}
+
+/* User Dropdown */
+.hotline.logout {
+    position: relative;
+    padding: 10px 18px;
+    background: var(--header-white);
+    color: var(--header-black);
+    border: 2px solid #E5E5E5;
+    border-radius: 12px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.hotline.logout .phone {
+    width: 40px;
+    height: 40px;
+    background: var(--header-red);
+}
+
+.hotline.logout .phone img {
+    filter: brightness(0) invert(1);
+}
+
+.hotline.logout:hover {
+    background: var(--header-red);
+    color: var(--header-white);
+    border-color: var(--header-red);
+}
+
+.hotline.logout:hover .phone {
+    background: var(--header-white);
+}
+
+.hotline.logout:hover .phone img {
+    filter: brightness(0);
+}
+
+.hotline.logout .hotline_info p:first-child {
+    font-size: 11px;
+    font-weight: 400;
+    color: #999;
+}
+
+.hotline.logout:hover .hotline_info p:first-child {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.hotline.logout .hotline_info p:last-child {
+    font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
+    color: var(--header-black);
+}
+
+.hotline.logout:hover .hotline_info p:last-child {
+    color: var(--header-white);
+}
+
+.logout_content {
+    position: absolute !important;
+    top: 100% !important;
+    right: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    min-width: 240px !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(-15px) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 10000 !important;
+    overflow: visible !important;
+    pointer-events: none !important;
+    display: block !important;
+    padding-top: 15px !important;
+}
+
+/* Arrow indicator */
+.logout_content::before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid var(--header-white);
+    z-index: 10001;
+    filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.1));
+}
+
+.hotline.logout:hover .logout_content {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
+}
+
+/* Keep dropdown visible when hovering over it */
+.logout_content:hover {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+}
+
+.logout_button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    color: var(--header-black);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #F0F0F0;
+    position: relative;
+    background: var(--header-white);
+}
+
+.logout_button i {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.logout_button:first-of-type {
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1), 2px 0 10px rgba(0, 0, 0, 0.1), -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logout_button:last-child {
+    border-bottom: none;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1), 2px 0 10px rgba(0, 0, 0, 0.1), -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logout_button:not(:first-of-type):not(:last-child) {
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1), -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logout_button:hover {
+    background: var(--header-red);
+    color: var(--header-white);
+    padding-left: 24px;
+    box-shadow: 0 4px 15px rgba(220, 0, 33, 0.3);
+    z-index: 1;
+}
+
+.logout_button:hover i {
+    transform: translateX(3px);
+}
+
+/* Special styling for logout button */
+.logout_button:last-child {
+    color: #dc3545;
+}
+
+.logout_button:last-child:hover {
+    background: #dc3545;
+    color: var(--header-white);
+}logout_button:last-child {
+    border-bottom: none;
+}
+
+.logout_button:hover {
+    background: var(--header-red);
+    color: var(--header-white);
+    padding-left: 24px;
+}
+
+/* Shopping Cart */
+.shopping_cart {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background: var(--header-red);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(220, 0, 33, 0.2);
+}
+
+.shopping_cart:hover {
+    background: var(--header-dark-red);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(220, 0, 33, 0.3);
+}
+
+.cart_icon_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart_icon_container img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+    margin: 0;
+}
+
+/* Hoặc dùng Font Awesome icon thay vì img */
+.cart_icon_container i {
+    font-size: 22px;
+    color: var(--header-white);
+}
+
+.number_item_cart {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--header-black);
+    color: var(--header-white);
+    min-width: 24px;
+    height: 24px;
+    padding: 0 6px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    border: 3px solid var(--header-white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ===================================
+   MOBILE MENU BUTTON
+   =================================== */
+.hamburger {
+    display: none;
+    width: 44px;
+    height: 44px;
+    background: var(--header-red);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.hamburger:hover {
+    background: var(--header-dark-red);
+}
+
+.hamburger img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+
+@media (max-width: 1200px) {
+    .header_content {
+        padding: 0 40px;
+    }
+    
+    .header_info {
+        padding: 0 40px;
+    }
+    
+    .hotline.none {
+        display: none;
+    }
+}
+
+@media (max-width: 992px) {
+    .header_info_left {
+        gap: 15px;
+    }
+    
+    .header_actions {
+        gap: 15px;
+    }
+    
+    .search_container {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header_info_container {
+        height: auto;
+        padding: 8px 0;
+    }
+    
+    .header_info {
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 20px;
+        font-size: 12px;
+    }
+    
+    .header_info_left,
+    .header_info_right {
+        gap: 12px;
+    }
+    
+    .header_content {
+        padding: 0 20px;
+        height: 85px;
+        gap: 12px;
+    }
+    
+    .logo {
+        min-width: 110px;
+    }
+    
+    .logo img {
+        height: 65px;
+        max-width: 180px;
+    }
+    
+    .search_container {
+        display: none; /* Ẩn search trên mobile, hiện trong drawer */
+    }
+    
+    .hotline.logout {
+        padding: 8px 12px;
+    }
+    
+    .hotline.logout .phone {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .hotline.logout .hotline_info p:first-child {
+        font-size: 10px;
+    }
+    
+    .hotline.logout .hotline_info p:last-child {
+        font-size: 12px;
+    }
+    
+    .logout_content {
+        min-width: 220px;
+        right: -10px;
+    }
+    
+    .hotline.none {
+        display: none;
+    }
+    
+    .login_button {
+        padding: 10px 16px;
+        font-size: 12px;
+    }
+    
+    .shopping_cart {
+        width: 46px;
+        height: 46px;
+        border-radius: 10px;
+    }
+    
+    .shopping_cart .cart_icon_container i,
+    .shopping_cart .cart_icon_container img {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .number_item_cart {
+        min-width: 20px;
+        height: 20px;
+        font-size: 11px;
+        border-width: 2px;
+    }
+    
+    .hamburger {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    .header_content {
+        padding: 0 15px;
+        gap: 10px;
+    }
+    
+    .header_info {
+        padding: 0 15px;
+    }
+    
+    .logo {
+        min-width: 90px;
+    }
+    
+    .logo img {
+        height: 100px;
+        max-width: 150px;
+    }
+    
+    /* Hide user dropdown on very small screens */
+    .hotline.logout {
+        display: none;
+    }
+    
+    .login_button {
+        padding: 10px 14px;
+        font-size: 13px;
+        gap: 6px;
+    }
+    
+    .login_button span {
+        display: none; /* Chỉ hiện icon trên màn hình rất nhỏ */
+    }
+    
+    .shopping_cart {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .hamburger {
+        width: 42px;
+        height: 42px;
+    }
+}
+
+/* ===================================
+   SCROLL EFFECTS
+   =================================== */
+.header_content_container.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header_content_container.scrolled .header_content {
+    height: 90px;
+}
+
+.header_content_container.scrolled .logo img {
+    height: 80px;
+}
+
+@media (max-width: 768px) {
+    .header_content_container.scrolled .header_content {
+        height: 70px;
+    }
+    
+    .header_content_container.scrolled .logo img {
+        height: 50px;
+    }
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.header_content_container {
+    animation: slideDown 0.4s ease-out;
+}
+
+/* Loading skeleton */
+.header-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ===================================
+   DRAWER IMPROVEMENTS
+   =================================== */
+.drawer {
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.drawer a {
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.drawer a:hover {
+    background: var(--header-red);
+    color: var(--header-white);
+}
+
+/* Search trong drawer */
+.search_container_menubar {
+    width: 100%;
+    padding: 0 10px;
+    margin-bottom: 15px;
+}
+
+.search_container_menubar .search_form {
+    border-radius: 12px;
+}

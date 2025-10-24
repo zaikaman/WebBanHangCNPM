@@ -1,0 +1,1 @@
+Preview available: open `WBS_CongViec.svg` in browser or an image viewer supporting SVG.

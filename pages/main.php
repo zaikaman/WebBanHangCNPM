@@ -68,8 +68,8 @@
     } elseif ($des == 'thongtinnguoidung') {
         include("main/thongtinnguoidung.php");
     } else {
-        include("slideimg.php");
-        include("main/index.php");
+        include("slideimg-premium.php");
+        include("main/index-premium.php");
     }
     ?>
 </div>
