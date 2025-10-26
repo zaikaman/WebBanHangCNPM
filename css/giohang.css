@@ -1,3 +1,114 @@
+/* ===================================
+   TRANG GIỎ HÀNG - FONT STYLING
+   Đảm bảo font Inter được áp dụng cho toàn bộ trang
+   =================================== */
+
+/* Apply Inter font to cart page - EXCLUDE ICONS */
+.cart_content,
+.cart_content *:not(i):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(ion-icon):not([class*="icon"]),
+.wrapper-2,
+.wrapper-2 *:not(i):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]),
+.arrow-steps,
+.arrow-steps *:not(i):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]),
+.card-cart-custom,
+.card-cart-custom *:not(i):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(ion-icon):not([class*="icon"]) {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+/* Cart title */
+.card-body h1,
+.card-body h3,
+.card-body h5,
+.card-body h6 {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700;
+}
+
+/* Product names and details */
+.card-body h6.text-muted,
+.card-body h6.mb-0 {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 500;
+}
+
+/* Size selector */
+.size-select,
+.form-select {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Quantity controls */
+.quantity-input {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.quantity-btn {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Prices */
+.price_product,
+.text-danger {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700;
+}
+
+/* Buttons */
+.dathang_button,
+.btn {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Empty cart text */
+.empty-cart-text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* Steps navigation */
+.arrow-steps .step {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.arrow-steps .step a {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Summary panel */
+.summary-panel-custom h3,
+.summary-panel-custom h5 {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700;
+}
+
+/* All text elements - EXCLUDE ICONS */
+p:not([class*="icon"]), 
+span:not([class*="icon"]):not(i), 
+div:not([class*="icon"]), 
+a:not([class*="icon"]), 
+label, 
+small {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Preserve icon fonts */
+i, .fa, .fas, .far, .fab, 
+ion-icon,
+[class*="fa-"],
+[class*="icon"],
+.icon-danger {
+    font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Brands', 'FontAwesome', 'Ionicons' !important;
+}
+
 @media (min-width: 1025px) {
     .h-custom {
         height: 100vh !important;

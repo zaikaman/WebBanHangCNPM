@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="css/sanpham.css?v=<?php echo time(); ?>">
 <?php
 // Get main product info
 $sql_pro_info = "SELECT * FROM tbl_sanpham WHERE tbl_sanpham.id_sp = '$_GET[id]' LIMIT 1";

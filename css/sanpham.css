@@ -1,0 +1,235 @@
+/* ===================================
+   TRANG CHI TIẾT SẢN PHẨM - FONT STYLING
+   Đảm bảo font Inter được áp dụng cho toàn bộ trang
+   =================================== */
+
+/* Apply Inter font to product page - EXCLUDE ICONS */
+.product_content,
+.product_content *:not(i):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]),
+.product_detail,
+.product_detail *:not(i):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]),
+.product_img,
+.related-products,
+.related-products *:not(i):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]) {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+/* Product name */
+.product_detail .ten_sp {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 22px;
+    color: #191919;
+    margin: 10px 0 0 0;
+    line-height: 1.9rem;
+    font-weight: 600;
+}
+
+/* Product quantity/status */
+.product_detail .quantity {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    margin: 5px 0 5px 0;
+}
+
+/* Product price */
+.product_detail .gia_sp {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 24px;
+    color: #dc0021;
+    margin: 10px 0 5px 0;
+    font-weight: 700;
+}
+
+/* Category label */
+.product_detail p {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px;
+}
+
+.product_detail p strong {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600;
+}
+
+/* Form labels */
+.product-form-label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* Size select */
+.product-form-select,
+.size_select {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Quantity input and buttons */
+.soluong_input,
+.soluong_btn {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Buy button */
+.mua_btn {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* Tabs navigation */
+ul#tabs-nav li,
+ul#tabs-nav li a {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Tab content */
+.tab-content,
+.tab-content * {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Alert messages */
+.alert,
+.alert * {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px;
+}
+
+.alert-danger,
+.alert-success {
+    font-weight: 500;
+}
+
+/* Related products section */
+.related-products-title {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 26px;
+    font-weight: 700;
+    color: #333;
+}
+
+.related-product-list .title_product {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+.related-product-list .price_product {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 16px;
+    font-weight: 700;
+    color: #dc0021;
+}
+
+.view-details-btn {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Table elements */
+.product_detail table,
+.product_detail th,
+.product_detail td {
+    font-family: 'Inter', sans-serif !important;
+}
+
+.product_detail th {
+    font-weight: 600;
+}
+
+.product_detail td {
+    font-weight: 400;
+}
+
+/* Utility classes */
+.mt-10 {
+    margin-top: 10px;
+}
+
+.d-block {
+    display: block;
+}
+
+/* Text highlight */
+.text-highlight-red {
+    color: #dc0021;
+    font-weight: 600;
+}
+
+/* Action button container */
+.action-button-container {
+    margin-top: 20px;
+}
+
+.action-button-container a {
+    font-family: 'Inter', sans-serif !important;
+    text-decoration: none;
+}
+
+/* Ensure all inputs use Inter font */
+input[type="text"],
+input[type="number"],
+select,
+textarea,
+button {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Additional typography improvements */
+.product_detail em {
+    font-family: 'Inter', sans-serif !important;
+    font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .product_detail .ten_sp {
+        font-size: 20px;
+    }
+    
+    .product_detail .gia_sp {
+        font-size: 22px;
+    }
+    
+    .related-products-title {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product_detail .ten_sp {
+        font-size: 18px;
+    }
+    
+    .product_detail .gia_sp {
+        font-size: 20px;
+    }
+    
+    .related-products-title {
+        font-size: 22px;
+    }
+    
+    ul#tabs-nav li {
+        font-size: 14px;
+    }
+}

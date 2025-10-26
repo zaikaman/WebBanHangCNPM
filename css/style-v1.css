@@ -2089,3 +2089,55 @@ color: #999;
   align-items: center;
   justify-content: center;
 }
+
+/* ===================================
+   FONT CONSISTENCY OVERRIDES
+   Đảm bảo font Inter được áp dụng nhất quán
+   =================================== */
+
+/* Override Bootstrap and other library fonts - EXCLUDE ICONS */
+body *:not(i):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad):not([class*="fa-"]):not([class*="glyphicon"]):not([class*="icon"]) {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Form elements */
+input, textarea, select, button:not(.btn-icon) {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Links and text - EXCLUDE ICONS */
+a:not(.icon-link), p, span:not([class*="icon"]), div:not([class*="icon"]), li, label {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Tables */
+table, th, td {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Cards and Bootstrap components */
+.card, .card-body, .card-title, .card-text {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Buttons - EXCLUDE ICON BUTTONS */
+.btn:not(.btn-icon), .button:not([class*="icon"]), button:not([class*="icon"]) {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Preserve icon fonts */
+i, .fa, .fas, .far, .fab, .fal, .fad,
+[class*="fa-"],
+[class*="glyphicon"],
+[class*="icon"],
+.cart_icon_container i,
+.shopping_cart i {
+  font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Brands', 'FontAwesome' !important;
+  font-weight: 900 !important;
+}
