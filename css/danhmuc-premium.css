@@ -211,10 +211,23 @@
 
 .filter-body {
     padding: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.filter-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .filter-form .form-group {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .filter-form label {
@@ -225,17 +238,21 @@
     color: var(--dark-gray);
     margin-bottom: 10px;
     display: block;
+    text-align: center;
+    width: 100%;
 }
 
 .filter-form .form-select,
 .filter-form .form-control {
     width: 100%;
+    max-width: 100%;
     padding: 12px 16px;
     border: 2px solid var(--border-color);
     border-radius: 0;
     font-size: 14px;
     transition: all 0.3s ease;
     background: var(--white);
+    text-align: center;
 }
 
 .filter-form .form-select:focus,
@@ -248,20 +265,26 @@
 .filter-form .price-range {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
+    width: 100%;
 }
 
 .filter-form .price-range .form-control {
     flex: 1;
+    text-align: center;
+    max-width: none;
 }
 
 .filter-form .price-separator {
     color: #999;
     font-weight: 600;
+    flex-shrink: 0;
 }
 
 .filter-submit-btn {
     width: 100%;
+    max-width: 100%;
     padding: 14px;
     background: var(--primary-red);
     color: var(--white);
@@ -273,12 +296,20 @@
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .filter-submit-btn:hover {
     background: var(--dark-red);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(220, 0, 33, 0.3);
+}
+
+.filter-submit-btn i {
+    font-size: 14px;
 }
 
 /* ===================================
