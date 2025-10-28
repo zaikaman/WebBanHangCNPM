@@ -47,6 +47,35 @@
                                                         <h1 class="fw-bold mb-0 giohang">Thanh toán</h1>
                                                         <h6 class="mb-0 text-muted"><?php echo $items_number . ' sản phẩm'; ?></h6>
                                                     </div>
+
+                                                    <!-- THÔNG TIN VẬN CHUYỂN -->
+                                                    <div class="shipping-info-section mb-5" style="border: 1px solid #ddd; border-radius: 8px; padding: 20px;">
+                                                        <h5 class="fw-bold mb-4">THÔNG TIN VẬN CHUYỂN</h5>
+                                                        
+                                                        <div class="form-group mb-3">
+                                                            <label for="shipping_name" class="form-label">Họ và tên:</label>
+                                                            <input type="text" id="shipping_name" name="shipping_name" class="form-control" value="<?php echo htmlspecialchars($name); ?>" placeholder="Nhập họ và tên...">
+                                                            <span id="nameError" style="color: red; font-size: 12px;"></span>
+                                                        </div>
+
+                                                        <div class="form-group mb-3">
+                                                            <label for="shipping_phone" class="form-label">Số điện thoại:</label>
+                                                            <input type="text" id="shipping_phone" name="shipping_phone" class="form-control" value="<?php echo htmlspecialchars($phone); ?>" placeholder="Nhập số điện thoại...">
+                                                            <span id="phoneError" style="color: red; font-size: 12px;"></span>
+                                                        </div>
+
+                                                        <div class="form-group mb-3">
+                                                            <label for="shipping_address" class="form-label">Địa chỉ:</label>
+                                                            <input type="text" id="shipping_address" name="shipping_address" class="form-control" value="<?php echo htmlspecialchars($address); ?>" placeholder="Nhập địa chỉ...">
+                                                            <span id="addressError" style="color: red; font-size: 12px;"></span>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="shipping_note" class="form-label">Ghi chú:</label>
+                                                            <input type="text" id="shipping_note" name="shipping_note" class="form-control" value="<?php echo htmlspecialchars($note); ?>" placeholder="Nhập ghi chú...">
+                                                        </div>
+                                                    </div>
+                                                    <!-- END: THÔNG TIN VẬN CHUYỂN -->
                                                     <?php
                                                     $count = 0;
                                                     $tongtien = 0;
@@ -131,16 +160,12 @@
                                                             if ($count != 0) {
 
                                                             ?>
-                                                                <form></form>
                                                                 <button type="submit" value="Đặt hàng" name="thanhToan" style="width : 100%; padding : 20px 0 20px 0" class="purchase_button">Đặt hàng</button>
                                                                 <div style="width : 100%; display : flex; justify-content : center; align-items : center"><h4>Hoặc</h4></div>
-<!--                                                                 <form method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="pages/main/xuLyThanhToanMomo.php" style="margin-bottom:5px;width: 100%">
-                                                                    <button type="submit" name="momo" value="Thanh toán MOMO QRCode"style="width : 100%; padding : 20px 0 20px 0" class="purchase_button momo"> MoMo QRCode</button>
-                                                                </form> -->
-                                                                <form class="" method="POST" target="_blank" enctype="application/x-www-form-urlencoded"
-                                                                    action="pages/main/xuLyThanhToanMomo_atm.php" style="width: 100%">
-                                                                    <button type="submit" name="momo" value="Thanh toán MOMO ATM"style="width : 100%; padding : 20px 0 20px 0" class="purchase_button momo"> MoMo ATM</button>
-                                                                </form>
+                                                                <button type="button" id="momoAtmBtn" style="width : 100%; padding : 20px 0 20px 0" class="purchase_button momo">
+                                                                    <img style="width: 32px; height:32px; margin-right: 8px;" src="images/vnpay.png">
+                                                                    MoMo ATM
+                                                                </button>
                                                             <?php
                                                             }
                                                             ?>
@@ -160,46 +185,98 @@
     </div>
 </div>
 
-
-<!-- THANH TOAN MOMO -->
-<!-- <div class="col-md-4" style="float:left;margin-left:10px;">
-                    <h5 style="text-align:center"> PHƯƠNG THỨC THANH TOÁN</h5>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="payment" value="tienmat" id="radios1" checked>
-                        <img style="width: 32px; height:32px" src="../../">
-                        <label class="form-check-label" for="radios1">
-                            Tiền mặt
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="payment" value="chuyenkhoan" id="radios2">
-                        <img style="width: 32px; height:32px" src="images/banking.png">
-                        <label class="form-check-label" for="radios2">
-                            Chuyển khoản
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="payment" value="vnpay" id="radios4">
-                        <img style="width: 32px; height:32px" src="images/vnpay.png">
-                        <label class="form-check-label" for="radios4">
-                            VNPay
-                        </label>
-                    </div>
-                    <?php if ($items_number > 0) { ?>
-                        <form></form>
-                        <button type="submit" value="Đặt hàng" name="thanhToan" class="purchase_button">Đặt hàng</button>
-                        <h4>Hoặc</h4>
-                        <form method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="pages/main/xuLyThanhToanMomo.php" style="margin-bottom:5px;width: 500px">
-                            <button type="submit" name="momo" value="Thanh toán MOMO QRCode" class="purchase_button momo">Thanh toán MOMO QRCode</button>
-                        </form>
-
-                        <form class="" method="POST" target="_blank" enctype="application/x-www-form-urlencoded"
-                            action="pages/main/xuLyThanhToanMomo_atm.php" style="margin-bottom:5px">
-                            <button type="submit" name="momo" value="Thanh toán MOMO ATM" class="purchase_button momo">Thanh toán MOMO ATM</button>
-                        </form>
-                    <?php } else { ?>
-                        <a href="index.php" class="dathang_button">
-                            Mua sắm
-                        </a>
-                    <?php } ?>
-                </div> -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Hàm kiểm tra tính hợp lệ của thông tin vận chuyển
+    function validateShippingInfo() {
+        let valid = true;
+        let name = document.getElementById('shipping_name').value.trim();
+        let phone = document.getElementById('shipping_phone').value.trim();
+        let address = document.getElementById('shipping_address').value.trim();
+        
+        // Xóa các thông báo lỗi trước đó
+        document.getElementById('nameError').innerText = '';
+        document.getElementById('phoneError').innerText = '';
+        document.getElementById('addressError').innerText = '';
+        
+        // Kiểm tra các trường bắt buộc
+        if (name === '') {
+            document.getElementById('nameError').innerText = 'Vui lòng nhập họ và tên.';
+            valid = false;
+        }
+        
+        if (phone === '') {
+            document.getElementById('phoneError').innerText = 'Vui lòng nhập số điện thoại.';
+            valid = false;
+        } else if (!/^0\d{9}$/.test(phone)) {
+            document.getElementById('phoneError').innerText = 'Số điện thoại sai định dạng (phải bắt đầu bằng 0 và có 10 chữ số).';
+            valid = false;
+        }
+        
+        if (address === '') {
+            document.getElementById('addressError').innerText = 'Vui lòng nhập địa chỉ.';
+            valid = false;
+        }
+        
+        return valid;
+    }
+    
+    // Kiểm tra trước khi gửi form thanh toán
+    const checkoutForm = document.querySelector('form[action="pages/main/thanhtoan.php"]');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', function(e) {
+            if (!validateShippingInfo()) {
+                e.preventDefault();
+                alert('Vui lòng điền đầy đủ thông tin vận chuyển hợp lệ');
+            }
+        });
+    }
+    
+    // Xử lý nút MoMo ATM
+    const momoAtmBtn = document.getElementById('momoAtmBtn');
+    if (momoAtmBtn) {
+        momoAtmBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Kiểm tra thông tin vận chuyển
+            if (!validateShippingInfo()) {
+                alert('Vui lòng điền đầy đủ thông tin vận chuyển hợp lệ');
+                return;
+            }
+            
+            // Tạo form tạm thời để gửi đến MoMo
+            const tempForm = document.createElement('form');
+            tempForm.method = 'POST';
+            tempForm.action = 'pages/main/xuLyThanhToanMomo_atm.php';
+            tempForm.target = '_blank';
+            
+            // Thêm các trường từ form chính
+            const mainForm = document.querySelector('form[action="pages/main/thanhtoan.php"]');
+            const formData = new FormData(mainForm);
+            
+            for (let [key, value] of formData.entries()) {
+                if (key === 'shipping_name' || key === 'shipping_phone' || key === 'shipping_address' || key === 'shipping_note' || key === 'payment') {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    tempForm.appendChild(input);
+                }
+            }
+            
+            // Thêm flag untuk MoMo
+            const momoInput = document.createElement('input');
+            momoInput.type = 'hidden';
+            momoInput.name = 'momo';
+            momoInput.value = 'Thanh toán MOMO ATM';
+            tempForm.appendChild(momoInput);
+            
+            // Gửi form
+            document.body.appendChild(tempForm);
+            tempForm.submit();
+            document.body.removeChild(tempForm);
+        });
+    }
+});
+</script>
+<!-- File updated: 28/10/2025 - Fixed JavaScript syntax errors -->

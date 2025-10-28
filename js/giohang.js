@@ -26,19 +26,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Hàm gửi AJAX request
     function sendAjaxRequest(data, callback) {
-        fetch('pages/main/ajax_cart.php', {
+        // Lấy base URL từ window location
+        const baseUrl = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) || '/';
+        const apiUrl = baseUrl.includes('WebBanHangCNPM') ? 
+            '/WebBanHangCNPM/pages/main/ajax_cart.php' : 
+            '/pages/main/ajax_cart.php';
+        
+        fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams(data)
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Response was not JSON');
+            }
+            return response.json();
+        })
         .then(result => {
             if (callback) callback(result);
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error('Fetch error:', error);
             showMessage('Có lỗi xảy ra, vui lòng thử lại', 'error');
         });
     }

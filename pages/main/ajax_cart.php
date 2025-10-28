@@ -1,8 +1,29 @@
 <?php
-session_start();
-include("../../admincp/config/config.php");
+// Ngăn output bất kỳ trước khi gọi json_encode
+ob_start();
 
-header('Content-Type: application/json');
+// Set header trước khi include bất kỳ file nào
+header('Content-Type: application/json; charset=utf-8');
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Xóa bất kỳ output nào bị cache trước khi include
+ob_clean();
+
+// Set error handler để catch errors
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    // Log error nhưng không output
+    error_log("PHP Error: $errstr in $errfile on line $errline");
+    return true;
+});
+
+// Include config
+include(dirname(__FILE__) . "/../../admincp/config/config.php");
+
+// Xóa bất kỳ output nào phát sinh từ include
+ob_clean();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Invalid request method']);
@@ -121,7 +142,7 @@ switch ($action) {
             
             // Lấy số lượng tồn kho mới
             $sql_get_stock = "SELECT so_luong FROM tbl_sanpham_sizes WHERE id_sp = '$id' AND size = '$new_size'";
-            $query_get_stock = mysqli_query($connect, $sql_get_stock);
+            $query_get_stock = mysqli_query($mysqli, $sql_get_stock);
             $row_stock = mysqli_fetch_array($query_get_stock);
             $new_stock_quantity = $row_stock ? $row_stock['so_luong'] : 0;
 
@@ -214,5 +235,10 @@ switch ($action) {
     default:
         echo json_encode(['success' => false, 'message' => 'Hành động không hợp lệ']);
         break;
+}
+
+// Flush output buffer
+if (ob_get_level() > 0) {
+    ob_end_flush();
 }
 ?>

@@ -1,3 +1,64 @@
+<?php
+// Thông tin về thay đổi logic: Việc lưu vận chuyển giờ được thực hiện ở trang thanh toán
+// Trang này chỉ dùng để người dùng nhập và xem thông tin vận chuyển trước khi thanh toán
+
+// Kiểm tra user đã đăng nhập chưa
+if (!isset($_SESSION['id_khachhang']) || empty($_SESSION['id_khachhang'])) {
+    echo '<script>alert("Vui lòng đăng nhập để tiếp tục!"); window.location.href="index.php?quanly=dangnhap";</script>';
+    exit();
+}
+
+// Kiểm tra database connection
+if (!isset($mysqli) || !$mysqli) {
+    echo '<div class="alert alert-danger">Lỗi kết nối cơ sở dữ liệu. Vui lòng thử lại sau.</div>';
+    exit();
+}
+
+// XỬ LÝ LƯU THÔNG TIN VẬN CHUYỂN
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
+    $id_dangky = mysqli_real_escape_string($mysqli, $_SESSION['id_khachhang']);
+    $name = mysqli_real_escape_string($mysqli, $_POST['name']);
+    $phone = mysqli_real_escape_string($mysqli, $_POST['phone']);
+    $address = mysqli_real_escape_string($mysqli, $_POST['address']);
+    $note = mysqli_real_escape_string($mysqli, $_POST['note'] ?? '');
+    
+    // Kiểm tra xem đã có thông tin vận chuyển chưa
+    $sql_check = mysqli_query($mysqli, "SELECT * FROM tbl_giaohang WHERE id_dangky='$id_dangky' LIMIT 1");
+    
+    if (mysqli_num_rows($sql_check) > 0) {
+        // Update thông tin cũ
+        $sql_update = "UPDATE tbl_giaohang SET name='$name', phone='$phone', address='$address', note='$note' WHERE id_dangky='$id_dangky'";
+        mysqli_query($mysqli, $sql_update);
+    } else {
+        // Insert thông tin mới
+        $sql_insert = "INSERT INTO tbl_giaohang (name, phone, address, note, id_dangky) VALUES ('$name', '$phone', '$address', '$note', '$id_dangky')";
+        mysqli_query($mysqli, $sql_insert);
+    }
+    
+    // Redirect sang trang thanh toán
+    echo '<script>window.location.href="index.php?quanly=thongTinThanhToan";</script>';
+    exit();
+}
+
+$name = '';
+$phone = '';
+$address = '';
+$note = '';
+
+$id_dangky = mysqli_real_escape_string($mysqli, $_SESSION['id_khachhang']);
+$sql_get_vanchuyen = mysqli_query($mysqli, "SELECT * FROM tbl_giaohang WHERE id_dangky='$id_dangky' LIMIT 1");
+
+if ($sql_get_vanchuyen) {
+    $count = mysqli_num_rows($sql_get_vanchuyen);
+    if ($count > 0) {
+        $row_get_vanchuyen = mysqli_fetch_array($sql_get_vanchuyen);
+        $name = htmlspecialchars($row_get_vanchuyen['name'] ?? '', ENT_QUOTES, 'UTF-8');
+        $phone = htmlspecialchars($row_get_vanchuyen['phone'] ?? '', ENT_QUOTES, 'UTF-8');
+        $address = htmlspecialchars($row_get_vanchuyen['address'] ?? '', ENT_QUOTES, 'UTF-8');
+        $note = htmlspecialchars($row_get_vanchuyen['note'] ?? '', ENT_QUOTES, 'UTF-8');
+    }
+}
+?>
 <div class="main_content">
   <div class="cart_content">
     <div class="wrapper-2">
@@ -9,48 +70,8 @@
       </div>
     </div>
     <h4 class="title-vanchuyen">THÔNG TIN VẬN CHUYỂN</h4>
-    <?php
-    if (isset($_POST['themvanchuyen'])) {
-      $name = $_POST['name'];
-      $phone = $_POST['phone'];
-      $address = $_POST['address'];
-      $note = $_POST['note'];
-      $id_dangky = $_SESSION['id_khachhang'];
-      $sql_them_vanchuyen = mysqli_query($mysqli, "INSERT INTO tbl_giaohang(name,phone,address,note,id_dangky) VALUES ('$name','$phone','$address','$note','$id_dangky')");
-      if ($sql_them_vanchuyen) {
-        echo '<script>alert("Thêm thông tin vận chuyển thành công!")</script>';
-      }
-    } else if (isset($_POST['capnhatvanchuyen'])) {
-      $name = $_POST['name'];
-      $phone = $_POST['phone'];
-      $address = $_POST['address'];
-      $note = $_POST['note'];
-      $id_dangky = $_SESSION['id_khachhang'];
-      $sql_update_vanchuyen = mysqli_query($mysqli, "UPDATE tbl_giaohang SET name='$name', phone ='$phone', address='$address', note ='$note', id_dangky='$id_dangky' WHERE id_dangky='$id_dangky'");
-      if ($sql_update_vanchuyen) {
-        echo '<script>alert("Cập nhật thông tin vận chuyển thành công!")</script>';
-      }
-    }
-    ?>
     <div class="row vanchuyen-form">
-      <?php
-      $id_dangky = $_SESSION['id_khachhang'];
-      $sql_get_vanchuyen = mysqli_query($mysqli, "SELECT * FROM tbl_giaohang WHERE id_dangky='$id_dangky' LIMIT 1");
-      $count = mysqli_num_rows($sql_get_vanchuyen);
-      if ($count > 0) {
-        $row_get_vanchuyen = mysqli_fetch_array($sql_get_vanchuyen);
-        $name = $row_get_vanchuyen['name'];
-        $phone = $row_get_vanchuyen['phone'];
-        $address = $row_get_vanchuyen['address'];
-        $note = $row_get_vanchuyen['note'];
-      } else {
-        $name = '';
-        $phone = '';
-        $address = '';
-        $note = '';
-      }
-      ?>
-      <form id="shippingForm" action="" autocomplete="off" method="POST" class="login_content" style="margin-top : 20px; width : 100%">
+      <form id="shippingForm" action="index.php?quanly=vanChuyen" autocomplete="off" method="POST" class="login_content" style="margin-top : 20px; width : 100%">
         <div class="form-group">
           <div style="width : 100%; display : flex; flex-direction : row;  justify-content: center;
               align-items: center;">
@@ -83,18 +104,7 @@
           </div>
         </div>
         <div style="display: flex; flex-direction: row; align-items: center; width: auto; gap : 20px">
-          <?php
-          if ($name == '' && $phone == '') {
-          ?>
-            <button type="submit" name="themvanchuyen" class="dathang_button">Thêm vận chuyển</button>
-          <?php
-          } else if ($name != '' && $phone != '') {
-          ?>
-            <button type="submit" name="capnhatvanchuyen" class="dathang_button">Cập nhật vận chuyển</button>
-          <?php
-          }
-          ?>
-          <a href="index.php?quanly=thongTinThanhToan" id="checkoutButton" class="dathang_button">Thanh toán</a>
+          <button type="submit" id="checkoutButton" class="dathang_button">Tiếp tục thanh toán</button>
         </div>
       </form>
     </div>
@@ -132,15 +142,8 @@
     return valid;
   }
 
-  // Kiểm tra khi nhấn vào nút "Cập nhật vận chuyển"
+  // Kiểm tra khi submit form
   document.getElementById('shippingForm').addEventListener('submit', function(e) {
-    if (!validateForm()) {
-      e.preventDefault();
-    }
-  });
-
-  // Kiểm tra khi nhấn vào nút "Thanh toán"
-  document.getElementById('checkoutButton').addEventListener('click', function(e) {
     if (!validateForm()) {
       e.preventDefault();
     }

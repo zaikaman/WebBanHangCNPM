@@ -1,9 +1,14 @@
 <?php
+// Tắt hiển thị lỗi PHP trong HTML (chỉ log vào file)
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+
 // Load configuration và security helpers
 require_once 'admincp/config/config.php';
 
-// Force HTTPS nếu cần thiết
-force_https();
+// Force HTTPS nếu cần thiết (không cần gọi vì đã gọi ở config.php)
+// force_https();
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -31,8 +36,6 @@ if (session_status() == PHP_SESSION_NONE) {
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYpPsrHbQ/qOUu4Tpvb9Kdh9jjp/aYY8bTjFNE1xQ+Kbh" crossorigin="anonymous">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

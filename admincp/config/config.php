@@ -11,22 +11,40 @@ use Dotenv\Dotenv;
 
 // Load .env file - kiểm tra môi trường
 $envPath = dirname(__FILE__) . '/../../';
-$dotenv = Dotenv::createImmutable($envPath);
+try {
+    $dotenv = Dotenv::createImmutable($envPath);
 
-// Nếu có file .env.production trong production environment
-if (file_exists($envPath . '.env.production') && 
-    (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'great-site.net') !== false)) {
-    $dotenv = Dotenv::createImmutable($envPath, '.env.production');
+    // Nếu có file .env.production trong production environment
+    if (file_exists($envPath . '.env.production') && 
+        (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'great-site.net') !== false)) {
+        $dotenv = Dotenv::createImmutable($envPath, '.env.production');
+    }
+
+    $dotenv->load();
+} catch (\Exception $e) {
+    // Log error không output
+    error_log("Dotenv load error: " . $e->getMessage());
 }
-
-$dotenv->load();
 
 // Include helper functions
 require_once dirname(__FILE__) . '/env_helper.php';
 
+// Đảm bảo $_ENV có giá trị mặc định nếu .env không load
+if (empty($_ENV)) {
+    $_ENV = array_merge($_ENV, [
+        'DB_HOST' => 'localhost',
+        'DB_PORT' => 3306,
+        'DB_DATABASE' => 'webbanhang_cnpm',
+        'DB_USERNAME' => 'root',
+        'DB_PASSWORD' => '',
+    ]);
+}
+
 // Database configuration from .env
 $db_config = db_config();
-$mysqli = new mysqli(
+
+// Try to connect with error suppression
+@$mysqli = new mysqli(
     $db_config['host'],
     $db_config['username'], 
     $db_config['password'],
@@ -34,14 +52,26 @@ $mysqli = new mysqli(
     $db_config['port']
 );
 
-// Check connection
-if ($mysqli->connect_errno) {
-    echo "Failed to connect to MySQL: " . $mysqli->connect_error;
-    exit();
-}
+// Alias cho compatibility
+$connect = $mysqli;
 
-// Set charset to UTF-8
-$mysqli->set_charset("utf8");
+// Check connection
+if (!$mysqli || $mysqli->connect_errno) {
+    $error_msg = $mysqli ? $mysqli->connect_error : 'Connection failed';
+    
+    // Log error
+    error_log("Database connection error: " . $error_msg);
+    
+    // Return JSON error for AJAX requests
+    if (strpos($_SERVER['REQUEST_URI'] ?? '', 'ajax') !== false) {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'message' => 'Database connection error']);
+        exit();
+    }
+} else {
+    // Set charset to UTF-8 chỉ khi connection thành công
+    $mysqli->set_charset("utf8");
+}
 
 // Define APP_ENV based on domain
 $appEnv = 'local'; // Default to local

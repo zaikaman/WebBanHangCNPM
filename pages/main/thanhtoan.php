@@ -14,6 +14,31 @@ use Carbon\CarbonInterval;
 
 $logFilePath = __DIR__ . '/cart-error.log'; // Define log file path
 
+// ===== PHẦN LƯU THÔNG TIN VẬN CHUYỂN =====
+// Kiểm tra và lưu thông tin vận chuyển từ form
+$id_khachhang = $_SESSION['id_khachhang'];
+if (isset($_POST['shipping_name']) && isset($_POST['shipping_phone']) && isset($_POST['shipping_address'])) {
+    $shipping_name = mysqli_real_escape_string($mysqli, $_POST['shipping_name']);
+    $shipping_phone = mysqli_real_escape_string($mysqli, $_POST['shipping_phone']);
+    $shipping_address = mysqli_real_escape_string($mysqli, $_POST['shipping_address']);
+    $shipping_note = isset($_POST['shipping_note']) ? mysqli_real_escape_string($mysqli, $_POST['shipping_note']) : '';
+    
+    // Kiểm tra xem đã có record vận chuyển chưa
+    $check_shipping = mysqli_query($mysqli, "SELECT id_shipping FROM tbl_giaohang WHERE id_dangky='$id_khachhang' LIMIT 1");
+    $count_shipping = mysqli_num_rows($check_shipping);
+    
+    if ($count_shipping > 0) {
+        // Cập nhật thông tin vận chuyển
+        $update_shipping = "UPDATE tbl_giaohang SET name='$shipping_name', phone='$shipping_phone', address='$shipping_address', note='$shipping_note' WHERE id_dangky='$id_khachhang'";
+        mysqli_query($mysqli, $update_shipping);
+    } else {
+        // Thêm thông tin vận chuyển mới
+        $insert_shipping = "INSERT INTO tbl_giaohang(name, phone, address, note, id_dangky) VALUES ('$shipping_name', '$shipping_phone', '$shipping_address', '$shipping_note', '$id_khachhang')";
+        mysqli_query($mysqli, $insert_shipping);
+    }
+}
+// ===== END: PHẦN LƯU THÔNG TIN VẬN CHUYỂN =====
+
 $ma_gh = uniqid();
 
 // Khai báo các chuỗi rỗng để chứa dữ liệu đã ghép lại
