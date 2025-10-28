@@ -168,9 +168,25 @@ $is_in_stock = !empty($available_sizes);
         <h3 class="related-products-title">Sản phẩm liên quan</h3>
         <ul class="related-product-list">
             <?php
-            $id_dm = $info['id_dm'];
-            $sql_related = "SELECT * FROM tbl_sanpham WHERE id_dm = '$id_dm' AND id_sp != '$_GET[id]' ORDER BY RAND() LIMIT 5";
+            $id_dm = (int)$info['id_dm'];
+            $current_id = (int)$_GET['id'];
+
+            // Lấy sản phẩm cùng danh mục, sắp xếp theo số lượng đã bán (nếu có), fallback về RAND() nếu chưa có dữ liệu bán
+            $sql_related = "SELECT p.*, IFNULL(SUM(ct.so_luong_mua),0) AS sold_qty
+                            FROM tbl_sanpham p
+                            LEFT JOIN tbl_chitiet_gh ct ON ct.id_sp = p.id_sp
+                            LEFT JOIN tbl_hoadon h ON h.ma_gh = ct.ma_gh AND h.trang_thai = 1
+                            WHERE p.id_dm = '$id_dm' AND p.id_sp != '$current_id'
+                            GROUP BY p.id_sp
+                            ORDER BY sold_qty DESC
+                            LIMIT 5";
             $query_related = mysqli_query($mysqli, $sql_related);
+
+            // Nếu không có dữ liệu bán hoặc truy vấn trả về < 1 hàng, dùng fallback lấy ngẫu nhiên
+            if (!$query_related || mysqli_num_rows($query_related) < 1) {
+                $sql_related = "SELECT * FROM tbl_sanpham WHERE id_dm = '$id_dm' AND id_sp != '$current_id' ORDER BY RAND() LIMIT 5";
+                $query_related = mysqli_query($mysqli, $sql_related);
+            }
             while ($row_related = mysqli_fetch_array($query_related)) {
             ?>
                 <li>

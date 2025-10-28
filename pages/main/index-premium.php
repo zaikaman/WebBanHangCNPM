@@ -48,7 +48,7 @@ function countProductsByCategory($mysqli, $category_id) {
                     giữa phong cách và hiệu suất. Tạo nên phong cách riêng của bạn.
                 </p>
                 <div class="hero-cta">
-                    <a href="index.php?quanly=danhmucsanpham" class="btn-hero-primary">Khám Phá Ngay</a>
+                    <a href="index.php?#products" class="btn-hero-primary">Khám Phá Ngay</a>
                     <a href="#products" class="btn-hero-secondary">Xem Sản Phẩm</a>
                 </div>
             </div>
