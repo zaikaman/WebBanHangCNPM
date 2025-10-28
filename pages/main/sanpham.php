@@ -6,19 +6,25 @@ $pro_info_query = mysqli_query($mysqli, $sql_pro_info);
 $info = mysqli_fetch_array($pro_info_query);
 
 // Get sizes and quantities for the product from the new table
-$sql_sizes = "SELECT size, so_luong FROM tbl_sanpham_sizes WHERE id_sp = '$_GET[id]' ORDER BY FIELD(size, 'S', 'M', 'L', 'XL', 'XXL')";
+$sql_sizes = "SELECT size, so_luong FROM tbl_sanpham_sizes WHERE id_sp = '$_GET[id]' ORDER BY FIELD(size, 'S', 'M', 'L', 'XL')";
 $sizes_query = mysqli_query($mysqli, $sql_sizes);
 
+$allowed_sizes = ['S', 'M', 'L', 'XL']; // Chỉ hiển thị các size này
 $available_sizes = [];
 $size_quantities = [];
 if ($sizes_query) {
     while ($row = mysqli_fetch_assoc($sizes_query)) {
-        // Only add sizes with stock > 0 to the dropdown
+        $sz = isset($row['size']) ? $row['size'] : '';
+        // Bỏ qua các size không nằm trong danh sách cho phép (ví dụ: XXL)
+        if (!in_array($sz, $allowed_sizes, true)) {
+            continue;
+        }
+        // Map số lượng chỉ cho các size được phép
+        $size_quantities[$sz] = $row['so_luong'];
+        // Chỉ thêm vào dropdown nếu còn hàng
         if ($row['so_luong'] > 0) {
             $available_sizes[] = $row;
         }
-        // Keep all quantities for the JS map
-        $size_quantities[$row['size']] = $row['so_luong'];
     }
 }
 $is_in_stock = !empty($available_sizes);
@@ -58,15 +64,29 @@ $is_in_stock = !empty($available_sizes);
             <?php if($is_in_stock):
             ?>
                 <div class="size_selection">
+                    <?php
+                    $size_guidelines = [
+                        'S'  => '42 - 47kg',
+                        'M'  => '50 - 60kg',
+                        'L'  => 'Trên 60kg',
+                        'XL' => 'Trên 70kg'
+                    ];
+                    $present_sizes = array_keys($size_quantities);
+                    ?>
                     <label for="size_select" class="product-form-label">Kích cỡ :</label>
                     <select name="size" id="size_select" class="size_select product-form-select">
-                        <?php foreach ($available_sizes as $size_data):
+                        <?php foreach ($available_sizes as $size_data): 
+                            $sz = htmlspecialchars($size_data['size'], ENT_QUOTES, 'UTF-8');
                         ?>
-                            <option value="<?php echo htmlspecialchars($size_data['size']); ?>">
-                                <?php echo htmlspecialchars($size_data['size']); ?>
+                            <option value="<?php echo $sz; ?>">
+                                <?php
+                                echo $sz;
+                                if (isset($size_guidelines[$size_data['size']])) {
+                                    echo ' - ' . $size_guidelines[$size_data['size']];
+                                }
+                                ?>
                             </option>
-                        <?php endforeach;
-                        ?>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
