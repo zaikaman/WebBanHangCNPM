@@ -48,34 +48,7 @@
                                                         <h6 class="mb-0 text-muted"><?php echo $items_number . ' sản phẩm'; ?></h6>
                                                     </div>
 
-                                                    <!-- THÔNG TIN VẬN CHUYỂN -->
-                                                    <div class="shipping-info-section mb-5" style="border: 1px solid #ddd; border-radius: 8px; padding: 20px;">
-                                                        <h5 class="fw-bold mb-4">THÔNG TIN VẬN CHUYỂN</h5>
-                                                        
-                                                        <div class="form-group mb-3">
-                                                            <label for="shipping_name" class="form-label">Họ và tên:</label>
-                                                            <input type="text" id="shipping_name" name="shipping_name" class="form-control" value="<?php echo htmlspecialchars($name); ?>" placeholder="Nhập họ và tên...">
-                                                            <span id="nameError" style="color: red; font-size: 12px;"></span>
-                                                        </div>
-
-                                                        <div class="form-group mb-3">
-                                                            <label for="shipping_phone" class="form-label">Số điện thoại:</label>
-                                                            <input type="text" id="shipping_phone" name="shipping_phone" class="form-control" value="<?php echo htmlspecialchars($phone); ?>" placeholder="Nhập số điện thoại...">
-                                                            <span id="phoneError" style="color: red; font-size: 12px;"></span>
-                                                        </div>
-
-                                                        <div class="form-group mb-3">
-                                                            <label for="shipping_address" class="form-label">Địa chỉ:</label>
-                                                            <input type="text" id="shipping_address" name="shipping_address" class="form-control" value="<?php echo htmlspecialchars($address); ?>" placeholder="Nhập địa chỉ...">
-                                                            <span id="addressError" style="color: red; font-size: 12px;"></span>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label for="shipping_note" class="form-label">Ghi chú:</label>
-                                                            <input type="text" id="shipping_note" name="shipping_note" class="form-control" value="<?php echo htmlspecialchars($note); ?>" placeholder="Nhập ghi chú...">
-                                                        </div>
-                                                    </div>
-                                                    <!-- END: THÔNG TIN VẬN CHUYỂN -->
+                                                    <!-- THÔNG TIN VẬN CHUYỂN đã được loại bỏ theo yêu cầu -->
                                                     <?php
                                                     $count = 0;
                                                     $tongtien = 0;
@@ -187,91 +160,49 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Hàm kiểm tra tính hợp lệ của thông tin vận chuyển
-    function validateShippingInfo() {
-        let valid = true;
-        let name = document.getElementById('shipping_name').value.trim();
-        let phone = document.getElementById('shipping_phone').value.trim();
-        let address = document.getElementById('shipping_address').value.trim();
-        
-        // Xóa các thông báo lỗi trước đó
-        document.getElementById('nameError').innerText = '';
-        document.getElementById('phoneError').innerText = '';
-        document.getElementById('addressError').innerText = '';
-        
-        // Kiểm tra các trường bắt buộc
-        if (name === '') {
-            document.getElementById('nameError').innerText = 'Vui lòng nhập họ và tên.';
-            valid = false;
-        }
-        
-        if (phone === '') {
-            document.getElementById('phoneError').innerText = 'Vui lòng nhập số điện thoại.';
-            valid = false;
-        } else if (!/^0\d{9}$/.test(phone)) {
-            document.getElementById('phoneError').innerText = 'Số điện thoại sai định dạng (phải bắt đầu bằng 0 và có 10 chữ số).';
-            valid = false;
-        }
-        
-        if (address === '') {
-            document.getElementById('addressError').innerText = 'Vui lòng nhập địa chỉ.';
-            valid = false;
-        }
-        
-        return valid;
-    }
-    
-    // Kiểm tra trước khi gửi form thanh toán
+    // Đã loại bỏ phần thông tin vận chuyển => không còn kiểm tra các trường shipping_*
     const checkoutForm = document.querySelector('form[action="pages/main/thanhtoan.php"]');
     if (checkoutForm) {
         checkoutForm.addEventListener('submit', function(e) {
-            if (!validateShippingInfo()) {
+            // Đảm bảo khách hàng đã chọn phương thức thanh toán
+            const paymentSelected = document.querySelector('input[name="payment"]:checked');
+            if (!paymentSelected) {
                 e.preventDefault();
-                alert('Vui lòng điền đầy đủ thông tin vận chuyển hợp lệ');
+                alert('Vui lòng chọn phương thức thanh toán.');
             }
         });
     }
-    
-    // Xử lý nút MoMo ATM
+
+    // Xử lý nút MoMo ATM (gửi các trường từ form chính nhưng bỏ qua các trường bắt đầu bằng 'shipping_')
     const momoAtmBtn = document.getElementById('momoAtmBtn');
     if (momoAtmBtn) {
         momoAtmBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            // Kiểm tra thông tin vận chuyển
-            if (!validateShippingInfo()) {
-                alert('Vui lòng điền đầy đủ thông tin vận chuyển hợp lệ');
-                return;
-            }
-            
-            // Tạo form tạm thời để gửi đến MoMo
+
+            const mainForm = document.querySelector('form[action="pages/main/thanhtoan.php"]');
+            if (!mainForm) return;
+
+            const formData = new FormData(mainForm);
             const tempForm = document.createElement('form');
             tempForm.method = 'POST';
             tempForm.action = 'pages/main/xuLyThanhToanMomo_atm.php';
             tempForm.target = '_blank';
-            
-            // Thêm các trường từ form chính
-            const mainForm = document.querySelector('form[action="pages/main/thanhtoan.php"]');
-            const formData = new FormData(mainForm);
-            
+
             for (let [key, value] of formData.entries()) {
-                if (key === 'shipping_name' || key === 'shipping_phone' || key === 'shipping_address' || key === 'shipping_note' || key === 'payment') {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = key;
-                    input.value = value;
-                    tempForm.appendChild(input);
-                }
+                if (key.startsWith('shipping_')) continue;
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                tempForm.appendChild(input);
             }
-            
-            // Thêm flag untuk MoMo
+
             const momoInput = document.createElement('input');
             momoInput.type = 'hidden';
             momoInput.name = 'momo';
             momoInput.value = 'Thanh toán MOMO ATM';
             tempForm.appendChild(momoInput);
-            
-            // Gửi form
+
             document.body.appendChild(tempForm);
             tempForm.submit();
             document.body.removeChild(tempForm);
