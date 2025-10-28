@@ -205,6 +205,16 @@ $is_in_stock = !empty($available_sizes);
             }
             ?>
         </ul>
+
+        <?php if (isset($id_dm) && (int)$id_dm > 0): ?>
+            <div class="related-more" style="text-align:center; margin-top:18px;">
+                <a href="index.php?quanly=danhmucsanpham&id=<?php echo (int)$id_dm; ?>" 
+                   class="related-more-btn" 
+                   style="display:inline-block;padding:10px 18px;background:#d33;color:#fff;border-radius:6px;text-decoration:none;">
+                   Xem thêm trong danh mục
+                </a>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 
