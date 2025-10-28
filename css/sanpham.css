@@ -53,6 +53,17 @@
     font-weight: 600;
 }
 
+/* Category link style: màu đen và in đậm theo yêu cầu */
+.product_detail .category-link {
+    color: #000 !important;
+    font-weight: 800 !important; /* in đậm hơn */
+    text-decoration: none !important;
+}
+.product_detail .category-link:hover {
+    color: #000 !important;
+    text-decoration: underline !important; /* optional hover feedback */
+}
+
 /* Form labels */
 .product-form-label {
     font-family: 'Inter', sans-serif !important;

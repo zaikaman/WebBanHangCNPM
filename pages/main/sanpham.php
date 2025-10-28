@@ -58,7 +58,15 @@ $is_in_stock = !empty($available_sizes);
                     }
                 }
                 ?>
-                <p>Danh mục : <strong><?php echo $category_name; ?></strong></p>
+                <?php if ($id_dm > 0): ?>
+                    <p>Danh mục : <strong>
+                        <a class="category-link" href="index.php?quanly=danhmucsanpham&id=<?php echo intval($id_dm); ?>">
+                            <?php echo $category_name; ?>
+                        </a>
+                    </strong></p>
+                <?php else: ?>
+                    <p>Danh mục : <strong><?php echo $category_name; ?></strong></p>
+                <?php endif; ?>
             </div>
 
             <?php if($is_in_stock):
