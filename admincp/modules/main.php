@@ -27,6 +27,14 @@
         include("modules/quanLySanPham/timkiem.php");
     } elseif ($tam == 'quanLySanPham' && $query == 'chitiet') {
         include("modules/quanLySanPham/chitiet.php");
+    } elseif ($tam == 'quanlykhuyenmai' && $query == 'lietke') {
+        include("modules/quanLyKhuyenMai/lietke.php");
+    } elseif ($tam == 'quanlykhuyenmai' && $query == 'them') {
+        include("modules/quanLyKhuyenMai/them.php");
+    } elseif ($tam == 'quanlykhuyenmai' && $query == 'sua') {
+        include("modules/quanLyKhuyenMai/sua.php");
+    } elseif ($tam == 'quanlykhuyenmai' && $query == 'sanpham') {
+        include("modules/quanLyKhuyenMai/sanpham.php");
     } elseif ($tam == 'quanLyDonHang' && $query == 'lietke') {
         include("modules/quanLyDonHang/lietke.php");
     } elseif ($tam == 'quanLyDonHang' && $query == 'timkiem') {

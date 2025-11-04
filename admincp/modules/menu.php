@@ -9,6 +9,9 @@
     <a class="nav-link compact" href="index.php?action=quanLySanPham&query=lietke">
         <i class="fas fa-tshirt"></i> <span>Sản phẩm</span>
     </a>
+    <a class="nav-link compact" href="index.php?action=quanlykhuyenmai&query=lietke">
+        <i class="fas fa-tags"></i> <span>Khuyến mãi</span>
+    </a>
     <a class="nav-link compact" href="index.php?action=quanLyDanhMucBaiViet&query=them">
         <i class="fas fa-folder-open"></i> <span>DM Bài viết</span>
     </a>
