@@ -1,6 +1,6 @@
 <?php
 // Include promotion helper
-include('includes/promotion_helper.php');
+include('../../includes/promotion_helper.php');
 ?>
 <div class="main_with_sidebar">
     <?php

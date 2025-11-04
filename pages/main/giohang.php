@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="css/giohang.css?v=<?php echo time(); ?>">
 <?php
 // Include promotion helper để cập nhật giá khuyến mãi
-include('includes/promotion_helper.php');
+include('../../includes/promotion_helper.php');
 ?>
 <div class="main_content">
     <div class="cart_content">

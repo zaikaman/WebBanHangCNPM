@@ -1,6 +1,6 @@
 <?php
 // Include promotion helper
-include('includes/promotion_helper.php');
+include('../../includes/promotion_helper.php');
 
 // Kiểm tra và lấy tham số id từ URL
 if (!isset($_GET['id']) || empty($_GET['id'])) {
