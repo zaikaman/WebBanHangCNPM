@@ -7,6 +7,9 @@ ini_set('log_errors', '1');
 // Load configuration và security helpers
 require_once 'admincp/config/config.php';
 
+// Load promotion helper
+require_once 'includes/promotion_helper.php';
+
 // Force HTTPS nếu cần thiết (không cần gọi vì đã gọi ở config.php)
 // force_https();
 

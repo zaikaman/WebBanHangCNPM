@@ -1,4 +1,8 @@
 <link rel="stylesheet" type="text/css" href="css/giohang.css?v=<?php echo time(); ?>">
+<?php
+// Include promotion helper để cập nhật giá khuyến mãi
+include('includes/promotion_helper.php');
+?>
 <div class="main_content">
     <div class="cart_content">
         <?php
@@ -60,13 +64,30 @@
                                                 $connect_giohang = mysqli_connect($host, $user, $pass, $db);
                                                 mysqli_set_charset($connect_giohang, 'utf8');
 
-                                                foreach ($_SESSION['cart'] as $cart_item) {
+                                                foreach ($_SESSION['cart'] as $key => $cart_item) {
                                                     $count++;
-                                                    $thanhtien = $cart_item['gia_sp'] * $cart_item['so_luong'];
+                                                    
+                                                    // Cập nhật giá khuyến mãi cho sản phẩm trong giỏ hàng
+                                                    $id_sanpham = $cart_item['id'];
+                                                    $promotion = getActivePromotion($id_sanpham, $connect_giohang);
+                                                    
+                                                    // Lấy giá gốc từ database để tính toán chính xác
+                                                    $sql_price = "SELECT gia_sp FROM tbl_sanpham WHERE id_sp = '$id_sanpham'";
+                                                    $query_price = mysqli_query($connect_giohang, $sql_price);
+                                                    $row_price = mysqli_fetch_array($query_price);
+                                                    $gia_goc = $row_price['gia_sp'];
+                                                    
+                                                    // Tính giá sau khuyến mãi
+                                                    $gia_hien_tai = $promotion ? calculatePromotionPrice($gia_goc, $promotion) : $gia_goc;
+                                                    
+                                                    // Cập nhật giá mới vào session
+                                                    $_SESSION['cart'][$key]['gia_sp'] = $gia_hien_tai;
+                                                    $cart_item['gia_sp'] = $gia_hien_tai;
+                                                    
+                                                    $thanhtien = $gia_hien_tai * $cart_item['so_luong'];
                                                     $tongtien += $thanhtien;
                                                     
                                                     // Get stock quantity
-                                                    $id_sanpham = $cart_item['id'];
                                                     $size = isset($cart_item['size']) ? $cart_item['size'] : 'M';
                                                     $sql_get_stock = "SELECT so_luong FROM tbl_sanpham_sizes WHERE id_sp = '$id_sanpham' AND size = '$size'";
                                                     $query_get_stock = mysqli_query($connect_giohang, $sql_get_stock);

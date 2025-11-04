@@ -1,6 +1,8 @@
 <?php
 // Include database configuration to initialize $mysqli
 include(dirname(__FILE__) . "/../../admincp/config/config.php");
+// Include promotion helper
+include(dirname(__FILE__) . "/../../includes/promotion_helper.php");
 
 // Handle form data and sanitize inputs
 $ten_sp_filter = isset($_GET['ten_sp']) ? urldecode($_GET['ten_sp']) : '';
@@ -66,14 +68,47 @@ if (empty($error_message)) {
                 <div class="alert alert-danger"><?php echo $error_message; ?></div>
             <?php else: ?>
                 <div class="row">
-                    <?php while ($row = mysqli_fetch_array($query_pro)): ?>
+                    <?php while ($row = mysqli_fetch_array($query_pro)): 
+                        // Kiểm tra khuyến mãi cho sản phẩm
+                        $promotion = getActivePromotion($row['id_sp'], $mysqli);
+                        $gia_hien_thi = $row['gia_sp'];
+                        $has_promotion = false;
+                        
+                        if ($promotion) {
+                            $gia_hien_thi = calculatePromotionPrice($row['gia_sp'], $promotion);
+                            $has_promotion = true;
+                        }
+                    ?>
                         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="product card h-100">
+                            <div class="product card h-100 position-relative">
+                                <?php if ($has_promotion) { ?>
+                                    <span class="badge bg-danger position-absolute" style="top: 10px; right: 10px; z-index: 10;">
+                                        <?php 
+                                        if ($promotion['loai_km'] == 'phan_tram') {
+                                            echo '-' . round($promotion['gia_tri_km']) . '%';
+                                        } else {
+                                            echo 'SALE';
+                                        }
+                                        ?>
+                                    </span>
+                                <?php } ?>
                                 <a href="index.php?quanly=sanpham&id=<?php echo $row['id_sp'] ?>" class="text-decoration-none text-dark">
                                     <img src="admincp/modules/quanLySanPham/uploads/<?php echo $row['hinh_anh'] ?>" class="card-img-top img-fluid" alt="<?php echo $row['ten_sp'] ?>">
                                     <div class="card-body text-center">
                                         <p class="title_product card-title"><?php echo $row['ten_sp'] ?></p>
-                                        <p class="price_product card-text text-danger"><?php echo number_format($row['gia_sp'], 0, ',', ',') . 'vnđ' ?></p>
+                                        <?php if ($has_promotion) { ?>
+                                            <p class="price_product card-text">
+                                                <span class="text-muted text-decoration-line-through" style="font-size: 0.9em;">
+                                                    <?php echo number_format($row['gia_sp'], 0, ',', '.') . 'đ' ?>
+                                                </span>
+                                                <br>
+                                                <span class="text-danger fw-bold">
+                                                    <?php echo number_format($gia_hien_thi, 0, ',', '.') . 'đ' ?>
+                                                </span>
+                                            </p>
+                                        <?php } else { ?>
+                                            <p class="price_product card-text text-danger"><?php echo number_format($row['gia_sp'], 0, ',', '.') . 'đ' ?></p>
+                                        <?php } ?>
                                     </div>
                                 </a>
                             </div>

@@ -43,7 +43,30 @@ $is_in_stock = !empty($available_sizes);
                         <?php echo $is_in_stock ? 'Còn hàng' : 'Hết hàng'; ?>
                     </span>
                 </p>
-                <p class="gia_sp"><?php echo number_format($info['gia_sp'], 0, ',', ',') . 'đ' ?></p>
+                <?php
+                // Kiểm tra và hiển thị giá khuyến mãi
+                $promotion = getActivePromotion($info['id_sp'], $mysqli);
+                if ($promotion) {
+                    $gia_km = calculatePromotionPrice($info['gia_sp'], $promotion);
+                    ?>
+                    <div class="product-price-section">
+                        <p class="gia_sp_goc" style="text-decoration: line-through; color: #999; font-size: 0.9em;">
+                            <?php echo number_format($info['gia_sp'], 0, ',', '.') . 'đ' ?>
+                        </p>
+                        <p class="gia_sp" style="color: #e74c3c; font-weight: bold; font-size: 1.2em;">
+                            <?php echo number_format($gia_km, 0, ',', '.') . 'đ' ?>
+                        </p>
+                        <span class="promotion-badge" style="background: #e74c3c; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.85em;">
+                            -<?php echo calculateDiscountPercent($info['gia_sp'], $gia_km); ?>%
+                        </span>
+                    </div>
+                    <?php
+                } else {
+                    ?>
+                    <p class="gia_sp"><?php echo number_format($info['gia_sp'], 0, ',', '.') . 'đ' ?></p>
+                    <?php
+                }
+                ?>
                 <?php
                 $id_dm = isset($info['id_dm']) ? intval($info['id_dm']) : 0;
                 $category_name = 'Không rõ';
@@ -188,15 +211,47 @@ $is_in_stock = !empty($available_sizes);
                 $query_related = mysqli_query($mysqli, $sql_related);
             }
             while ($row_related = mysqli_fetch_array($query_related)) {
+                // Kiểm tra khuyến mãi cho sản phẩm liên quan
+                $promotion_related = getActivePromotion($row_related['id_sp'], $mysqli);
+                $gia_hien_thi_related = $row_related['gia_sp'];
+                $has_promotion_related = false;
+                
+                if ($promotion_related) {
+                    $gia_hien_thi_related = calculatePromotionPrice($row_related['gia_sp'], $promotion_related);
+                    $has_promotion_related = true;
+                }
             ?>
                 <li>
                     <a href="index.php?quanly=sanpham&id=<?php echo $row_related['id_sp'] ?>">
                         <div class="product-image-container">
+                            <?php if ($has_promotion_related) { ?>
+                                <span class="badge bg-danger position-absolute" style="top: 5px; right: 5px; z-index: 10; font-size: 0.75em;">
+                                    <?php 
+                                    if ($promotion_related['loai_km'] == 'phan_tram') {
+                                        echo '-' . round($promotion_related['gia_tri_km']) . '%';
+                                    } else {
+                                        echo 'SALE';
+                                    }
+                                    ?>
+                                </span>
+                            <?php } ?>
                             <img src="admincp/modules/quanLySanPham/uploads/<?php echo $row_related['hinh_anh'] ?>" alt="<?php echo $row_related['ten_sp'] ?>">
                         </div>
                         <div class="product-info">
                             <p class="title_product"><?php echo $row_related['ten_sp'] ?></p>
-                            <p class="price_product"><?php echo number_format($row_related['gia_sp'],0,',','.').'đ'?></p>
+                            <?php if ($has_promotion_related) { ?>
+                                <p class="price_product">
+                                    <span class="text-muted text-decoration-line-through" style="font-size: 0.85em;">
+                                        <?php echo number_format($row_related['gia_sp'], 0, ',', '.') . 'đ' ?>
+                                    </span>
+                                    <br>
+                                    <span class="text-danger fw-bold">
+                                        <?php echo number_format($gia_hien_thi_related, 0, ',', '.') . 'đ' ?>
+                                    </span>
+                                </p>
+                            <?php } else { ?>
+                                <p class="price_product"><?php echo number_format($row_related['gia_sp'],0,',','.').'đ'?></p>
+                            <?php } ?>
                         </div>
                     </a>
                     <a href="index.php?quanly=sanpham&id=<?php echo $row_related['id_sp'] ?>" class="view-details-btn">Xem chi tiết</a>

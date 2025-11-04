@@ -1,6 +1,8 @@
 <?php
 session_start();
 include("../../admincp/config/config.php");
+include("../../includes/promotion_helper.php");
+
 // thêm vào giỏ hàng
 if (isset($_POST['themgiohang'])) {
     $id = $_GET['idsanpham'];
@@ -38,11 +40,20 @@ if (isset($_POST['themgiohang'])) {
     $query = mysqli_query($mysqli, $sql);
     $row = mysqli_fetch_array($query);
     if ($row) {
+        // Kiểm tra khuyến mãi cho sản phẩm
+        $promotion = getActivePromotion($id, $mysqli);
+        $gia_sp = $row['gia_sp'];
+        
+        // Nếu có khuyến mãi, tính giá sau khuyến mãi
+        if ($promotion) {
+            $gia_sp = calculatePromotionPrice($row['gia_sp'], $promotion);
+        }
+        
         $new_product = array(array(
             'ten_sp' => $row['ten_sp'],
             'id' => $id,
             'so_luong' => $so_luong_to_add,
-            'gia_sp' => $row['gia_sp'],
+            'gia_sp' => $gia_sp,
             'hinh_anh' => $row['hinh_anh'],
             'ma_sp' => $row['ma_sp'],
             'size' => $size
