@@ -15,6 +15,97 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
 }
 
+/* ===================================
+   CHECKBOX STYLING
+   Custom checkbox với thiết kế hiện đại
+   =================================== */
+
+.cart-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: relative;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    outline: none;
+    flex-shrink: 0;
+}
+
+.cart-checkbox:hover {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.cart-checkbox:checked {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.cart-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.cart-checkbox-main {
+    width: 22px;
+    height: 22px;
+    border-width: 2.5px;
+}
+
+.cart-checkbox:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cart-checkbox:disabled:hover {
+    border-color: #ddd;
+    box-shadow: none;
+}
+
+/* Indeterminate state for "Select All" checkbox */
+.cart-checkbox-main.indeterminate {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.cart-checkbox-main.indeterminate::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 8px;
+    width: 10px;
+    height: 2px;
+    background-color: white;
+    border: none;
+    transform: none;
+}
+
+/* Product row highlight when checked */
+.product-item {
+    transition: background-color 0.2s ease;
+}
+
+.product-item.unchecked {
+    opacity: 0.6;
+    background-color: #f8f9fa;
+}
+
+.product-item.unchecked:hover {
+    opacity: 0.8;
+}
+
 /* Cart title */
 .card-body h1,
 .card-body h3,
@@ -98,6 +189,23 @@ a:not([class*="icon"]),
 label, 
 small {
     font-family: 'Inter', sans-serif !important;
+}
+
+/* Button styling for proceed button */
+button.dathang_button {
+    font-family: 'Inter', sans-serif !important;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+button.dathang_button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(169, 0, 25, 0.3);
+}
+
+button.dathang_button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Preserve icon fonts */

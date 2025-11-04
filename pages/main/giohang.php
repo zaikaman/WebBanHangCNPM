@@ -42,7 +42,11 @@
                                         <div class="p-5">
 
                                             <div class="d-flex justify-content-between align-items-center mb-5">
-                                                <h1 class="fw-bold mb-0">Giỏ hàng</h1>
+                                                <div class="d-flex align-items-center">
+                                                    <input type="checkbox" id="selectAll" class="cart-checkbox cart-checkbox-main me-3" checked />
+                                                    <label for="selectAll" class="mb-0 me-3" style="cursor: pointer;">Chọn tất cả</label>
+                                                    <h1 class="fw-bold mb-0">Giỏ hàng</h1>
+                                                </div>
                                                 <h6 class="mb-0 text-muted"><?php echo $items_number . ' mặt hàng'; ?></h6>
                                             </div>
                                             <?php
@@ -70,7 +74,18 @@
                                                     $stock_quantity = $row_stock ? $row_stock['so_luong'] : 0;
                                             ?>
                                                     <hr class="my-4 hr-bold">
-                                                    <div class="row mb-4 d-flex justify-content-between align-items-center product-item" data-max-stock="<?php echo $stock_quantity; ?>">
+                                                    <div class="row mb-4 d-flex justify-content-between align-items-center product-item" 
+                                                         data-max-stock="<?php echo $stock_quantity; ?>"
+                                                         data-product-id="<?php echo $cart_item['id']; ?>"
+                                                         data-product-size="<?php echo isset($cart_item['size']) ? $cart_item['size'] : 'M'; ?>"
+                                                         data-product-price="<?php echo $cart_item['gia_sp']; ?>">
+                                                        <div class="col-md-1 col-lg-1 col-xl-1 d-flex align-items-center justify-content-center">
+                                                            <input type="checkbox" 
+                                                                   class="cart-checkbox cart-checkbox-item" 
+                                                                   data-id="<?php echo $cart_item['id']; ?>"
+                                                                   data-size="<?php echo isset($cart_item['size']) ? $cart_item['size'] : 'M'; ?>"
+                                                                   checked />
+                                                        </div>
                                                         <div class="col-md-2 col-lg-2 col-xl-2">
                                                             <img src="admincp/modules/quanLySanPham/uploads/<?php echo $cart_item['hinh_anh']; ?>" class="img-fluid rounded-3" alt="Product Image">
                                                         </div>
@@ -150,23 +165,23 @@
                                             <h3 class="fw-bold mb-5 mt-2 pt-1">Thanh toán</h3>
                                             <hr class="my-4 hr-bold">
                                             <div class="d-flex justify-content-between mb-4">
-                                                <h5>Số lượng sản phẩm : <?php echo $tongsoluong; ?></h5>
+                                                <h5>Số lượng sản phẩm được chọn:</h5>
+                                                <h5 id="selectedQuantity"><?php echo $tongsoluong; ?></h5>
                                             </div>
 
                                             <hr class="my-4 hr-bold">
 
                                             <div class="d-flex justify-content-between mb-5">
                                                 <h5>Thành tiền :</h5>
-                                                <h5><?php echo number_format($tongtien, 0, ',', ',') . 'đ'; // Assuming 5€ shipping 
-                                                    ?></h5>
+                                                <h5 id="selectedTotal"><?php echo number_format($tongtien, 0, ',', ',') . 'đ'; ?></h5>
                                             </div>
                                             <?php
                                             if ($count != 0) {
                                                 if (isset($_SESSION['dang_ky']) && isset($_SESSION['id_khachhang'])) {
                                             ?>
-                                                    <a href="index.php?quanly=vanChuyen" class="dathang_button">
+                                                    <button type="button" id="btnProceedToShipping" class="dathang_button" style="border: none; width: 100%; cursor: pointer;">
                                                         Tiếp theo
-                                                    </a>
+                                                    </button>
                                                 <?php
                                                 } else {
                                                 ?>

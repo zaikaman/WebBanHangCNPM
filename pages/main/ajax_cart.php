@@ -231,6 +231,24 @@ switch ($action) {
             echo json_encode(['success' => false, 'message' => 'Không tìm thấy sản phẩm']);
         }
         break;
+    
+    case 'save_selected_products':
+        $selected_products_json = $_POST['selected_products'] ?? '';
+        if (empty($selected_products_json)) {
+            echo json_encode(['success' => false, 'message' => 'Không có sản phẩm nào được chọn']);
+            exit;
+        }
+        
+        $selected_products = json_decode($selected_products_json, true);
+        if (!is_array($selected_products) || empty($selected_products)) {
+            echo json_encode(['success' => false, 'message' => 'Dữ liệu không hợp lệ']);
+            exit;
+        }
+        
+        // Lưu danh sách sản phẩm được chọn vào session
+        $_SESSION['selected_cart_items'] = $selected_products;
+        echo json_encode(['success' => true, 'message' => 'Lưu sản phẩm được chọn thành công']);
+        break;
         
     default:
         echo json_encode(['success' => false, 'message' => 'Hành động không hợp lệ']);

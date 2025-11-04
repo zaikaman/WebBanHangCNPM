@@ -4,23 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===================================
     
     const selectAllCheckbox = document.getElementById('selectAll');
-    
-    // Hàm lấy tất cả checkbox item hiện tại
-    function getAllItemCheckboxes() {
-        return document.querySelectorAll('.cart-checkbox-item');
-    }
+    const itemCheckboxes = document.querySelectorAll('.cart-checkbox-item');
     
     // Hàm cập nhật trạng thái checkbox "Chọn tất cả"
     function updateSelectAllCheckbox() {
-        if (!selectAllCheckbox) return; // Check nếu không tìm thấy
-        
-        const itemCheckboxes = getAllItemCheckboxes();
         const totalCheckboxes = itemCheckboxes.length;
         const checkedCheckboxes = document.querySelectorAll('.cart-checkbox-item:checked').length;
-        
-        if (totalCheckboxes === 0) {
-            return; // Không có checkbox nào
-        }
         
         if (checkedCheckboxes === 0) {
             selectAllCheckbox.checked = false;
@@ -37,61 +26,37 @@ document.addEventListener('DOMContentLoaded', function() {
     // Hàm cập nhật giao diện sản phẩm khi checkbox thay đổi
     function updateProductRowAppearance(checkbox) {
         const productRow = checkbox.closest('.product-item');
-        if (productRow) {
-            if (checkbox.checked) {
-                productRow.classList.remove('unchecked');
-            } else {
-                productRow.classList.add('unchecked');
-            }
+        if (checkbox.checked) {
+            productRow.classList.remove('unchecked');
+        } else {
+            productRow.classList.add('unchecked');
         }
-    }
-    
-    // Hàm xử lý khi checkbox con thay đổi
-    function handleItemCheckboxChange(checkbox) {
-        updateSelectAllCheckbox();
-        updateProductRowAppearance(checkbox);
-        updateCartTotals();
     }
     
     // Xử lý sự kiện "Chọn tất cả"
     if (selectAllCheckbox) {
-        selectAllCheckbox.addEventListener('change', function(e) {
-            e.stopPropagation(); // Ngăn event bubbling
+        selectAllCheckbox.addEventListener('change', function() {
             const isChecked = this.checked;
-            const itemCheckboxes = getAllItemCheckboxes();
             itemCheckboxes.forEach(checkbox => {
-                if (checkbox.checked !== isChecked) {
-                    checkbox.checked = isChecked;
-                    updateProductRowAppearance(checkbox);
-                }
+                checkbox.checked = isChecked;
+                updateProductRowAppearance(checkbox);
             });
             this.classList.remove('indeterminate');
             updateCartTotals();
         });
     }
     
-    // Attach sự kiện cho checkbox con - Sử dụng event delegation nhưng có filter
-    document.body.addEventListener('change', function(e) {
-        if (e.target && e.target.classList && e.target.classList.contains('cart-checkbox-item')) {
-            e.stopPropagation(); // Ngăn event bubbling
-            handleItemCheckboxChange(e.target);
-        }
-    }, true); // Use capture phase
-    
-    // Khởi tạo trạng thái ban đầu - Delay nhỏ để đảm bảo DOM ready
-    setTimeout(function() {
-        // Khởi tạo appearance cho tất cả checkbox
-        const itemCheckboxes = getAllItemCheckboxes();
-        itemCheckboxes.forEach(checkbox => {
-            updateProductRowAppearance(checkbox);
+    // Xử lý sự kiện checkbox từng sản phẩm
+    itemCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateSelectAllCheckbox();
+            updateProductRowAppearance(this);
+            updateCartTotals();
         });
-        
-        // Cập nhật trạng thái "Chọn tất cả"
-        updateSelectAllCheckbox();
-        
-        // Cập nhật tổng tiền ban đầu
-        updateCartTotals();
-    }, 100);
+    });
+    
+    // Khởi tạo trạng thái ban đầu
+    updateSelectAllCheckbox();
     
     // ===================================
     // ORIGINAL FUNCTIONALITY
@@ -395,27 +360,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // XỬ LÝ NÚT "TIẾP THEO"
     // ===================================
     
-    // Method 1: Direct event listener
     const btnProceedToShipping = document.getElementById('btnProceedToShipping');
-    console.log('Button found:', btnProceedToShipping); // Debug
-    
     if (btnProceedToShipping) {
         btnProceedToShipping.addEventListener('click', function(e) {
             e.preventDefault();
-            e.stopPropagation();
-            
-            console.log('Nút Tiếp theo được click'); // Debug
             
             // Lấy danh sách sản phẩm được chọn
             const selectedProducts = [];
             document.querySelectorAll('.cart-checkbox-item:checked').forEach(checkbox => {
+                const productRow = checkbox.closest('.product-item');
                 selectedProducts.push({
                     id: checkbox.dataset.id,
                     size: checkbox.dataset.size
                 });
             });
-            
-            console.log('Sản phẩm được chọn:', selectedProducts); // Debug
             
             // Kiểm tra có sản phẩm được chọn không
             if (selectedProducts.length === 0) {
@@ -423,36 +381,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Hiển thị loading
-            const originalText = this.innerHTML;
-            this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang xử lý...';
-            this.disabled = true;
-            
             // Gửi danh sách sản phẩm được chọn lên server
             sendAjaxRequest({
                 action: 'save_selected_products',
                 selected_products: JSON.stringify(selectedProducts)
             }, (result) => {
-                console.log('Kết quả từ server:', result); // Debug
                 if (result.success) {
                     // Chuyển sang trang vận chuyển
                     window.location.href = 'index.php?quanly=vanChuyen';
                 } else {
                     showMessage(result.message || 'Có lỗi xảy ra, vui lòng thử lại', 'error');
-                    this.innerHTML = originalText;
-                    this.disabled = false;
                 }
             });
-        }, false);
-    } else {
-        console.error('Không tìm thấy button #btnProceedToShipping');
+        });
     }
-    
-    // Method 2: Event delegation backup
-    document.body.addEventListener('click', function(e) {
-        const target = e.target.closest('#btnProceedToShipping');
-        if (target && target.id === 'btnProceedToShipping') {
-            console.log('Button clicked via delegation'); // Debug
-        }
-    }, false);
 });
+        });
+    }
+});
+);
