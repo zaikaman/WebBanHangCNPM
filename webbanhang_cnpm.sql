@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2025 at 05:47 AM
+-- Generation Time: Nov 10, 2025 at 06:31 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -438,7 +438,9 @@ CREATE TABLE `tbl_dangky` (
   `id_dangky` int(11) NOT NULL,
   `ten_khachhang` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `dia_chi` varchar(200) NOT NULL,
+  `dia_chi_chi_tiet` varchar(200) NOT NULL,
+  `quan_huyen` varchar(100) DEFAULT NULL,
+  `tinh_thanh` varchar(100) DEFAULT NULL,
   `mat_khau` varchar(100) NOT NULL,
   `reset_token` varchar(255) DEFAULT NULL,
   `reset_token_expires` datetime DEFAULT NULL,
@@ -449,14 +451,14 @@ CREATE TABLE `tbl_dangky` (
 -- Dumping data for table `tbl_dangky`
 --
 
-INSERT INTO `tbl_dangky` (`id_dangky`, `ten_khachhang`, `email`, `dia_chi`, `mat_khau`, `reset_token`, `reset_token_expires`, `dien_thoai`) VALUES
-(14, 'ngọc tuấn', 'ngoctuan090904@gmail.com', 'Hóc Môn', '202cb962ac59075b964b07152d234b70', NULL, NULL, '0768893544'),
-(27, 'Đinh Phúc Thịnh', 'thinhgpt1706@gmail.com', '536 Au Co', '7ca4100f078350295c611e78355a57d4', NULL, NULL, '0931816175'),
-(32, 'Trần Đăng Phát', 'phattran280704@outlook.com', 'TP.HCM', '3b75b13a28364258df1f9f7cddb7b2f5', NULL, NULL, '0937024435'),
-(33, 'Minh Vương', 'nnt090904@gmail.com', 'Hóc Môn', '69e4756805ff0abf358e132aeb6ab5ca', NULL, NULL, '0768893544'),
-(34, 'dang the vinh', 'capijim747@gmail.com', 'ádfasdfasdfasdfsa', 'd6eb8d33b00b06ea903b4c170b167487', NULL, NULL, '0359855353'),
-(36, 'Đinh Phúc Thịnh', 'zaikaman123@gmail.com', '536 Au Co', 'dc9417f67e802695ecb86dab88899c6d', NULL, NULL, '0931816175'),
-(38, 'Đinh Phúc Thịnh', 'subthinh18@gmail.com', '536 Au Co', 'ce9642a7df00bb973f5d9c55d5f67c49', NULL, NULL, '0931816175');
+INSERT INTO `tbl_dangky` (`id_dangky`, `ten_khachhang`, `email`, `dia_chi_chi_tiet`, `quan_huyen`, `tinh_thanh`, `mat_khau`, `reset_token`, `reset_token_expires`, `dien_thoai`) VALUES
+(14, 'ngọc tuấn', 'ngoctuan090904@gmail.com', 'Hóc Môn', NULL, NULL, '202cb962ac59075b964b07152d234b70', NULL, NULL, '0768893544'),
+(27, 'Đinh Phúc Thịnh', 'thinhgpt1706@gmail.com', '536 Au Co', NULL, NULL, '7ca4100f078350295c611e78355a57d4', NULL, NULL, '0931816175'),
+(32, 'Trần Đăng Phát', 'phattran280704@outlook.com', 'TP.HCM', NULL, NULL, '3b75b13a28364258df1f9f7cddb7b2f5', NULL, NULL, '0937024435'),
+(33, 'Minh Vương', 'nnt090904@gmail.com', 'Hóc Môn', NULL, NULL, '69e4756805ff0abf358e132aeb6ab5ca', NULL, NULL, '0768893544'),
+(34, 'dang the vinh', 'capijim747@gmail.com', 'ádfasdfasdfasdfsa', NULL, NULL, 'd6eb8d33b00b06ea903b4c170b167487', NULL, NULL, '0359855353'),
+(36, 'Đinh Phúc Thịnh', 'zaikaman123@gmail.com', '536 Au Co', NULL, NULL, 'dc9417f67e802695ecb86dab88899c6d', NULL, NULL, '0931816175'),
+(38, 'Đinh Phúc Thịnh', 'subthinh18@gmail.com', '536 Au Co', NULL, NULL, 'ce9642a7df00bb973f5d9c55d5f67c49', NULL, NULL, '0931816175');
 
 -- --------------------------------------------------------
 
@@ -470,7 +472,9 @@ CREATE TABLE `tbl_dangky_temp` (
   `email` varchar(255) NOT NULL,
   `dien_thoai` varchar(50) DEFAULT NULL,
   `mat_khau` varchar(255) NOT NULL,
-  `dia_chi` text DEFAULT NULL,
+  `dia_chi_chi_tiet` text DEFAULT NULL,
+  `quan_huyen` varchar(100) DEFAULT NULL,
+  `tinh_thanh` varchar(100) DEFAULT NULL,
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -479,10 +483,10 @@ CREATE TABLE `tbl_dangky_temp` (
 -- Dumping data for table `tbl_dangky_temp`
 --
 
-INSERT INTO `tbl_dangky_temp` (`id`, `ten_khachhang`, `email`, `dien_thoai`, `mat_khau`, `dia_chi`, `token`, `created_at`) VALUES
-(3, 'Dinh Phuc Thinh', 'subthinh5@gmail.com', '0931816175', '7ca4100f078350295c611e78355a57d4', '536 Au Co', '2f2bb0ac0f1329a552c06cc8f1e5132c', '2025-10-22 08:33:54'),
-(6, 'Dinh Phuc Thinh', 'thinhnice3@gmail.com', '0931816175', '7ca4100f078350295c611e78355a57d4', '536 Au Co', 'f64a9baf036c8095b3671d27bbd0ae2f', '2025-10-22 08:37:48'),
-(7, 'Dinh Phuc Thinh', 'asdasdd@gmail.com', '0931816175', 'ce9642a7df00bb973f5d9c55d5f67c49', '536 Au Co', '670ade207c251b721faa3104ed8bb6d5', '2025-10-22 13:04:42');
+INSERT INTO `tbl_dangky_temp` (`id`, `ten_khachhang`, `email`, `dien_thoai`, `mat_khau`, `dia_chi_chi_tiet`, `quan_huyen`, `tinh_thanh`, `token`, `created_at`) VALUES
+(3, 'Dinh Phuc Thinh', 'subthinh5@gmail.com', '0931816175', '7ca4100f078350295c611e78355a57d4', '536 Au Co', NULL, NULL, '2f2bb0ac0f1329a552c06cc8f1e5132c', '2025-10-22 08:33:54'),
+(6, 'Dinh Phuc Thinh', 'thinhnice3@gmail.com', '0931816175', '7ca4100f078350295c611e78355a57d4', '536 Au Co', NULL, NULL, 'f64a9baf036c8095b3671d27bbd0ae2f', '2025-10-22 08:37:48'),
+(7, 'Dinh Phuc Thinh', 'asdasdd@gmail.com', '0931816175', 'ce9642a7df00bb973f5d9c55d5f67c49', '536 Au Co', NULL, NULL, '670ade207c251b721faa3104ed8bb6d5', '2025-10-22 13:04:42');
 
 -- --------------------------------------------------------
 
@@ -537,7 +541,9 @@ CREATE TABLE `tbl_giaohang` (
   `id_shipping` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `phone` varchar(11) NOT NULL,
-  `address` varchar(200) NOT NULL,
+  `dia_chi_chi_tiet` varchar(200) NOT NULL,
+  `quan_huyen` varchar(100) DEFAULT NULL,
+  `tinh_thanh` varchar(100) DEFAULT NULL,
   `note` varchar(200) DEFAULT NULL,
   `id_dangky` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -546,16 +552,16 @@ CREATE TABLE `tbl_giaohang` (
 -- Dumping data for table `tbl_giaohang`
 --
 
-INSERT INTO `tbl_giaohang` (`id_shipping`, `name`, `phone`, `address`, `note`, `id_dangky`) VALUES
-(1, 'Nguyễn Ngọc Tuấn', '0768893544', 'xã Bà Điểm Hóc Môn', '', 14),
-(2, 'h', 'h', 'h', '', 25),
-(3, 'Thinh Dinh', '93181617', '536/43/68A Âu Cơ', '123123', 16),
-(4, 'Thinh Dinh', '93181617', '536/43/68A Âu Cơ', '123', 26),
-(5, 'Thinh Dinh', '0931816175', '536 Au Co', '', 27),
-(6, 'Trần Đăng Phát', '0779792312', 'Đồng Nai', '', 0),
-(7, 'Trần Đăng Phát', '0779792132', 'Đồng Nai', '', 32),
-(8, 'Minh Vương', '0768893544', 'Trường Đại học Sài Gòn', '', 33),
-(9, 'Thinh Dinhasd', '0931816174', '536/43/68A Âu C', 'GIAO CHAM THOI', 36);
+INSERT INTO `tbl_giaohang` (`id_shipping`, `name`, `phone`, `dia_chi_chi_tiet`, `quan_huyen`, `tinh_thanh`, `note`, `id_dangky`) VALUES
+(1, 'Nguyễn Ngọc Tuấn', '0768893544', 'xã Bà Điểm Hóc Môn', NULL, NULL, '', 14),
+(2, 'h', 'h', 'h', NULL, NULL, '', 25),
+(3, 'Thinh Dinh', '93181617', '536/43/68A Âu Cơ', NULL, NULL, '123123', 16),
+(4, 'Thinh Dinh', '93181617', '536/43/68A Âu Cơ', NULL, NULL, '123', 26),
+(5, 'Thinh Dinh', '0931816175', '536 Au Co', NULL, NULL, '', 27),
+(6, 'Trần Đăng Phát', '0779792312', 'Đồng Nai', NULL, NULL, '', 0),
+(7, 'Trần Đăng Phát', '0779792132', 'Đồng Nai', NULL, NULL, '', 32),
+(8, 'Minh Vương', '0768893544', 'Trường Đại học Sài Gòn', NULL, NULL, '', 33),
+(9, 'Thinh Dinhasd', '0931816174', '536/43/68A Âu C', 'Quận Tân Phú', 'Thành phố Hồ Chí Minh', 'GIAO CHAM THOI', 36);
 
 -- --------------------------------------------------------
 
@@ -918,7 +924,8 @@ INSERT INTO `tbl_sanpham_khuyenmai` (`id`, `id_sp`, `id_km`, `created_at`) VALUE
 (4, 143, 1, '2025-11-04 03:08:33'),
 (5, 144, 1, '2025-11-04 03:08:33'),
 (8, 150, 3, '2025-11-04 03:08:33'),
-(9, 221, 1, '2025-11-04 03:30:59');
+(9, 221, 1, '2025-11-04 03:30:59'),
+(10, 216, 3, '2025-11-10 04:58:44');
 
 -- --------------------------------------------------------
 
@@ -1691,7 +1698,7 @@ ALTER TABLE `tbl_sanpham`
 -- AUTO_INCREMENT for table `tbl_sanpham_khuyenmai`
 --
 ALTER TABLE `tbl_sanpham_khuyenmai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_sanpham_sizes`

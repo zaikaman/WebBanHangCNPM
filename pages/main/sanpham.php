@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="css/sanpham.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" type="text/css" href="css/reviews.css?v=<?php echo time(); ?>">
 <?php
 // Get main product info
 $sql_pro_info = "SELECT * FROM tbl_sanpham WHERE tbl_sanpham.id_sp = '$_GET[id]' LIMIT 1";
@@ -185,6 +186,112 @@ $is_in_stock = !empty($available_sizes);
     </form>
 </div>
 
+<!-- Product Reviews Section -->
+<div class="product-reviews-section">
+    <div class="reviews-container">
+        <h3 class="reviews-title">Đánh Giá Sản Phẩm</h3>
+        
+        <!-- Rating Summary -->
+        <div class="rating-summary" id="rating-summary">
+            <div class="rating-overview">
+                <div class="average-rating">
+                    <span class="rating-number" id="avg-rating">0</span>
+                    <div class="stars-display" id="stars-display">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="total-reviews" id="total-reviews">0 đánh giá</p>
+                </div>
+                
+                <div class="rating-bars">
+                    <div class="rating-bar-item">
+                        <span class="star-label">5 <i class="fas fa-star"></i></span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="bar-5" style="width: 0%"></div>
+                        </div>
+                        <span class="count" id="count-5">0</span>
+                    </div>
+                    <div class="rating-bar-item">
+                        <span class="star-label">4 <i class="fas fa-star"></i></span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="bar-4" style="width: 0%"></div>
+                        </div>
+                        <span class="count" id="count-4">0</span>
+                    </div>
+                    <div class="rating-bar-item">
+                        <span class="star-label">3 <i class="fas fa-star"></i></span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="bar-3" style="width: 0%"></div>
+                        </div>
+                        <span class="count" id="count-3">0</span>
+                    </div>
+                    <div class="rating-bar-item">
+                        <span class="star-label">2 <i class="fas fa-star"></i></span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="bar-2" style="width: 0%"></div>
+                        </div>
+                        <span class="count" id="count-2">0</span>
+                    </div>
+                    <div class="rating-bar-item">
+                        <span class="star-label">1 <i class="fas fa-star"></i></span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="bar-1" style="width: 0%"></div>
+                        </div>
+                        <span class="count" id="count-1">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Form -->
+        <?php if (isset($_SESSION['id_khachhang']) && isset($_SESSION['dang_ky'])): ?>
+        <div class="review-form-section">
+            <h4>Viết Đánh Giá Của Bạn</h4>
+            <form id="review-form" class="review-form">
+                <input type="hidden" name="id_sp" value="<?php echo $info['id_sp']; ?>">
+                
+                <div class="form-group">
+                    <label>Đánh giá của bạn:</label>
+                    <div class="star-rating" id="star-rating">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                    <input type="hidden" name="rating" id="rating-value" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-content">Nhận xét của bạn:</label>
+                    <textarea name="noi_dung" id="review-content" rows="4" placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-review-btn">Gửi Đánh Giá</button>
+            </form>
+            <div id="review-message" class="review-message"></div>
+        </div>
+        <?php else: ?>
+        <div class="login-to-review">
+            <p>Vui lòng <a href="index.php?quanly=dangnhap">đăng nhập</a> để đánh giá sản phẩm</p>
+        </div>
+        <?php endif; ?>
+
+        <!-- Reviews List -->
+        <div class="reviews-list" id="reviews-list">
+            <!-- Reviews will be loaded here by JavaScript -->
+        </div>
+        
+        <!-- Pagination -->
+        <div class="reviews-pagination" id="reviews-pagination">
+            <!-- Pagination will be loaded here -->
+        </div>
+    </div>
+</div>
+
 <!-- Related Products -->
 <div class="related-products">
     <div class="related-products-container">
@@ -274,3 +381,8 @@ $is_in_stock = !empty($available_sizes);
 </div>
 
 <script src="js/sanpham.js" defer></script>
+<script src="js/reviews.js" defer></script>
+<script>
+// Pass product ID to reviews.js
+window.productId = <?php echo $info['id_sp']; ?>;
+</script>

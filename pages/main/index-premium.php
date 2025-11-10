@@ -1,4 +1,7 @@
 <?php
+// Include rating helper
+require_once('includes/rating_helper.php');
+
 // Lấy dữ liệu sản phẩm
 if (isset($_GET['trang'])) {
     $page = $_GET['trang'];
@@ -232,15 +235,13 @@ if (!$featured_pro || !$newest_pro || !$categories) {
                                         </span>
                                     </div>
                                 <?php } ?>
+                                
+                                <?php
+                                // Lấy rating thực từ database
+                                $rating_data = getProductRating($row['id_sp'], $mysqli);
+                                ?>
                                 <div class="product-rating">
-                                    <div class="stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <span class="rating-count">(4.5)</span>
+                                    <?php echo generateStarsHTML($rating_data['avg_rating'], true, $rating_data['total_reviews']); ?>
                                 </div>
                             </div>
                         </a>
@@ -340,15 +341,13 @@ if (!$featured_pro || !$newest_pro || !$categories) {
                                         </span>
                                     </div>
                                 <?php } ?>
+                                
+                                <?php
+                                // Lấy rating thực từ database
+                                $rating_data = getProductRating($row['id_sp'], $mysqli);
+                                ?>
                                 <div class="product-rating">
-                                    <div class="stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <span class="rating-count">(4.5)</span>
+                                    <?php echo generateStarsHTML($rating_data['avg_rating'], true, $rating_data['total_reviews']); ?>
                                 </div>
                             </div>
                         </a>
@@ -425,15 +424,13 @@ if (!$featured_pro || !$newest_pro || !$categories) {
                                         <?php echo number_format($row['gia_sp'], 0, ',', '.'); ?>đ
                                     </span>
                                 </div>
+                                
+                                <?php
+                                // Lấy rating thực từ database
+                                $rating_data = getProductRating($row['id_sp'], $mysqli);
+                                ?>
                                 <div class="product-rating">
-                                    <div class="stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <span class="rating-count">(4.5)</span>
+                                    <?php echo generateStarsHTML($rating_data['avg_rating'], true, $rating_data['total_reviews']); ?>
                                 </div>
                             </div>
                         </a>
