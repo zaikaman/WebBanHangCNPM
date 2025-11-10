@@ -386,6 +386,7 @@
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -675,3 +676,39 @@
 .d-none {
     display: none;
 }
+
+/* ===================================
+   VIEW ALL BUTTON
+   =================================== */
+.btn-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 40px;
+    background: var(--primary-red);
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid var(--primary-red);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+.btn-view-all:hover {
+    background: transparent;
+    color: var(--primary-red);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 0, 33, 0.2);
+}
+
+.btn-view-all i {
+    transition: transform 0.3s ease;
+}
+
+.btn-view-all:hover i {
+    transform: translateX(5px);
+}
+

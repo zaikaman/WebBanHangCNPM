@@ -67,6 +67,12 @@
         include("pages/main/camon.php");
     } elseif ($des == 'thongtinnguoidung') {
         include("main/thongtinnguoidung.php");
+    } elseif ($des == 'featured') {
+        include("main/featured.php");
+    } elseif ($des == 'newest') {
+        include("main/newest.php");
+    } elseif ($des == 'discount') {
+        include("main/discount.php");
     } else {
         include("slideimg-premium.php");
         include("main/index-premium.php");
