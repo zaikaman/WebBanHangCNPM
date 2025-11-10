@@ -26,7 +26,9 @@ $pdf->Ln(5);
 
 // Lấy thông tin đơn hàng
 $code = $_GET['code'];
-$sql_don_hang = "SELECT hd.*, dk.ten_khachhang, dk.email, dk.dien_thoai, gh.address, gh.name as ten_nguoi_nhan, gh.phone as sdt_nguoi_nhan 
+$sql_don_hang = "SELECT hd.*, dk.ten_khachhang, dk.email, dk.dien_thoai, 
+                gh.dia_chi_chi_tiet, gh.quan_huyen, gh.tinh_thanh, 
+                gh.name as ten_nguoi_nhan, gh.phone as sdt_nguoi_nhan 
                 FROM tbl_hoadon hd 
                 LEFT JOIN tbl_dangky dk ON hd.id_khachhang = dk.id_dangky 
                 LEFT JOIN tbl_giaohang gh ON hd.cart_shipping = gh.id_shipping 
@@ -59,9 +61,22 @@ if (isset($info_don_hang['dien_thoai'])) {
     $pdf->Cell(0, 6, $info_don_hang['dien_thoai'], 0, 1, 'L');
 }
 
-if (isset($info_don_hang['address'])) {
-    $pdf->Cell(45, 6, 'Dia chi giao: ', 0, 0, 'L');
-    $pdf->Cell(0, 6, $info_don_hang['address'], 0, 1, 'L');
+if (isset($info_don_hang['dia_chi_chi_tiet']) || isset($info_don_hang['quan_huyen']) || isset($info_don_hang['tinh_thanh'])) {
+    $full_address = '';
+    if (!empty($info_don_hang['dia_chi_chi_tiet'])) {
+        $full_address .= $info_don_hang['dia_chi_chi_tiet'];
+    }
+    if (!empty($info_don_hang['quan_huyen'])) {
+        $full_address .= ($full_address ? ', ' : '') . $info_don_hang['quan_huyen'];
+    }
+    if (!empty($info_don_hang['tinh_thanh'])) {
+        $full_address .= ($full_address ? ', ' : '') . $info_don_hang['tinh_thanh'];
+    }
+    
+    if ($full_address) {
+        $pdf->Cell(45, 6, 'Dia chi giao: ', 0, 0, 'L');
+        $pdf->Cell(0, 6, $full_address, 0, 1, 'L');
+    }
 }
 
 $pdf->Ln(6);

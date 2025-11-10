@@ -60,11 +60,13 @@ $count_orders = $count_row['total'];
 // Tính tổng số trang
 $total_pages = ceil($count_orders / $limit);
 
-// Lấy dữ liệu đơn hàng theo trang
-$sql_lietke_dh = "SELECT * FROM tbl_hoadon, tbl_dangky 
-                  WHERE tbl_hoadon.id_khachhang = '" . $id_khachhang . "' 
-                  AND tbl_dangky.id_dangky = '" . $id_khachhang . "' 
-                  ORDER BY tbl_hoadon.id_gh DESC 
+// Lấy dữ liệu đơn hàng theo trang với thông tin vận chuyển
+$sql_lietke_dh = "SELECT h.*, dk.*, gh.dia_chi_chi_tiet, gh.quan_huyen, gh.tinh_thanh 
+                  FROM tbl_hoadon h
+                  INNER JOIN tbl_dangky dk ON h.id_khachhang = dk.id_dangky
+                  LEFT JOIN tbl_giaohang gh ON h.cart_shipping = gh.id_shipping
+                  WHERE h.id_khachhang = '" . $id_khachhang . "' 
+                  ORDER BY h.id_gh DESC 
                   LIMIT $limit OFFSET $offset";
 $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
 ?>
@@ -123,7 +125,19 @@ $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
                             <td data-label="Mã Đơn Hàng"><strong>#<?php echo $row['ma_gh'] ?></strong></td>
                             <td data-label="Địa Chỉ"> 
                                 <i class="fas fa-map-marker-alt text-danger me-1"></i>
-                                <?php echo $row['dia_chi'] ?>
+                                <?php 
+                                    $full_address = '';
+                                    if (!empty($row['dia_chi_chi_tiet'])) {
+                                        $full_address .= $row['dia_chi_chi_tiet'];
+                                    }
+                                    if (!empty($row['quan_huyen'])) {
+                                        $full_address .= ($full_address ? ', ' : '') . $row['quan_huyen'];
+                                    }
+                                    if (!empty($row['tinh_thanh'])) {
+                                        $full_address .= ($full_address ? ', ' : '') . $row['tinh_thanh'];
+                                    }
+                                    echo $full_address ? $full_address : 'Chưa cập nhật';
+                                ?>
                             </td>
                             <td data-label="Thanh Toán">
                                 <?php

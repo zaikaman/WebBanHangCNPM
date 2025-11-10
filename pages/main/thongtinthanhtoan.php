@@ -18,12 +18,16 @@
                     $row_get_vanchuyen = mysqli_fetch_array($sql_get_vanchuyen);
                     $name = $row_get_vanchuyen['name'];
                     $phone = $row_get_vanchuyen['phone'];
-                    $address = $row_get_vanchuyen['address'];
+                    $dia_chi_chi_tiet = $row_get_vanchuyen['dia_chi_chi_tiet'];
+                    $quan_huyen = $row_get_vanchuyen['quan_huyen'];
+                    $tinh_thanh = $row_get_vanchuyen['tinh_thanh'];
                     $note = $row_get_vanchuyen['note'];
                 } else {
                     $name = '';
                     $phone = '';
-                    $address = '';
+                    $dia_chi_chi_tiet = '';
+                    $quan_huyen = '';
+                    $tinh_thanh = '';
                     $note = '';
                 }
                 ?>
