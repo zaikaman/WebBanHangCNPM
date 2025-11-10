@@ -1,6 +1,5 @@
 <?php
-// Include promotion helper
-include('../../includes/promotion_helper.php');
+// Promotion helper đã được include trong index.php
 
 // Kiểm tra và lấy tham số id từ URL
 if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -49,6 +48,9 @@ if ($query_cate) {
                     $promotion = getActivePromotion($row_pro['id_sp'], $mysqli);
                     $gia_hien_thi = $row_pro['gia_sp'];
                     $has_promotion = false;
+                    
+                    // Debug: In ra thông tin khuyến mãi (chỉ để test, xóa sau)
+                    // echo "<!-- Product ID: " . $row_pro['id_sp'] . ", Has Promotion: " . ($promotion ? 'YES' : 'NO') . " -->";
                     
                     if ($promotion) {
                         $gia_hien_thi = calculatePromotionPrice($row_pro['gia_sp'], $promotion);

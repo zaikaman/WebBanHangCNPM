@@ -1,6 +1,5 @@
 <?php
-// Include promotion helper
-include('../../includes/promotion_helper.php');
+// Promotion helper đã được include trong index.php
 ?>
 <div class="main_with_sidebar">
     <?php

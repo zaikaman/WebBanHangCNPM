@@ -118,14 +118,34 @@ function countProductsByCategory($mysqli, $category_id) {
             <div class="products-grid">
                 <?php
                 while ($row = mysqli_fetch_array($new_pro)) {
-                    // Tính giá giảm (giả sử giảm 20% cho demo)
-                    $original_price = $row['gia_sp'] * 1.2;
+                    // Kiểm tra khuyến mãi từ database
+                    $promotion = getActivePromotion($row['id_sp'], $mysqli);
+                    $gia_hien_thi = $row['gia_sp'];
+                    $has_promotion = false;
+                    
+                    if ($promotion) {
+                        $gia_hien_thi = calculatePromotionPrice($row['gia_sp'], $promotion);
+                        $has_promotion = true;
+                    }
                 ?>
                     <div class="product-card-premium">
                         <a href="index.php?quanly=sanpham&id=<?php echo $row['id_sp']; ?>" 
                            style="text-decoration: none; color: inherit;">
                             <div class="product-image-wrapper">
-                                <?php if ($row['so_luong'] > 0) { ?>
+                                <?php 
+                                // Ưu tiên hiển thị badge khuyến mãi nếu có
+                                if ($has_promotion) { 
+                                ?>
+                                    <span class="product-badge">
+                                        <?php 
+                                        if ($promotion['loai_km'] == 'phan_tram') {
+                                            echo '-' . round($promotion['gia_tri_km']) . '%';
+                                        } else {
+                                            echo 'SALE';
+                                        }
+                                        ?>
+                                    </span>
+                                <?php } elseif ($row['so_luong'] > 0) { ?>
                                     <span class="product-badge">Mới</span>
                                 <?php } else { ?>
                                     <span class="product-badge" style="background: #999;">Hết Hàng</span>
@@ -148,14 +168,23 @@ function countProductsByCategory($mysqli, $category_id) {
                             <div class="product-info">
                                 <p class="product-category"><?php echo $row['name_sp']; ?></p>
                                 <h3 class="product-name"><?php echo $row['ten_sp']; ?></h3>
-                                <div class="product-price-wrapper">
-                                    <span class="product-price">
-                                        <?php echo number_format($row['gia_sp'], 0, ',', '.'); ?>đ
-                                    </span>
-                                    <span class="product-price-old">
-                                        <?php echo number_format($original_price, 0, ',', '.'); ?>đ
-                                    </span>
-                                </div>
+                                
+                                <?php if ($has_promotion) { ?>
+                                    <div class="product-price-wrapper">
+                                        <span class="product-price">
+                                            <?php echo number_format($gia_hien_thi, 0, ',', '.'); ?>đ
+                                        </span>
+                                        <span class="product-price-old">
+                                            <?php echo number_format($row['gia_sp'], 0, ',', '.'); ?>đ
+                                        </span>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="product-price-wrapper">
+                                        <span class="product-price">
+                                            <?php echo number_format($row['gia_sp'], 0, ',', '.'); ?>đ
+                                        </span>
+                                    </div>
+                                <?php } ?>
                                 <div class="product-rating">
                                     <div class="stars">
                                         <i class="fas fa-star"></i>

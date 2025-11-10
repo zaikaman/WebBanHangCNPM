@@ -278,11 +278,31 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
                                      alt="<?php echo htmlspecialchars($row_pro['ten_sp']); ?>"
                                      class="product-image-main">
                                 
-                                <?php if ($row_pro['tinh_trang'] == 1): ?>
+                                <?php 
+                                // Kiểm tra khuyến mãi để hiển thị badge
+                                $promotion_check = getActivePromotion($row_pro['id_sp'], $mysqli);
+                                if ($promotion_check) {
+                                    ?>
+                                    <span class="product-badge" style="background: #e74c3c;">
+                                        <?php 
+                                        if ($promotion_check['loai_km'] == 'phan_tram') {
+                                            echo '-' . round($promotion_check['gia_tri_km']) . '%';
+                                        } else {
+                                            echo 'SALE';
+                                        }
+                                        ?>
+                                    </span>
+                                    <?php
+                                } elseif ($row_pro['tinh_trang'] == 1) {
+                                    ?>
                                     <span class="product-badge">Mới</span>
-                                <?php else: ?>
+                                    <?php
+                                } else {
+                                    ?>
                                     <span class="product-badge out-of-stock">Hết hàng</span>
-                                <?php endif; ?>
+                                    <?php
+                                }
+                                ?>
                                 
                                 <div class="product-actions">
                                     <button class="product-action-btn" title="Yêu thích">
@@ -298,9 +318,32 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
                                 <div class="product-category"><?php echo htmlspecialchars($row_title['name_sp']); ?></div>
                                 <h3 class="product-name"><?php echo htmlspecialchars($row_pro['ten_sp']); ?></h3>
                                 
-                                <div class="product-price-wrapper">
-                                    <span class="product-price"><?php echo number_format($row_pro['gia_sp'], 0, ',', '.'); ?>₫</span>
-                                </div>
+                                <?php
+                                // Kiểm tra và hiển thị giá khuyến mãi
+                                $promotion = getActivePromotion($row_pro['id_sp'], $mysqli);
+                                if ($promotion) {
+                                    $gia_km = calculatePromotionPrice($row_pro['gia_sp'], $promotion);
+                                    ?>
+                                    <div class="product-price-wrapper">
+                                        <span class="product-price-original" style="text-decoration: line-through; color: #999; font-size: 0.85em; display: block;">
+                                            <?php echo number_format($row_pro['gia_sp'], 0, ',', '.'); ?>₫
+                                        </span>
+                                        <span class="product-price" style="color: #e74c3c; font-weight: bold;">
+                                            <?php echo number_format($gia_km, 0, ',', '.'); ?>₫
+                                        </span>
+                                        <span class="discount-badge" style="background: #e74c3c; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.75em; margin-left: 5px;">
+                                            -<?php echo calculateDiscountPercent($row_pro['gia_sp'], $gia_km); ?>%
+                                        </span>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="product-price-wrapper">
+                                        <span class="product-price"><?php echo number_format($row_pro['gia_sp'], 0, ',', '.'); ?>₫</span>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
                                 
                                 <?php if ($row_pro['tinh_trang'] == 1): ?>
                                     <div class="product-stock-status in-stock">

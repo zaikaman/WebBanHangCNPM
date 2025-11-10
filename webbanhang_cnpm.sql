@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 16, 2025 at 05:48 AM
+-- Generation Time: Nov 10, 2025 at 05:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -195,7 +195,10 @@ INSERT INTO `tbl_chat_history` (`id`, `email`, `session_id`, `message`, `respons
 (95, 'zaikaman123@gmail.com', 'chat_1757399865407_bw92k4aam', 'xin địa chỉ', 'Dạ chào bạn! Địa chỉ cửa hàng 7TCC của tụi mình là 273 An Dương Vương – Phường 3 – Quận 5 ạ. Bạn có cần mình hỗ trợ thêm thông tin gì nữa không ạ? ????\n', '2025-09-13 07:58:33'),
 (96, 'zaikaman123@gmail.com', 'chat_1757399865407_bw92k4aam', 'xin địa chỉ web', 'Chào bạn! Địa chỉ website chính thức của 7TCC là: https://7tcc.great-site.net ạ. Bạn có cần mình hỗ trợ thêm thông tin gì về sản phẩm hay chính sách của cửa hàng không ạ? Mình luôn sẵn sàng giúp đỡ! ????\n', '2025-09-13 08:01:31'),
 (97, 'zaikaman123@gmail.com', 'chat_1757755656160_2psxiq0st', 'hi', 'Chào bạn! 7TCC rất vui được hỗ trợ bạn. Bạn đang quan tâm đến sản phẩm nào của chúng mình ạ? Hãy cho mình biết để mình tư vấn chi tiết hơn nhé! ????\n', '2025-09-13 09:27:39'),
-(98, 'zaikaman123@gmail.com', 'chat_1757759592013_x2jdnzq7s', 'hi', 'Chào bạn! Mình là trợ lý AI của 7TCC, rất vui được hỗ trợ bạn. Bạn đang quan tâm đến sản phẩm nào của 7TCC bên mình ạ? Mình có thể cung cấp thông tin chi tiết về sản phẩm, hướng dẫn chọn size, giải đáp thắc mắc về chính sách, hoặc hỗ trợ bất kỳ vấn đề nào khác liên quan đến đơn hàng. Bạn cứ thoải mái chia sẻ nhé! ????\n', '2025-09-13 10:34:07');
+(98, 'zaikaman123@gmail.com', 'chat_1757759592013_x2jdnzq7s', 'hi', 'Chào bạn! Mình là trợ lý AI của 7TCC, rất vui được hỗ trợ bạn. Bạn đang quan tâm đến sản phẩm nào của 7TCC bên mình ạ? Mình có thể cung cấp thông tin chi tiết về sản phẩm, hướng dẫn chọn size, giải đáp thắc mắc về chính sách, hoặc hỗ trợ bất kỳ vấn đề nào khác liên quan đến đơn hàng. Bạn cứ thoải mái chia sẻ nhé! ????\n', '2025-09-13 10:34:07'),
+(99, NULL, 'chat_1761116171780_9ec15q0rt', 'hi', 'Chào bạn! 7TCC rất vui được hỗ trợ bạn. Bạn đang quan tâm đến sản phẩm nào của bên mình ạ? Bên mình có rất nhiều mẫu áo thể thao đẹp và chất lượng cho bóng đá, bóng rổ, bóng chuyền và cầu lông đó ạ! ????\n', '2025-10-22 06:58:38'),
+(100, 'zaikaman123@gmail.com', 'chat_1761116171780_9ec15q0rt', 'toi muon mua ao cau long', 'Dạ chào bạn! Bạn muốn mua áo cầu lông ạ? Bên 7TCC có rất nhiều mẫu áo cầu lông nam với nhiều kiểu dáng và mức giá khác nhau. Bạn có muốn em giới thiệu một vài mẫu đang được ưa chuộng nhất không ạ? Hoặc bạn có thể cho em biết bạn thích loại áo như thế nào (ví dụ: kiểu dáng ôm hay rộng, chất liệu thoáng mát, màu sắc yêu thích...) để em tư vấn cụ thể hơn ạ! ????\n', '2025-10-22 08:51:28'),
+(101, 'zaikaman123@gmail.com', 'chat_1761116171780_9ec15q0rt', 'co cac ao nao', 'Dạ, bên 7TCC có rất nhiều mẫu áo cầu lông nam ạ. Để em giới thiệu đến bạn một vài mẫu nổi bật nhé:\n\n*   **Áo cầu lông nam Pro Smash (Mã SP: ACL001):** Giá 350.000đ, số lượng còn lại 99. Đây là mẫu áo dành cho các vận động viên chuyên nghiệp, được thiết kế để tối ưu hiệu suất trên sân.\n*   **Áo cầu lông nam FeatherLight (Mã SP: ACL002):** Giá 320.000đ, số lượng còn lại 110. Mẫu áo này siêu nhẹ, giúp bạn dễ dàng vận động và thoải mái trong suốt trận đấu.\n*   **Áo cầu lông nam PowerStroke (Mã SP: ACL003):** Giá 400.000đ, số lượng còn lại 90. Nếu bạn muốn một chiếc áo hỗ trợ sức mạnh trong từng cú đánh, thì đây là lựa chọn tuyệt vời.\n*   **Áo cầu lông nam AeroFlow (Mã SP: ACL004):** Giá 450.000đ, số lượng còn lại 85. Mẫu áo này có khả năng lưu thông khí vượt trội, giúp bạn luôn khô thoáng và thoải mái.\n\nNgoài ra, bên em còn rất nhiều mẫu khác với nhiều kiểu dáng và mức giá khác nhau. Anh/chị có thể xem thêm tại website của 7TCC: [https://7tcc.great-site.net](https://7tcc.great-site.net) nhé ạ.\n\nNếu anh/chị có bất kỳ yêu cầu cụ thể nào về kiểu dáng, màu sắc, hoặc mức giá, cứ cho em biết để em tư vấn kỹ hơn nha!\n', '2025-10-22 08:51:48');
 
 -- --------------------------------------------------------
 
@@ -417,7 +420,13 @@ INSERT INTO `tbl_chitiet_gh` (`id_ctgh`, `ma_gh`, `id_sp`, `so_luong_mua`, `size
 (212, '674c64059cc84', 222, 1, 'XL'),
 (213, '674c6440cc0b3', 221, 1, 'XXL'),
 (0, '68c40966246ad', 221, 10, 'XL'),
-(0, '68c82da16256e', 221, 1, 'S');
+(0, '68c82da16256e', 221, 1, 'S'),
+(0, '68f88288c3ac3', 221, 1, 'S'),
+(0, '1761116830', 221, 1, 'S'),
+(0, '68f88a1041e80', 197, 1, 'S'),
+(0, '68f897f03d03c', 221, 1, 'S'),
+(0, '68f8a0aeca728', 218, 1, 'S'),
+(0, '68f8a0e40256b', 221, 1, 'S');
 
 -- --------------------------------------------------------
 
@@ -465,6 +474,15 @@ CREATE TABLE `tbl_dangky_temp` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_dangky_temp`
+--
+
+INSERT INTO `tbl_dangky_temp` (`id`, `ten_khachhang`, `email`, `dien_thoai`, `mat_khau`, `dia_chi`, `token`, `created_at`) VALUES
+(3, 'Dinh Phuc Thinh', 'subthinh5@gmail.com', '0931816175', '7ca4100f078350295c611e78355a57d4', '536 Au Co', '2f2bb0ac0f1329a552c06cc8f1e5132c', '2025-10-22 08:33:54'),
+(6, 'Dinh Phuc Thinh', 'thinhnice3@gmail.com', '0931816175', '7ca4100f078350295c611e78355a57d4', '536 Au Co', 'f64a9baf036c8095b3671d27bbd0ae2f', '2025-10-22 08:37:48'),
+(7, 'Dinh Phuc Thinh', 'asdasdd@gmail.com', '0931816175', 'ce9642a7df00bb973f5d9c55d5f67c49', '536 Au Co', '670ade207c251b721faa3104ed8bb6d5', '2025-10-22 13:04:42');
 
 -- --------------------------------------------------------
 
@@ -537,7 +555,7 @@ INSERT INTO `tbl_giaohang` (`id_shipping`, `name`, `phone`, `address`, `note`, `
 (6, 'Trần Đăng Phát', '0779792312', 'Đồng Nai', '', 0),
 (7, 'Trần Đăng Phát', '0779792132', 'Đồng Nai', '', 32),
 (8, 'Minh Vương', '0768893544', 'Trường Đại học Sài Gòn', '', 33),
-(9, 'Thinh Dinh', '0931816175', '536/43/68A Âu Cơ', '', 36);
+(9, 'Thinh Dinhasd', '0931816174', '536/43/68A Âu C', 'GIAO CHAM THOI', 36);
 
 -- --------------------------------------------------------
 
@@ -665,7 +683,41 @@ INSERT INTO `tbl_hoadon` (`id_gh`, `id_khachhang`, `ma_gh`, `cart_date`, `cart_p
 (222, 36, '68c125f6a3aa1', '2025-09-10 14:17:10', 'tienmat', 9, 0),
 (223, 36, '1757507613', '2025-09-10 19:35:02', 'momo', 9, 0),
 (224, 36, '68c40966246ad', '2025-09-12 18:52:10', 'tienmat', 9, 1),
-(225, 36, '68c82da16256e', '2025-09-15 22:15:45', 'tienmat', 9, 2);
+(225, 36, '68c82da16256e', '2025-09-15 22:15:45', 'tienmat', 9, 2),
+(226, 36, '68f88288c3ac3', '2025-10-22 14:06:48', 'tienmat', 9, 1),
+(227, 36, '1761116830', '2025-10-22 14:07:36', 'momo', 9, 1),
+(228, 36, '68f88a1041e80', '2025-10-22 14:39:19', 'vnpay', 9, 1),
+(229, 36, '68f897f03d03c', '2025-10-22 15:38:08', 'tienmat', 9, 1),
+(230, 36, '68f8a0aeca728', '2025-10-22 16:15:26', 'tienmat', 9, 2),
+(231, 36, '68f8a0e40256b', '2025-10-22 16:16:32', 'vnpay', 9, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_khuyenmai`
+--
+
+CREATE TABLE `tbl_khuyenmai` (
+  `id_km` int(11) NOT NULL,
+  `ten_km` varchar(255) NOT NULL COMMENT 'Tên chương trình khuyến mãi',
+  `mo_ta` text DEFAULT NULL COMMENT 'Mô tả chi tiết',
+  `loai_km` enum('phan_tram','tien_mat','gia_moi') NOT NULL COMMENT 'Loại: phần trăm, tiền mặt, giá mới',
+  `gia_tri_km` decimal(10,2) NOT NULL COMMENT 'Giá trị khuyến mãi',
+  `ngay_bat_dau` datetime NOT NULL,
+  `ngay_ket_thuc` datetime NOT NULL,
+  `trang_thai` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1: Kích hoạt, 0: Tắt',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Bảng quản lý khuyến mãi';
+
+--
+-- Dumping data for table `tbl_khuyenmai`
+--
+
+INSERT INTO `tbl_khuyenmai` (`id_km`, `ten_km`, `mo_ta`, `loai_km`, `gia_tri_km`, `ngay_bat_dau`, `ngay_ket_thuc`, `trang_thai`, `created_at`, `updated_at`) VALUES
+(1, 'Giảm 20% mùa World Cup', 'Giảm giá 20% cho tất cả áo bóng đá nhân dịp World Cup', 'phan_tram', 20.00, '2025-11-01 00:00:00', '2025-12-31 23:59:59', 1, '2025-11-04 03:08:33', '2025-11-04 03:08:33'),
+(2, 'Flash Sale 50K', 'Giảm ngay 50,000đ cho đơn hàng từ 300,000đ', 'tien_mat', 50000.00, '2025-11-04 00:00:00', '2025-11-10 23:59:59', 1, '2025-11-04 03:08:33', '2025-11-04 03:08:33'),
+(3, 'Giá đặc biệt áo MU', 'Giá ưu đãi đặc biệt chỉ 299,000đ', 'gia_moi', 299000.00, '2025-11-04 00:00:00', '2025-11-30 23:59:59', 1, '2025-11-04 03:08:33', '2025-11-04 03:08:33');
 
 -- --------------------------------------------------------
 
@@ -738,7 +790,8 @@ INSERT INTO `tbl_momo` (`id_momo`, `partner_code`, `order_id`, `amount`, `order_
 (28, 'MOMOBKUN20180529', 1757484202, '400000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1757484202'),
 (29, 'MOMOBKUN20180529', 1757484202, '400000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1757484202'),
 (30, 'MOMOBKUN20180529', 1757484374, '400000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1757484374'),
-(31, 'MOMOBKUN20180529', 1757507613, '1200000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1757507613');
+(31, 'MOMOBKUN20180529', 1757507613, '1200000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, 'napas', '1757507613'),
+(32, 'MOMOBKUN20180529', 1761116830, '400000', 'Thanh toán qua MoMo ATM', 'momo_wallet', 2147483647, '', '1761116830');
 
 -- --------------------------------------------------------
 
@@ -814,7 +867,7 @@ INSERT INTO `tbl_sanpham` (`id_sp`, `ten_sp`, `ma_sp`, `gia_sp`, `so_luong`, `so
 (194, 'Áo bóng chuyền nam Thunder Strike', 'ABC007', 410000, 90, 90, 'bc7.jpg', 'Áo bóng chuyền họa tiết sấm sét.', 'Họa tiết sấm sét mạnh mẽ là điểm nhấn chính của Thunder Strike. Mẫu áo này được thiết kế cho những ai muốn thể hiện cá tính trên sân bóng. Chất liệu cao cấp giúp áo bền bỉ, không phai màu sau nhiều lần giặt. Đường cắt may khéo léo đảm bảo sự thoải mái tối đa.', 66, 1),
 (195, 'Áo bóng chuyền nam EnergyBoost', 'ABC008', 390000, 95, 94, 'bc8.jpg', 'Áo bóng chuyền hỗ trợ hiệu suất tối đa.', 'EnergyBoost là mẫu áo bóng chuyền hỗ trợ tối đa cho các vận động viên muốn tăng cường hiệu suất. Công nghệ dệt vải tiên tiến giúp giảm sức cản gió, tăng độ bền và giảm mệt mỏi. Áo còn được bổ sung khả năng kháng khuẩn, giữ cơ thể luôn tươi mới.', 66, 1),
 (196, 'Áo bóng chuyền nam SummerBreeze', 'ABC009', 360000, 80, 79, 'bc9.jpg', 'Áo bóng chuyền thoáng mát mùa hè.', 'Với SummerBreeze, bạn không còn phải lo lắng về cái nóng của mùa hè. Chất liệu vải siêu thoáng, nhẹ như lông vũ giúp bạn dễ dàng di chuyển. Mẫu áo này cũng phù hợp cho các hoạt động thể thao ngoài trời khác, mang lại cảm giác dễ chịu suốt cả ngày.', 66, 1),
-(197, 'Áo bóng chuyền nam Storm Defender', 'ABC010', 420000, 70, 69, 'bc10.jpg', 'Áo bóng chuyền chất liệu chống thấm.', 'Storm Defender được thiết kế đặc biệt để bảo vệ cơ thể trong điều kiện ẩm ướt. Chất liệu chống thấm nước kết hợp với khả năng thoát khí tốt giúp áo luôn khô ráo. Sản phẩm phù hợp cho các vận động viên thi đấu ngoài trời.', 66, 1),
+(197, 'Áo bóng chuyền nam Storm Defender', 'ABC010', 420000, 70, 68, 'bc10.jpg', 'Áo bóng chuyền chất liệu chống thấm.', 'Storm Defender được thiết kế đặc biệt để bảo vệ cơ thể trong điều kiện ẩm ướt. Chất liệu chống thấm nước kết hợp với khả năng thoát khí tốt giúp áo luôn khô ráo. Sản phẩm phù hợp cho các vận động viên thi đấu ngoài trời.', 66, 1),
 (198, 'Áo bóng chuyền nam Victory Line', 'ABC011', 350000, 100, 99, 'bc11.jpg', 'Áo bóng chuyền cho người chiến thắng.', 'Mẫu áo Victory Line được thiết kế dành riêng cho những vận động viên yêu thích sự đột phá và tinh thần chiến thắng. Đường may chắc chắn, phối màu táo bạo giúp áo luôn nổi bật trên sân. Đây là mẫu áo được nhiều đội bóng chuyên nghiệp tin dùng.', 66, 1),
 (199, 'Áo bóng chuyền nam SprintFlow', 'ABC012', 340000, 120, 118, 'bc12.jpg', 'Áo bóng chuyền dành cho người yêu tốc độ.', 'SprintFlow mang đến cảm giác nhẹ nhàng và thoải mái cho các vận động viên. Công nghệ vải Aeroflow giúp tăng tốc độ di chuyển và giảm nhiệt độ cơ thể. Mẫu áo phù hợp cho các trận đấu căng thẳng yêu cầu hiệu suất cao.', 66, 1),
 (200, 'Áo bóng chuyền nam Diamond Edge', 'ABC013', 450000, 75, 75, 'bc13.jpg', 'Áo bóng chuyền cao cấp với đường viền sắc nét.', 'Diamond Edge được thiết kế để tôn lên vẻ ngoài sang trọng và mạnh mẽ. Chất liệu cao cấp kết hợp với đường viền sắc nét tạo nên sự khác biệt. Áo cũng được trang bị khả năng chống mài mòn, đảm bảo độ bền lâu dài.', 66, 1),
@@ -836,10 +889,36 @@ INSERT INTO `tbl_sanpham` (`id_sp`, `ten_sp`, `ma_sp`, `gia_sp`, `so_luong`, `so
 (215, 'Áo cầu lông nam BladeRunner', 'ACL013', 390000, 100, 96, 'cl13.jpg', 'Áo cầu lông bền bỉ và sắc sảo.', 'BladeRunner là mẫu áo được thiết kế cho những người yêu thích sự mạnh mẽ. Chất liệu vải bền bỉ, đường may chắc chắn giúp áo giữ nguyên dáng sau nhiều lần giặt. Mẫu áo này mang lại sự thoải mái và tự tin trong suốt trận đấu.', 67, 1),
 (216, 'Áo cầu lông nam AeroStrike', 'ACL014', 410000, 110, 110, 'cl14.jpg', 'Áo cầu lông với khả năng làm mát tuyệt vời.', 'AeroStrike sử dụng công nghệ làm mát tiên tiến, mang lại sự thoải mái và nhẹ nhàng trong từng chuyển động. Sản phẩm còn được tích hợp khả năng chống mùi, giúp bạn tự tin thi đấu cả ngày.', 67, 1),
 (217, 'Áo cầu lông nam Supreme Control', 'ACL015', 450000, 70, 70, 'cl15.jpg', 'Áo cầu lông kiểm soát tối ưu.', 'Supreme Control mang lại khả năng kiểm soát tối ưu trong mọi pha cầu. Với chất liệu co giãn 4 chiều, áo giúp vận động viên dễ dàng thực hiện các động tác kỹ thuật khó. Đây là lựa chọn hoàn hảo cho những ai yêu thích sự chính xác và hiệu suất.', 67, 1),
-(218, 'Áo cầu lông nam SpeedFlex', 'ACL016', 360000, 100, 93, 'cl16.jpg', 'Áo cầu lông nhanh chóng, linh hoạt.', 'SpeedFlex được thiết kế cho những ai yêu thích sự linh hoạt và tốc độ. Với chất liệu nhẹ và co giãn, áo giúp bạn di chuyển dễ dàng trong mọi trận đấu. Thiết kế thể thao, trẻ trung phù hợp với nhiều đối tượng vận động viên.', 67, 1),
+(218, 'Áo cầu lông nam SpeedFlex', 'ACL016', 360000, 100, 92, 'cl16.jpg', 'Áo cầu lông nhanh chóng, linh hoạt.', 'SpeedFlex được thiết kế cho những ai yêu thích sự linh hoạt và tốc độ. Với chất liệu nhẹ và co giãn, áo giúp bạn di chuyển dễ dàng trong mọi trận đấu. Thiết kế thể thao, trẻ trung phù hợp với nhiều đối tượng vận động viên.', 67, 1),
 (219, 'Áo cầu lông nam TurboSpeed', 'ACL017', 380000, 95, 92, 'cl17.jpg', 'Áo cầu lông sở hữu siêu tốc độ.', 'TurboSpeed mang đến cảm giác tốc độ tuyệt vời nhờ thiết kế ôm sát và chất liệu vải siêu nhẹ. Áo giúp bạn đạt được tốc độ tối đa trong mọi chuyển động. Dễ dàng giặt sạch và giữ màu sắc lâu dài.', 67, 1),
 (220, 'Áo cầu lông nam UltraStrike', 'ACL018', 420000, 85, 75, 'cl18.jpg', 'Áo cầu lông cho chiến thuật tấn công.', 'UltraStrike là sự lựa chọn tuyệt vời cho những vận động viên yêu thích lối chơi tấn công. Chất liệu vải giúp thấm hút mồ hôi hiệu quả, giữ cơ thể khô ráo và thoải mái suốt trận đấu. Họa tiết mạnh mẽ, phù hợp với những pha tấn công quyết đoán.', 67, 1),
-(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 40, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', 'PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1);
+(221, 'Áo cầu lông nam PowerFlex', 'ACL019', 400000, 90, 36, 'cl19.jpg', 'Áo cầu lông với sự kết hợp giữa sức mạnh và linh hoạt.', 'PowerFlex được thiết kế đặc biệt với chất liệu co giãn giúp bạn dễ dàng thực hiện mọi động tác mà không lo hạn chế. Đường may chắc chắn, đồng thời hỗ trợ tối đa các vận động viên trong những pha cầu mạnh mẽ.', 67, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_sanpham_khuyenmai`
+--
+
+CREATE TABLE `tbl_sanpham_khuyenmai` (
+  `id` int(11) NOT NULL,
+  `id_sp` int(11) NOT NULL COMMENT 'ID sản phẩm',
+  `id_km` int(11) NOT NULL COMMENT 'ID khuyến mãi',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Bảng liên kết sản phẩm và khuyến mãi';
+
+--
+-- Dumping data for table `tbl_sanpham_khuyenmai`
+--
+
+INSERT INTO `tbl_sanpham_khuyenmai` (`id`, `id_sp`, `id_km`, `created_at`) VALUES
+(1, 140, 1, '2025-11-04 03:08:33'),
+(2, 141, 1, '2025-11-04 03:08:33'),
+(3, 142, 1, '2025-11-04 03:08:33'),
+(4, 143, 1, '2025-11-04 03:08:33'),
+(5, 144, 1, '2025-11-04 03:08:33'),
+(8, 150, 3, '2025-11-04 03:08:33'),
+(9, 221, 1, '2025-11-04 03:30:59');
 
 -- --------------------------------------------------------
 
@@ -1209,7 +1288,7 @@ INSERT INTO `tbl_sanpham_sizes` (`id`, `id_sp`, `size`, `so_luong`) VALUES
 (348, 217, 'L', 14),
 (349, 217, 'XL', 14),
 (350, 217, 'XXL', 14),
-(351, 218, 'S', 18),
+(351, 218, 'S', 17),
 (352, 218, 'M', 19),
 (353, 218, 'L', 19),
 (354, 218, 'XL', 19),
@@ -1224,7 +1303,7 @@ INSERT INTO `tbl_sanpham_sizes` (`id`, `id_sp`, `size`, `so_luong`) VALUES
 (363, 220, 'L', 15),
 (364, 220, 'XL', 15),
 (365, 220, 'XXL', 15),
-(366, 221, 'S', 9),
+(366, 221, 'S', 7),
 (367, 221, 'M', 11),
 (368, 221, 'L', 10),
 (369, 221, 'XL', 0),
@@ -1271,7 +1350,8 @@ INSERT INTO `tbl_thongke` (`id`, `ngaydat`, `donhang`, `doanhthu`, `soluongdaban
 (28, '2024-11-19', 2, '2000000', 8),
 (29, '2024-12-01', 22, '10270000', 27),
 (30, '2025-09-10', 1, '1200000', 3),
-(31, '2025-09-11', 3, '1220000', 3);
+(31, '2025-09-11', 3, '1220000', 3),
+(32, '2025-10-22', 1, '400000', 1);
 
 -- --------------------------------------------------------
 
@@ -1320,7 +1400,9 @@ INSERT INTO `tbl_vnpay` (`id_vnpay`, `vnp_amount`, `vnp_bankcode`, `vnp_banktran
 (38, '35000000', 'NCB', 'VNP14711638', 'ATM', 'Thanh toán đơn hàng', '20241201195553', 'IZK6416P', '14711638', '674c5cdbb8eb6'),
 (39, '40000000', 'NCB', 'VNP15163789', 'ATM', 'Thanh toán đơn hàng', '20250910131348', 'IZK6416P', '15163789', '68c116b16a364'),
 (40, '42000000', 'NCB', 'VNP15163790', 'ATM', 'Thanh toán đơn hàng', '20250910131433', 'IZK6416P', '15163790', '68c116e973eea'),
-(41, '42000000', 'NCB', 'VNP15163793', 'ATM', 'Thanh toán đơn hàng', '20250910131615', 'IZK6416P', '15163793', '68c11748a7ee9');
+(41, '42000000', 'NCB', 'VNP15163793', 'ATM', 'Thanh toán đơn hàng', '20250910131615', 'IZK6416P', '15163793', '68c11748a7ee9'),
+(42, '42000000', 'VNPAY', '', 'QRCODE', 'Thanh toán đơn hàng', '20251022144040', 'IZK6416P', '0', '68f88a1041e80'),
+(43, '40000000', 'VNPAY', '', 'QRCODE', 'Thanh toán đơn hàng', '20251022161803', 'IZK6416P', '0', '68f8a0e40256b');
 
 -- --------------------------------------------------------
 
@@ -1343,7 +1425,47 @@ CREATE TABLE `tbl_xacnhanemail` (
 
 INSERT INTO `tbl_xacnhanemail` (`id`, `email`, `token`, `created_at`, `verified`, `verified_at`) VALUES
 (22, 'zaikaman123@gmail.com', 'ef88dfbaa4a7221fc47bc3cfbe767790', '2025-09-09 05:16:51', 1, '2025-09-09 05:17:16'),
-(28, 'subthinh18@gmail.com', 'c5e2f55a24f783f4672befe4e0cae55f', '2025-09-12 16:58:37', 1, '2025-09-12 16:58:48');
+(28, 'subthinh18@gmail.com', 'c5e2f55a24f783f4672befe4e0cae55f', '2025-09-12 16:58:37', 1, '2025-09-12 16:58:48'),
+(31, 'subthinh5@gmail.com', '2f2bb0ac0f1329a552c06cc8f1e5132c', '2025-10-22 08:33:54', 0, NULL),
+(34, 'thinhnice3@gmail.com', 'f64a9baf036c8095b3671d27bbd0ae2f', '2025-10-22 08:37:48', 0, NULL),
+(35, 'asdasdd@gmail.com', '670ade207c251b721faa3104ed8bb6d5', '2025-10-22 13:04:42', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_sanpham_khuyenmai`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_sanpham_khuyenmai` (
+`id_sp` int(11)
+,`ten_sp` varchar(200)
+,`ma_sp` varchar(100)
+,`gia_sp` int(11)
+,`so_luong` int(11)
+,`so_luong_con_lai` int(11)
+,`hinh_anh` varchar(50)
+,`tom_tat` text
+,`noi_dung` longtext
+,`id_dm` int(11)
+,`tinh_trang` int(11)
+,`id_km` int(11)
+,`ten_km` varchar(255)
+,`loai_km` enum('phan_tram','tien_mat','gia_moi')
+,`gia_tri_km` decimal(10,2)
+,`ngay_bat_dau` datetime
+,`ngay_ket_thuc` datetime
+,`trang_thai_km` tinyint(1)
+,`gia_sau_km` decimal(25,6)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_sanpham_khuyenmai`
+--
+DROP TABLE IF EXISTS `view_sanpham_khuyenmai`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_sanpham_khuyenmai`  AS SELECT `sp`.`id_sp` AS `id_sp`, `sp`.`ten_sp` AS `ten_sp`, `sp`.`ma_sp` AS `ma_sp`, `sp`.`gia_sp` AS `gia_sp`, `sp`.`so_luong` AS `so_luong`, `sp`.`so_luong_con_lai` AS `so_luong_con_lai`, `sp`.`hinh_anh` AS `hinh_anh`, `sp`.`tom_tat` AS `tom_tat`, `sp`.`noi_dung` AS `noi_dung`, `sp`.`id_dm` AS `id_dm`, `sp`.`tinh_trang` AS `tinh_trang`, `km`.`id_km` AS `id_km`, `km`.`ten_km` AS `ten_km`, `km`.`loai_km` AS `loai_km`, `km`.`gia_tri_km` AS `gia_tri_km`, `km`.`ngay_bat_dau` AS `ngay_bat_dau`, `km`.`ngay_ket_thuc` AS `ngay_ket_thuc`, `km`.`trang_thai` AS `trang_thai_km`, CASE WHEN `km`.`loai_km` = 'phan_tram' THEN `sp`.`gia_sp`* (1 - `km`.`gia_tri_km` / 100) WHEN `km`.`loai_km` = 'tien_mat' THEN `sp`.`gia_sp`- `km`.`gia_tri_km` WHEN `km`.`loai_km` = 'gia_moi' THEN `km`.`gia_tri_km` ELSE `sp`.`gia_sp` END AS `gia_sau_km` FROM ((`tbl_sanpham` `sp` left join `tbl_sanpham_khuyenmai` `spkm` on(`sp`.`id_sp` = `spkm`.`id_sp`)) left join `tbl_khuyenmai` `km` on(`spkm`.`id_km` = `km`.`id_km` and `km`.`trang_thai` = 1 and current_timestamp() between `km`.`ngay_bat_dau` and `km`.`ngay_ket_thuc`)) ;
 
 --
 -- Indexes for dumped tables
@@ -1415,6 +1537,14 @@ ALTER TABLE `tbl_hoadon`
   ADD PRIMARY KEY (`id_gh`);
 
 --
+-- Indexes for table `tbl_khuyenmai`
+--
+ALTER TABLE `tbl_khuyenmai`
+  ADD PRIMARY KEY (`id_km`),
+  ADD KEY `idx_ngay` (`ngay_bat_dau`,`ngay_ket_thuc`),
+  ADD KEY `idx_trang_thai` (`trang_thai`);
+
+--
 -- Indexes for table `tbl_lienhe`
 --
 ALTER TABLE `tbl_lienhe`
@@ -1431,6 +1561,15 @@ ALTER TABLE `tbl_momo`
 --
 ALTER TABLE `tbl_sanpham`
   ADD PRIMARY KEY (`id_sp`);
+
+--
+-- Indexes for table `tbl_sanpham_khuyenmai`
+--
+ALTER TABLE `tbl_sanpham_khuyenmai`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_product_promotion` (`id_sp`,`id_km`),
+  ADD KEY `fk_sp` (`id_sp`),
+  ADD KEY `fk_km` (`id_km`);
 
 --
 -- Indexes for table `tbl_sanpham_sizes`
@@ -1480,7 +1619,7 @@ ALTER TABLE `tbl_baiviet`
 -- AUTO_INCREMENT for table `tbl_chat_history`
 --
 ALTER TABLE `tbl_chat_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `tbl_dangky`
@@ -1492,7 +1631,7 @@ ALTER TABLE `tbl_dangky`
 -- AUTO_INCREMENT for table `tbl_dangky_temp`
 --
 ALTER TABLE `tbl_dangky_temp`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_danhmucqa`
@@ -1516,13 +1655,19 @@ ALTER TABLE `tbl_giaohang`
 -- AUTO_INCREMENT for table `tbl_giohangtam`
 --
 ALTER TABLE `tbl_giohangtam`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `tbl_hoadon`
 --
 ALTER TABLE `tbl_hoadon`
-  MODIFY `id_gh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
+  MODIFY `id_gh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;
+
+--
+-- AUTO_INCREMENT for table `tbl_khuyenmai`
+--
+ALTER TABLE `tbl_khuyenmai`
+  MODIFY `id_km` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_lienhe`
@@ -1534,13 +1679,19 @@ ALTER TABLE `tbl_lienhe`
 -- AUTO_INCREMENT for table `tbl_momo`
 --
 ALTER TABLE `tbl_momo`
-  MODIFY `id_momo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_momo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `tbl_sanpham`
 --
 ALTER TABLE `tbl_sanpham`
   MODIFY `id_sp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
+
+--
+-- AUTO_INCREMENT for table `tbl_sanpham_khuyenmai`
+--
+ALTER TABLE `tbl_sanpham_khuyenmai`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_sanpham_sizes`
@@ -1552,23 +1703,30 @@ ALTER TABLE `tbl_sanpham_sizes`
 -- AUTO_INCREMENT for table `tbl_thongke`
 --
 ALTER TABLE `tbl_thongke`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `tbl_vnpay`
 --
 ALTER TABLE `tbl_vnpay`
-  MODIFY `id_vnpay` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_vnpay` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `tbl_xacnhanemail`
 --
 ALTER TABLE `tbl_xacnhanemail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `tbl_sanpham_khuyenmai`
+--
+ALTER TABLE `tbl_sanpham_khuyenmai`
+  ADD CONSTRAINT `fk_km` FOREIGN KEY (`id_km`) REFERENCES `tbl_khuyenmai` (`id_km`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_sp` FOREIGN KEY (`id_sp`) REFERENCES `tbl_sanpham` (`id_sp`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tbl_sanpham_sizes`
