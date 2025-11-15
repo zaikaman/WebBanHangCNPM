@@ -25,12 +25,13 @@ function validateProduct($data, $mysqli, $isEdit = false, $currentId = null) {
         $errors[] = 'Giá sản phẩm không được để trống';
     }
     
-    if(empty(trim($data['so_luong']))) {
-        $errors[] = 'Số lượng không được để trống';
-    }
+    // Disable quantity empty check - allow 0 quantity for specific sizes
+    // if(empty(trim($data['so_luong']))) {
+    //     $errors[] = 'Số lượng không được để trống';
+    // }
     
     if(!$isEdit && empty($_FILES['hinh_anh']['name'])) {
-        $errors[] = 'Hình ảnh không được để trống';
+        $errors[] = 'Ảnh chính không được để trống';
     }
     
     if(empty(trim($data['tom_tat']))) {
@@ -58,9 +59,10 @@ function validateProduct($data, $mysqli, $isEdit = false, $currentId = null) {
         $errors[] = 'Mã sản phẩm không hợp lệ (2-20 ký tự, chỉ chứa chữ cái, số và dấu gạch ngang)';
     }
 
-    if(!empty($data['so_luong']) && (!is_numeric($data['so_luong']) || $data['so_luong'] < 0)) {
-        $errors[] = 'Số lượng phải là số dương';
-    }
+    // Disable quantity validation - allow 0 or positive numbers for specific sizes
+    // if(!empty($data['so_luong']) && (!is_numeric($data['so_luong']) || $data['so_luong'] < 0)) {
+    //     $errors[] = 'Số lượng phải là số dương';
+    // }
 
     if(!empty($data['gia_sp']) && (!is_numeric($data['gia_sp']) || $data['gia_sp'] < 0)) {
         $errors[] = 'Giá sản phẩm phải là số dương';
@@ -95,33 +97,58 @@ function validateProduct($data, $mysqli, $isEdit = false, $currentId = null) {
         }
     }
 
-    // Validate image if uploaded
-    if(!empty($_FILES['hinh_anh']['name'])) {
-        // Check if file was uploaded without errors
-        if($_FILES['hinh_anh']['error'] !== UPLOAD_ERR_OK) {
-            $errors[] = 'Có lỗi khi upload file';
-        } else {
-            $imageFileType = strtolower(pathinfo($_FILES['hinh_anh']['name'], PATHINFO_EXTENSION));
-            
-            // Check if image file is actual image
-            $check = getimagesize($_FILES['hinh_anh']['tmp_name']);
-            if($check === false) {
-                $errors[] = 'File không phải là hình ảnh';
-            }
-            
-            // Check file size (max 5MB)
-            if ($_FILES['hinh_anh']['size'] > 5000000) {
-                $errors[] = 'File ảnh quá lớn! Vui lòng chọn file nhỏ hơn 5MB';
-            }
-            
-            // Allow certain file formats
-            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-                $errors[] = 'Chỉ chấp nhận file JPG, JPEG, PNG & GIF';
+    // Validate images if uploaded (kiểm tra cả 3 ảnh)
+    $imageFields = ['hinh_anh', 'hinh_anh_2', 'hinh_anh_3'];
+    foreach($imageFields as $field) {
+        if(!empty($_FILES[$field]['name'])) {
+            // Check if file was uploaded without errors
+            if($_FILES[$field]['error'] !== UPLOAD_ERR_OK) {
+                $errors[] = "Có lỗi khi upload $field";
+            } else {
+                $imageFileType = strtolower(pathinfo($_FILES[$field]['name'], PATHINFO_EXTENSION));
+                
+                // Check if image file is actual image
+                $check = getimagesize($_FILES[$field]['tmp_name']);
+                if($check === false) {
+                    $errors[] = "File $field không phải là hình ảnh";
+                }
+                
+                // Check file size (max 5MB)
+                if ($_FILES[$field]['size'] > 5000000) {
+                    $errors[] = "File $field quá lớn! Vui lòng chọn file nhỏ hơn 5MB";
+                }
+                
+                // Allow certain file formats
+                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                    $errors[] = "File $field chỉ chấp nhận JPG, JPEG, PNG & GIF";
+                }
             }
         }
     }
 
     return $errors;
+}
+
+// Helper function to upload image
+function uploadImage($fileInputName, $masp, $imageNumber = '') {
+    if(empty($_FILES[$fileInputName]['name'])) {
+        return null;
+    }
+    
+    $file_extension = strtolower(pathinfo($_FILES[$fileInputName]['name'], PATHINFO_EXTENSION));
+    $suffix = $imageNumber ? '_' . $imageNumber : '';
+    $safe_filename = $masp . $suffix . '_' . time() . '.' . $file_extension;
+    
+    // Create uploads directory if it doesn't exist
+    if (!file_exists('uploads/')) {
+        mkdir('uploads/', 0755, true);
+    }
+    
+    if(move_uploaded_file($_FILES[$fileInputName]['tmp_name'], 'uploads/' . $safe_filename)) {
+        return $safe_filename;
+    }
+    
+    return null;
 }
 
 if(isset($_POST['themsanpham'])) {
@@ -154,35 +181,26 @@ if(isset($_POST['themsanpham'])) {
         exit();
     }
 
-    $hinhanh = $_FILES['hinh_anh']['name'];
-    $hinhanh_tmp = $_FILES['hinh_anh']['tmp_name'];
+    // Upload 3 ảnh
+    $hinhanh = uploadImage('hinh_anh', $masp, '1');
+    $hinhanh_2 = uploadImage('hinh_anh_2', $masp, '2');
+    $hinhanh_3 = uploadImage('hinh_anh_3', $masp, '3');
+    
+    if(!$hinhanh) {
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=" . urlencode("Không thể upload ảnh chính!"));
+        exit();
+    }
+
     $tomtat = mysqli_real_escape_string($mysqli, str_replace("\r\n", "\n", trim($_POST['tom_tat'])));
     $noidung = mysqli_real_escape_string($mysqli, str_replace("\r\n", "\n", trim($_POST['noi_dung'])));
     $tinhtrang = (int)$_POST['tinh_trang'];
     $iddm = (int)$_POST['id_dm'];
-
-    // Create uploads directory if it doesn't exist
-    if (!file_exists('uploads/')) {
-        mkdir('uploads/', 0755, true);
-    }
     
-    // Generate safe filename
-    $file_extension = strtolower(pathinfo($_FILES['hinh_anh']['name'], PATHINFO_EXTENSION));
-    $safe_filename = $masp . '_' . time() . '.' . $file_extension;
-    
-    // Move uploaded file
-    if(!move_uploaded_file($hinhanh_tmp, 'uploads/' . $safe_filename)) {
-        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=" . urlencode("Không thể upload file ảnh!"));
-        exit();
-    }
-    
-    $hinhanh = $safe_filename;
-    
-    $sql_them = "INSERT INTO tbl_sanpham(ten_sp, ma_sp, gia_sp, so_luong, so_luong_con_lai, hinh_anh, tom_tat, noi_dung, tinh_trang, id_dm) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql_them = "INSERT INTO tbl_sanpham(ten_sp, ma_sp, gia_sp, so_luong, so_luong_con_lai, hinh_anh, hinh_anh_2, hinh_anh_3, tom_tat, noi_dung, tinh_trang, id_dm) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                  
     $stmt = mysqli_prepare($mysqli, $sql_them);
-    mysqli_stmt_bind_param($stmt, "ssiissssii", $tenLoaisp, $masp, $giasp, $total_quantity, $total_quantity, $hinhanh, $tomtat, $noidung, $tinhtrang, $iddm);
+    mysqli_stmt_bind_param($stmt, "ssiisssssiii", $tenLoaisp, $masp, $giasp, $total_quantity, $total_quantity, $hinhanh, $hinhanh_2, $hinhanh_3, $tomtat, $noidung, $tinhtrang, $iddm);
     
     if(mysqli_stmt_execute($stmt)) {
         $new_product_id = mysqli_insert_id($mysqli);
@@ -239,7 +257,7 @@ if(isset($_POST['themsanpham'])) {
     $total_quantity = array_sum($sizes);
 
     // Get product ID from ma_sp
-    $sql_get_id = "SELECT id_sp, hinh_anh FROM tbl_sanpham WHERE ma_sp = ? LIMIT 1";
+    $sql_get_id = "SELECT id_sp, hinh_anh, hinh_anh_2, hinh_anh_3 FROM tbl_sanpham WHERE ma_sp = ? LIMIT 1";
     $stmt_get_id = mysqli_prepare($mysqli, $sql_get_id);
     mysqli_stmt_bind_param($stmt_get_id, "s", $_GET['idsp']);
     mysqli_stmt_execute($stmt_get_id);
@@ -247,6 +265,8 @@ if(isset($_POST['themsanpham'])) {
     $product_row = mysqli_fetch_assoc($result_get_id);
     $product_id = $product_row['id_sp'];
     $old_hinhanh = $product_row['hinh_anh'];
+    $old_hinhanh_2 = $product_row['hinh_anh_2'];
+    $old_hinhanh_3 = $product_row['hinh_anh_3'];
     mysqli_stmt_close($stmt_get_id);
 
     if (!$product_id) {
@@ -254,26 +274,63 @@ if(isset($_POST['themsanpham'])) {
         exit();
     }
 
+    // Xử lý upload ảnh 1 (ảnh chính)
     $hinhanh_to_update = $old_hinhanh;
     if(!empty($_FILES['hinh_anh']['name'])) {
-        $hinhanh_tmp = $_FILES['hinh_anh']['tmp_name'];
         if ($old_hinhanh && file_exists('uploads/' . $old_hinhanh)) {
             unlink('uploads/' . $old_hinhanh);
         }
-        $file_extension = strtolower(pathinfo($_FILES['hinh_anh']['name'], PATHINFO_EXTENSION));
-        $hinhanh_to_update = $masp . '_' . time() . '.' . $file_extension;
-        move_uploaded_file($hinhanh_tmp, 'uploads/' . $hinhanh_to_update);
+        $hinhanh_to_update = uploadImage('hinh_anh', $masp, '1');
+        if(!$hinhanh_to_update) {
+            $hinhanh_to_update = $old_hinhanh; // Giữ ảnh cũ nếu upload thất bại
+        }
+    }
+
+    // Xử lý upload ảnh 2
+    $hinhanh_2_to_update = $old_hinhanh_2;
+    if(isset($_POST['xoa_anh_2']) && $_POST['xoa_anh_2'] == '1') {
+        // Xóa ảnh 2
+        if ($old_hinhanh_2 && file_exists('uploads/' . $old_hinhanh_2)) {
+            unlink('uploads/' . $old_hinhanh_2);
+        }
+        $hinhanh_2_to_update = NULL;
+    } elseif(!empty($_FILES['hinh_anh_2']['name'])) {
+        if ($old_hinhanh_2 && file_exists('uploads/' . $old_hinhanh_2)) {
+            unlink('uploads/' . $old_hinhanh_2);
+        }
+        $hinhanh_2_to_update = uploadImage('hinh_anh_2', $masp, '2');
+        if(!$hinhanh_2_to_update) {
+            $hinhanh_2_to_update = $old_hinhanh_2; // Giữ ảnh cũ nếu upload thất bại
+        }
+    }
+
+    // Xử lý upload ảnh 3
+    $hinhanh_3_to_update = $old_hinhanh_3;
+    if(isset($_POST['xoa_anh_3']) && $_POST['xoa_anh_3'] == '1') {
+        // Xóa ảnh 3
+        if ($old_hinhanh_3 && file_exists('uploads/' . $old_hinhanh_3)) {
+            unlink('uploads/' . $old_hinhanh_3);
+        }
+        $hinhanh_3_to_update = NULL;
+    } elseif(!empty($_FILES['hinh_anh_3']['name'])) {
+        if ($old_hinhanh_3 && file_exists('uploads/' . $old_hinhanh_3)) {
+            unlink('uploads/' . $old_hinhanh_3);
+        }
+        $hinhanh_3_to_update = uploadImage('hinh_anh_3', $masp, '3');
+        if(!$hinhanh_3_to_update) {
+            $hinhanh_3_to_update = $old_hinhanh_3; // Giữ ảnh cũ nếu upload thất bại
+        }
     }
 
     // Update main product table
     $sql_update = "UPDATE tbl_sanpham SET 
         ten_sp=?, ma_sp=?, gia_sp=?, so_luong=?, so_luong_con_lai=?,
-        hinh_anh=?, tom_tat=?, noi_dung=?, tinh_trang=?, id_dm=? 
+        hinh_anh=?, hinh_anh_2=?, hinh_anh_3=?, tom_tat=?, noi_dung=?, tinh_trang=?, id_dm=? 
         WHERE id_sp=?";
     $stmt_update = mysqli_prepare($mysqli, $sql_update);
-    mysqli_stmt_bind_param($stmt_update, "ssiissssiii", 
+    mysqli_stmt_bind_param($stmt_update, "ssiiisssssiii", 
         $tenLoaisp, $masp, $giasp, $total_quantity, $total_quantity,
-        $hinhanh_to_update, $tomtat, $noidung, $tinhtrang, $iddm, $product_id);
+        $hinhanh_to_update, $hinhanh_2_to_update, $hinhanh_3_to_update, $tomtat, $noidung, $tinhtrang, $iddm, $product_id);
 
     if(mysqli_stmt_execute($stmt_update)) {
         // Update sizes table: delete old entries and insert new ones

@@ -33,9 +33,76 @@ $is_in_stock = !empty($available_sizes);
 <div class="main_content">
     <form class="product_content" method="POST" action="/WebBanHangCNPM/pages/main/themgiohang.php?idsanpham=<?php echo $info['id_sp'] ?>">
         <div id="product-data" data-sizes='<?php echo json_encode($size_quantities); ?>' class="d-none"></div>
-        <div class="product_img">
-            <img class="img" src="admincp/modules/quanLySanPham/uploads/<?php echo $info['hinh_anh'] ?>" alt="">
+        
+        <!-- Product Image Gallery -->
+        <div class="product_img_gallery">
+            <?php
+            // Lấy tất cả ảnh của sản phẩm
+            $product_images = [];
+            if (!empty($info['hinh_anh'])) {
+                $product_images[] = $info['hinh_anh'];
+            }
+            if (!empty($info['hinh_anh_2'])) {
+                $product_images[] = $info['hinh_anh_2'];
+            }
+            if (!empty($info['hinh_anh_3'])) {
+                $product_images[] = $info['hinh_anh_3'];
+            }
+            
+            // Nếu không có ảnh nào, dùng ảnh mặc định
+            if (empty($product_images)) {
+                $product_images[] = 'no-image.jpg';
+            }
+            ?>
+            
+            <!-- Main Image Display -->
+            <div class="main_image_container">
+                <div class="main_image_wrapper">
+                    <?php foreach ($product_images as $index => $image): ?>
+                        <img 
+                            class="main_product_image <?php echo $index === 0 ? 'active' : ''; ?>" 
+                            src="admincp/modules/quanLySanPham/uploads/<?php echo $image; ?>" 
+                            alt="<?php echo $info['ten_sp']; ?> - Ảnh <?php echo $index + 1; ?>"
+                            data-index="<?php echo $index; ?>"
+                        >
+                    <?php endforeach; ?>
+                </div>
+                
+                <!-- Navigation Arrows (chỉ hiển thị nếu có > 1 ảnh) -->
+                <?php if (count($product_images) > 1): ?>
+                    <button type="button" class="gallery_nav prev" onclick="changeMainImage(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button type="button" class="gallery_nav next" onclick="changeMainImage(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <!-- Image Counter -->
+                    <div class="image_counter">
+                        <span class="current_image">1</span> / <span class="total_images"><?php echo count($product_images); ?></span>
+                    </div>
+                <?php endif; ?>
+            </div>
+            
+            <!-- Thumbnail Gallery (chỉ hiển thị nếu có > 1 ảnh) -->
+            <?php if (count($product_images) > 1): ?>
+                <div class="thumbnail_gallery">
+                    <?php foreach ($product_images as $index => $image): ?>
+                        <div 
+                            class="thumbnail_item <?php echo $index === 0 ? 'active' : ''; ?>" 
+                            onclick="selectImage(<?php echo $index; ?>)"
+                            data-index="<?php echo $index; ?>"
+                        >
+                            <img 
+                                src="admincp/modules/quanLySanPham/uploads/<?php echo $image; ?>" 
+                                alt="Thumbnail <?php echo $index + 1; ?>"
+                            >
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
         </div>
+        
         <div class="product_detail">
             <div>
                 <p class="ten_sp"><?php echo $info['ten_sp'] ?></p>
@@ -379,4 +446,137 @@ $is_in_stock = !empty($available_sizes);
 <script>
 // Pass product ID to reviews.js
 window.productId = <?php echo $info['id_sp']; ?>;
+
+// ===================================
+// PRODUCT IMAGE GALLERY SLIDER
+// ===================================
+let currentImageIndex = 0;
+const images = document.querySelectorAll('.main_product_image');
+const thumbnails = document.querySelectorAll('.thumbnail_item');
+const totalImages = images.length;
+
+// Change main image function
+function changeMainImage(direction) {
+    if (totalImages <= 1) return;
+    
+    // Remove active class from current image
+    images[currentImageIndex].classList.remove('active');
+    thumbnails[currentImageIndex].classList.remove('active');
+    
+    // Calculate new index
+    currentImageIndex += direction;
+    
+    // Loop around
+    if (currentImageIndex >= totalImages) {
+        currentImageIndex = 0;
+    } else if (currentImageIndex < 0) {
+        currentImageIndex = totalImages - 1;
+    }
+    
+    // Add active class to new image
+    images[currentImageIndex].classList.add('active');
+    thumbnails[currentImageIndex].classList.add('active');
+    
+    // Update counter
+    updateImageCounter();
+}
+
+// Select specific image
+function selectImage(index) {
+    if (index === currentImageIndex || index >= totalImages) return;
+    
+    // Remove active class from current
+    images[currentImageIndex].classList.remove('active');
+    thumbnails[currentImageIndex].classList.remove('active');
+    
+    // Set new index
+    currentImageIndex = index;
+    
+    // Add active class to new
+    images[currentImageIndex].classList.add('active');
+    thumbnails[currentImageIndex].classList.add('active');
+    
+    // Update counter
+    updateImageCounter();
+}
+
+// Update image counter
+function updateImageCounter() {
+    const counterElement = document.querySelector('.current_image');
+    if (counterElement) {
+        counterElement.textContent = currentImageIndex + 1;
+    }
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+    if (totalImages <= 1) return;
+    
+    if (e.key === 'ArrowLeft') {
+        changeMainImage(-1);
+    } else if (e.key === 'ArrowRight') {
+        changeMainImage(1);
+    }
+});
+
+// Touch/Swipe support for mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+const mainImageContainer = document.querySelector('.main_image_container');
+if (mainImageContainer && totalImages > 1) {
+    mainImageContainer.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    mainImageContainer.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, false);
+}
+
+function handleSwipe() {
+    const swipeThreshold = 50; // Minimum distance for swipe
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            // Swipe left - next image
+            changeMainImage(1);
+        } else {
+            // Swipe right - previous image
+            changeMainImage(-1);
+        }
+    }
+}
+
+// Auto-play (optional - uncomment if needed)
+/*
+let autoPlayInterval;
+function startAutoPlay() {
+    if (totalImages > 1) {
+        autoPlayInterval = setInterval(() => {
+            changeMainImage(1);
+        }, 5000); // Change every 5 seconds
+    }
+}
+
+function stopAutoPlay() {
+    if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+    }
+}
+
+// Start autoplay when page loads
+startAutoPlay();
+
+// Pause on hover
+if (mainImageContainer) {
+    mainImageContainer.addEventListener('mouseenter', stopAutoPlay);
+    mainImageContainer.addEventListener('mouseleave', startAutoPlay);
+}
+*/
+
+// Initialize counter on page load
+updateImageCounter();
 </script>

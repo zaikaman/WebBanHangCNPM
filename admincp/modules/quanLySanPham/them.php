@@ -166,20 +166,68 @@ $danhmuc = mysqli_query($mysqli, $sql_dm);
             <!-- Image Upload -->
             <div class="form-section">
                 <h5 class="text-7tcc mb-3">
-                    <i class="fas fa-image me-2"></i>Hình Ảnh Sản Phẩm
+                    <i class="fas fa-image me-2"></i>Hình Ảnh Sản Phẩm (3 ảnh)
                 </h5>
-                <div class="row">
+                <p class="text-muted mb-3">Vui lòng tải lên 3 ảnh cho sản phẩm. Ảnh 1 là ảnh chính sẽ hiển thị đầu tiên.</p>
+                
+                <!-- Ảnh 1 - Chính -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <h6 class="fw-bold">Ảnh 1 - Ảnh Chính <span class="text-danger">*</span></h6>
+                    </div>
                     <div class="col-md-6">
                         <div class="file-upload-area" onclick="document.getElementById('hinh_anh').click()">
                             <i class="fas fa-cloud-upload-alt fa-3x text-7tcc mb-3"></i>
-                            <h6>Nhấp để chọn hình ảnh</h6>
+                            <h6>Nhấp để chọn ảnh chính</h6>
                             <p class="text-muted mb-0">Hỗ trợ: JPG, PNG, GIF (tối đa 5MB)</p>
                         </div>
-                        <input type="file" class="d-none" name="hinh_anh" id="hinh_anh" accept="image/*" onchange="previewImage(this)">
+                        <input type="file" class="d-none" name="hinh_anh" id="hinh_anh" accept="image/*" onchange="previewImage(this, 'imagePreview', 'uploadInfo')" required>
                     </div>
                     <div class="col-md-6">
                         <img id="imagePreview" class="image-preview" alt="Preview">
                         <div id="uploadInfo" class="mt-2 text-muted">
+                            <small>Chưa chọn file nào</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ảnh 2 -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <h6 class="fw-bold">Ảnh 2 - Ảnh Phụ 1</h6>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="file-upload-area" onclick="document.getElementById('hinh_anh_2').click()">
+                            <i class="fas fa-cloud-upload-alt fa-3x text-7tcc mb-3"></i>
+                            <h6>Nhấp để chọn ảnh phụ 1</h6>
+                            <p class="text-muted mb-0">Hỗ trợ: JPG, PNG, GIF (tối đa 5MB)</p>
+                        </div>
+                        <input type="file" class="d-none" name="hinh_anh_2" id="hinh_anh_2" accept="image/*" onchange="previewImage(this, 'imagePreview2', 'uploadInfo2')">
+                    </div>
+                    <div class="col-md-6">
+                        <img id="imagePreview2" class="image-preview" alt="Preview">
+                        <div id="uploadInfo2" class="mt-2 text-muted">
+                            <small>Chưa chọn file nào</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ảnh 3 -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <h6 class="fw-bold">Ảnh 3 - Ảnh Phụ 2</h6>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="file-upload-area" onclick="document.getElementById('hinh_anh_3').click()">
+                            <i class="fas fa-cloud-upload-alt fa-3x text-7tcc mb-3"></i>
+                            <h6>Nhấp để chọn ảnh phụ 2</h6>
+                            <p class="text-muted mb-0">Hỗ trợ: JPG, PNG, GIF (tối đa 5MB)</p>
+                        </div>
+                        <input type="file" class="d-none" name="hinh_anh_3" id="hinh_anh_3" accept="image/*" onchange="previewImage(this, 'imagePreview3', 'uploadInfo3')">
+                    </div>
+                    <div class="col-md-6">
+                        <img id="imagePreview3" class="image-preview" alt="Preview">
+                        <div id="uploadInfo3" class="mt-2 text-muted">
                             <small>Chưa chọn file nào</small>
                         </div>
                     </div>
@@ -240,15 +288,15 @@ $danhmuc = mysqli_query($mysqli, $sql_dm);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-// Image preview function
-function previewImage(input) {
+// Image preview function - cập nhật để hỗ trợ nhiều ảnh
+function previewImage(input, previewId, infoId) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         
         reader.onload = function(e) {
-            document.getElementById('imagePreview').src = e.target.result;
-            document.getElementById('imagePreview').style.display = 'block';
-            document.getElementById('uploadInfo').innerHTML = 
+            document.getElementById(previewId).src = e.target.result;
+            document.getElementById(previewId).style.display = 'block';
+            document.getElementById(infoId).innerHTML = 
                 '<strong>File đã chọn:</strong> ' + input.files[0].name + 
                 ' (' + Math.round(input.files[0].size / 1024) + ' KB)';
         }
@@ -305,7 +353,11 @@ if (window.location.search.includes('success=add')) {
     setTimeout(function() {
         document.getElementById('productForm').reset();
         document.getElementById('imagePreview').style.display = 'none';
+        document.getElementById('imagePreview2').style.display = 'none';
+        document.getElementById('imagePreview3').style.display = 'none';
         document.getElementById('uploadInfo').innerHTML = '<small>Chưa chọn file nào</small>';
+        document.getElementById('uploadInfo2').innerHTML = '<small>Chưa chọn file nào</small>';
+        document.getElementById('uploadInfo3').innerHTML = '<small>Chưa chọn file nào</small>';
         
         // Remove success parameter from URL without reloading
         const url = new URL(window.location);

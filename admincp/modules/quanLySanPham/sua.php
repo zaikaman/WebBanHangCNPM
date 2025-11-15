@@ -158,9 +158,60 @@ $sua_sp = mysqli_query($mysqli, $sql_sua_sp);
                 </div>
             </div>
             <div class="mb-3">
-                <label for="hinh_anh" class="form-label fw-bold">Hình Ảnh:</label>
-                <input type="file" class="form-control" name="hinh_anh">
-                <img src="modules/quanLySanPham/uploads/<?php echo $row['hinh_anh'] ?>" width='150px'>
+                <label class="form-label fw-bold">Hình Ảnh Sản Phẩm:</label>
+                <p class="text-muted">Mỗi sản phẩm có 3 ảnh. Để trống nếu không muốn thay đổi ảnh.</p>
+                
+                <!-- Ảnh 1 - Chính -->
+                <div class="mb-3 p-3 border rounded">
+                    <h6 class="fw-bold text-primary">Ảnh 1 - Ảnh Chính</h6>
+                    <input type="file" class="form-control mb-2" name="hinh_anh" accept="image/*">
+                    <?php if(!empty($row['hinh_anh'])): ?>
+                        <div class="mt-2">
+                            <p class="mb-1 text-muted small">Ảnh hiện tại:</p>
+                            <img src="modules/quanLySanPham/uploads/<?php echo $row['hinh_anh'] ?>" width='150px' class="rounded border">
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Ảnh 2 -->
+                <div class="mb-3 p-3 border rounded">
+                    <h6 class="fw-bold text-primary">Ảnh 2 - Ảnh Phụ 1</h6>
+                    <input type="file" class="form-control mb-2" name="hinh_anh_2" accept="image/*">
+                    <?php if(!empty($row['hinh_anh_2'])): ?>
+                        <div class="mt-2">
+                            <p class="mb-1 text-muted small">Ảnh hiện tại:</p>
+                            <img src="modules/quanLySanPham/uploads/<?php echo $row['hinh_anh_2'] ?>" width='150px' class="rounded border">
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" name="xoa_anh_2" id="xoa_anh_2" value="1">
+                                <label class="form-check-label text-danger" for="xoa_anh_2">
+                                    Xóa ảnh này
+                                </label>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <p class="text-muted small mb-0">Chưa có ảnh phụ 1</p>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Ảnh 3 -->
+                <div class="mb-3 p-3 border rounded">
+                    <h6 class="fw-bold text-primary">Ảnh 3 - Ảnh Phụ 2</h6>
+                    <input type="file" class="form-control mb-2" name="hinh_anh_3" accept="image/*">
+                    <?php if(!empty($row['hinh_anh_3'])): ?>
+                        <div class="mt-2">
+                            <p class="mb-1 text-muted small">Ảnh hiện tại:</p>
+                            <img src="modules/quanLySanPham/uploads/<?php echo $row['hinh_anh_3'] ?>" width='150px' class="rounded border">
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" name="xoa_anh_3" id="xoa_anh_3" value="1">
+                                <label class="form-check-label text-danger" for="xoa_anh_3">
+                                    Xóa ảnh này
+                                </label>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <p class="text-muted small mb-0">Chưa có ảnh phụ 2</p>
+                    <?php endif; ?>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="tom_tat" class="form-label fw-bold">Tóm Tắt:</label>
