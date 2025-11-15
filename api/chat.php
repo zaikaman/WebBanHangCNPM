@@ -145,7 +145,7 @@ Hãy trả lời bằng Tiếng Việt một cách thân thiện và chuyên ngh
 
 Khách hàng: " . $message;
 
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $API_KEY;
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" . $API_KEY;
     
     $postData = [
         'contents' => [

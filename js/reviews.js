@@ -330,7 +330,6 @@ function initializeReviews() {
         if (reviews.length === 0) {
             container.innerHTML = `
                 <div class="no-reviews">
-                    <i class="far fa-comment-dots"></i>
                     <p>Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá sản phẩm này!</p>
                 </div>
             `;
