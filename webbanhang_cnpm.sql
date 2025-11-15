@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2025 at 06:31 AM
+-- Generation Time: Nov 15, 2025 at 01:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -487,6 +487,29 @@ INSERT INTO `tbl_dangky_temp` (`id`, `ten_khachhang`, `email`, `dien_thoai`, `ma
 (3, 'Dinh Phuc Thinh', 'subthinh5@gmail.com', '0931816175', '7ca4100f078350295c611e78355a57d4', '536 Au Co', NULL, NULL, '2f2bb0ac0f1329a552c06cc8f1e5132c', '2025-10-22 08:33:54'),
 (6, 'Dinh Phuc Thinh', 'thinhnice3@gmail.com', '0931816175', '7ca4100f078350295c611e78355a57d4', '536 Au Co', NULL, NULL, 'f64a9baf036c8095b3671d27bbd0ae2f', '2025-10-22 08:37:48'),
 (7, 'Dinh Phuc Thinh', 'asdasdd@gmail.com', '0931816175', 'ce9642a7df00bb973f5d9c55d5f67c49', '536 Au Co', NULL, NULL, '670ade207c251b721faa3104ed8bb6d5', '2025-10-22 13:04:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_danhgia_sp`
+--
+
+CREATE TABLE `tbl_danhgia_sp` (
+  `id` int(11) NOT NULL,
+  `id_sp` int(11) NOT NULL,
+  `id_dangky` int(11) NOT NULL,
+  `rating` int(1) NOT NULL,
+  `noi_dung` text DEFAULT NULL,
+  `ngay_tao` datetime DEFAULT current_timestamp(),
+  `trang_thai` tinyint(1) DEFAULT 1 COMMENT '0: ẩn, 1: hiển thị'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_danhgia_sp`
+--
+
+INSERT INTO `tbl_danhgia_sp` (`id`, `id_sp`, `id_dangky`, `rating`, `noi_dung`, `ngay_tao`, `trang_thai`) VALUES
+(1, 202, 36, 5, 'hi', '2025-11-10 12:43:53', 1);
 
 -- --------------------------------------------------------
 
@@ -1514,6 +1537,15 @@ ALTER TABLE `tbl_dangky_temp`
   ADD UNIQUE KEY `token_unique` (`token`);
 
 --
+-- Indexes for table `tbl_danhgia_sp`
+--
+ALTER TABLE `tbl_danhgia_sp`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_product` (`id_sp`),
+  ADD KEY `idx_customer` (`id_dangky`),
+  ADD KEY `idx_status` (`trang_thai`);
+
+--
 -- Indexes for table `tbl_danhmucqa`
 --
 ALTER TABLE `tbl_danhmucqa`
@@ -1641,6 +1673,12 @@ ALTER TABLE `tbl_dangky_temp`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `tbl_danhgia_sp`
+--
+ALTER TABLE `tbl_danhgia_sp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `tbl_danhmucqa`
 --
 ALTER TABLE `tbl_danhmucqa`
@@ -1727,6 +1765,13 @@ ALTER TABLE `tbl_xacnhanemail`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `tbl_danhgia_sp`
+--
+ALTER TABLE `tbl_danhgia_sp`
+  ADD CONSTRAINT `fk_danhgia_khachhang` FOREIGN KEY (`id_dangky`) REFERENCES `tbl_dangky` (`id_dangky`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_danhgia_sanpham` FOREIGN KEY (`id_sp`) REFERENCES `tbl_sanpham` (`id_sp`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tbl_sanpham_khuyenmai`

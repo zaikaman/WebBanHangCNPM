@@ -1,6 +1,18 @@
 // Product Reviews JavaScript Handler
 
-document.addEventListener('DOMContentLoaded', function() {
+// Global flag to prevent multiple initializations
+let reviewsInitialized = false;
+
+// Function to initialize reviews
+function initializeReviews() {
+    // Prevent multiple initializations
+    if (reviewsInitialized) {
+        console.log('Reviews already initialized, skipping');
+        return;
+    }
+    
+    console.log('Initializing reviews...'); // Debug
+    
     const productId = window.productId;
     
     if (!productId) {
@@ -8,20 +20,127 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
+    console.log('Product ID:', productId); // Debug
+    
     let currentPage = 1;
     let selectedRating = 0;
+    let reviewFormInitialized = false; // Track if form is already initialized
+    
+    // Mark as initialized IMMEDIATELY to prevent race conditions
+    reviewsInitialized = true;
     
     // Initialize
     loadReviews(currentPage);
     initStarRating();
-    initReviewForm();
+    
+    // Use event delegation for submit button - add handler with once flag
+    let isSubmitting = false; // Prevent double submission
+    
+    document.addEventListener('click', async function(e) {
+        // Check if clicked element is the submit button
+        if (e.target && e.target.id === 'submit-review-btn') {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Prevent double submission
+            if (isSubmitting) {
+                console.log('Already submitting, please wait...');
+                return;
+            }
+            
+            console.log('Submit button clicked via delegation!!!'); // Debug log
+            
+            // Try multiple ways to find the form
+            let form = document.getElementById('review-form');
+            console.log('Form by ID:', form);
+            
+            if (!form) {
+                form = document.querySelector('#review-form');
+                console.log('Form by querySelector:', form);
+            }
+            
+            if (!form) {
+                form = e.target.closest('form');
+                console.log('Form by closest:', form);
+            }
+            
+            if (!form) {
+                // Try to find form in the parent hierarchy
+                form = e.target.parentElement.querySelector('form');
+                console.log('Form by parentElement:', form);
+            }
+            
+            const messageDiv = document.getElementById('review-message');
+            
+            if (!form) {
+                console.error('Form not found when submitting');
+                showMessage('Lỗi: Không tìm thấy form đánh giá', 'error');
+                return;
+            }
+            
+            console.log('Form found! Proceeding with submission');
+            
+            if (selectedRating === 0) {
+                showMessage('Vui lòng chọn số sao đánh giá', 'error');
+                return;
+            }
+            
+            isSubmitting = true; // Set flag
+            
+            const formData = new FormData(form);
+            formData.append('action', 'add_review');
+            
+            console.log('Sending review...'); // Debug log
+            console.log('Rating:', selectedRating); // Debug log
+            
+            try {
+                const response = await fetch('/WebBanHangCNPM/api/reviews.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                console.log('Response received'); // Debug log
+                
+                const data = await response.json();
+                
+                console.log('Data:', data); // Debug log
+                
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    form.reset();
+                    selectedRating = 0;
+                    resetStars();
+                    document.getElementById('rating-value').value = '';
+                    
+                    // Reload reviews
+                    loadReviews(1);
+                    
+                    // Update rating summary
+                    if (data.rating_summary) {
+                        updateRatingSummary(data.rating_summary);
+                    }
+                } else {
+                    showMessage(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Có lỗi xảy ra, vui lòng thử lại', 'error');
+            } finally {
+                // Reset flag to allow future submissions
+                isSubmitting = false;
+                console.log('Submission complete, flag reset');
+            }
+        }
+    });
+    
+    // Don't use initReviewForm anymore - using event delegation instead
     
     // Star Rating Selection
     function initStarRating() {
         const starContainer = document.getElementById('star-rating');
         if (!starContainer) return;
         
-        const stars = starContainer.querySelectorAll('i');
+        const stars = starContainer.querySelectorAll('.star-icon');
         
         stars.forEach(star => {
             star.addEventListener('mouseenter', function() {
@@ -47,46 +166,75 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function highlightStars(rating) {
-        const stars = document.querySelectorAll('#star-rating i');
+        const stars = document.querySelectorAll('#star-rating .star-icon');
         stars.forEach((star, index) => {
             if (index < rating) {
-                star.classList.remove('far');
-                star.classList.add('fas', 'hovered');
+                star.classList.remove('hovered');
+                star.classList.add('hovered');
+                star.textContent = '★';
             } else {
-                star.classList.remove('fas', 'hovered');
-                star.classList.add('far');
+                star.classList.remove('hovered');
+                star.textContent = '☆';
             }
         });
     }
     
     function selectStars(rating) {
-        const stars = document.querySelectorAll('#star-rating i');
+        const stars = document.querySelectorAll('#star-rating .star-icon');
         stars.forEach((star, index) => {
             if (index < rating) {
-                star.classList.remove('far', 'hovered');
-                star.classList.add('fas', 'selected');
+                star.classList.remove('hovered');
+                star.classList.add('selected');
+                star.textContent = '★';
             } else {
-                star.classList.remove('fas', 'hovered', 'selected');
-                star.classList.add('far');
+                star.classList.remove('hovered', 'selected');
+                star.textContent = '☆';
             }
         });
     }
     
     function resetStars() {
-        const stars = document.querySelectorAll('#star-rating i');
+        const stars = document.querySelectorAll('#star-rating .star-icon');
         stars.forEach(star => {
-            star.classList.remove('fas', 'hovered', 'selected');
-            star.classList.add('far');
+            star.classList.remove('hovered', 'selected');
+            star.textContent = '☆';
         });
     }
     
     // Review Form Submission
     function initReviewForm() {
-        const form = document.getElementById('review-form');
-        if (!form) return;
+        // Prevent double initialization
+        if (reviewFormInitialized) {
+            console.log('Review form already initialized, skipping');
+            return;
+        }
         
-        form.addEventListener('submit', async function(e) {
+        const form = document.getElementById('review-form');
+        const submitBtn = document.getElementById('submit-review-btn');
+        
+        console.log('initReviewForm called'); // Debug
+        console.log('Form found:', form); // Debug
+        console.log('Submit button found:', submitBtn); // Debug
+        
+        if (!form) {
+            console.error('Review form not found!');
+            return;
+        }
+        
+        if (!submitBtn) {
+            console.error('Submit button not found!');
+            return;
+        }
+        
+        console.log('Review form initialized - adding event listener'); // Debug log
+        reviewFormInitialized = true; // Mark as initialized
+        
+        // Handle button click instead of form submit
+        submitBtn.addEventListener('click', async function(e) {
             e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Submit button clicked!!!'); // Debug log
             
             const messageDiv = document.getElementById('review-message');
             
@@ -98,13 +246,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData(form);
             formData.append('action', 'add_review');
             
+            console.log('Sending review...'); // Debug log
+            console.log('Rating:', selectedRating); // Debug log
+            
             try {
                 const response = await fetch('/WebBanHangCNPM/api/reviews.php', {
                     method: 'POST',
                     body: formData
                 });
                 
+                console.log('Response received'); // Debug log
+                
                 const data = await response.json();
+                
+                console.log('Data:', data); // Debug log
                 
                 if (data.success) {
                     showMessage(data.message, 'success');
@@ -127,6 +282,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error:', error);
                 showMessage('Có lỗi xảy ra, vui lòng thử lại', 'error');
             }
+        });
+        
+        // Also prevent form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         });
     }
     
@@ -246,16 +408,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const hasHalfStar = rating % 1 >= 0.5;
         
         for (let i = 0; i < fullStars; i++) {
-            starsHtml += '<i class="fas fa-star"></i>';
+            starsHtml += '<span class="star-icon">★</span>';
         }
         
         if (hasHalfStar) {
-            starsHtml += '<i class="fas fa-star-half-alt"></i>';
+            starsHtml += '<span class="star-icon">⭐</span>';
         }
         
         const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
         for (let i = 0; i < emptyStars; i++) {
-            starsHtml += '<i class="far fa-star"></i>';
+            starsHtml += '<span class="star-icon">☆</span>';
         }
         
         return starsHtml;
@@ -297,11 +459,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Make loadReviews accessible globally for pagination
     window.loadReviewsPage = function(page) {
         loadReviews(page);
-        // Scroll to reviews section
-        document.querySelector('.product-reviews-section').scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
+        // Scroll to reviews tab
+        const reviewsTab = document.querySelector('#danhgia');
+        if (reviewsTab) {
+            reviewsTab.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     };
     
     // Utility function to escape HTML
@@ -310,4 +475,18 @@ document.addEventListener('DOMContentLoaded', function() {
         div.textContent = text;
         return div.innerHTML;
     }
-});
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeReviews);
+} else {
+    // DOM already loaded
+    initializeReviews();
+}
+
+// Also try to initialize when tab is clicked
+setTimeout(function() {
+    console.log('Delayed initialization attempt');
+    initializeReviews();
+}, 1000);

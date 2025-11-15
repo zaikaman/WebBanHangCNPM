@@ -140,14 +140,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         exit;
     }
     
-    // Kiểm tra xem khách hàng đã đánh giá sản phẩm này chưa
-    $sql_check = "SELECT id FROM tbl_danhgia_sp WHERE id_sp = ? AND id_dangky = ?";
+    // Kiểm tra xem khách hàng đã đánh giá sản phẩm này chưa (chỉ check đánh giá đã được duyệt)
+    $sql_check = "SELECT id FROM tbl_danhgia_sp WHERE id_sp = ? AND id_dangky = ? AND trang_thai = 1";
     $stmt_check = mysqli_prepare($mysqli, $sql_check);
     mysqli_stmt_bind_param($stmt_check, "ii", $id_sp, $id_dangky);
     mysqli_stmt_execute($stmt_check);
     $result_check = mysqli_stmt_get_result($stmt_check);
     
-    if (mysqli_num_rows($result_check) > 0) {
+    $num_reviews = mysqli_num_rows($result_check);
+    
+    if ($num_reviews > 0) {
         echo json_encode(['success' => false, 'message' => 'Bạn đã đánh giá sản phẩm này rồi']);
         exit;
     }
