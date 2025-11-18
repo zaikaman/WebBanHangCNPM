@@ -11,19 +11,23 @@ use Dotenv\Dotenv;
 
 // Load .env file - kiểm tra môi trường
 $envPath = dirname(__FILE__) . '/../../';
-try {
-    $dotenv = Dotenv::createImmutable($envPath);
 
-    // Nếu có file .env.production trong production environment
-    if (file_exists($envPath . '.env.production') && 
-        (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'great-site.net') !== false)) {
-        $dotenv = Dotenv::createImmutable($envPath, '.env.production');
+// Chỉ load .env nếu file tồn tại (không cần trên Heroku - dùng Config Vars)
+if (file_exists($envPath . '.env') || file_exists($envPath . '.env.production')) {
+    try {
+        $dotenv = Dotenv::createImmutable($envPath);
+
+        // Nếu có file .env.production trong production environment
+        if (file_exists($envPath . '.env.production') && 
+            (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'great-site.net') !== false)) {
+            $dotenv = Dotenv::createImmutable($envPath, '.env.production');
+        }
+
+        $dotenv->load();
+    } catch (\Exception $e) {
+        // Log error không output
+        error_log("Dotenv load error: " . $e->getMessage());
     }
-
-    $dotenv->load();
-} catch (\Exception $e) {
-    // Log error không output
-    error_log("Dotenv load error: " . $e->getMessage());
 }
 
 // Include helper functions

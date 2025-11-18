@@ -14,6 +14,13 @@ if (!function_exists('env')) {
  * @return mixed
  */
 function env($key, $default = null) {
+    // Ưu tiên getenv() cho Heroku Config Vars
+    $value = getenv($key);
+    if ($value !== false) {
+        return $value;
+    }
+    
+    // Fallback sang $_ENV (từ .env file)
     return $_ENV[$key] ?? $default;
 }
 
