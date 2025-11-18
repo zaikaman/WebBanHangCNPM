@@ -71,7 +71,9 @@ if (isset($_POST['submit_email'])) {
                         <input type="email" id="email" class="form-control" name="email" required placeholder="your.email@example.com">
                     </div>
                 </div>
-                <button class="btn btn-danger btn-block" type="submit" name="submit_email" style="margin-top: 30px; border-radius: 8px; padding: 12px; max-width: 450px; margin-left: auto; margin-right: auto;">Gửi liên kết đặt lại mật khẩu</button>
+                <div style="text-align: center;">
+                    <button class="btn btn-danger" type="submit" name="submit_email" style="margin-top: 30px; border-radius: 8px; padding: 12px; max-width: 450px;">Gửi liên kết đặt lại mật khẩu</button>
+                </div>
             </form>
         </div>
     </div>
