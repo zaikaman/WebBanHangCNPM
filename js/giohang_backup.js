@@ -89,11 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Hàm gửi AJAX request
     function sendAjaxRequest(data, callback) {
-        // Lấy base URL từ window location
-        const baseUrl = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) || '/';
-        const apiUrl = baseUrl.includes('WebBanHangCNPM') ? 
-            '/WebBanHangCNPM/pages/main/ajax_cart.php' : 
-            '/pages/main/ajax_cart.php';
+        // Use root-based absolute path for ajax cart endpoint
+        const apiUrl = '/pages/main/ajax_cart.php';
         
         fetch(apiUrl, {
             method: 'POST',

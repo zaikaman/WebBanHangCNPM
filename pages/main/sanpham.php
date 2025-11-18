@@ -31,7 +31,7 @@ if ($sizes_query) {
 $is_in_stock = !empty($available_sizes);
 ?>
 <div class="main_content">
-    <form class="product_content" method="POST" action="/WebBanHangCNPM/pages/main/themgiohang.php?idsanpham=<?php echo $info['id_sp'] ?>">
+    <form class="product_content" method="POST" action="pages/main/themgiohang.php?idsanpham=<?php echo $info['id_sp'] ?>">
         <div id="product-data" data-sizes='<?php echo json_encode($size_quantities); ?>' class="d-none"></div>
         
         <!-- Product Image Gallery -->
