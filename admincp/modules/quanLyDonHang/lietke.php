@@ -57,7 +57,7 @@ $query_params = $_GET;
 unset($query_params['page']);
 $pagination = new Pagination($current_page, $total_records, $records_per_page, $query_params);
 
-$sql_lietke = "SELECT tbl_hoadon.*, tbl_dangky.ten_khachhang, tbl_dangky.dien_thoai, tbl_dangky.dia_chi, tbl_dangky.email 
+$sql_lietke = "SELECT tbl_hoadon.*, tbl_dangky.ten_khachhang, tbl_dangky.dien_thoai, tbl_dangky.dia_chi_chi_tiet as dia_chi, tbl_dangky.email 
                FROM tbl_hoadon 
                INNER JOIN tbl_dangky ON tbl_hoadon.id_khachhang = tbl_dangky.id_dangky 
                WHERE 1=1 $where_clause

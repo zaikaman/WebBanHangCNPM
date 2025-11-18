@@ -7,7 +7,7 @@ if (isset($_GET['code'])) {
     // Truy vấn theo mã giỏ hàng
     $sql_lietke_dh = "SELECT * FROM tbl_chitiet_gh c, tbl_sanpham s WHERE c.id_sp = s.id_sp AND c.ma_gh='" . $ma_gh . "' ORDER BY c.id_ctgh DESC";
     // Lấy thông tin đơn hàng và khách hàng
-    $sql_hoadon = "SELECT h.*, d.ten_khachhang, d.dien_thoai, d.dia_chi 
+    $sql_hoadon = "SELECT h.*, d.ten_khachhang, d.dien_thoai, d.dia_chi_chi_tiet as dia_chi 
                    FROM tbl_hoadon h 
                    LEFT JOIN tbl_dangky d ON h.id_khachhang = d.id_dangky 
                    WHERE h.ma_gh = '$ma_gh'";
@@ -20,7 +20,7 @@ if (isset($_GET['code'])) {
         $ma_gh = $row_ma_gh['ma_gh'];
         $sql_lietke_dh = "SELECT * FROM tbl_chitiet_gh c, tbl_sanpham s WHERE c.id_sp = s.id_sp AND c.ma_gh='" . $ma_gh . "' ORDER BY c.id_ctgh DESC";
         // Lấy thông tin đơn hàng và khách hàng
-        $sql_hoadon = "SELECT h.*, d.ten_khachhang, d.dien_thoai, d.dia_chi 
+        $sql_hoadon = "SELECT h.*, d.ten_khachhang, d.dien_thoai, d.dia_chi_chi_tiet as dia_chi 
                        FROM tbl_hoadon h 
                        LEFT JOIN tbl_dangky d ON h.id_khachhang = d.id_dangky 
                        WHERE h.id_gh = '$id_gh'";

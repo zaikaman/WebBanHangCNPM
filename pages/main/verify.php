@@ -18,7 +18,7 @@ if (isset($_GET['token'])) {
         // Get user info from session and insert into tbl_dangky
         if (isset($_SESSION['user_info']) && $_SESSION['user_info']['email'] === $email) {
             $user = $_SESSION['user_info'];
-            $stmt = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dia_chi, mat_khau, dien_thoai) VALUES (?, ?, ?, ?, ?)");
+            $stmt = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dia_chi_chi_tiet, mat_khau, dien_thoai) VALUES (?, ?, ?, ?, ?)");
             $stmt->bind_param("sssss", $user['ten_khachhang'], $user['email'], $user['dia_chi'], $user['mat_khau'], $user['dien_thoai']);
             if ($stmt->execute()) {
                 // Delete token entry from tbl_xacnhanemail
@@ -39,15 +39,15 @@ if (isset($_GET['token'])) {
             }
         } else {
             // Thử lấy dữ liệu tạm từ tbl_dangky_temp theo token
-            $temp_stmt = $mysqli->prepare("SELECT ten_khachhang, email, dien_thoai, mat_khau, dia_chi FROM tbl_dangky_temp WHERE token = ?");
+            $temp_stmt = $mysqli->prepare("SELECT ten_khachhang, email, dien_thoai, mat_khau, dia_chi_chi_tiet FROM tbl_dangky_temp WHERE token = ?");
             if ($temp_stmt) {
                 $temp_stmt->bind_param("s", $token);
                 $temp_stmt->execute();
                 $temp_res = $temp_stmt->get_result();
                 if ($temp_res && $temp_res->num_rows > 0) {
                     $temp_user = $temp_res->fetch_assoc();
-                    $ins = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dia_chi, mat_khau, dien_thoai) VALUES (?, ?, ?, ?, ?)");
-                    $ins->bind_param("sssss", $temp_user['ten_khachhang'], $temp_user['email'], $temp_user['dia_chi'], $temp_user['mat_khau'], $temp_user['dien_thoai']);
+                    $ins = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dia_chi_chi_tiet, mat_khau, dien_thoai) VALUES (?, ?, ?, ?, ?)");
+                    $ins->bind_param("sssss", $temp_user['ten_khachhang'], $temp_user['email'], $temp_user['dia_chi_chi_tiet'], $temp_user['mat_khau'], $temp_user['dien_thoai']);
                     if ($ins->execute()) {
                         // Remove temp and token entries
                         $del_temp = $mysqli->prepare("DELETE FROM tbl_dangky_temp WHERE token = ?");

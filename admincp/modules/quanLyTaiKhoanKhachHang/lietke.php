@@ -45,7 +45,7 @@ $query_params = $_GET;
 unset($query_params['page']);
 $pagination = new Pagination($current_page, $total_records, $records_per_page, $query_params);
 
-$sql_lietke = "SELECT * FROM tbl_dangky $where_clause ORDER BY id_dangky DESC LIMIT " . $pagination->getLimit() . " OFFSET " . $pagination->getOffset();
+$sql_lietke = "SELECT *, dia_chi_chi_tiet as dia_chi FROM tbl_dangky $where_clause ORDER BY id_dangky DESC LIMIT " . $pagination->getLimit() . " OFFSET " . $pagination->getOffset();
 $lietke = mysqli_query($mysqli, $sql_lietke);
 ?>
 

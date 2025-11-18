@@ -44,7 +44,7 @@ if (isset($_GET['token']) && !empty($_GET['token'])) {
                             $user_info = $_SESSION['user_info'];
 
                             // Insert user vào bảng tbl_dangky
-                            $insert_user = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dia_chi, mat_khau, dien_thoai) VALUES (?, ?, ?, ?, ?)");
+                            $insert_user = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dia_chi_chi_tiet, mat_khau, dien_thoai) VALUES (?, ?, ?, ?, ?)");
                             $insert_user->bind_param("sssss",
                                 $user_info['ten_khachhang'],
                                 $user_info['email'],
@@ -62,7 +62,7 @@ if (isset($_GET['token']) && !empty($_GET['token'])) {
                             }
                         } else {
                             // Nếu session không có thông tin user, cố gắng lấy từ bảng tạm tbl_dangky_temp
-                            $temp_stmt = $mysqli->prepare("SELECT ten_khachhang, email, dien_thoai, mat_khau, dia_chi FROM tbl_dangky_temp WHERE token = ?");
+                            $temp_stmt = $mysqli->prepare("SELECT ten_khachhang, email, dien_thoai, mat_khau, dia_chi_chi_tiet FROM tbl_dangky_temp WHERE token = ?");
                             if ($temp_stmt) {
                                 $temp_stmt->bind_param("s", $token);
                                 $temp_stmt->execute();
@@ -71,11 +71,11 @@ if (isset($_GET['token']) && !empty($_GET['token'])) {
                                     $temp_user = $temp_res->fetch_assoc();
 
                                     // Insert into tbl_dangky
-                                    $insert_user = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dia_chi, mat_khau, dien_thoai) VALUES (?, ?, ?, ?, ?)");
+                                    $insert_user = $mysqli->prepare("INSERT INTO tbl_dangky (ten_khachhang, email, dia_chi_chi_tiet, mat_khau, dien_thoai) VALUES (?, ?, ?, ?, ?)");
                                     $insert_user->bind_param("sssss",
                                         $temp_user['ten_khachhang'],
                                         $temp_user['email'],
-                                        $temp_user['dia_chi'],
+                                        $temp_user['dia_chi_chi_tiet'],
                                         $temp_user['mat_khau'],
                                         $temp_user['dien_thoai']
                                     );

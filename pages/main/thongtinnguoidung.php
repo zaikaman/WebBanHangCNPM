@@ -29,7 +29,7 @@ if (isset($_POST['capNhatThongTin'])) {
         $sql_update = "UPDATE tbl_dangky SET 
                        ten_khachhang = '$ten_khachhang',
                        email = '$email',
-                       dia_chi = '$dia_chi',
+                       dia_chi_chi_tiet = '$dia_chi',
                        dien_thoai = '$dien_thoai'
                        WHERE id_dangky = '$id_khachhang'";
         
@@ -125,7 +125,7 @@ $user_info = mysqli_fetch_array($query_user);
                             <input type="text" 
                                    id="dia_chi" 
                                    name="dia_chi" 
-                                   value="<?php echo htmlspecialchars($user_info['dia_chi']); ?>" 
+                                   value="<?php echo htmlspecialchars($user_info['dia_chi_chi_tiet']); ?>" 
                                    required
                                    placeholder="Nhập địa chỉ">
                         </div>

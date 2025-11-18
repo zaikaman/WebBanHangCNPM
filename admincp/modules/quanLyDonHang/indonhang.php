@@ -24,7 +24,7 @@ if (empty($code)) {
 }
 
 // Truy vấn thông tin khách hàng và đơn hàng
-$sql_hoadon = "SELECT h.*, d.ten_khachhang, d.dien_thoai, d.dia_chi 
+$sql_hoadon = "SELECT h.*, d.ten_khachhang, d.dien_thoai, d.dia_chi_chi_tiet as dia_chi 
                FROM tbl_hoadon h 
                LEFT JOIN tbl_dangky d ON h.id_khachhang = d.id_dangky 
                WHERE h.ma_gh = '$code'";

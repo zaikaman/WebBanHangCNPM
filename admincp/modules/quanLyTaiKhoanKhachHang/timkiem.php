@@ -28,7 +28,7 @@ if (!empty($search)) {
     }
 }
 
-$sql_lietke = "SELECT * FROM tbl_dangky $where_clause ORDER BY id_dangky DESC";
+$sql_lietke = "SELECT *, dia_chi_chi_tiet as dia_chi FROM tbl_dangky $where_clause ORDER BY id_dangky DESC";
 $lietke = mysqli_query($mysqli, $sql_lietke);
 ?>
 

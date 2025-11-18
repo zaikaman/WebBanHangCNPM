@@ -134,7 +134,7 @@ class ExcelExporter {
                     $where_clause = " AND tbl_dangky.dien_thoai LIKE '%$search%'";
                     break;
                 case 'dia_chi':
-                    $where_clause = " AND tbl_dangky.dia_chi LIKE '%$search%'";
+                    $where_clause = " AND tbl_dangky.dia_chi_chi_tiet LIKE '%$search%'";
                     break;
                 case 'trang_thai':
                     if ($search == 'đã xử lý' || $search == '0') {
@@ -150,12 +150,12 @@ class ExcelExporter {
                     $where_clause = " AND (tbl_hoadon.ma_gh LIKE '%$search%' 
                                     OR tbl_dangky.ten_khachhang LIKE '%$search%' 
                                     OR tbl_dangky.dien_thoai LIKE '%$search%'
-                                    OR tbl_dangky.dia_chi LIKE '%$search%')";
+                                    OR tbl_dangky.dia_chi_chi_tiet LIKE '%$search%')";
             }
         }
         
         $sql = "SELECT tbl_hoadon.*, tbl_dangky.ten_khachhang, tbl_dangky.dien_thoai, 
-                       tbl_dangky.dia_chi, tbl_dangky.email 
+                       tbl_dangky.dia_chi_chi_tiet as dia_chi, tbl_dangky.email 
                 FROM tbl_hoadon 
                 INNER JOIN tbl_dangky ON tbl_hoadon.id_khachhang = tbl_dangky.id_dangky 
                 WHERE 1=1 $where_clause
@@ -336,17 +336,17 @@ class ExcelExporter {
                     $where_clause = " WHERE dien_thoai LIKE '%$search%'";
                     break;
                 case 'dia_chi':
-                    $where_clause = " WHERE dia_chi LIKE '%$search%'";
+                    $where_clause = " WHERE dia_chi_chi_tiet LIKE '%$search%'";
                     break;
                 default:
                     $where_clause = " WHERE (ten_khachhang LIKE '%$search%' 
                                     OR email LIKE '%$search%' 
                                     OR dien_thoai LIKE '%$search%'
-                                    OR dia_chi LIKE '%$search%')";
+                                    OR dia_chi_chi_tiet LIKE '%$search%')";
             }
         }
         
-        $sql = "SELECT * FROM tbl_dangky $where_clause ORDER BY id_dangky DESC";
+        $sql = "SELECT *, dia_chi_chi_tiet as dia_chi FROM tbl_dangky $where_clause ORDER BY id_dangky DESC";
         $result = mysqli_query($this->mysqli, $sql);
         
         // Thiết lập tiêu đề
