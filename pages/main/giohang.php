@@ -56,25 +56,22 @@
                                             $count = 0;
                                             $tongtien = 0;
                                             if (isset($_SESSION['cart'])) {
-                                                $host = 'localhost';
-                                                $user = 'root';
-                                                $pass = '';
-                                                $db = 'webbanhang_cnpm';
-                                                $connect_giohang = mysqli_connect($host, $user, $pass, $db);
-                                                mysqli_set_charset($connect_giohang, 'utf8');
-
                                                 foreach ($_SESSION['cart'] as $key => $cart_item) {
                                                     $count++;
                                                     
                                                     // Cập nhật giá khuyến mãi cho sản phẩm trong giỏ hàng
                                                     $id_sanpham = $cart_item['id'];
-                                                    $promotion = getActivePromotion($id_sanpham, $connect_giohang);
+                                                    $promotion = getActivePromotion($id_sanpham, $mysqli);
                                                     
                                                     // Lấy giá gốc từ database để tính toán chính xác
                                                     $sql_price = "SELECT gia_sp FROM tbl_sanpham WHERE id_sp = '$id_sanpham'";
-                                                    $query_price = mysqli_query($connect_giohang, $sql_price);
-                                                    $row_price = mysqli_fetch_array($query_price);
-                                                    $gia_goc = $row_price['gia_sp'];
+                                                    $query_price = mysqli_query($mysqli, $sql_price);
+                                                    if ($query_price && ($row_price = mysqli_fetch_array($query_price))) {
+                                                        $gia_goc = $row_price['gia_sp'];
+                                                    } else {
+                                                        // Fallback sang giá đang có trong session nếu truy vấn thất bại
+                                                        $gia_goc = $cart_item['gia_sp'];
+                                                    }
                                                     
                                                     // Tính giá sau khuyến mãi
                                                     $gia_hien_tai = $promotion ? calculatePromotionPrice($gia_goc, $promotion) : $gia_goc;
@@ -88,10 +85,10 @@
                                                     
                                                     // Get stock quantity
                                                     $size = isset($cart_item['size']) ? $cart_item['size'] : 'M';
-                                                    $sql_get_stock = "SELECT so_luong FROM tbl_sanpham_sizes WHERE id_sp = '$id_sanpham' AND size = '$size'";
-                                                    $query_get_stock = mysqli_query($connect_giohang, $sql_get_stock);
-                                                    $row_stock = mysqli_fetch_array($query_get_stock);
-                                                    $stock_quantity = $row_stock ? $row_stock['so_luong'] : 0;
+                                                        $sql_get_stock = "SELECT so_luong FROM tbl_sanpham_sizes WHERE id_sp = '$id_sanpham' AND size = '$size'";
+                                                        $query_get_stock = mysqli_query($mysqli, $sql_get_stock);
+                                                        $row_stock = $query_get_stock ? mysqli_fetch_array($query_get_stock) : null;
+                                                        $stock_quantity = $row_stock ? $row_stock['so_luong'] : 0;
                                             ?>
                                                     <hr class="my-4 hr-bold">
                                                     <div class="row mb-4 d-flex justify-content-between align-items-center product-item" 
@@ -160,7 +157,6 @@
                                                     </div>
                                             <?php
                                                 }
-                                                mysqli_close($connect_giohang);
                                             }
                                             ?>
                                             <?php
