@@ -1,0 +1,68 @@
+-- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
+--
+-- Host: a5s42n4idx9husyc.cbetxkdyhwsb.us-east-1.rds.amazonaws.com    Database: fljo4yu0yy5fswgf
+-- ------------------------------------------------------
+-- Server version	8.0.40
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
+SET @@SESSION.SQL_LOG_BIN= 0;
+
+--
+-- GTID state at the beginning of the backup 
+--
+
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
+
+--
+-- Table structure for table `tbl_vnpay`
+--
+
+DROP TABLE IF EXISTS `tbl_vnpay`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_vnpay` (
+  `id_vnpay` int NOT NULL AUTO_INCREMENT,
+  `vnp_amount` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `vnp_bankcode` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `vnp_banktranno` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `vnp_cardtype` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `vnp_orderinfo` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `vnp_paydate` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `vnp_tmncode` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `vnp_transactionno` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `code_cart` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id_vnpay`)
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_vnpay`
+--
+
+LOCK TABLES `tbl_vnpay` WRITE;
+/*!40000 ALTER TABLE `tbl_vnpay` DISABLE KEYS */;
+INSERT INTO `tbl_vnpay` VALUES (18,'35000000','NCB','VNP14710892','ATM','Thanh toán đơn hàng','20241201115747','IZK6416P','14710892','674becbcc5eac'),(19,'35000000','NCB','VNP14710908','ATM','Thanh toán đơn hàng','20241201121603','IZK6416P','14710908','674bf10c8d99b'),(20,'35000000','NCB','VNP14710933','ATM','Thanh toán đơn hàng','20241201123053','IZK6416P','14710933','674bf480116c4'),(21,'42000000','NCB','VNP14710970','ATM','Thanh toán đơn hàng','20241201131152','IZK6416P','14710970','674bfe06c43c8'),(22,'45000000','NCB','VNP14710976','ATM','Thanh toán đơn hàng','20241201131510','IZK6416P','14710976',''),(23,'35000000','NCB','VNP14711400','ATM','Thanh toán đơn hàng','20241201172818','IZK6416P','14711400','674c3a347a351'),(24,'38000000','NCB','VNP14711604','ATM','Thanh toán đơn hàng','20241201194249','IZK6416P','14711604','674c59a9a00c0'),(25,'77000000','NCB','VNP14711608','ATM','Thanh toán đơn hàng','20241201194405','IZK6416P','14711608','674c5a021c8cf'),(26,'48000000','NCB','VNP14711610','ATM','Thanh toán đơn hàng','20241201194513','IZK6416P','14711610','674c5a4e2788a'),(27,'35000000','NCB','VNP14711613','ATM','Thanh toán đơn hàng','20241201194601','IZK6416P','14711613','674c5a8371f4d'),(28,'36000000','NCB','VNP14711617','ATM','Thanh toán đơn hàng','20241201194705','IZK6416P','14711617','674c5ac428daa'),(29,'30000000','NCB','VNP14711620','ATM','Thanh toán đơn hàng','20241201194748','IZK6416P','14711620','674c5ae8a41f0'),(30,'34900000','NCB','VNP14711622','ATM','Thanh toán đơn hàng','20241201194849','IZK6416P','14711622','674c5b248a5ff'),(31,'34000000','NCB','VNP14711623','ATM','Thanh toán đơn hàng','20241201194924','IZK6416P','14711623','674c5b4f8826c'),(32,'60000000','NCB','VNP14711624','ATM','Thanh toán đơn hàng','20241201195039','IZK6416P','14711624','674c5b99eaa2c'),(33,'70000000','NCB','VNP14711626','ATM','Thanh toán đơn hàng','20241201195135','IZK6416P','14711626','674c5bd58fc2d'),(34,'35000000','NCB','VNP14711627','ATM','Thanh toán đơn hàng','20241201195253','IZK6416P','14711627','674c5c2083122'),(35,'29900000','NCB','VNP14711629','ATM','Thanh toán đơn hàng','20241201195328','IZK6416P','14711629','674c5c49bb54a'),(36,'35000000','NCB','VNP14711632','ATM','Thanh toán đơn hàng','20241201195422','IZK6416P','14711632','674c5c80cbd10'),(37,'35000000','NCB','VNP14711633','ATM','Thanh toán đơn hàng','20241201195504','IZK6416P','14711633','674c5caa9f1a1'),(38,'35000000','NCB','VNP14711638','ATM','Thanh toán đơn hàng','20241201195553','IZK6416P','14711638','674c5cdbb8eb6'),(39,'40000000','NCB','VNP15163789','ATM','Thanh toán đơn hàng','20250910131348','IZK6416P','15163789','68c116b16a364'),(40,'42000000','NCB','VNP15163790','ATM','Thanh toán đơn hàng','20250910131433','IZK6416P','15163790','68c116e973eea'),(41,'42000000','NCB','VNP15163793','ATM','Thanh toán đơn hàng','20250910131615','IZK6416P','15163793','68c11748a7ee9'),(42,'42000000','VNPAY','','QRCODE','Thanh toán đơn hàng','20251022144040','IZK6416P','0','68f88a1041e80'),(43,'40000000','VNPAY','','QRCODE','Thanh toán đơn hàng','20251022161803','IZK6416P','0','68f8a0e40256b');
+/*!40000 ALTER TABLE `tbl_vnpay` ENABLE KEYS */;
+UNLOCK TABLES;
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-11-18 13:56:08
