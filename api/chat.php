@@ -7,6 +7,14 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 require_once('../admincp/config/config.php');
 
+// Defensive: ensure $mysqli is available and connected
+if (!isset($mysqli) || ($mysqli && $mysqli->connect_errno)) {
+    http_response_code(500);
+    error_log('chat.php: Database connection not available or failed');
+    echo json_encode(['error' => 'Database connection error']);
+    exit;
+}
+
 function getStoreContext($mysqli) {
     $context = [];
     
@@ -84,7 +92,14 @@ function getRecentChat($mysqli, $sessionId = null, $limit = 5) {
     return array_reverse($history);
 }
 
+// Get API key and validate
 $API_KEY = env('GEMINI_API_KEY');
+if (empty($API_KEY)) {
+    http_response_code(500);
+    error_log('chat.php: GEMINI_API_KEY is not set');
+    echo json_encode(['error' => 'GEMINI_API_KEY not configured']);
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
@@ -164,17 +179,29 @@ Khách hàng: " . $message;
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 
     $response = curl_exec($ch);
+    $curlErrno = curl_errno($ch);
+    $curlError = curl_error($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    if ($httpCode === 200) {
-        $responseData = json_decode($response, true);
-        $aiResponse = $responseData['candidates'][0]['content']['parts'][0]['text'];
-        saveChat($mysqli, $message, $aiResponse, $sessionId);
+    if ($response === false || $curlErrno) {
+        http_response_code(500);
+        error_log('chat.php: cURL error (' . $curlErrno . '): ' . $curlError);
+        echo json_encode(['error' => 'cURL error when calling Gemini API', 'detail' => $curlError]);
+        exit;
+    }
+
+    // Try to decode the response and return error details if present
+    $responseData = json_decode($response, true);
+    if ($httpCode === 200 && is_array($responseData)) {
+        $aiResponse = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? null;
+        saveChat($mysqli, $message, $aiResponse ?? '', $sessionId);
         echo $response;
     } else {
         http_response_code(500);
-        echo json_encode(['error' => 'Failed to get response from Gemini API']);
+        $detail = is_array($responseData) ? $responseData : ['raw' => substr($response, 0, 1000)];
+        error_log('chat.php: Gemini API returned HTTP ' . $httpCode . ' - ' . print_r($detail, true));
+        echo json_encode(['error' => 'Failed to get response from Gemini API', 'httpCode' => $httpCode, 'detail' => $detail]);
     }
 }
 ?>

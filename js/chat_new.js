@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         saveChatHistory();
 
         try {
-                        const response = await fetch(window.CHAT_API_ENDPOINT, {
+            const response = await fetch(window.CHAT_API_ENDPOINT, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -102,14 +102,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            // Cố gắng parse JSON trả về (nếu có)
+            let data = null;
+            try {
+                data = await response.clone().json();
+            } catch (e) {
+                // Nếu không thể parse JSON, giữ nguyên null
+                data = null;
             }
 
-            const data = await response.json();
-            const aiResponse = data.candidates[0].content.parts[0].text;
-            
-            appendMessage(aiResponse, 'ai');
+            if (!response.ok) {
+                // Lấy thông tin lỗi thân thiện từ server nếu có
+                let serverMsg = null;
+                if (data) {
+                    serverMsg = data.error || data.detail || data.message || null;
+                }
+
+                console.error('chat_new.js: server returned non-OK', response.status, serverMsg, data);
+
+                const userVisible = serverMsg
+                    ? (typeof serverMsg === 'object' ? JSON.stringify(serverMsg) : serverMsg)
+                    : `Lỗi mạng (HTTP ${response.status}). Vui lòng thử lại sau.`;
+
+                appendMessage(`Xin lỗi, đã có lỗi: ${userVisible}`, 'ai');
+                saveChatHistory();
+                return;
+            }
+
+            // Response ok -> xử lý dữ liệu bình thường
+            const aiResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? null;
+            if (aiResponse) {
+                appendMessage(aiResponse, 'ai');
+            } else {
+                // Nếu server trả HTTP 200 nhưng dữ liệu không đúng cấu trúc
+                console.error('chat_new.js: Unexpected response structure', data);
+                appendMessage('Xin lỗi, server trả về dữ liệu không hợp lệ. Vui lòng thử lại sau.', 'ai');
+            }
+
             saveChatHistory();
 
         } catch (error) {
