@@ -55,6 +55,32 @@ function url($path = '') {
  * @return array
  */
 function db_config() {
+    // Hỗ trợ Heroku add-ons như JawsDB (JAWSDB_URL) hoặc ClearDB (CLEARDB_DATABASE_URL)
+    $remoteUrl = getenv('JAWSDB_URL') ?: env('JAWSDB_URL', null);
+    if (!$remoteUrl) {
+        $remoteUrl = getenv('CLEARDB_DATABASE_URL') ?: env('CLEARDB_DATABASE_URL', null);
+    }
+
+    if ($remoteUrl) {
+        $parts = parse_url($remoteUrl);
+        if ($parts) {
+            $host = $parts['host'] ?? env('DB_HOST', 'localhost');
+            $username = $parts['user'] ?? env('DB_USERNAME', 'root');
+            $password = $parts['pass'] ?? env('DB_PASSWORD', '');
+            $database = isset($parts['path']) ? ltrim($parts['path'], '/') : env('DB_DATABASE', 'webbanhang_cnpm');
+            $port = $parts['port'] ?? env('DB_PORT', 3306);
+
+            return [
+                'host' => $host,
+                'username' => $username,
+                'password' => $password,
+                'database' => $database,
+                'port' => $port
+            ];
+        }
+    }
+
+    // Fallback: đọc trực tiếp từ biến môi trường hoặc giá trị mặc định
     return [
         'host' => env('DB_HOST', 'localhost'),
         'username' => env('DB_USERNAME', 'root'),
