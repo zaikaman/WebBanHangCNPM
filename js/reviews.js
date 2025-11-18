@@ -94,7 +94,7 @@ function initializeReviews() {
             console.log('Rating:', selectedRating); // Debug log
             
             try {
-                const response = await fetch('/WebBanHangCNPM/api/reviews.php', {
+                const response = await fetch('api/reviews.php', {
                     method: 'POST',
                     body: formData
                 });
@@ -250,7 +250,7 @@ function initializeReviews() {
             console.log('Rating:', selectedRating); // Debug log
             
             try {
-                const response = await fetch('/WebBanHangCNPM/api/reviews.php', {
+                const response = await fetch('api/reviews.php', {
                     method: 'POST',
                     body: formData
                 });
@@ -308,7 +308,7 @@ function initializeReviews() {
     // Load Reviews
     async function loadReviews(page = 1) {
         try {
-            const response = await fetch(`/WebBanHangCNPM/api/reviews.php?action=get_reviews&id_sp=${productId}&page=${page}`);
+            const response = await fetch(`api/reviews.php?action=get_reviews&id_sp=${productId}&page=${page}`);
             const data = await response.json();
             
             if (data.success) {
