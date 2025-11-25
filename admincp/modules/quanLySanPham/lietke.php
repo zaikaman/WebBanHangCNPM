@@ -11,113 +11,130 @@ if (file_exists("../../config/config.php")) {
 }
 
 if (isset($_GET['ajax_search'])) {
-    // Enable error reporting for debugging
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
+    // Disable error display for AJAX requests to prevent JSON corruption
+    error_reporting(0);
+    ini_set('display_errors', 0);
+    
+    // Clear any previous output
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+    ob_start();
 
-    $search = isset($_GET['search']) ? $_GET['search'] : '';
-    $search_field = isset($_GET['search_field']) ? $_GET['search_field'] : 'all';
-    $price_min = isset($_GET['price_min']) ? floatval($_GET['price_min']) : '';
-    $price_max = isset($_GET['price_max']) ? floatval($_GET['price_max']) : '';
-    $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $records_per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 10;
+    try {
+        $search = isset($_GET['search']) ? $_GET['search'] : '';
+        $search_field = isset($_GET['search_field']) ? $_GET['search_field'] : 'all';
+        $price_min = isset($_GET['price_min']) ? floatval($_GET['price_min']) : '';
+        $price_max = isset($_GET['price_max']) ? floatval($_GET['price_max']) : '';
+        $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $records_per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 10;
 
-    // Ensure minimum values
-    $current_page = max(1, $current_page);
-    $records_per_page = max(1, $records_per_page);
+        // Ensure minimum values
+        $current_page = max(1, $current_page);
+        $records_per_page = max(1, $records_per_page);
 
-    $where_clause = "WHERE tbl_sanpham.id_dm = tbl_danhmucqa.id_dm";
+        $where_clause = "WHERE tbl_sanpham.id_dm = tbl_danhmucqa.id_dm";
 
-    if (!empty($search) || !empty($price_min) || !empty($price_max)) {
-        if (!empty($search)) {
-            $search = mysqli_real_escape_string($mysqli, $search);
-            switch ($search_field) {
-                case 'ten_sp':
-                    $where_clause .= " AND tbl_sanpham.ten_sp LIKE '%$search%'";
-                    break;
-                case 'ma_sp':
-                    $where_clause .= " AND tbl_sanpham.ma_sp LIKE '%$search%'";
-                    break;
-                case 'tinh_trang':
-                    $status = ($search == 'kích hoạt' || $search == '1') ? 1 : 0;
-                    $where_clause .= " AND tbl_sanpham.tinh_trang = $status";
-                    break;
-                default:
-                    $where_clause .= " AND (tbl_sanpham.ten_sp LIKE '%$search%' 
-                                        OR tbl_sanpham.ma_sp LIKE '%$search%' 
-                                        OR tbl_sanpham.tom_tat LIKE '%$search%')";
+        if (!empty($search) || !empty($price_min) || !empty($price_max)) {
+            if (!empty($search)) {
+                $search = mysqli_real_escape_string($mysqli, $search);
+                switch ($search_field) {
+                    case 'ten_sp':
+                        $where_clause .= " AND tbl_sanpham.ten_sp LIKE '%$search%'";
+                        break;
+                    case 'ma_sp':
+                        $where_clause .= " AND tbl_sanpham.ma_sp LIKE '%$search%'";
+                        break;
+                    case 'tinh_trang':
+                        $status = ($search == 'kích hoạt' || $search == '1') ? 1 : 0;
+                        $where_clause .= " AND tbl_sanpham.tinh_trang = $status";
+                        break;
+                    default:
+                        $where_clause .= " AND (tbl_sanpham.ten_sp LIKE '%$search%' 
+                                            OR tbl_sanpham.ma_sp LIKE '%$search%' 
+                                            OR tbl_sanpham.tom_tat LIKE '%$search%')";
+                }
+            }
+
+            if (!empty($price_min)) {
+                $where_clause .= " AND tbl_sanpham.gia_sp >= $price_min";
+            }
+            if (!empty($price_max)) {
+                $where_clause .= " AND tbl_sanpham.gia_sp <= $price_max";
             }
         }
 
-        if (!empty($price_min)) {
-            $where_clause .= " AND tbl_sanpham.gia_sp >= $price_min";
-        }
-        if (!empty($price_max)) {
-            $where_clause .= " AND tbl_sanpham.gia_sp <= $price_max";
-        }
-    }
+        // Đếm tổng số bản ghi cho AJAX
+        $sql_count = "SELECT COUNT(*) as total FROM tbl_sanpham, tbl_danhmucqa $where_clause";
+        $count_result = mysqli_query($mysqli, $sql_count);
 
-    // Đếm tổng số bản ghi cho AJAX
-    $sql_count = "SELECT COUNT(*) as total FROM tbl_sanpham, tbl_danhmucqa $where_clause";
-    $count_result = mysqli_query($mysqli, $sql_count);
+        if (!$count_result) {
+            ob_end_clean();
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['error' => 'Database error: ' . mysqli_error($mysqli)]);
+            exit;
+        }
 
-    if (!$count_result) {
-        header('Content-Type: application/json');
-        echo json_encode(['error' => 'Database error: ' . mysqli_error($mysqli)]);
+        $total_records = mysqli_fetch_array($count_result)['total'];
+
+        // Tạo pagination object cho AJAX
+        $query_params = $_GET;
+        unset($query_params['page'], $query_params['ajax_search']);
+        $pagination = new Pagination($current_page, $total_records, $records_per_page, $query_params);
+
+        $sql_lietke = "SELECT * FROM tbl_sanpham, tbl_danhmucqa $where_clause ORDER BY id_sp DESC LIMIT " . $pagination->getLimit() . " OFFSET " . $pagination->getOffset();
+        $lietke = mysqli_query($mysqli, $sql_lietke);
+
+        if (!$lietke) {
+            ob_end_clean();
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['error' => 'Database error: ' . mysqli_error($mysqli)]);
+            exit;
+        }
+
+        // Build table content
+        $table_content = '';
+        $start_number = $pagination->getOffset();
+        $i = $start_number;
+        while ($row = mysqli_fetch_array($lietke)) {
+            $i++;
+            $table_content .= '<tr class="product-row" data-id="' . (int)$row['id_sp'] . '">';
+            $table_content .= '<td>' . $i . '</td>';
+            $table_content .= '<td>' . htmlspecialchars($row['ten_sp']) . '</td>';
+            $table_content .= '<td><img src="modules/quanLySanPham/uploads/' . htmlspecialchars($row['hinh_anh']) . '" width="100px" alt="Product Image"></td>';
+            $table_content .= '<td>' . number_format($row['gia_sp'], 0, ',', '.') . ' VND</td>';
+            $table_content .= '<td>' . $row['so_luong'] . '</td>';
+            $table_content .= '<td>' . $row['so_luong_con_lai'] . '</td>';
+            $table_content .= '<td>' . htmlspecialchars($row['name_sp']) . '</td>';
+            $table_content .= '<td>' . htmlspecialchars($row['ma_sp']) . '</td>';
+            $table_content .= '<td>' . (($row['tinh_trang'] == 1) ? 'Kích hoạt' : 'Ẩn') . '</td>';
+            $table_content .= '<td>';
+            $table_content .= '<a href="modules/quanLySanPham/xuly.php?idsp=' . urlencode($row['ma_sp']) . '" class="btn btn-danger btn-sm" onclick="return confirm(\'Bạn có chắc chắn muốn xóa?\')">Xóa</a> ';
+            $table_content .= '<a href="?action=quanLySanPham&query=sua&idsp=' . urlencode($row['ma_sp']) . '" class="btn btn-warning btn-sm">Sửa</a>';
+            $table_content .= '</td>';
+            $table_content .= '</tr>';
+        }
+
+        // Clear any output buffer before sending JSON
+        ob_end_clean();
+        
+        // Trả về JSON response với cả table content và pagination
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'success' => true,
+            'table_content' => $table_content,
+            'pagination' => $pagination->render(),
+            'total_records' => $total_records,
+            'current_page' => $current_page
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+        
+    } catch (Exception $e) {
+        ob_end_clean();
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['error' => 'Server error: ' . $e->getMessage()]);
         exit;
     }
-
-    $total_records = mysqli_fetch_array($count_result)['total'];
-
-    // Tạo pagination object cho AJAX
-    $query_params = $_GET;
-    unset($query_params['page'], $query_params['ajax_search']);
-    $pagination = new Pagination($current_page, $total_records, $records_per_page, $query_params);
-
-    $sql_lietke = "SELECT * FROM tbl_sanpham, tbl_danhmucqa $where_clause ORDER BY id_sp DESC LIMIT " . $pagination->getLimit() . " OFFSET " . $pagination->getOffset();
-    $lietke = mysqli_query($mysqli, $sql_lietke);
-
-    if (!$lietke) {
-        header('Content-Type: application/json');
-        echo json_encode(['error' => 'Database error: ' . mysqli_error($mysqli)]);
-        exit;
-    }
-
-    ob_start();
-    $start_number = $pagination->getOffset();
-    $i = $start_number;
-    while ($row = mysqli_fetch_array($lietke)) {
-        $i++;
-?>
-        <tr class="product-row" data-id="<?php echo (int)$row['id_sp']; ?>">
-            <td><?php echo $i ?></td>
-            <td><?php echo htmlspecialchars($row['ten_sp']) ?></td>
-            <td><img src="modules/quanLySanPham/uploads/<?php echo htmlspecialchars($row['hinh_anh']) ?>" width="100px" alt="Product Image"></td>
-            <td><?php echo number_format($row['gia_sp'], 0, ',', '.') . ' VND' ?></td>
-            <td><?php echo $row['so_luong'] ?></td>
-            <td><?php echo $row['so_luong_con_lai'] ?></td>
-            <td><?php echo htmlspecialchars($row['name_sp']) ?></td>
-            <td><?php echo htmlspecialchars($row['ma_sp']) ?></td>
-            <td><?php echo ($row['tinh_trang'] == 1) ? 'Kích hoạt' : 'Ẩn' ?></td>
-            <td>
-                <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo urlencode($row['ma_sp']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
-                <a href="?action=quanLySanPham&query=sua&idsp=<?php echo urlencode($row['ma_sp']) ?>" class="btn btn-warning btn-sm">Sửa</a>
-            </td>
-        </tr>
-<?php
-    }
-    $table_content = ob_get_clean();
-
-    // Trả về JSON response với cả table content và pagination
-    header('Content-Type: application/json');
-    echo json_encode([
-        'success' => true,
-        'table_content' => $table_content,
-        'pagination' => $pagination->render(),
-        'total_records' => $total_records,
-        'current_page' => $current_page
-    ]);
-    exit;
 }
 
 // Initial query for page load

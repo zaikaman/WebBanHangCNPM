@@ -28,8 +28,7 @@ if (!empty($search) || !empty($price_min) || !empty($price_max)) {
                 break;
             default:
                 $where_clause .= " AND (tbl_sanpham.ten_sp LIKE '%$search%' 
-                                OR tbl_sanpham.ma_sp LIKE '%$search%' 
-                                OR tbl_sanpham.noi_dung LIKE '%$search%'
+                                OR tbl_sanpham.ma_sp LIKE '%$search%'
                                 OR tbl_sanpham.tom_tat LIKE '%$search%')";
         }
     }
