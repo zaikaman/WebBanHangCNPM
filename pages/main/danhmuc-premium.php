@@ -359,7 +359,7 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
                                         ?>
                                     </span>
                                     <?php
-                                } elseif ($row_pro['tinh_trang'] == 1) {
+                                } elseif ($row_pro['so_luong_con_lai'] > 0) {
                                     ?>
                                     <span class="product-badge">Mới</span>
                                     <?php
@@ -411,7 +411,7 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
                                 }
                                 ?>
                                 
-                                <?php if ($row_pro['tinh_trang'] == 1): ?>
+                                <?php if ($row_pro['so_luong_con_lai'] > 0): ?>
                                     <div class="product-stock-status in-stock">
                                         <i class="fas fa-check-circle"></i> Còn hàng
                                     </div>
