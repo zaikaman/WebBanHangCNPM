@@ -57,6 +57,7 @@ input[type="text"]::-ms-clear {
   align-items: center;
   background-color: rgb(236, 236, 236);
   scroll-behavior: smooth;
+  padding-top: 196px; /* 40px (top bar) + 100px (header) + 56px (menu) */
 }
 /* HEADER */
 .header {
