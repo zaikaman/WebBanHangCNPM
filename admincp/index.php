@@ -1,8 +1,10 @@
 <?php
+ob_start();
 session_start();
 include('config/config.php');
 if (!isset($_SESSION['dangNhap'])) {
     header('Location:login.php');
+    exit();
 }
 ?>
 <!DOCTYPE html>

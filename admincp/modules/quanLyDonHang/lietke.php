@@ -25,7 +25,7 @@ if (!empty($search)) {
             $where_clause = " AND tbl_dangky.dien_thoai LIKE '%$search%'";
             break;
         case 'dia_chi':
-            $where_clause = " AND tbl_dangky.dia_chi LIKE '%$search%'";
+            $where_clause = " AND tbl_dangky.dia_chi_chi_tiet LIKE '%$search%'";
             break;
         case 'trang_thai':
             if ($search == 'đã xử lý' || $search == '0') {
@@ -41,7 +41,7 @@ if (!empty($search)) {
             $where_clause = " AND (tbl_hoadon.ma_gh LIKE '%$search%' 
                             OR tbl_dangky.ten_khachhang LIKE '%$search%' 
                             OR tbl_dangky.dien_thoai LIKE '%$search%'
-                            OR tbl_dangky.dia_chi LIKE '%$search%')";
+                            OR tbl_dangky.dia_chi_chi_tiet LIKE '%$search%')";
     }
 }
 
