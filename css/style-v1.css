@@ -2142,3 +2142,35 @@ i, .fa, .fas, .far, .fab, .fal, .fad,
   font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Brands', 'FontAwesome' !important;
   font-weight: 900 !important;
 }
+
+/* ===================================
+   PRODUCT RATING STYLES
+   =================================== */
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.product-rating .stars {
+  font-size: 14px;
+  display: flex;
+  gap: 2px;
+}
+
+/* Sao đầy - màu vàng */
+.product-rating .stars .fas.fa-star,
+.product-rating .stars .fas.fa-star-half-alt {
+  color: #FFB800;
+}
+
+/* Sao rỗng - màu xám nhạt */
+.product-rating .stars .far.fa-star {
+  color: #ddd;
+}
+
+.product-rating .rating-count {
+  font-size: 12px;
+  color: #999;
+}

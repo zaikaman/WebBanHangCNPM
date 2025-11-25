@@ -1,5 +1,9 @@
 <?php
 // Trang hiển thị tất cả sản phẩm nổi bật (bán chạy nhất)
+
+// Include rating helper
+require_once('includes/rating_helper.php');
+
 if (isset($_GET['trang'])) {
     $page = $_GET['trang'];
 } else {
@@ -80,6 +84,14 @@ $featured_pro = mysqli_query($mysqli, $sql_pro);
                                     <?php else: ?>
                                         <p class="price_product card-text text-danger"><?php echo number_format($row['gia_sp'], 0, ',', '.') . 'đ' ?></p>
                                     <?php endif; ?>
+                                    
+                                    <?php
+                                    // Lấy rating thực từ database
+                                    $rating_data = getProductRating($row['id_sp'], $mysqli);
+                                    ?>
+                                    <div class="product-rating" style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 8px;">
+                                        <?php echo generateStarsHTML($rating_data['avg_rating'], true, $rating_data['total_reviews']); ?>
+                                    </div>
                                 </div>
                             </a>
                         </div>

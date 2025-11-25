@@ -1,5 +1,9 @@
 <?php
 // PREMIUM CATEGORY PAGE - Version 2.0
+
+// Include rating helper
+require_once('includes/rating_helper.php');
+
 // Kiểm tra và lấy tham số id từ URL
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     // Nếu không có id, hiển thị tất cả danh mục để người dùng chọn
@@ -420,6 +424,14 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
                                         <i class="fas fa-times-circle"></i> Hết hàng
                                     </div>
                                 <?php endif; ?>
+                                
+                                <?php
+                                // Lấy rating thực từ database
+                                $rating_data = getProductRating($row_pro['id_sp'], $mysqli);
+                                ?>
+                                <div class="product-rating">
+                                    <?php echo generateStarsHTML($rating_data['avg_rating'], true, $rating_data['total_reviews']); ?>
+                                </div>
                             </div>
                         </a>
                     </div>

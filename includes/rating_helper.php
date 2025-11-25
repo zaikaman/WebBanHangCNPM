@@ -67,7 +67,7 @@ function generateStarsHTML($rating, $showNumber = true, $totalReviews = 0) {
     if ($showNumber && $rating > 0) {
         $reviewText = $totalReviews > 0 ? " ({$totalReviews})" : "";
         $html .= '<span class="rating-count">(' . number_format($rating, 1) . $reviewText . ')</span>';
-    } else if ($showNumber && $totalReviews > 0) {
+    } else if ($showNumber && $totalReviews == 0) {
         $html .= '<span class="rating-count">(Chưa có đánh giá)</span>';
     }
     

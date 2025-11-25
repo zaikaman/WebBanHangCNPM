@@ -418,8 +418,20 @@
 }
 
 .stars {
-    color: #FFB800;
     font-size: 14px;
+    display: flex;
+    gap: 2px;
+}
+
+/* Sao đầy - màu vàng */
+.stars .fas.fa-star,
+.stars .fas.fa-star-half-alt {
+    color: #FFB800;
+}
+
+/* Sao rỗng - màu xám nhạt */
+.stars .far.fa-star {
+    color: #ddd;
 }
 
 .rating-count {
