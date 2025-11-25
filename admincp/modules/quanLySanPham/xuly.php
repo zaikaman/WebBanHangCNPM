@@ -6,6 +6,9 @@ if(!isset($_SESSION['dangNhap'])) {
     exit;
 }
 
+// Disable output buffering errors and start output buffering
+ob_start();
+
 include('../../config/config.php');
 
 // Helper function to validate product
@@ -128,30 +131,51 @@ function validateProduct($data, $mysqli, $isEdit = false, $currentId = null) {
 // Helper function to upload image
 function uploadImage($fileInputName, $masp, $imageNumber = '') {
     if(empty($_FILES[$fileInputName]['name'])) {
+        error_log("uploadImage: No file for $fileInputName");
         return null;
     }
+    
+    error_log("uploadImage: Processing $fileInputName");
+    error_log("File info: " . print_r($_FILES[$fileInputName], true));
     
     $file_extension = strtolower(pathinfo($_FILES[$fileInputName]['name'], PATHINFO_EXTENSION));
     $suffix = $imageNumber ? '_' . $imageNumber : '';
     $safe_filename = $masp . $suffix . '_' . time() . '.' . $file_extension;
     
     // Create uploads directory if it doesn't exist
-    if (!file_exists('uploads/')) {
-        mkdir('uploads/', 0755, true);
+    $upload_dir = 'uploads/';
+    if (!file_exists($upload_dir)) {
+        error_log("Creating uploads directory...");
+        if(!mkdir($upload_dir, 0755, true)) {
+            error_log("ERROR: Failed to create uploads directory");
+            return null;
+        }
     }
     
-    if(move_uploaded_file($_FILES[$fileInputName]['tmp_name'], 'uploads/' . $safe_filename)) {
+    $target_path = $upload_dir . $safe_filename;
+    error_log("Attempting to move file to: $target_path");
+    
+    if(move_uploaded_file($_FILES[$fileInputName]['tmp_name'], $target_path)) {
+        error_log("SUCCESS: File uploaded to $target_path");
         return $safe_filename;
+    } else {
+        error_log("ERROR: Failed to move uploaded file");
+        return null;
     }
-    
-    return null;
 }
 
 if(isset($_POST['themsanpham'])) {
+    // Debug logging
+    error_log("=== THEM SAN PHAM START ===");
+    error_log("POST data: " . print_r($_POST, true));
+    error_log("FILES data: " . print_r($_FILES, true));
+    
     $errors = validateProduct($_POST, $mysqli);
     
     if(!empty($errors)) {
+        error_log("Validation errors: " . implode(', ', $errors));
         $error_message = urlencode(implode('. ', $errors));
+        if(ob_get_length()) ob_end_clean();
         header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message");
         exit();
     }
@@ -160,6 +184,8 @@ if(isset($_POST['themsanpham'])) {
     $tenLoaisp = mysqli_real_escape_string($mysqli, trim($_POST['ten_sp']));
     $masp = mysqli_real_escape_string($mysqli, trim($_POST['ma_sp']));
     $giasp = (int)trim($_POST['gia_sp']);
+    
+    error_log("Product info - Name: $tenLoaisp, Code: $masp, Price: $giasp");
     
     // Get quantities for each size
     $sizes = [
@@ -171,18 +197,30 @@ if(isset($_POST['themsanpham'])) {
     ];
     $total_quantity = array_sum($sizes);
 
+    error_log("Total quantity: $total_quantity");
+    error_log("Sizes: " . print_r($sizes, true));
+
     if ($total_quantity <= 0) {
+        error_log("ERROR: Total quantity is 0");
         $error_message = urlencode("Tổng số lượng sản phẩm phải lớn hơn 0.");
+        if(ob_get_length()) ob_end_clean();
         header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message");
         exit();
     }
 
     // Upload 3 ảnh
+    error_log("Starting image upload...");
     $hinhanh = uploadImage('hinh_anh', $masp, '1');
     $hinhanh_2 = uploadImage('hinh_anh_2', $masp, '2');
     $hinhanh_3 = uploadImage('hinh_anh_3', $masp, '3');
     
+    error_log("Image 1: " . ($hinhanh ?? 'NULL'));
+    error_log("Image 2: " . ($hinhanh_2 ?? 'NULL'));
+    error_log("Image 3: " . ($hinhanh_3 ?? 'NULL'));
+    
     if(!$hinhanh) {
+        error_log("ERROR: Failed to upload main image");
+        if(ob_get_length()) ob_end_clean();
         header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=" . urlencode("Không thể upload ảnh chính!"));
         exit();
     }
@@ -195,29 +233,69 @@ if(isset($_POST['themsanpham'])) {
     $sql_them = "INSERT INTO tbl_sanpham(ten_sp, ma_sp, gia_sp, so_luong, so_luong_con_lai, hinh_anh, hinh_anh_2, hinh_anh_3, tom_tat, noi_dung, tinh_trang, id_dm) 
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                  
+    error_log("Preparing SQL insert...");
     $stmt = mysqli_prepare($mysqli, $sql_them);
+    
+    if(!$stmt) {
+        error_log("ERROR: Failed to prepare statement: " . mysqli_error($mysqli));
+        if(ob_get_length()) ob_end_clean();
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=" . urlencode("Lỗi chuẩn bị câu lệnh SQL"));
+        exit();
+    }
+    
     mysqli_stmt_bind_param($stmt, "ssiisssssiii", $tenLoaisp, $masp, $giasp, $total_quantity, $total_quantity, $hinhanh, $hinhanh_2, $hinhanh_3, $tomtat, $noidung, $tinhtrang, $iddm);
     
+    error_log("Executing SQL insert...");
     if(mysqli_stmt_execute($stmt)) {
         $new_product_id = mysqli_insert_id($mysqli);
+        error_log("Product inserted successfully! ID: $new_product_id");
 
         // Insert into tbl_sanpham_sizes
         $sql_size_insert = "INSERT INTO tbl_sanpham_sizes (id_sp, size, so_luong) VALUES (?, ?, ?)";
         $stmt_size = mysqli_prepare($mysqli, $sql_size_insert);
 
+        $sizes_inserted = 0;
         foreach ($sizes as $size => $quantity) {
             if ($quantity > 0) {
                 mysqli_stmt_bind_param($stmt_size, "isi", $new_product_id, $size, $quantity);
-                mysqli_stmt_execute($stmt_size);
+                if(mysqli_stmt_execute($stmt_size)) {
+                    $sizes_inserted++;
+                    error_log("Inserted size $size with quantity $quantity");
+                } else {
+                    error_log("ERROR inserting size $size: " . mysqli_error($mysqli));
+                }
             }
         }
         mysqli_stmt_close($stmt_size);
+        mysqli_stmt_close($stmt);
+        
+        error_log("Total sizes inserted: $sizes_inserted");
+        error_log("Redirecting to success page...");
 
-        header("Location: ../../index.php?action=quanLySanPham&query=lietke&success=add");
-        exit();
+        // Clear output buffer and redirect
+        if(ob_get_length()) ob_end_clean();
+        
+        // Try header redirect first
+        if(!headers_sent()) {
+            header("Location: ../../index.php?action=quanLySanPham&query=lietke&success=add");
+            exit();
+        } else {
+            // If headers already sent, use JavaScript redirect
+            error_log("WARNING: Headers already sent, using JS redirect");
+            echo "<script>window.location.href='../../index.php?action=quanLySanPham&query=lietke&success=add';</script>";
+            exit();
+        }
     } else {
+        error_log("ERROR executing SQL: " . mysqli_error($mysqli));
+        mysqli_stmt_close($stmt);
         $error_message = urlencode("Có lỗi xảy ra: " . mysqli_error($mysqli));
-        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message");
+        if(ob_get_length()) ob_end_clean();
+        
+        if(!headers_sent()) {
+            header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message");
+        } else {
+            echo "<script>window.location.href='../../index.php?action=quanLySanPham&query=lietke&error=$error_message';</script>";
+        }
         exit();
     }
 
