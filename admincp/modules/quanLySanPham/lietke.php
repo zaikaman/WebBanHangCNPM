@@ -934,9 +934,18 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                     $('#productTableBody').addClass('loading');
                 },
                 success: function(response) {
-                    if (response && response.success && response.table_content && response.pagination) {
-                        $('#productTableBody').html(response.table_content);
-                        $('#paginationContainer').html(response.pagination);
+                    // Check for success property - table_content can be empty string when no results
+                    if (response && response.success === true) {
+                        if (response.table_content) {
+                            $('#productTableBody').html(response.table_content);
+                        } else {
+                            $('#productTableBody').html('<tr><td colspan="10" class="text-center py-4"><i class="fas fa-search fa-2x text-muted mb-2"></i><br>Không tìm thấy sản phẩm nào phù hợp.</td></tr>');
+                        }
+                        if (response.pagination) {
+                            $('#paginationContainer').html(response.pagination);
+                        } else {
+                            $('#paginationContainer').html('');
+                        }
                     } else if (response && response.error) {
                         console.error('Server error:', response.error);
                         alert('Lỗi server: ' + response.error);
@@ -1001,9 +1010,18 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                     $link.addClass('loading');
                 },
                 success: function(response) {
-                    if (response && response.success && response.table_content && response.pagination) {
-                        $('#productTableBody').html(response.table_content);
-                        $('#paginationContainer').html(response.pagination);
+                    // Check for success property - table_content can be empty string when no results
+                    if (response && response.success === true) {
+                        if (response.table_content) {
+                            $('#productTableBody').html(response.table_content);
+                        } else {
+                            $('#productTableBody').html('<tr><td colspan="10" class="text-center py-4"><i class="fas fa-search fa-2x text-muted mb-2"></i><br>Không tìm thấy sản phẩm nào.</td></tr>');
+                        }
+                        if (response.pagination) {
+                            $('#paginationContainer').html(response.pagination);
+                        } else {
+                            $('#paginationContainer').html('');
+                        }
                     } else if (response && response.error) {
                         alert('Lỗi server: ' + response.error);
                     } else {
