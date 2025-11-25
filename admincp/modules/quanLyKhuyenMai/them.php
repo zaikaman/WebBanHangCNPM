@@ -1,4 +1,19 @@
 <?php
+// Start output buffering
+ob_start();
+
+// Debug function
+function debug_log_km($message) {
+    $log_file = __DIR__ . '/../../debug_khuyenmai.log';
+    $timestamp = date('Y-m-d H:i:s');
+    file_put_contents($log_file, "[$timestamp] $message\n", FILE_APPEND);
+}
+
+debug_log_km("==========================================");
+debug_log_km("Script started - Request method: " . $_SERVER['REQUEST_METHOD']);
+debug_log_km("GET params: " . print_r($_GET, true));
+debug_log_km("POST params: " . print_r($_POST, true));
+
 $error = '';
 $success = '';
 $km = null;
@@ -17,6 +32,8 @@ if (isset($_GET['id'])) {
 
 // Xử lý form submit
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    debug_log_km("=== PROCESSING POST REQUEST ===");
+    
     $ten_km = mysqli_real_escape_string($mysqli, $_POST['ten_km']);
     $mo_ta = mysqli_real_escape_string($mysqli, $_POST['mo_ta']);
     $loai_km = mysqli_real_escape_string($mysqli, $_POST['loai_km']);
@@ -25,18 +42,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ngay_ket_thuc = mysqli_real_escape_string($mysqli, $_POST['ngay_ket_thuc']);
     $trang_thai = isset($_POST['trang_thai']) ? 1 : 0;
     
+    debug_log_km("Data - Name: $ten_km, Type: $loai_km, Value: $gia_tri_km, Status: $trang_thai");
+    debug_log_km("Dates - Start: $ngay_bat_dau, End: $ngay_ket_thuc");
+    
     // Validate
     if (empty($ten_km)) {
+        debug_log_km("VALIDATION ERROR: Empty name");
         $error = "Vui lòng nhập tên khuyến mãi!";
     } elseif ($gia_tri_km <= 0) {
+        debug_log_km("VALIDATION ERROR: Invalid value");
         $error = "Giá trị khuyến mãi phải lớn hơn 0!";
     } elseif ($loai_km == 'phan_tram' && $gia_tri_km > 100) {
+        debug_log_km("VALIDATION ERROR: Percentage > 100");
         $error = "Phần trăm giảm giá không được vượt quá 100%!";
     } elseif (strtotime($ngay_bat_dau) >= strtotime($ngay_ket_thuc)) {
+        debug_log_km("VALIDATION ERROR: Invalid date range");
         $error = "Ngày kết thúc phải sau ngày bắt đầu!";
     } else {
+        debug_log_km("Validation passed");
         if (isset($_GET['id'])) {
             // Cập nhật
+            debug_log_km("=== UPDATING PROMOTION ID: $id_km ===");
             $sql = "UPDATE tbl_khuyenmai SET 
                     ten_km = '$ten_km',
                     mo_ta = '$mo_ta',
@@ -47,24 +73,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     trang_thai = $trang_thai
                     WHERE id_km = $id_km";
             
+            debug_log_km("SQL: $sql");
+            
             if (mysqli_query($mysqli, $sql)) {
+                debug_log_km("UPDATE SUCCESS!");
                 $success = "Cập nhật khuyến mãi thành công!";
                 // Refresh data
                 $result = mysqli_query($mysqli, "SELECT * FROM tbl_khuyenmai WHERE id_km = $id_km");
                 $km = mysqli_fetch_array($result);
             } else {
+                debug_log_km("UPDATE ERROR: " . mysqli_error($mysqli));
                 $error = "Lỗi: " . mysqli_error($mysqli);
             }
         } else {
             // Thêm mới
+            debug_log_km("=== ADDING NEW PROMOTION ===");
             $sql = "INSERT INTO tbl_khuyenmai (ten_km, mo_ta, loai_km, gia_tri_km, ngay_bat_dau, ngay_ket_thuc, trang_thai) 
                     VALUES ('$ten_km', '$mo_ta', '$loai_km', $gia_tri_km, '$ngay_bat_dau', '$ngay_ket_thuc', $trang_thai)";
             
+            debug_log_km("SQL: $sql");
+            
             if (mysqli_query($mysqli, $sql)) {
+                $new_id = mysqli_insert_id($mysqli);
+                debug_log_km("SUCCESS! New promotion ID: $new_id");
                 $success = "Thêm khuyến mãi thành công!";
-                header("Location: ?action=quanlykhuyenmai&query=lietke&msg=add_success");
+                
+                // Clear all output buffers
+                while(ob_get_level() > 0) {
+                    ob_end_clean();
+                }
+                
+                debug_log_km("Redirecting to list page...");
+                header("Location: ?action=quanlykhuyenmai&query=lietke&msg=add_success", true, 302);
                 exit();
             } else {
+                debug_log_km("ERROR: " . mysqli_error($mysqli));
                 $error = "Lỗi: " . mysqli_error($mysqli);
             }
         }
