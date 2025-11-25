@@ -116,6 +116,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
     exit;
 }
 
+// Kiểm tra quyền đánh giá
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'check_review_permission') {
+    $id_sp = isset($_GET['id_sp']) ? intval($_GET['id_sp']) : 0;
+    
+    if ($id_sp <= 0) {
+        echo json_encode(['success' => false, 'message' => 'ID sản phẩm không hợp lệ']);
+        exit;
+    }
+    
+    // Kiểm tra đăng nhập
+    if (!isset($_SESSION['id_khachhang'])) {
+        echo json_encode([
+            'success' => true,
+            'can_review' => false,
+            'message' => 'Vui lòng đăng nhập để đánh giá'
+        ]);
+        exit;
+    }
+    
+    $id_dangky = $_SESSION['id_khachhang'];
+    
+    // Kiểm tra đã đánh giá chưa
+    $sql_check = "SELECT id FROM tbl_danhgia_sp WHERE id_sp = ? AND id_dangky = ? AND trang_thai = 1";
+    $stmt_check = mysqli_prepare($mysqli, $sql_check);
+    mysqli_stmt_bind_param($stmt_check, "ii", $id_sp, $id_dangky);
+    mysqli_stmt_execute($stmt_check);
+    $result_check = mysqli_stmt_get_result($stmt_check);
+    
+    if (mysqli_num_rows($result_check) > 0) {
+        echo json_encode([
+            'success' => true,
+            'can_review' => false,
+            'message' => 'Bạn đã đánh giá sản phẩm này rồi'
+        ]);
+        exit;
+    }
+    
+    // Kiểm tra đã mua sản phẩm chưa
+    $sql_purchased = "SELECT ct.id_ctgh FROM tbl_chitiet_gh ct 
+                      INNER JOIN tbl_hoadon h ON ct.ma_gh = h.ma_gh 
+                      WHERE ct.id_sp = ? AND h.id_khachhang = ? AND h.trang_thai != 0";
+    $stmt_purchased = mysqli_prepare($mysqli, $sql_purchased);
+    mysqli_stmt_bind_param($stmt_purchased, "ii", $id_sp, $id_dangky);
+    mysqli_stmt_execute($stmt_purchased);
+    $result_purchased = mysqli_stmt_get_result($stmt_purchased);
+    
+    if (mysqli_num_rows($result_purchased) == 0) {
+        echo json_encode([
+            'success' => true,
+            'can_review' => false,
+            'message' => 'Bạn chỉ có thể đánh giá sản phẩm đã mua'
+        ]);
+        exit;
+    }
+    
+    // Có quyền đánh giá
+    echo json_encode([
+        'success' => true,
+        'can_review' => true,
+        'message' => ''
+    ]);
+    exit;
+}
+
 // Thêm đánh giá mới
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_review') {
     // Kiểm tra đăng nhập
@@ -154,19 +218,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         exit;
     }
     
-    // Kiểm tra xem khách hàng đã mua sản phẩm này chưa (tùy chọn - có thể bỏ comment nếu muốn bắt buộc)
-    // $sql_purchased = "SELECT ct.id FROM tbl_chitiet_gh ct 
-    //                   INNER JOIN tbl_hoadon h ON ct.ma_gh = h.ma_gh 
-    //                   WHERE ct.id_sp = ? AND h.id_khachhang = ? AND h.trang_thai = 1";
-    // $stmt_purchased = mysqli_prepare($mysqli, $sql_purchased);
-    // mysqli_stmt_bind_param($stmt_purchased, "ii", $id_sp, $id_dangky);
-    // mysqli_stmt_execute($stmt_purchased);
-    // $result_purchased = mysqli_stmt_get_result($stmt_purchased);
+    // Kiểm tra xem khách hàng đã mua sản phẩm này chưa
+    $sql_purchased = "SELECT ct.id_ctgh FROM tbl_chitiet_gh ct 
+                      INNER JOIN tbl_hoadon h ON ct.ma_gh = h.ma_gh 
+                      WHERE ct.id_sp = ? AND h.id_khachhang = ? AND h.trang_thai != 0";
+    $stmt_purchased = mysqli_prepare($mysqli, $sql_purchased);
+    mysqli_stmt_bind_param($stmt_purchased, "ii", $id_sp, $id_dangky);
+    mysqli_stmt_execute($stmt_purchased);
+    $result_purchased = mysqli_stmt_get_result($stmt_purchased);
     
-    // if (mysqli_num_rows($result_purchased) == 0) {
-    //     echo json_encode(['success' => false, 'message' => 'Bạn chỉ có thể đánh giá sản phẩm đã mua']);
-    //     exit;
-    // }
+    if (mysqli_num_rows($result_purchased) == 0) {
+        echo json_encode(['success' => false, 'message' => 'Bạn chỉ có thể đánh giá sản phẩm đã mua']);
+        exit;
+    }
     
     // Thêm đánh giá
     $sql_insert = "INSERT INTO tbl_danhgia_sp (id_sp, id_dangky, rating, noi_dung, ngay_tao, trang_thai) 

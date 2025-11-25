@@ -31,6 +31,7 @@ function initializeReviews() {
     
     // Initialize
     loadReviews(currentPage);
+    checkReviewPermission(); // Kiểm tra quyền đánh giá
     initStarRating();
     
     // Use event delegation for submit button - add handler with once flag
@@ -303,6 +304,30 @@ function initializeReviews() {
         setTimeout(() => {
             messageDiv.style.display = 'none';
         }, 5000);
+    }
+    
+    // Kiểm tra quyền đánh giá
+    async function checkReviewPermission() {
+        const reviewFormSection = document.querySelector('.review-form-section');
+        if (!reviewFormSection) return; // Không có form (chưa đăng nhập)
+        
+        try {
+            const response = await fetch(`api/reviews.php?action=check_review_permission&id_sp=${productId}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                if (!data.can_review) {
+                    // Ẩn form và hiển thị thông báo
+                    reviewFormSection.innerHTML = `
+                        <div class="review-permission-message">
+                            <p><i class="fas fa-info-circle"></i> ${data.message}</p>
+                        </div>
+                    `;
+                }
+            }
+        } catch (error) {
+            console.error('Error checking review permission:', error);
+        }
     }
     
     // Load Reviews
