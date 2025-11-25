@@ -11,7 +11,9 @@ $sql_lietke_dh = "SELECT c.*, s.ten_sp,
 $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
 
 // Lấy thông tin đơn hàng và khách hàng
-$sql_don_hang = "SELECT hd.*, dk.ten_khachhang, dk.email, dk.dien_thoai, gh.address, gh.name as ten_nguoi_nhan, gh.phone as sdt_nguoi_nhan 
+$sql_don_hang = "SELECT hd.*, dk.ten_khachhang, dk.email, dk.dien_thoai, 
+                CONCAT_WS(', ', gh.dia_chi_chi_tiet, gh.quan_huyen, gh.tinh_thanh) as address,
+                gh.name as ten_nguoi_nhan, gh.phone as sdt_nguoi_nhan 
                 FROM tbl_hoadon hd 
                 LEFT JOIN tbl_dangky dk ON hd.id_khachhang = dk.id_dangky 
                 LEFT JOIN tbl_giaohang gh ON hd.cart_shipping = gh.id_shipping 
