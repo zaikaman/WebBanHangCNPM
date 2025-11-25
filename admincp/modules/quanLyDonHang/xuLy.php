@@ -26,8 +26,9 @@ if(isset($_GET['code'])) {
                 die("Error updating order status: " . mysqli_error($mysqli));
             }
             
-            // Thống kê doanh thu
-            $sql_lietke_dh = "SELECT tbl_chitiet_gh.so_luong_mua, tbl_sanpham.gia_sp 
+            // Thống kê doanh thu - Sử dụng gia_mua đã lưu (có khuyến mãi nếu có)
+            $sql_lietke_dh = "SELECT tbl_chitiet_gh.so_luong_mua, 
+                             COALESCE(tbl_chitiet_gh.gia_mua, tbl_sanpham.gia_sp) as gia_mua
                              FROM tbl_chitiet_gh 
                              INNER JOIN tbl_sanpham ON tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp 
                              WHERE tbl_chitiet_gh.ma_gh = '$code_cart'";
@@ -42,7 +43,7 @@ if(isset($_GET['code'])) {
             
             while($row = mysqli_fetch_array($query_lietke_dh)) {
                 $soluongmua += $row['so_luong_mua'];
-                $doanhthu += $row['so_luong_mua'] * $row['gia_sp'];
+                $doanhthu += $row['so_luong_mua'] * $row['gia_mua'];
             }
 
             // Kiểm tra thống kê trong ngày

@@ -81,8 +81,12 @@ if (isset($info_don_hang['dia_chi_chi_tiet']) || isset($info_don_hang['quan_huye
 
 $pdf->Ln(6);
 
-// Chi tiết sản phẩm - compact
-$sql_lietke_dh = "SELECT * FROM tbl_chitiet_gh,tbl_sanpham WHERE tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp AND tbl_chitiet_gh.ma_gh='".$code."' ORDER BY tbl_chitiet_gh.id_ctgh DESC ";
+// Chi tiết sản phẩm - compact - Sử dụng gia_mua đã lưu (có khuyến mãi nếu có)
+$sql_lietke_dh = "SELECT tbl_chitiet_gh.*, tbl_sanpham.ten_sp, tbl_sanpham.ma_sp, 
+                  COALESCE(tbl_chitiet_gh.gia_mua, tbl_sanpham.gia_sp) as gia_sp 
+                  FROM tbl_chitiet_gh 
+                  INNER JOIN tbl_sanpham ON tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp 
+                  WHERE tbl_chitiet_gh.ma_gh='".$code."' ORDER BY tbl_chitiet_gh.id_ctgh DESC ";
 $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
 
 $pdf->SetFont('DejaVu','',10);
