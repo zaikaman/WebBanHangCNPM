@@ -123,8 +123,9 @@ if ($cart_payment == 'tienmat' || $cart_payment == 'chuyenkhoan') {
       $id_sp = $value['id'];
       $so_luong = $value['so_luong'];
       $size = isset($value['size']) ? $value['size'] : 'M';
-      $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh, id_sp, so_luong_mua, size) 
-                              VALUES ('$ma_gh', '$id_sp', '$so_luong', '$size')";
+      $gia_mua = $value['gia_sp']; // Giá đã bao gồm khuyến mãi nếu có
+      $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh, id_sp, so_luong_mua, size, gia_mua) 
+                              VALUES ('$ma_gh', '$id_sp', '$so_luong', '$size', '$gia_mua')";
       mysqli_query($mysqli, $insert_order_details);
 
       // --- START: New stock update logic ---

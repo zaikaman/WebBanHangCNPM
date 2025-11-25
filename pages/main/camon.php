@@ -54,7 +54,8 @@ if (isset($_GET['partnerCode'])) {
                 $id_sp = $value['id'];
                 $so_luong = $value['so_luong'];
                 $size = isset($value['size']) ? $value['size'] : 'M';
-                $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua,size) VALUES('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "','" . $size . "')";
+                $gia_mua = $value['gia_sp']; // Giá đã bao gồm khuyến mãi nếu có
+                $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua,size,gia_mua) VALUES('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "','" . $size . "','" . $gia_mua . "')";
                 mysqli_query($mysqli, $insert_order_details);
                 // cap nhat so luong san pham
                 $update_stock = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - $so_luong WHERE id_sp = $id_sp";
@@ -166,9 +167,10 @@ if (isset($_GET['partnerCode'])) {
                 $id_sp = $value['id'];
                 $so_luong = $value['so_luong'];
                 $size = isset($value['size']) ? $value['size'] : 'M';
-                $thanhtien = $so_luong * $value['gia_sp'];
+                $gia_mua = $value['gia_sp']; // Giá đã bao gồm khuyến mãi nếu có
+                $thanhtien = $so_luong * $gia_mua;
                 $tong_tien += $thanhtien;
-                $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua,size) VALUES('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "','" . $size . "')";
+                $insert_order_details = "INSERT INTO tbl_chitiet_gh(ma_gh,id_sp,so_luong_mua,size,gia_mua) VALUES('" . $ma_gh . "','" . $id_sp . "','" . $so_luong . "','" . $size . "','" . $gia_mua . "')";
                 mysqli_query($mysqli, $insert_order_details);
                 // cap nhat so luong san pham
                 $update_stock = "UPDATE tbl_sanpham SET so_luong_con_lai = so_luong_con_lai - $so_luong WHERE id_sp = $id_sp";

@@ -1,8 +1,13 @@
 <?php
 $code = $_GET['code'];
 
-// Lấy thông tin chi tiết đơn hàng
-$sql_lietke_dh = "SELECT * FROM tbl_chitiet_gh,tbl_sanpham WHERE tbl_chitiet_gh.id_sp = tbl_sanpham.id_sp AND tbl_chitiet_gh.ma_gh='" . $code . "' ORDER BY tbl_chitiet_gh.id_ctgh DESC ";
+// Lấy thông tin chi tiết đơn hàng - Sử dụng gia_mua từ tbl_chitiet_gh nếu có, fallback sang gia_sp
+$sql_lietke_dh = "SELECT c.*, s.ten_sp, 
+                  COALESCE(c.gia_mua, s.gia_sp) as gia_sp 
+                  FROM tbl_chitiet_gh c 
+                  INNER JOIN tbl_sanpham s ON c.id_sp = s.id_sp 
+                  WHERE c.ma_gh='" . $code . "' 
+                  ORDER BY c.id_ctgh DESC";
 $lietke_dh = mysqli_query($mysqli, $sql_lietke_dh);
 
 // Lấy thông tin đơn hàng và khách hàng

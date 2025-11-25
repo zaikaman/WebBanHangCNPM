@@ -4,8 +4,13 @@ include("config/config.php");
 // Nhận parameter từ URL - có thể là 'code' hoặc 'id_gh'
 if (isset($_GET['code'])) {
     $ma_gh = $_GET['code'];
-    // Truy vấn theo mã giỏ hàng
-    $sql_lietke_dh = "SELECT * FROM tbl_chitiet_gh c, tbl_sanpham s WHERE c.id_sp = s.id_sp AND c.ma_gh='" . $ma_gh . "' ORDER BY c.id_ctgh DESC";
+    // Truy vấn theo mã giỏ hàng - Sử dụng gia_mua từ tbl_chitiet_gh nếu có, fallback sang gia_sp
+    $sql_lietke_dh = "SELECT c.*, s.ten_sp, 
+                      COALESCE(c.gia_mua, s.gia_sp) as gia_sp 
+                      FROM tbl_chitiet_gh c 
+                      INNER JOIN tbl_sanpham s ON c.id_sp = s.id_sp 
+                      WHERE c.ma_gh='" . $ma_gh . "' 
+                      ORDER BY c.id_ctgh DESC";
     // Lấy thông tin đơn hàng và khách hàng
     $sql_hoadon = "SELECT h.*, d.ten_khachhang, d.dien_thoai, d.dia_chi_chi_tiet as dia_chi 
                    FROM tbl_hoadon h 
@@ -18,7 +23,12 @@ if (isset($_GET['code'])) {
     $result_ma_gh = mysqli_query($mysqli, $sql_get_ma_gh);
     if ($row_ma_gh = mysqli_fetch_array($result_ma_gh)) {
         $ma_gh = $row_ma_gh['ma_gh'];
-        $sql_lietke_dh = "SELECT * FROM tbl_chitiet_gh c, tbl_sanpham s WHERE c.id_sp = s.id_sp AND c.ma_gh='" . $ma_gh . "' ORDER BY c.id_ctgh DESC";
+        $sql_lietke_dh = "SELECT c.*, s.ten_sp, 
+                          COALESCE(c.gia_mua, s.gia_sp) as gia_sp 
+                          FROM tbl_chitiet_gh c 
+                          INNER JOIN tbl_sanpham s ON c.id_sp = s.id_sp 
+                          WHERE c.ma_gh='" . $ma_gh . "' 
+                          ORDER BY c.id_ctgh DESC";
         // Lấy thông tin đơn hàng và khách hàng
         $sql_hoadon = "SELECT h.*, d.ten_khachhang, d.dien_thoai, d.dia_chi_chi_tiet as dia_chi 
                        FROM tbl_hoadon h 
