@@ -136,7 +136,67 @@ if (isset($_GET['dangXuat']) && $_GET['dangXuat'] == 1) {
     </div>
 
     <!-- Menu Navigation -->
-    <?php include("menu.php"); ?>
+    <?php 
+    $sql_lietke = "SELECT * FROM tbl_danhmucqa ORDER BY id_dm DESC ";
+    $lietke = mysqli_query($mysqli, $sql_lietke);
+    ?>
+    
+    <!-- Premium Menu CSS -->
+    <link rel="stylesheet" href="css/menu-premium.css?v=<?php echo time(); ?>">
+    
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    
+    <div class="menu">
+        <div class="menu_content">
+            <div class="menu_items">
+                <a class="item" href="index.php" data-ajax="true">Trang chủ<span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>
+            </div>
+            <?php
+            while ($row_danhmuc = mysqli_fetch_array($lietke)) {
+            ?>
+                <div class="menu_items">
+                    <a class="item" href="index.php?quanly=danhmucsanpham&id=<?php echo $row_danhmuc['id_dm'] ?>" data-ajax="true"><?php echo $row_danhmuc['name_sp'] ?><span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>
+                </div>
+            <?php } ?>
+
+            <div class="menu_items">
+                <a class="item" href="index.php?quanly=giohang" data-ajax="true">Giỏ hàng<span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>
+            </div>
+
+            <?php if (isset($_SESSION['dang_ky'])): ?>
+            <div class="menu_items">
+                <a class="item" href="index.php?quanly=lichSuDonHang" data-ajax="true">Lịch sử đơn hàng<span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>
+            </div>
+            <?php endif; ?>
+
+            <div class="menu_items">
+                <a class="item" href="index.php?quanly=tintuc" data-ajax="true">Tin tức<span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>
+                <div class="news_content" id="news_content">
+                    <?php
+                    // Lấy danh mục bài viết
+                    $sql_danhmuc = "SELECT * FROM tbl_danhmuc_baiviet ORDER BY id_baiviet DESC";
+                    $query_danhmuc = mysqli_query($mysqli, $sql_danhmuc);
+                    while ($row_danhmuc = mysqli_fetch_array($query_danhmuc)) {
+                    ?>
+                        <a href="index.php?quanly=danhmucbaiviet&id_baiviet=<?php echo $row_danhmuc['id_baiviet']; ?>" data-ajax="true">
+                            <span style="text-transform: uppercase;"><?php echo $row_danhmuc['tendanhmuc_baiviet']; ?></span>
+                        </a>
+                    <?php
+                    }
+                    ?>
+                </div>
+            </div>
+
+            <div class="menu_items">
+                <a class="item" href="index.php?quanly=lienhe" data-ajax="true">Liên hệ<span class="arrow_menu"><img src="images/arrow-icon.svg" alt="arrow"></span></a>
+            </div>
+
+            <div class="hamburger" id="hamburger">
+                <img src="images/bars-solid.svg" alt="" width="30px" height="30px">
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Scroll Effect Script -->
