@@ -123,6 +123,12 @@
     overflow: visible;
 }
 
+/* Menu trong header - không có khoảng cách */
+.header .menu {
+    margin: 0;
+    border-top: 1px solid #ECECEC;
+}
+
 /* ===================================
    LOGO
    =================================== */

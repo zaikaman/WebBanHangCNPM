@@ -134,6 +134,9 @@ if (isset($_GET['dangXuat']) && $_GET['dangXuat'] == 1) {
             </div>
         </div>
     </div>
+
+    <!-- Menu Navigation -->
+    <?php include("menu.php"); ?>
 </div>
 
 <!-- Scroll Effect Script -->
