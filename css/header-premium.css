@@ -101,14 +101,13 @@
 
 .header_content_container {
     background: var(--header-white);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
     position: relative;
     transition: all 0.3s ease;
     overflow: visible;
 }
 
 .header_content_container.scrolled {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .header_content {
