@@ -8,12 +8,15 @@ if (isset($_GET['trang'])) {
 
 $begin = ($page - 1) * 12;
 
-// Query lấy sản phẩm nổi bật - tạm thời dùng ngẫu nhiên
-// Sau này có thể thay bằng ORDER BY luot_ban DESC nếu có trường này
-$sql_pro = "SELECT * FROM tbl_sanpham, tbl_danhmucqa 
-            WHERE tbl_sanpham.id_dm = tbl_danhmucqa.id_dm 
-            AND tbl_sanpham.so_luong > 0
-            ORDER BY RAND() 
+// Query lấy sản phẩm nổi bật (bán chạy nhất) - dựa trên tổng số lượng đã bán
+$sql_pro = "SELECT tbl_sanpham.*, tbl_danhmucqa.name_sp as ten_dm,
+            COALESCE(SUM(tbl_chitiet_gh.so_luong_mua), 0) as total_sold
+            FROM tbl_sanpham
+            INNER JOIN tbl_danhmucqa ON tbl_sanpham.id_dm = tbl_danhmucqa.id_dm
+            LEFT JOIN tbl_chitiet_gh ON tbl_sanpham.id_sp = tbl_chitiet_gh.id_sp
+            WHERE tbl_sanpham.so_luong > 0
+            GROUP BY tbl_sanpham.id_sp
+            ORDER BY total_sold DESC, tbl_sanpham.id_sp DESC
             LIMIT $begin, 12";
 $featured_pro = mysqli_query($mysqli, $sql_pro);
 ?>

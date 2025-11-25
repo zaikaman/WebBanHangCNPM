@@ -14,12 +14,16 @@ if ($page == '' || $page == 1) {
     $begin = ($page * 12) - 12;
 }
 
-// Lấy sản phẩm nổi bật (bán chạy nhất) - giả sử có trường luot_ban hoặc dùng số lượng đã bán
-// Nếu chưa có trường này, tạm thời dùng ngẫu nhiên
-$sql_featured = "SELECT tbl_sanpham.*, tbl_danhmucqa.name_sp as ten_dm FROM tbl_sanpham, tbl_danhmucqa 
-                 WHERE tbl_sanpham.id_dm = tbl_danhmucqa.id_dm 
-                 AND tbl_sanpham.so_luong > 0
-                 ORDER BY RAND() LIMIT 4";
+// Lấy sản phẩm nổi bật (bán chạy nhất) - dựa trên tổng số lượng đã bán
+$sql_featured = "SELECT tbl_sanpham.*, tbl_danhmucqa.name_sp as ten_dm, 
+                 COALESCE(SUM(tbl_chitiet_gh.so_luong_mua), 0) as total_sold
+                 FROM tbl_sanpham
+                 INNER JOIN tbl_danhmucqa ON tbl_sanpham.id_dm = tbl_danhmucqa.id_dm
+                 LEFT JOIN tbl_chitiet_gh ON tbl_sanpham.id_sp = tbl_chitiet_gh.id_sp
+                 WHERE tbl_sanpham.so_luong > 0
+                 GROUP BY tbl_sanpham.id_sp
+                 ORDER BY total_sold DESC, tbl_sanpham.id_sp DESC
+                 LIMIT 4";
 $featured_pro = mysqli_query($mysqli, $sql_featured);
 if (!$featured_pro) {
     error_log("Featured products query error: " . mysqli_error($mysqli));
