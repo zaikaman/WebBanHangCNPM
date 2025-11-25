@@ -6,10 +6,26 @@ if(!isset($_SESSION['dangNhap'])) {
     exit;
 }
 
-// Disable output buffering errors and start output buffering
+// Start output buffering
 ob_start();
 
 include('../../config/config.php');
+
+// Debug function - ghi log vào file
+function debug_log($message) {
+    $log_file = __DIR__ . '/../../debug_xuly.log';
+    $timestamp = date('Y-m-d H:i:s');
+    file_put_contents($log_file, "[$timestamp] $message\n", FILE_APPEND);
+}
+
+// LOG EVERYTHING FIRST
+debug_log("==========================================");
+debug_log("Script started");
+debug_log("POST keys: " . implode(', ', array_keys($_POST)));
+debug_log("Has themsanpham: " . (isset($_POST['themsanpham']) ? 'YES' : 'NO'));
+debug_log("Has suaSanPham: " . (isset($_POST['suaSanPham']) ? 'YES' : 'NO'));
+debug_log("GET idsp: " . (isset($_GET['idsp']) ? $_GET['idsp'] : 'NONE'));
+debug_log("==========================================");
 
 // Helper function to validate product
 function validateProduct($data, $mysqli, $isEdit = false, $currentId = null) {
@@ -166,17 +182,21 @@ function uploadImage($fileInputName, $masp, $imageNumber = '') {
 
 if(isset($_POST['themsanpham'])) {
     // Debug logging
-    error_log("=== THEM SAN PHAM START ===");
-    error_log("POST data: " . print_r($_POST, true));
-    error_log("FILES data: " . print_r($_FILES, true));
+    debug_log("=== THEM SAN PHAM START ===");
+    debug_log("POST data: " . print_r($_POST, true));
+    debug_log("FILES data: " . print_r($_FILES, true));
     
     $errors = validateProduct($_POST, $mysqli);
     
     if(!empty($errors)) {
-        error_log("Validation errors: " . implode(', ', $errors));
+        debug_log("Validation errors: " . implode(', ', $errors));
         $error_message = urlencode(implode('. ', $errors));
-        if(ob_get_length()) ob_end_clean();
-        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message");
+        
+        while(ob_get_level() > 0) {
+            ob_end_clean();
+        }
+        
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message", true, 302);
         exit();
     }
 
@@ -185,7 +205,7 @@ if(isset($_POST['themsanpham'])) {
     $masp = mysqli_real_escape_string($mysqli, trim($_POST['ma_sp']));
     $giasp = (int)trim($_POST['gia_sp']);
     
-    error_log("Product info - Name: $tenLoaisp, Code: $masp, Price: $giasp");
+    debug_log("Product info - Name: $tenLoaisp, Code: $masp, Price: $giasp");
     
     // Get quantities for each size
     $sizes = [
@@ -203,8 +223,12 @@ if(isset($_POST['themsanpham'])) {
     if ($total_quantity <= 0) {
         error_log("ERROR: Total quantity is 0");
         $error_message = urlencode("Tổng số lượng sản phẩm phải lớn hơn 0.");
-        if(ob_get_length()) ob_end_clean();
-        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message");
+        
+        while(ob_get_level() > 0) {
+            ob_end_clean();
+        }
+        
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message", true, 302);
         exit();
     }
 
@@ -220,8 +244,12 @@ if(isset($_POST['themsanpham'])) {
     
     if(!$hinhanh) {
         error_log("ERROR: Failed to upload main image");
-        if(ob_get_length()) ob_end_clean();
-        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=" . urlencode("Không thể upload ảnh chính!"));
+        
+        while(ob_get_level() > 0) {
+            ob_end_clean();
+        }
+        
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=" . urlencode("Không thể upload ảnh chính!"), true, 302);
         exit();
     }
 
@@ -238,8 +266,12 @@ if(isset($_POST['themsanpham'])) {
     
     if(!$stmt) {
         error_log("ERROR: Failed to prepare statement: " . mysqli_error($mysqli));
-        if(ob_get_length()) ob_end_clean();
-        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=" . urlencode("Lỗi chuẩn bị câu lệnh SQL"));
+        
+        while(ob_get_level() > 0) {
+            ob_end_clean();
+        }
+        
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=" . urlencode("Lỗi chuẩn bị câu lệnh SQL"), true, 302);
         exit();
     }
     
@@ -272,30 +304,24 @@ if(isset($_POST['themsanpham'])) {
         error_log("Total sizes inserted: $sizes_inserted");
         error_log("Redirecting to success page...");
 
-        // Clear output buffer and redirect
-        if(ob_get_length()) ob_end_clean();
-        
-        // Try header redirect first
-        if(!headers_sent()) {
-            header("Location: ../../index.php?action=quanLySanPham&query=lietke&success=add");
-            exit();
-        } else {
-            // If headers already sent, use JavaScript redirect
-            error_log("WARNING: Headers already sent, using JS redirect");
-            echo "<script>window.location.href='../../index.php?action=quanLySanPham&query=lietke&success=add';</script>";
-            exit();
+        // Clear ALL output buffers
+        while(ob_get_level() > 0) {
+            ob_end_clean();
         }
+        
+        // Redirect
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&success=add", true, 302);
+        exit();
     } else {
         error_log("ERROR executing SQL: " . mysqli_error($mysqli));
         mysqli_stmt_close($stmt);
         $error_message = urlencode("Có lỗi xảy ra: " . mysqli_error($mysqli));
-        if(ob_get_length()) ob_end_clean();
         
-        if(!headers_sent()) {
-            header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message");
-        } else {
-            echo "<script>window.location.href='../../index.php?action=quanLySanPham&query=lietke&error=$error_message';</script>";
+        while(ob_get_level() > 0) {
+            ob_end_clean();
         }
+        
+        header("Location: ../../index.php?action=quanLySanPham&query=lietke&error=$error_message", true, 302);
         exit();
     }
 
