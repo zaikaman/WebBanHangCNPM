@@ -438,6 +438,7 @@ body.modal-open #addPostModal .modal-content * {
             </div>
             <div class="modal-body">
                 <form method="POST" action="modules/quanLyBaiViet/xuly.php" enctype="multipart/form-data" id="addPostForm">
+                    <input type="hidden" name="thembaiviet" value="1">
 
                     <!-- Basic Information -->
                     <div class="form-section">

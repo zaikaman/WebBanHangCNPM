@@ -180,8 +180,8 @@ if(isset($_POST['thembaiviet'])) {
         </script>";
     }
 
-} else {
-    // Delete article
+} elseif(isset($_GET['idbv'])) {
+    // Delete article - only when idbv is provided
     $id = $_GET['idbv'];
     
     // Delete image file first
@@ -203,13 +203,17 @@ if(isset($_POST['thembaiviet'])) {
     if(mysqli_stmt_execute($stmt)) {
         echo "<script>
             alert('Xóa bài viết thành công!');
-            window.location.href='../../index.php?action=quanLyBaiViet&query=them';
+            window.location.href='../../index.php?action=quanLyBaiViet&query=lietke';
         </script>";
     } else {
         echo "<script>
             alert('Có lỗi xảy ra khi xóa bài viết: " . mysqli_error($mysqli) . "');
-            window.location.href='../../index.php?action=quanLyBaiViet&query=them';
+            window.location.href='../../index.php?action=quanLyBaiViet&query=lietke';
         </script>";
     }
+} else {
+    // No valid action - redirect to list
+    header('Location: ../../index.php?action=quanLyBaiViet&query=lietke');
+    exit;
 }
 ?>
