@@ -21,12 +21,6 @@
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 1001;
 }
 
 .header_info {
@@ -96,12 +90,7 @@
 .header_content_container {
     background: var(--header-white);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-    position: fixed;
-    top: 40px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 1000;
+    position: relative;
     transition: all 0.3s ease;
     overflow: visible;
 }
