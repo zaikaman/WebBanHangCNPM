@@ -217,6 +217,13 @@ if(isset($_POST['themsanpham']) || $isAddProduct) {
     debug_log("Product info - Name: $tenLoaisp, Code: $masp, Price: $giasp");
     
     // Get quantities for each size
+    debug_log("Raw size values from POST:");
+    debug_log("  so_luong_s: " . ($_POST['so_luong_s'] ?? 'NOT SET'));
+    debug_log("  so_luong_m: " . ($_POST['so_luong_m'] ?? 'NOT SET'));
+    debug_log("  so_luong_l: " . ($_POST['so_luong_l'] ?? 'NOT SET'));
+    debug_log("  so_luong_xl: " . ($_POST['so_luong_xl'] ?? 'NOT SET'));
+    debug_log("  so_luong_xxl: " . ($_POST['so_luong_xxl'] ?? 'NOT SET'));
+    
     $sizes = [
         'S' => (int)($_POST['so_luong_s'] ?? 0),
         'M' => (int)($_POST['so_luong_m'] ?? 0),
