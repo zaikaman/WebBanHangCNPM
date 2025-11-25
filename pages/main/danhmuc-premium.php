@@ -251,7 +251,7 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
                         
                         <div class="form-group">
                             <label for="danhmuc">Danh mục</label>
-                            <select name="danhmuc" id="danhmuc" class="form-select" onchange="changeCategoryFilter(this.value)">
+                            <select name="danhmuc" id="danhmuc" class="form-select">
                                 <option value="">Tất cả danh mục</option>
                                 <?php
                                 $sql_all_cate = "SELECT * FROM tbl_danhmucqa ORDER BY name_sp ASC";
@@ -512,16 +512,6 @@ function sortProducts(sortType) {
     // Build URL mới
     const newUrl = 'index.php?' + new URLSearchParams(currentParams).toString();
     window.location.href = newUrl;
-}
-
-// Function to handle category change in filter
-function changeCategoryFilter(categoryId) {
-    if (categoryId) {
-        // Update hidden input
-        document.getElementById('hiddenCategoryId').value = categoryId;
-        // Redirect to new category page
-        window.location.href = 'index.php?quanly=danhmucsanpham&id=' + categoryId;
-    }
 }
 
 // Preserve sort selection and filter values
