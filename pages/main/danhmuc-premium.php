@@ -68,6 +68,35 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $id_dm = mysqli_real_escape_string($mysqli, $_GET['id']);
 
+// Helper function để build URL với các parameters
+function buildPaginationUrl($base_params, $page_number) {
+    $params = $base_params;
+    $params['trang'] = $page_number;
+    return 'index.php?' . http_build_query($params);
+}
+
+// Lưu các filter parameters
+$filter_params = [
+    'quanly' => 'danhmucsanpham',
+    'id' => $id_dm
+];
+
+if (isset($_GET['sort']) && !empty($_GET['sort'])) {
+    $filter_params['sort'] = $_GET['sort'];
+}
+if (isset($_GET['gia_min']) && !empty($_GET['gia_min'])) {
+    $filter_params['gia_min'] = $_GET['gia_min'];
+}
+if (isset($_GET['gia_max']) && !empty($_GET['gia_max'])) {
+    $filter_params['gia_max'] = $_GET['gia_max'];
+}
+if (isset($_GET['tinhtrang']) && $_GET['tinhtrang'] !== '') {
+    $filter_params['tinhtrang'] = $_GET['tinhtrang'];
+}
+if (isset($_GET['ten_sp']) && !empty($_GET['ten_sp'])) {
+    $filter_params['ten_sp'] = $_GET['ten_sp'];
+}
+
 // Xử lý phân trang
 if (isset($_GET['trang'])) {
     $page = intval($_GET['trang']);
@@ -95,8 +124,37 @@ if (!$row_title) {
     exit();
 }
 
-// Đếm tổng số sản phẩm
-$sql_count = "SELECT COUNT(*) as total FROM tbl_sanpham WHERE id_dm = '$id_dm'";
+// Xây dựng điều kiện WHERE cho bộ lọc
+$where_conditions = ["id_dm = '$id_dm'"];
+
+// Xử lý bộ lọc giá
+if (isset($_GET['gia_min']) && !empty($_GET['gia_min'])) {
+    $gia_min = mysqli_real_escape_string($mysqli, $_GET['gia_min']);
+    $where_conditions[] = "gia_sp >= '$gia_min'";
+}
+
+if (isset($_GET['gia_max']) && !empty($_GET['gia_max'])) {
+    $gia_max = mysqli_real_escape_string($mysqli, $_GET['gia_max']);
+    $where_conditions[] = "gia_sp <= '$gia_max'";
+}
+
+// Xử lý bộ lọc tình trạng
+if (isset($_GET['tinhtrang']) && $_GET['tinhtrang'] !== '') {
+    $tinhtrang = mysqli_real_escape_string($mysqli, $_GET['tinhtrang']);
+    $where_conditions[] = "tinh_trang = '$tinhtrang'";
+}
+
+// Xử lý bộ lọc tên sản phẩm
+if (isset($_GET['ten_sp']) && !empty($_GET['ten_sp'])) {
+    $ten_sp = mysqli_real_escape_string($mysqli, $_GET['ten_sp']);
+    $where_conditions[] = "ten_sp LIKE '%$ten_sp%'";
+}
+
+// Kết hợp tất cả điều kiện
+$where_clause = implode(' AND ', $where_conditions);
+
+// Đếm tổng số sản phẩm với bộ lọc
+$sql_count = "SELECT COUNT(*) as total FROM tbl_sanpham WHERE $where_clause";
 $query_count = mysqli_query($mysqli, $sql_count);
 $row_count = mysqli_fetch_array($query_count);
 $total_products = $row_count['total'];
@@ -123,8 +181,8 @@ if (isset($_GET['sort'])) {
     }
 }
 
-// Lấy sản phẩm
-$sql_pro = "SELECT * FROM tbl_sanpham WHERE id_dm = '$id_dm' ORDER BY $order_by LIMIT $begin, $products_per_page";
+// Lấy sản phẩm với bộ lọc
+$sql_pro = "SELECT * FROM tbl_sanpham WHERE $where_clause ORDER BY $order_by LIMIT $begin, $products_per_page";
 $query_pro = mysqli_query($mysqli, $sql_pro);
 ?>
 
@@ -187,13 +245,13 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
             
             <div class="collapse show" id="filterCollapse">
                 <div class="filter-body">
-                    <form method="GET" action="index.php" class="filter-form">
-                        <input type="hidden" name="quanly" value="timKiemNangCao">
-                        <input type="hidden" name="id" value="<?php echo $id_dm; ?>">
+                    <form method="GET" action="index.php" class="filter-form" id="categoryFilterForm">
+                        <input type="hidden" name="quanly" value="danhmucsanpham">
+                        <input type="hidden" name="id" value="<?php echo $id_dm; ?>" id="hiddenCategoryId">
                         
                         <div class="form-group">
                             <label for="danhmuc">Danh mục</label>
-                            <select name="danhmuc" id="danhmuc" class="form-select">
+                            <select name="danhmuc" id="danhmuc" class="form-select" onchange="changeCategoryFilter(this.value)">
                                 <option value="">Tất cả danh mục</option>
                                 <?php
                                 $sql_all_cate = "SELECT * FROM tbl_danhmucqa ORDER BY name_sp ASC";
@@ -364,7 +422,7 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
             <?php if ($total_pages > 1): ?>
                 <div class="pagination-premium">
                     <?php if ($page > 1): ?>
-                        <a href="index.php?quanly=danhmucsanpham&id=<?php echo $id_dm; ?>&trang=<?php echo ($page - 1); ?>">
+                        <a href="<?php echo buildPaginationUrl($filter_params, $page - 1); ?>">
                             <i class="fas fa-chevron-left"></i>
                         </a>
                     <?php else: ?>
@@ -378,7 +436,7 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
                     $range = 2; // Số trang hiển thị mỗi bên
                     
                     if ($page > $range + 1) {
-                        echo '<a href="index.php?quanly=danhmucsanpham&id=' . $id_dm . '&trang=1">1</a>';
+                        echo '<a href="' . buildPaginationUrl($filter_params, 1) . '">1</a>';
                         if ($page > $range + 2) {
                             echo '<span class="disabled">...</span>';
                         }
@@ -388,7 +446,7 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
                         if ($i == $page) {
                             echo '<span class="active">' . $i . '</span>';
                         } else {
-                            echo '<a href="index.php?quanly=danhmucsanpham&id=' . $id_dm . '&trang=' . $i . '">' . $i . '</a>';
+                            echo '<a href="' . buildPaginationUrl($filter_params, $i) . '">' . $i . '</a>';
                         }
                     }
                     
@@ -396,12 +454,12 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
                         if ($page < $total_pages - $range - 1) {
                             echo '<span class="disabled">...</span>';
                         }
-                        echo '<a href="index.php?quanly=danhmucsanpham&id=' . $id_dm . '&trang=' . $total_pages . '">' . $total_pages . '</a>';
+                        echo '<a href="' . buildPaginationUrl($filter_params, $total_pages) . '">' . $total_pages . '</a>';
                     }
                     ?>
                     
                     <?php if ($page < $total_pages): ?>
-                        <a href="index.php?quanly=danhmucsanpham&id=<?php echo $id_dm; ?>&trang=<?php echo ($page + 1); ?>">
+                        <a href="<?php echo buildPaginationUrl($filter_params, $page + 1); ?>">
                             <i class="fas fa-chevron-right"></i>
                         </a>
                     <?php else: ?>
@@ -428,21 +486,79 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
     </div>
 </div>
 
-<!-- JavaScript for Sort Functionality -->
+<!-- JavaScript for Sort and Filter Functionality -->
 <script>
 function sortProducts(sortType) {
     const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('sort', sortType);
-    urlParams.set('trang', '1'); // Reset to page 1 when sorting
-    window.location.href = window.location.pathname + '?' + urlParams.toString();
+    
+    // Giữ lại tất cả các parameters hiện tại
+    const currentParams = {
+        quanly: urlParams.get('quanly') || 'danhmucsanpham',
+        id: urlParams.get('id')
+    };
+    
+    // Thêm filter parameters nếu có
+    if (urlParams.get('gia_min')) currentParams.gia_min = urlParams.get('gia_min');
+    if (urlParams.get('gia_max')) currentParams.gia_max = urlParams.get('gia_max');
+    if (urlParams.get('tinhtrang') !== null && urlParams.get('tinhtrang') !== '') {
+        currentParams.tinhtrang = urlParams.get('tinhtrang');
+    }
+    if (urlParams.get('ten_sp')) currentParams.ten_sp = urlParams.get('ten_sp');
+    
+    // Thêm sort và reset trang
+    currentParams.sort = sortType;
+    currentParams.trang = '1';
+    
+    // Build URL mới
+    const newUrl = 'index.php?' + new URLSearchParams(currentParams).toString();
+    window.location.href = newUrl;
 }
 
-// Preserve sort selection
+// Function to handle category change in filter
+function changeCategoryFilter(categoryId) {
+    if (categoryId) {
+        // Update hidden input
+        document.getElementById('hiddenCategoryId').value = categoryId;
+        // Redirect to new category page
+        window.location.href = 'index.php?quanly=danhmucsanpham&id=' + categoryId;
+    }
+}
+
+// Preserve sort selection and filter values
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const sortValue = urlParams.get('sort');
     if (sortValue) {
-        document.getElementById('sort').value = sortValue;
+        const sortSelect = document.getElementById('sort');
+        if (sortSelect) {
+            sortSelect.value = sortValue;
+        }
+    }
+    
+    // Preserve filter values from URL
+    const giaMin = urlParams.get('gia_min');
+    const giaMax = urlParams.get('gia_max');
+    const tinhTrang = urlParams.get('tinhtrang');
+    const tenSp = urlParams.get('ten_sp');
+    
+    if (giaMin) document.getElementById('gia_min').value = giaMin;
+    if (giaMax) document.getElementById('gia_max').value = giaMax;
+    if (tinhTrang) document.getElementById('tinhtrang').value = tinhTrang;
+    if (tenSp) document.getElementById('ten_sp').value = tenSp;
+});
+
+// Handle form submission to preserve category ID
+document.addEventListener('DOMContentLoaded', function() {
+    const filterForm = document.getElementById('categoryFilterForm');
+    if (filterForm) {
+        filterForm.addEventListener('submit', function(e) {
+            // Get selected category from dropdown
+            const selectedCategory = document.getElementById('danhmuc').value;
+            if (selectedCategory) {
+                // Update hidden input with selected category
+                document.getElementById('hiddenCategoryId').value = selectedCategory;
+            }
+        });
     }
 });
 </script>
