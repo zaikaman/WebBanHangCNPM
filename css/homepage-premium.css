@@ -19,6 +19,7 @@
 .premium-hero {
     position: relative;
     height: 600px;
+    margin-top: 196px; /* Bù cho header fixed: top-bar(40px) + header(100px) + menu(56px) */
     background: linear-gradient(to right, rgba(26, 26, 26, 0.85) 0%, rgba(26, 26, 26, 0.50) 40%, transparent 70%),
                 url('../images/guy-jumping.png') right center/cover no-repeat;
     overflow: hidden;
@@ -553,6 +554,7 @@
     
     .premium-hero {
         height: 550px;
+        margin-top: 196px;
     }
     
     .products-grid {
@@ -571,6 +573,7 @@
     
     .premium-hero {
         height: 500px;
+        margin-top: 196px;
         background-attachment: scroll;
     }
     
@@ -595,6 +598,7 @@
 @media (max-width: 768px) {
     .premium-hero {
         height: 450px;
+        margin-top: 125px; /* Mobile: top-bar(40px) + header(85px), menu ẩn */
         background: linear-gradient(to right, rgba(26, 26, 26, 0.90) 0%, rgba(26, 26, 26, 0.60) 50%, transparent 80%),
                     url('../images/guy-jumping.png') right center/cover no-repeat;
     }
