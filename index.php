@@ -56,9 +56,8 @@ if (session_status() == PHP_SESSION_NONE) {
 <body <?php echo (!isset($_GET['quanly']) || $_GET['quanly'] == '') ? 'class="premium-home"' : ''; ?>>
     <div class="wrapper">
         <?php
-        // Sử dụng header premium cho tất cả trang
+        // Sử dụng header premium cho tất cả trang (bao gồm cả menu bên trong)
         include("pages/header-premium.php");
-        include("pages/menu.php");
         include("pages/main.php");
         
         // Sử dụng newsletter chỉ cho trang chủ
