@@ -5,7 +5,7 @@ $km = null;
 
 // Kiểm tra ID có tồn tại không
 if (!isset($_GET['id'])) {
-    header("Location: index.php?action=quanlykhuyenmai&query=lietke");
+    header("Location: ?action=quanlykhuyenmai&query=lietke");
     exit();
 }
 

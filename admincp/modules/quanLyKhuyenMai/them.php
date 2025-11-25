@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             if (mysqli_query($mysqli, $sql)) {
                 $success = "Thêm khuyến mãi thành công!";
-                header("Location: index.php?action=quanlykhuyenmai&query=lietke");
+                header("Location: ?action=quanlykhuyenmai&query=lietke&msg=add_success");
                 exit();
             } else {
                 $error = "Lỗi: " . mysqli_error($mysqli);

@@ -75,6 +75,31 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
 </style>
 
 <div class="container-fluid">
+    <!-- Success/Error Messages -->
+    <?php if (isset($_GET['msg'])): ?>
+        <?php if ($_GET['msg'] == 'add_success'): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i> <strong>Thành công!</strong> Thêm khuyến mãi mới thành công!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php elseif ($_GET['msg'] == 'update_success'): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i> <strong>Thành công!</strong> Cập nhật khuyến mãi thành công!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php elseif ($_GET['msg'] == 'delete_success'): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i> <strong>Thành công!</strong> Xóa khuyến mãi thành công!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php elseif ($_GET['msg'] == 'delete_error'): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Lỗi!</strong> Không thể xóa khuyến mãi!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
     <!-- Page Header -->
     <div class="page-header">
         <h3 class="mb-0"><i class="fas fa-tags"></i> Quản Lý Khuyến Mãi</h3>
@@ -256,3 +281,22 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
     padding: 0.75rem 0.5rem;
 }
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Auto hide alerts after 5 seconds
+setTimeout(function() {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(alert) {
+        const bsAlert = new bootstrap.Alert(alert);
+        bsAlert.close();
+    });
+}, 5000);
+
+// Remove msg parameter from URL after showing alert
+if (window.location.search.includes('msg=')) {
+    const url = new URL(window.location);
+    url.searchParams.delete('msg');
+    window.history.replaceState({}, '', url);
+}
+</script>

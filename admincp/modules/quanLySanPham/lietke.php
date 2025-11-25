@@ -98,12 +98,6 @@ if (isset($_GET['ajax_search'])) {
             <td><?php echo $row['so_luong_con_lai'] ?></td>
             <td><?php echo htmlspecialchars($row['name_sp']) ?></td>
             <td><?php echo htmlspecialchars($row['ma_sp']) ?></td>
-            <td>
-                <textarea class="form-control" rows="3" readonly><?php echo htmlspecialchars(str_replace('\n', "\n", $row['noi_dung'])) ?></textarea>
-            </td>
-            <td>
-                <textarea class="form-control" rows="3" readonly><?php echo htmlspecialchars(str_replace('\n', "\n", $row['tom_tat'])) ?></textarea>
-            </td>
             <td><?php echo ($row['tinh_trang'] == 1) ? 'Kích hoạt' : 'Ẩn' ?></td>
             <td>
                 <a href="modules/quanLySanPham/xuly.php?idsp=<?php echo urlencode($row['ma_sp']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
@@ -899,13 +893,16 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                         $('#productTableBody').html(response.table_content);
                         $('#paginationContainer').html(response.pagination);
                     } else if (response && response.error) {
+                        console.error('Server error:', response.error);
                         alert('Lỗi server: ' + response.error);
                     } else {
-                        alert('Phản hồi từ server không hợp lệ');
+                        console.error('Invalid response:', response);
+                        alert('Phản hồi từ server không hợp lệ. Vui lòng tải lại trang.');
                     }
                 },
                 error: function(xhr, status, error) {
-                    alert('Có lỗi xảy ra khi tìm kiếm');
+                    console.error('AJAX error:', {xhr: xhr, status: status, error: error, responseText: xhr.responseText});
+                    alert('Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.');
                 },
                 complete: function() {
                     $('#productTableBody').removeClass('loading');
@@ -1045,13 +1042,12 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                 $('.alert-success').alert('close');
             }, 5000);
 
-            // Remove success parameter from URL
-            const url = new URL(window.location);
-            url.searchParams.delete('success');
-            window.history.replaceState({}, '', url);
-
-            // Reload the product list
-            performSearch();
+            // Remove success parameter from URL after a short delay
+            setTimeout(function() {
+                const url = new URL(window.location);
+                url.searchParams.delete('success');
+                window.history.replaceState({}, '', url);
+            }, 500);
         });
     <?php endif; ?>
 
