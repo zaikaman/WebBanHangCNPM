@@ -18,13 +18,13 @@ if (!empty($search)) {
             $where_clause .= " AND dien_thoai LIKE '%$search%'";
             break;
         case 'dia_chi':
-            $where_clause .= " AND dia_chi LIKE '%$search%'";
+            $where_clause .= " AND dia_chi_chi_tiet LIKE '%$search%'";
             break;
         default:
             $where_clause .= " AND (ten_khachhang LIKE '%$search%' 
                             OR email LIKE '%$search%' 
                             OR dien_thoai LIKE '%$search%'
-                            OR dia_chi LIKE '%$search%')";
+                            OR dia_chi_chi_tiet LIKE '%$search%')";
     }
 }
 
