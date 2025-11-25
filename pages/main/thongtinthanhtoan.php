@@ -126,13 +126,6 @@
                                                                     Chuyển khoản
                                                                 </label>
                                                             </div> -->
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="payment" value="vnpay" id="radios4">
-                                                                <img style="width: 32px; height:32px" src="images/vnpay.png">
-                                                                <label class="form-check-label" for="radios4">
-                                                                    VNPay
-                                                                </label>
-                                                            </div>
                                                             <?php
                                                             if ($count != 0) {
 

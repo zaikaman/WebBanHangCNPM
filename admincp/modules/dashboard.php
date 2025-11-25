@@ -13,8 +13,8 @@ $sql_donhang = "SELECT COUNT(*) as total_orders FROM tbl_hoadon";
 $query_donhang = mysqli_query($mysqli, $sql_donhang);
 $total_orders = mysqli_fetch_array($query_donhang)['total_orders'];
 
-// Tính doanh thu từ chi tiết giỏ hàng và giá sản phẩm
-$sql_doanhthu = "SELECT SUM(c.so_luong_mua * s.gia_sp) as total_revenue 
+// Tính doanh thu từ chi tiết giỏ hàng - Sử dụng gia_mua đã lưu (có khuyến mãi)
+$sql_doanhthu = "SELECT SUM(c.so_luong_mua * COALESCE(c.gia_mua, s.gia_sp)) as total_revenue 
                  FROM tbl_chitiet_gh c 
                  JOIN tbl_sanpham s ON c.id_sp = s.id_sp 
                  JOIN tbl_hoadon h ON c.ma_gh = h.ma_gh 
@@ -37,8 +37,8 @@ $sql_donhang_today = "SELECT COUNT(*) as today_orders FROM tbl_hoadon WHERE DATE
 $query_donhang_today = mysqli_query($mysqli, $sql_donhang_today);
 $today_orders = mysqli_fetch_array($query_donhang_today)['today_orders'];
 
-// Lấy doanh thu hôm nay
-$sql_doanhthu_today = "SELECT SUM(c.so_luong_mua * s.gia_sp) as today_revenue 
+// Lấy doanh thu hôm nay - Sử dụng gia_mua đã lưu (có khuyến mãi)
+$sql_doanhthu_today = "SELECT SUM(c.so_luong_mua * COALESCE(c.gia_mua, s.gia_sp)) as today_revenue 
                        FROM tbl_chitiet_gh c 
                        JOIN tbl_sanpham s ON c.id_sp = s.id_sp 
                        JOIN tbl_hoadon h ON c.ma_gh = h.ma_gh 
@@ -192,8 +192,9 @@ $today_revenue = $result_doanhthu_today ? $result_doanhthu_today['today_revenue'
                 </div>
                 <div class="card-body">
                     <?php
+                    // Sử dụng gia_mua đã lưu (có khuyến mãi) thay vì gia_sp (giá gốc)
                     $sql_recent_orders = "SELECT h.id_gh, h.cart_date, h.trang_thai, h.ma_gh, d.ten_khachhang,
-                                             SUM(c.so_luong_mua * s.gia_sp) as tongtien
+                                             SUM(c.so_luong_mua * COALESCE(c.gia_mua, s.gia_sp)) as tongtien
                                      FROM tbl_hoadon h 
                                      LEFT JOIN tbl_dangky d ON h.id_khachhang = d.id_dangky 
                                      LEFT JOIN tbl_chitiet_gh c ON h.ma_gh = c.ma_gh

@@ -49,9 +49,6 @@ $info_don_hang = mysqli_fetch_array($don_hang);
                                             case 'momo':
                                                 echo '<span class="badge bg-warning"><i class="fas fa-mobile-alt me-1"></i>MoMo</span>';
                                                 break;
-                                            case 'vnpay':
-                                                echo '<span class="badge bg-primary"><i class="fas fa-credit-card me-1"></i>VNPay</span>';
-                                                break;
                                             default:
                                                 echo '<span class="badge bg-secondary">Khác</span>';
                                         }

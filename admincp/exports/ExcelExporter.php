@@ -191,12 +191,12 @@ class ExcelExporter {
         $row = 2;
         $stt = 1;
         while ($data = mysqli_fetch_array($result)) {
-            // Tính tổng tiền đơn hàng
+            // Tính tổng tiền đơn hàng - Sử dụng gia_mua đã lưu (có khuyến mãi)
             // Compute total from order details table. The original project uses
-            // `tbl_chitiet_gh` (order items) and `tbl_sanpham` (product prices).
+            // `tbl_chitiet_gh` (order items) with saved purchase price (gia_mua).
             // Use LEFT JOIN to avoid errors if a product record is missing.
             $ma_gh_esc = mysqli_real_escape_string($this->mysqli, $data['ma_gh']);
-            $sql_total = "SELECT SUM(c.so_luong_mua * IFNULL(s.gia_sp,0)) as total 
+            $sql_total = "SELECT SUM(c.so_luong_mua * COALESCE(c.gia_mua, IFNULL(s.gia_sp,0))) as total 
                          FROM tbl_chitiet_gh c 
                          LEFT JOIN tbl_sanpham s ON c.id_sp = s.id_sp 
                          WHERE c.ma_gh = '$ma_gh_esc'";
