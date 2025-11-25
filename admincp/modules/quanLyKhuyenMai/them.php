@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
                 
                 debug_log_km("Redirecting to list page...");
-                header("Location: ../../index.php?action=quanlykhuyenmai&query=lietke&msg=add_success", true, 302);
+                header("Location: index.php?action=quanlykhuyenmai&query=lietke&msg=add_success", true, 302);
                 exit();
             } else {
                 debug_log_km("ERROR: " . mysqli_error($mysqli));
