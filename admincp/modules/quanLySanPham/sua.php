@@ -214,12 +214,9 @@ $sua_sp = mysqli_query($mysqli, $sql_sua_sp);
                 </div>
             </div>
             <div class="mb-3">
-                <label for="tom_tat" class="form-label fw-bold">Tóm Tắt:</label>
-                <textarea class="form-control" rows="3" name="tom_tat"><?php echo str_replace('\n', "\n", $row['tom_tat']) ?></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="noi_dung" class="form-label fw-bold">Nội Dung:</label>
-                <textarea class="form-control" rows="3" name="noi_dung">><?php echo str_replace('\n', "\n", $row['noi_dung']) ?></textarea>
+                <label for="tom_tat" class="form-label fw-bold">Mô Tả: <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="6" name="tom_tat" required><?php echo str_replace('\\n', "\n", $row['tom_tat']) ?></textarea>
+                <div class="form-text">Mô tả sản phẩm sẽ hiển thị trên trang chi tiết sản phẩm</div>
             </div>
             <div class="mb-3">
                 <label for="id_dm" class="form-label fw-bold">Danh Mục:</label>

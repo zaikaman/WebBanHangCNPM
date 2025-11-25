@@ -45,7 +45,6 @@ if (isset($_GET['ajax_search'])) {
                 default:
                     $where_clause .= " AND (tbl_sanpham.ten_sp LIKE '%$search%' 
                                         OR tbl_sanpham.ma_sp LIKE '%$search%' 
-                                        OR tbl_sanpham.noi_dung LIKE '%$search%'
                                         OR tbl_sanpham.tom_tat LIKE '%$search%')";
             }
         }
@@ -153,7 +152,6 @@ if (!empty($search) || !empty($price_min) || !empty($price_max)) {
             default:
                 $where_clause .= " AND (tbl_sanpham.ten_sp LIKE '%$search%' 
                                     OR tbl_sanpham.ma_sp LIKE '%$search%' 
-                                    OR tbl_sanpham.noi_dung LIKE '%$search%'
                                     OR tbl_sanpham.tom_tat LIKE '%$search%')";
         }
     }
@@ -770,18 +768,14 @@ $lietke = mysqli_query($mysqli, $sql_lietke);
                     <!-- Content -->
                     <div class="form-section">
                         <h6 class="text-7tcc mb-3">
-                            <i class="fas fa-file-alt me-2"></i>Nội Dung & Mô Tả
+                            <i class="fas fa-file-alt me-2"></i>Mô Tả Sản Phẩm
                         </h6>
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="tom_tat" class="form-label fw-bold">Tóm Tắt</label>
-                                <textarea rows="3" class="form-control" name="tom_tat" id="tom_tat"
-                                    placeholder="Nhập tóm tắt ngắn gọn về sản phẩm..."></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="noi_dung" class="form-label fw-bold">Nội Dung Chi Tiết</label>
-                                <textarea rows="3" class="form-control" name="noi_dung" id="noi_dung"
-                                    placeholder="Nhập mô tả chi tiết về sản phẩm..."></textarea>
+                            <div class="col-12">
+                                <label for="tom_tat" class="form-label fw-bold">Mô Tả <span class="text-danger">*</span></label>
+                                <textarea rows="6" class="form-control" name="tom_tat" id="tom_tat"
+                                    placeholder="Nhập mô tả về sản phẩm..." required></textarea>
+                                <div class="form-text">Mô tả sản phẩm sẽ hiển thị trên trang chi tiết sản phẩm</div>
                             </div>
                         </div>
                     </div>

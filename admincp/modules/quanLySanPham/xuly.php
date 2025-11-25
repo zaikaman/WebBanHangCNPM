@@ -35,11 +35,7 @@ function validateProduct($data, $mysqli, $isEdit = false, $currentId = null) {
     }
     
     if(empty(trim($data['tom_tat']))) {
-        $errors[] = 'Tóm tắt không được để trống';
-    }
-    
-    if(empty(trim($data['noi_dung']))) {
-        $errors[] = 'Nội dung không được để trống';
+        $errors[] = 'Mô tả không được để trống';
     }
     
     if(empty($data['id_dm'])) {
@@ -192,7 +188,7 @@ if(isset($_POST['themsanpham'])) {
     }
 
     $tomtat = mysqli_real_escape_string($mysqli, str_replace("\r\n", "\n", trim($_POST['tom_tat'])));
-    $noidung = mysqli_real_escape_string($mysqli, str_replace("\r\n", "\n", trim($_POST['noi_dung'])));
+    $noidung = ''; // Không còn sử dụng nội dung chi tiết
     $tinhtrang = (int)$_POST['tinh_trang'];
     $iddm = (int)$_POST['id_dm'];
     
@@ -241,8 +237,8 @@ if(isset($_POST['themsanpham'])) {
     $tenLoaisp = mysqli_real_escape_string($mysqli, trim($_POST['ten_sp']));
     $masp = mysqli_real_escape_string($mysqli, trim($_POST['ma_sp']));
     $giasp = (int)trim($_POST['gia_sp']);
-    $tomtat = mysqli_real_escape_string($mysqli, trim($_POST['tom_tat']));
-    $noidung = mysqli_real_escape_string($mysqli, trim($_POST['noi_dung']));
+    $tomtat = mysqli_real_escape_string($mysqli, str_replace("\r\n", "\n", trim($_POST['tom_tat'])));
+    $noidung = ''; // Không còn sử dụng nội dung chi tiết
     $tinhtrang = (int)$_POST['tinh_trang'];
     $iddm = (int)$_POST['id_dm'];
 

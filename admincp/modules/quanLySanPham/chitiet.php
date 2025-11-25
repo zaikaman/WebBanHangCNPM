@@ -246,12 +246,8 @@
                         <div class="col-sm-8"><?php echo ((int)$sp['tinh_trang'] === 1) ? 'Kích hoạt' : 'Ẩn'; ?></div>
                     </div>
                     <div class="mb-2">
-                        <div class="fw-semibold mb-1">Tóm tắt</div>
+                        <div class="fw-semibold mb-1">Mô Tả</div>
                         <div class="border rounded p-2" style="white-space:pre-wrap;"><?php echo htmlspecialchars(str_replace('\n', "\n", (string)$sp['tom_tat'])); ?></div>
-                    </div>
-                    <div class="mb-2">
-                        <div class="fw-semibold mb-1">Nội dung</div>
-                        <div class="border rounded p-2" style="white-space:pre-wrap;"><?php echo htmlspecialchars(str_replace('\n', "\n", (string)$sp['noi_dung'])); ?></div>
                     </div>
                 </div>
             </div>
