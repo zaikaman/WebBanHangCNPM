@@ -13,6 +13,11 @@
     --border-color: #E5E5E5;
 }
 
+/* Main content spacing */
+#main {
+    margin-top: 196px; /* 40px (top bar) + 100px (header) + 56px (menu) */
+}
+
 /* ===================================
    HERO SECTION
    =================================== */
@@ -23,7 +28,6 @@
                 url('../images/guy-jumping.png') right center/cover no-repeat;
     overflow: hidden;
     background-attachment: fixed;
-    margin-top: 196px; /* 40px (top bar) + 100px (header) + 56px (menu) */
 }
 
 .premium-hero::before {

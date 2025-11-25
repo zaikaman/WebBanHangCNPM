@@ -29,13 +29,10 @@ body.premium-home .wrapper {
     background: #FFFFFF !important;
 }
 
-/* Override cho menu khi ở trang premium - FIXED MENU */
+/* Override cho menu khi ở trang premium */
 .menu {
-    position: fixed !important;
-    top: 140px !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 999 !important;
+    position: relative;
+    z-index: 100;
 }
 
 /* Smooth transitions */
