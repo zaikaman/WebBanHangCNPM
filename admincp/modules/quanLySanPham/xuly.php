@@ -357,37 +357,62 @@ if(isset($_POST['themsanpham'])) {
         </script>";
     }
     mysqli_stmt_close($stmt_update);
-}
- else {
-    // Delete product
+} elseif(isset($_GET['idsp']) && !isset($_POST['themsanpham']) && !isset($_POST['suaSanPham'])) {
+    // Delete product - only execute if explicitly requested via GET parameter without POST data
     $id = $_GET['idsp'];
     
-    // Delete image file first
-    $sql = "SELECT hinh_anh FROM tbl_sanpham WHERE ma_sp = ?";
+    // Get product info including all images
+    $sql = "SELECT id_sp, hinh_anh, hinh_anh_2, hinh_anh_3 FROM tbl_sanpham WHERE ma_sp = ?";
     $stmt = mysqli_prepare($mysqli, $sql);
     mysqli_stmt_bind_param($stmt, "s", $id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_array($result);
-    if($row['hinh_anh']) {
-        unlink('uploads/' . $row['hinh_anh']);
-    }
     
-    // Delete product record
-    $sql_xoa = "DELETE FROM tbl_sanpham WHERE ma_sp = ?";
-    $stmt = mysqli_prepare($mysqli, $sql_xoa);
-    mysqli_stmt_bind_param($stmt, "s", $id);
-    
-    if(mysqli_stmt_execute($stmt)) {
-        echo "<script>
-            alert('Xóa sản phẩm thành công!');
-            window.location.href='../../index.php?action=quanLySanPham&query=lietke';
-        </script>";
+    if($row) {
+        $product_id = $row['id_sp'];
+        
+        // Delete all image files
+        if($row['hinh_anh'] && file_exists('uploads/' . $row['hinh_anh'])) {
+            unlink('uploads/' . $row['hinh_anh']);
+        }
+        if($row['hinh_anh_2'] && file_exists('uploads/' . $row['hinh_anh_2'])) {
+            unlink('uploads/' . $row['hinh_anh_2']);
+        }
+        if($row['hinh_anh_3'] && file_exists('uploads/' . $row['hinh_anh_3'])) {
+            unlink('uploads/' . $row['hinh_anh_3']);
+        }
+        
+        // Delete from sizes table first
+        $sql_delete_sizes = "DELETE FROM tbl_sanpham_sizes WHERE id_sp = ?";
+        $stmt_delete_sizes = mysqli_prepare($mysqli, $sql_delete_sizes);
+        mysqli_stmt_bind_param($stmt_delete_sizes, "i", $product_id);
+        mysqli_stmt_execute($stmt_delete_sizes);
+        mysqli_stmt_close($stmt_delete_sizes);
+        
+        // Delete product record
+        $sql_xoa = "DELETE FROM tbl_sanpham WHERE ma_sp = ?";
+        $stmt_delete = mysqli_prepare($mysqli, $sql_xoa);
+        mysqli_stmt_bind_param($stmt_delete, "s", $id);
+        
+        if(mysqli_stmt_execute($stmt_delete)) {
+            echo "<script>
+                alert('Xóa sản phẩm thành công!');
+                window.location.href='../../index.php?action=quanLySanPham&query=lietke';
+            </script>";
+        } else {
+            echo "<script>
+                alert('Có lỗi xảy ra khi xóa sản phẩm: " . mysqli_error($mysqli) . "');
+                window.location.href='../../index.php?action=quanLySanPham&query=lietke';
+            </script>";
+        }
+        mysqli_stmt_close($stmt_delete);
     } else {
         echo "<script>
-            alert('Có lỗi xảy ra khi xóa sản phẩm: " . mysqli_error($mysqli) . "');
+            alert('Không tìm thấy sản phẩm cần xóa!');
             window.location.href='../../index.php?action=quanLySanPham&query=lietke';
         </script>";
     }
+    mysqli_stmt_close($stmt);
 }
 ?>

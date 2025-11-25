@@ -380,40 +380,45 @@ if (!isset($_SESSION['dangNhap'])) {
             }
             
             thongke();
-            var char = new Morris.Line({
-                element: 'chart',
-                xkey: 'date',
-                ykeys: ['order', 'sale', 'quantily'],
-                labels: ['Đơn hàng', 'Doanh thu (VNĐ)', 'Số lượng bán'],
-                lineColors: ['#dc0021', '#ffe300', '#28a745'],
-                pointFillColors: ['#dc0021', '#ffe300', '#28a745'],
-                pointStrokeColors: ['#a90019', '#ffd700', '#20c997'],
-                gridLineColor: '#eee',
-                gridTextColor: '#666',
-                gridTextSize: 12,
-                hideHover: 'auto',
-                parseTime: false,
-                resize: true
-            });
+            
+            // Only initialize Morris chart if the chart element exists
+            var char = null;
+            if ($('#chart').length > 0) {
+                char = new Morris.Line({
+                    element: 'chart',
+                    xkey: 'date',
+                    ykeys: ['order', 'sale', 'quantily'],
+                    labels: ['Đơn hàng', 'Doanh thu (VNĐ)', 'Số lượng bán'],
+                    lineColors: ['#dc0021', '#ffe300', '#28a745'],
+                    pointFillColors: ['#dc0021', '#ffe300', '#28a745'],
+                    pointStrokeColors: ['#a90019', '#ffd700', '#20c997'],
+                    gridLineColor: '#eee',
+                    gridTextColor: '#666',
+                    gridTextSize: 12,
+                    hideHover: 'auto',
+                    parseTime: false,
+                    resize: true
+                });
 
-            // Thêm event listener để chart tự động resize khi cửa sổ thay đổi kích thước
-            var resizeTimeout;
-            $(window).on('resize', function() {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(function() {
-                    // Lấy kích thước container hiện tại
-                    var containerWidth = $('#chart').parent().width();
-                    var containerHeight = $('#chart').height();
-                    
-                    // Redraw chart với kích thước mới
-                    char.redraw();
-                    
-                    // Đảm bảo chart fit với container
-                    if (containerWidth > 0) {
-                        $('#chart svg').attr('width', containerWidth - 40); // Trừ padding
-                    }
-                }, 150);
-            });
+                // Thêm event listener để chart tự động resize khi cửa sổ thay đổi kích thước
+                var resizeTimeout;
+                $(window).on('resize', function() {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(function() {
+                        // Lấy kích thước container hiện tại
+                        var containerWidth = $('#chart').parent().width();
+                        var containerHeight = $('#chart').height();
+                        
+                        // Redraw chart với kích thước mới
+                        char.redraw();
+                        
+                        // Đảm bảo chart fit với container
+                        if (containerWidth > 0) {
+                            $('#chart svg').attr('width', containerWidth - 40); // Trừ padding
+                        }
+                    }, 150);
+                });
+            }
 
             $('.select_date').change(function () {
                 var thoigian = $(this).val();
@@ -434,8 +439,10 @@ if (!isset($_SESSION['dangNhap'])) {
                     dataType: "JSON",
                     data: { thoigian: thoigian },
                     success: function (data) {
-                        char.setData(data);
-                        $('#text-date').text(text);
+                        if (char && typeof char.setData === 'function') {
+                            char.setData(data);
+                            $('#text-date').text(text);
+                        }
                     }
                 });
             });
@@ -447,8 +454,10 @@ if (!isset($_SESSION['dangNhap'])) {
                     method: "POST",
                     dataType: "JSON",
                     success: function (data) {
-                        char.setData(data);
-                        $('#text-date').text(text);
+                        if (char && typeof char.setData === 'function') {
+                            char.setData(data);
+                            $('#text-date').text(text);
+                        }
                     }
                 });
             }
