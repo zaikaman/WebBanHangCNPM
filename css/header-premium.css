@@ -21,6 +21,8 @@
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1;
 }
 
 .header_info {
@@ -92,9 +94,9 @@
     top: 0;
     left: 0;
     right: 0;
+    width: 100%;
     z-index: 1000;
     background: var(--header-white);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .header_content_container {

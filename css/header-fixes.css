@@ -138,15 +138,7 @@ div.logo img {
     overflow: visible !important;
 }
 
-/* Đảm bảo z-index đúng - FIXED HEADER */
-.header {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 1000 !important;
-}
-
+/* Đảm bảo z-index đúng */
 .header_content_container {
     position: relative;
     z-index: 999;
