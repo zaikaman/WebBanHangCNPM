@@ -6,7 +6,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  padding-top: 140px; /* Chiều cao của header cố định (40px top bar + 100px main header) */
+  padding-top: 196px; /* Chiều cao của header cố định (40px top bar + 100px main header + 56px menu) */
   scroll-behavior: smooth;
 }
 a {
