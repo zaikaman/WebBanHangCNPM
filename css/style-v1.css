@@ -6,6 +6,7 @@ html {
 body {
   margin: 0;
   padding: 0;
+  padding-top: 196px; /* 40px (top bar) + 100px (header) + 56px (menu) */
   scroll-behavior: smooth;
 }
 a {
