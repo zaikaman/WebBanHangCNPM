@@ -16,8 +16,9 @@
 .menu {
     background: var(--menu-white);
     border-bottom: 1px solid #ECECEC;
-    position: relative;
-    z-index: 99;
+    position: sticky;
+    top: 140px;
+    z-index: 999;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
