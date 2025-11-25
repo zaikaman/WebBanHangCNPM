@@ -401,6 +401,7 @@ input[type="text"]::-ms-clear {
   flex-grow: 1; /* ********** */
   width: 100%;
   margin: 18px auto;
+  margin-top: 196px; /* 40px (top bar) + 100px (header) + 56px (menu) - Fixed header spacing */
   height: auto;
   display: flex;
   flex-direction: column;

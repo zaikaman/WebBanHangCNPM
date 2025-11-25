@@ -13,11 +13,6 @@
     --border-color: #E5E5E5;
 }
 
-/* Main content spacing */
-#main {
-    margin-top: 196px; /* 40px (top bar) + 100px (header) + 56px (menu) */
-}
-
 /* ===================================
    HERO SECTION
    =================================== */
