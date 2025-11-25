@@ -99,6 +99,8 @@ $danhmuc = mysqli_query($mysqli, $sql_dm);
 
     <div class="form-container">
         <form method="POST" action="modules/quanLySanPham/xuly.php" enctype="multipart/form-data" id="productForm">
+            <!-- Hidden field to ensure action is detected -->
+            <input type="hidden" name="themsanpham" value="1">
             
             <!-- Basic Information -->
             <div class="form-section">

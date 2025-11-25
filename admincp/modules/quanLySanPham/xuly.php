@@ -180,7 +180,16 @@ function uploadImage($fileInputName, $masp, $imageNumber = '') {
     }
 }
 
-if(isset($_POST['themsanpham'])) {
+// Detect add product by POST data presence (fallback if button name not sent)
+$isAddProduct = ($_SERVER['REQUEST_METHOD'] === 'POST' && 
+                 isset($_POST['ten_sp']) && 
+                 isset($_POST['ma_sp']) && 
+                 !isset($_POST['suaSanPham']) && 
+                 !isset($_GET['idsp']));
+
+debug_log("Is Add Product (auto-detected): " . ($isAddProduct ? 'YES' : 'NO'));
+
+if(isset($_POST['themsanpham']) || $isAddProduct) {
     // Debug logging
     debug_log("=== THEM SAN PHAM START ===");
     debug_log("POST data: " . print_r($_POST, true));
