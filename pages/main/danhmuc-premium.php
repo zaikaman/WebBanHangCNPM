@@ -138,10 +138,16 @@ if (isset($_GET['gia_max']) && !empty($_GET['gia_max'])) {
     $where_conditions[] = "gia_sp <= '$gia_max'";
 }
 
-// Xử lý bộ lọc tình trạng
+// Xử lý bộ lọc tình trạng (dựa vào số lượng còn lại)
 if (isset($_GET['tinhtrang']) && $_GET['tinhtrang'] !== '') {
     $tinhtrang = mysqli_real_escape_string($mysqli, $_GET['tinhtrang']);
-    $where_conditions[] = "tinh_trang = '$tinhtrang'";
+    if ($tinhtrang == '1') {
+        // Còn hàng: số lượng còn lại > 0
+        $where_conditions[] = "so_luong_con_lai > 0";
+    } else {
+        // Hết hàng: số lượng còn lại = 0
+        $where_conditions[] = "so_luong_con_lai = 0";
+    }
 }
 
 // Xử lý bộ lọc tên sản phẩm
@@ -268,9 +274,11 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
                             <label for="gia_min">Khoảng giá</label>
                             <div class="price-range">
                                 <input type="number" name="gia_min" id="gia_min" placeholder="Từ" class="form-control" 
+                                       min="0" step="1000"
                                        value="<?php echo isset($_GET['gia_min']) ? htmlspecialchars($_GET['gia_min']) : ''; ?>">
                                 <span class="price-separator">-</span>
                                 <input type="number" name="gia_max" id="gia_max" placeholder="Đến" class="form-control"
+                                       min="0" step="1000"
                                        value="<?php echo isset($_GET['gia_max']) ? htmlspecialchars($_GET['gia_max']) : ''; ?>">
                             </div>
                         </div>
@@ -548,7 +556,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Update hidden input with selected category
                 document.getElementById('hiddenCategoryId').value = selectedCategory;
             }
+            
+            // Validate price range
+            const giaMin = parseFloat(document.getElementById('gia_min').value) || 0;
+            const giaMax = parseFloat(document.getElementById('gia_max').value) || 0;
+            
+            // Kiểm tra giá không được âm
+            if (giaMin < 0) {
+                e.preventDefault();
+                alert('Giá tối thiểu không được nhỏ hơn 0!');
+                return false;
+            }
+            
+            if (giaMax < 0) {
+                e.preventDefault();
+                alert('Giá tối đa không được nhỏ hơn 0!');
+                return false;
+            }
+            
+            // Kiểm tra giá min phải nhỏ hơn giá max
+            if (giaMin > 0 && giaMax > 0 && giaMin > giaMax) {
+                e.preventDefault();
+                alert('Giá tối thiểu phải nhỏ hơn giá tối đa!');
+                return false;
+            }
         });
     }
+    
+    // Prevent negative values on input
+    const priceInputs = document.querySelectorAll('#gia_min, #gia_max');
+    priceInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value < 0) {
+                this.value = 0;
+            }
+        });
+    });
 });
 </script>
