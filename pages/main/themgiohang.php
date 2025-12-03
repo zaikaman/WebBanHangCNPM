@@ -1,7 +1,7 @@
 <?php
 session_start();
-include("../../admincp/config/config.php");
-include("../../includes/promotion_helper.php");
+include_once("../../admincp/config/config.php");
+require_once("../../includes/promotion_helper.php");
 
 // thêm vào giỏ hàng
 if (isset($_POST['themgiohang'])) {

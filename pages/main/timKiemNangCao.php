@@ -1,8 +1,8 @@
 <?php
 // Include database configuration to initialize $mysqli
-include(dirname(__FILE__) . "/../../admincp/config/config.php");
+include_once(dirname(__FILE__) . "/../../admincp/config/config.php");
 // Include promotion helper
-include(dirname(__FILE__) . "/../../includes/promotion_helper.php");
+require_once(dirname(__FILE__) . "/../../includes/promotion_helper.php");
 
 // Handle form data and sanitize inputs
 $ten_sp_filter = isset($_GET['ten_sp']) ? urldecode($_GET['ten_sp']) : '';
