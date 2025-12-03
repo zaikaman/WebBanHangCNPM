@@ -210,9 +210,6 @@ if (!$featured_pro || !$newest_pro || !$categories) {
                                      class="product-image-main">
                                 
                                 <div class="product-actions">
-                                    <button class="product-action-btn" title="Yêu thích">
-                                        <i class="far fa-heart"></i>
-                                    </button>
                                     <button class="product-action-btn" title="Xem nhanh">
                                         <i class="far fa-eye"></i>
                                     </button>
@@ -316,9 +313,6 @@ if (!$featured_pro || !$newest_pro || !$categories) {
                                      class="product-image-main">
                                 
                                 <div class="product-actions">
-                                    <button class="product-action-btn" title="Yêu thích">
-                                        <i class="far fa-heart"></i>
-                                    </button>
                                     <button class="product-action-btn" title="Xem nhanh">
                                         <i class="far fa-eye"></i>
                                     </button>
@@ -407,9 +401,6 @@ if (!$featured_pro || !$newest_pro || !$categories) {
                                      class="product-image-main">
                                 
                                 <div class="product-actions">
-                                    <button class="product-action-btn" title="Yêu thích">
-                                        <i class="far fa-heart"></i>
-                                    </button>
                                     <button class="product-action-btn" title="Xem nhanh">
                                         <i class="far fa-eye"></i>
                                     </button>
