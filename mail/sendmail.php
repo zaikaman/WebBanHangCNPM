@@ -358,5 +358,177 @@ class Mailer {
         </body>
         </html>";
     }
+
+    /**
+     * Gửi email welcome khi đăng ký newsletter
+     */
+    public function sendNewsletterWelcome($email) {
+        $mail = new PHPMailer(true);
+        $config = $this->getMailConfig();
+        
+        try {
+            $this->setupSMTP($mail);
+            
+            // Recipients
+            $mail->setFrom($config['from_address'], $config['from_name']);
+            $mail->addAddress($email);
+            
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = '🎉 Chào mừng bạn đến với 7TCC Store!';
+            
+            $mail->Body = $this->getNewsletterWelcomeTemplate($email);
+            
+            $mail->send();
+            return true;
+            
+        } catch(Exception $e) {
+            error_log('Newsletter Welcome Email Error: ' . $mail->ErrorInfo);
+            return false;
+        }
+    }
+
+    private function getNewsletterWelcomeTemplate($email) {
+        // Tạo link unsubscribe với hash
+        $unsubscribeToken = md5($email . 'unsubscribe_secret_7tcc');
+        
+        if (function_exists('app_url')) {
+            $baseUrl = app_url();
+        } else {
+            $baseUrl = rtrim(getenv('APP_URL') ?: 'http://localhost/WebBanHangCNPM', '/');
+        }
+        $unsubscribeLink = $baseUrl . '/api/newsletter_unsubscribe.php?email=' . urlencode($email) . '&token=' . $unsubscribeToken;
+
+        return "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Chào mừng đến với 7TCC Store</title>
+        </head>
+        <body style='margin: 0; padding: 0; font-family: \"Segoe UI\", Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4;'>
+            <table role='presentation' width='100%' cellspacing='0' cellpadding='0' style='background-color: #f4f4f4;'>
+                <tr>
+                    <td align='center' style='padding: 40px 20px;'>
+                        <table role='presentation' width='600' cellspacing='0' cellpadding='0' style='background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);'>
+                            
+                            <!-- Header with gradient -->
+                            <tr>
+                                <td style='background: linear-gradient(135deg, #DC0021 0%, #8B0016 100%); padding: 50px 40px; text-align: center;'>
+                                    <h1 style='color: #ffffff; margin: 0 0 10px 0; font-size: 36px; font-weight: 700; letter-spacing: -1px;'>7TCC STORE</h1>
+                                    <p style='color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 300;'>Thời Trang Thể Thao Chất Lượng</p>
+                                </td>
+                            </tr>
+                            
+                            <!-- Welcome Icon -->
+                            <tr>
+                                <td align='center' style='padding: 40px 40px 20px 40px;'>
+                                    <div style='width: 80px; height: 80px; background: linear-gradient(135deg, #DC0021 0%, #FF4444 100%); border-radius: 50%; display: inline-block; line-height: 80px; font-size: 40px;'>
+                                        🎉
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Main Content -->
+                            <tr>
+                                <td style='padding: 0 40px 30px 40px; text-align: center;'>
+                                    <h2 style='color: #1a1a1a; margin: 0 0 20px 0; font-size: 28px; font-weight: 600;'>Chào mừng bạn đến với gia đình 7TCC!</h2>
+                                    <p style='color: #666666; font-size: 16px; line-height: 1.8; margin: 0 0 25px 0;'>
+                                        Cảm ơn bạn đã đăng ký nhận tin từ <strong style='color: #DC0021;'>7TCC Store</strong>! 
+                                        Từ giờ bạn sẽ là người đầu tiên nhận được những thông tin về:
+                                    </p>
+                                </td>
+                            </tr>
+                            
+                            <!-- Benefits Grid -->
+                            <tr>
+                                <td style='padding: 0 40px 30px 40px;'>
+                                    <table role='presentation' width='100%' cellspacing='0' cellpadding='0'>
+                                        <tr>
+                                            <td width='50%' style='padding: 10px;'>
+                                                <div style='background: #FFF5F5; border-radius: 12px; padding: 25px; text-align: center;'>
+                                                    <div style='font-size: 32px; margin-bottom: 10px;'>👟</div>
+                                                    <p style='color: #333; margin: 0; font-weight: 600; font-size: 14px;'>Sản phẩm mới</p>
+                                                    <p style='color: #888; margin: 5px 0 0 0; font-size: 12px;'>Cập nhật hàng tuần</p>
+                                                </div>
+                                            </td>
+                                            <td width='50%' style='padding: 10px;'>
+                                                <div style='background: #FFF5F5; border-radius: 12px; padding: 25px; text-align: center;'>
+                                                    <div style='font-size: 32px; margin-bottom: 10px;'>🏷️</div>
+                                                    <p style='color: #333; margin: 0; font-weight: 600; font-size: 14px;'>Ưu đãi độc quyền</p>
+                                                    <p style='color: #888; margin: 5px 0 0 0; font-size: 12px;'>Giảm giá đến 50%</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width='50%' style='padding: 10px;'>
+                                                <div style='background: #FFF5F5; border-radius: 12px; padding: 25px; text-align: center;'>
+                                                    <div style='font-size: 32px; margin-bottom: 10px;'>💪</div>
+                                                    <p style='color: #333; margin: 0; font-weight: 600; font-size: 14px;'>Bí quyết thể thao</p>
+                                                    <p style='color: #888; margin: 5px 0 0 0; font-size: 12px;'>Tips từ chuyên gia</p>
+                                                </div>
+                                            </td>
+                                            <td width='50%' style='padding: 10px;'>
+                                                <div style='background: #FFF5F5; border-radius: 12px; padding: 25px; text-align: center;'>
+                                                    <div style='font-size: 32px; margin-bottom: 10px;'>🎁</div>
+                                                    <p style='color: #333; margin: 0; font-weight: 600; font-size: 14px;'>Quà tặng bất ngờ</p>
+                                                    <p style='color: #888; margin: 5px 0 0 0; font-size: 12px;'>Cho thành viên VIP</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            
+                            <!-- CTA Button -->
+                            <tr>
+                                <td align='center' style='padding: 10px 40px 40px 40px;'>
+                                    <a href='{$baseUrl}' style='display: inline-block; background: linear-gradient(135deg, #DC0021 0%, #FF4444 100%); color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 50px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(220,0,33,0.4);'>
+                                        🛒 Khám phá ngay
+                                    </a>
+                                </td>
+                            </tr>
+                            
+                            <!-- Divider -->
+                            <tr>
+                                <td style='padding: 0 40px;'>
+                                    <div style='height: 1px; background: linear-gradient(90deg, transparent, #eee, transparent);'></div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Footer -->
+                            <tr>
+                                <td style='padding: 30px 40px; text-align: center; background: #fafafa;'>
+                                    <p style='color: #999; font-size: 14px; margin: 0 0 15px 0;'>
+                                        Theo dõi chúng tôi trên mạng xã hội
+                                    </p>
+                                    <div style='margin-bottom: 20px;'>
+                                        <a href='#' style='display: inline-block; width: 40px; height: 40px; background: #DC0021; border-radius: 50%; line-height: 40px; margin: 0 5px; text-decoration: none; font-size: 18px;'>📘</a>
+                                        <a href='#' style='display: inline-block; width: 40px; height: 40px; background: #DC0021; border-radius: 50%; line-height: 40px; margin: 0 5px; text-decoration: none; font-size: 18px;'>📸</a>
+                                        <a href='#' style='display: inline-block; width: 40px; height: 40px; background: #DC0021; border-radius: 50%; line-height: 40px; margin: 0 5px; text-decoration: none; font-size: 18px;'>▶️</a>
+                                    </div>
+                                    <p style='color: #888; font-size: 13px; margin: 0 0 10px 0;'>
+                                        <strong>7TCC Store</strong> - Thời trang thể thao chất lượng
+                                    </p>
+                                    <p style='color: #aaa; font-size: 12px; margin: 0 0 5px 0;'>
+                                        📍 273 An Dương Vương – Phường 3 – Quận 5, TP.HCM
+                                    </p>
+                                    <p style='color: #aaa; font-size: 12px; margin: 0 0 15px 0;'>
+                                        📞 0909888888 | ✉️ support@7tcc.vn
+                                    </p>
+                                    <p style='color: #ccc; font-size: 11px; margin: 0;'>
+                                        © " . date('Y') . " 7TCC Store. All rights reserved.
+                                    </p>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </body>
+        </html>";
+    }
 }
 ?>
