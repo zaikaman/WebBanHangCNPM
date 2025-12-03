@@ -2,7 +2,7 @@
 $code = $_GET['code'];
 
 // Lấy thông tin chi tiết đơn hàng - Sử dụng gia_mua từ tbl_chitiet_gh nếu có, fallback sang gia_sp
-$sql_lietke_dh = "SELECT c.*, s.ten_sp, 
+$sql_lietke_dh = "SELECT c.*, s.ten_sp, s.ma_sp,
                   COALESCE(c.gia_mua, s.gia_sp) as gia_sp 
                   FROM tbl_chitiet_gh c 
                   INNER JOIN tbl_sanpham s ON c.id_sp = s.id_sp 
