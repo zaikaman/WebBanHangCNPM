@@ -375,9 +375,9 @@ $query_pro = mysqli_query($mysqli, $sql_pro);
                                 ?>
                                 
                                 <div class="product-actions">
-                                    <button class="product-action-btn" title="Yêu thích">
+                                    <!-- <button class="product-action-btn" title="Yêu thích">
                                         <i class="far fa-heart"></i>
-                                    </button>
+                                    </button> -->
                                     <button class="product-action-btn" title="Xem nhanh">
                                         <i class="far fa-eye"></i>
                                     </button>
