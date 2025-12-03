@@ -88,10 +88,10 @@ $filter_params = [
 if (isset($_GET['sort']) && !empty($_GET['sort'])) {
     $filter_params['sort'] = $_GET['sort'];
 }
-if (isset($_GET['gia_min']) && !empty($_GET['gia_min'])) {
+if (isset($_GET['gia_min']) && $_GET['gia_min'] !== '') {
     $filter_params['gia_min'] = $_GET['gia_min'];
 }
-if (isset($_GET['gia_max']) && !empty($_GET['gia_max'])) {
+if (isset($_GET['gia_max']) && $_GET['gia_max'] !== '') {
     $filter_params['gia_max'] = $_GET['gia_max'];
 }
 if (isset($_GET['tinhtrang']) && $_GET['tinhtrang'] !== '') {
@@ -131,13 +131,13 @@ if (!$row_title) {
 // Xây dựng điều kiện WHERE cho bộ lọc
 $where_conditions = ["id_dm = '$id_dm'"];
 
-// Xử lý bộ lọc giá
-if (isset($_GET['gia_min']) && !empty($_GET['gia_min'])) {
+// Xử lý bộ lọc giá - sử dụng !== '' thay vì !empty() để hỗ trợ giá trị 0
+if (isset($_GET['gia_min']) && $_GET['gia_min'] !== '') {
     $gia_min = mysqli_real_escape_string($mysqli, $_GET['gia_min']);
     $where_conditions[] = "gia_sp >= '$gia_min'";
 }
 
-if (isset($_GET['gia_max']) && !empty($_GET['gia_max'])) {
+if (isset($_GET['gia_max']) && $_GET['gia_max'] !== '') {
     $gia_max = mysqli_real_escape_string($mysqli, $_GET['gia_max']);
     $where_conditions[] = "gia_sp <= '$gia_max'";
 }
